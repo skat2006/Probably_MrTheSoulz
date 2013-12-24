@@ -10,7 +10,8 @@ This file lists all the rotation specific stuff bellow.
 My profile requires the latest Version of PE from GITHUB  
 Download link: https://github.com/ProbablyEngine/Probably  
   
-If you encounter any issues, report them at the forums.  
+If you encounter any issues, report them at the forums, or drop me an email:
+email: mrthesoulz@gmail.com
   
 If you like what i do, dont forget to +rep me.  
 Or if you can buy me a drink  
