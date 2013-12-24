@@ -4,6 +4,7 @@
 - - - -
 
 About:  
+============================
 MrTheSoulz Profiles For ProbablyEngine.  
 This file lists all the rotation specific stuff bellow.  
 My profile requires the latest Version of PE from GITHUB  
@@ -17,6 +18,7 @@ Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=jimmy
   
 ---------------------------------------------------------------
 Paladin/Holy:
+============================
 
 	Things To Be Aware Of:
 		* Uses Beacon of Light on focus.
@@ -52,7 +54,8 @@ Paladin/Holy:
 		* Raid10+ @ 8 players 80% health.
 
 ---------------------------------------------------------------
-Paladin/Protection
+Paladin/Protection:
+============================
 
 	Things To Be Aware Of:
 		* Avenging Wrath and Holy Avenger if Cooldowns are Active.
@@ -79,6 +82,7 @@ Paladin/Protection
 
 ---------------------------------------------------------------
 Druid/Restoration:
+============================
 
 	Things To Be Aware Of:
 		* Has SoO dispels.
