@@ -11,8 +11,8 @@ My profile requires the latest Version of PE from GITHUB
 Download link: https://github.com/ProbablyEngine/Probably  
   
 If you encounter any issues, report them at the forums, or drop me an email:  
-Email: mrthesoulz@gmail.com
-Forum: http://goo.gl/QEp17b
+Email: mrthesoulz@gmail.com  
+Forum: http://goo.gl/QEp17b  
   
 If you like what i do, dont forget to +rep me.  
 Or if you can buy me a drink  
