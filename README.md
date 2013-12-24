@@ -5,17 +5,16 @@
 
 About:  
 MrTheSoulz Profiles For ProbablyEngine.  
-This file lists all the rotation specific stuff bellow.
-My profile requires the latest Version of PE from GITHUB
-Download link: https://github.com/ProbablyEngine/Probably
-
-If you encounter any issues, report them at the forums.
-
-If you like what i do, dont forget to +rep me.
-Or if you can buy me a drink
-Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=jimmy93%40live%2ecom%2ept&lc=US&item_name=MrTheSoulz&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest
-
----------------------------------------------------------------
+This file lists all the rotation specific stuff bellow.  
+My profile requires the latest Version of PE from GITHUB  
+Download link: https://github.com/ProbablyEngine/Probably  
+  
+If you encounter any issues, report them at the forums.  
+  
+If you like what i do, dont forget to +rep me.  
+Or if you can buy me a drink  
+Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=jimmy93%40live%2ecom%2ept&lc=US&item_name=MrTheSoulz&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest  
+  
 ---------------------------------------------------------------
 Paladin/Holy:
 
@@ -53,7 +52,6 @@ Paladin/Holy:
 		* Raid10+ @ 8 players 80% health.
 
 ---------------------------------------------------------------
----------------------------------------------------------------
 Paladin/Protection
 
 	Things To Be Aware Of:
@@ -80,7 +78,6 @@ Paladin/Protection
 		* Buff Switching. (Kings/Might)
 
 ---------------------------------------------------------------
----------------------------------------------------------------
 Druid/Restoration:
 
 	Things To Be Aware Of:
@@ -101,7 +98,6 @@ Druid/Restoration:
 	ToDO:
 		* Solo Rotation (Cat/Bear/Normal)
 
----------------------------------------------------------------
 ---------------------------------------------------------------
 How to install & use:  
 ============================
