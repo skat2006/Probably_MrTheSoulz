@@ -14,7 +14,7 @@ If you encounter any issues, report them at the forums.
   
 If you like what i do, dont forget to +rep me.  
 Or if you can buy me a drink  
-Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=jimmy93%40live%2ecom%2ept&lc=US&item_name=MrTheSoulz&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest  
+Donate Link: http://goo.gl/yrctPO  
   
 ---------------------------------------------------------------
 Paladin/Holy:
