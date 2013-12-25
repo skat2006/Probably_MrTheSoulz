@@ -6,13 +6,38 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 		{ "pause", "player.form = 4" }, -- Travel
 
 	-- If not in form
-		{ "!/cast Bear Form", "player.seal = 0" },
+		{ "!/cast Bear Form", {
+			"player.seal = 0",
+			"!modifier.lalt"
+		}, nil },
 
 	-- keybinds
-		{ "Stampeding Roar", "modifier.rshift" }, -- Stampeding Roar
-		{ "Mighty Bash", "modifier.lcontrol" }, -- Mighty Bash
+		{ "77761", "modifier.rshift" }, -- Stampeding Roar
+		{ "5211", "modifier.lcontrol" }, -- Mighty Bash
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
-
+		
+		{{-- Special HotW + Tranq + bear/when done
+			{ "108288", { -- Hearth of the Wild
+				"modifier.lalt",
+				"player.spell(108288).cooldown < .001",
+				"player.spell(740).cooldown < .001"
+			}, nil },
+			{ "!/cancelform", { -- remove bear form
+				"player.form > 0",
+				"player.spell(740).cooldown < .001",
+				"modifier.lalt"
+			}, nil },
+			{ "740", { -- Tranq
+				"modifier.lalt",
+				"player.spell(740).cooldown < .001"
+			}, nil },
+			{ "5487", { -- bear form
+				"!player.casting",
+				"!player.form = 1",
+				"modifier.lalt"
+			}, nil },
+		}, "player.spell(108288).exists" },
+		
 	-- Interrupts
 		{ "Skull Bash", "modifier.interrupts" },
 
@@ -73,11 +98,36 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 
 	--	keybinds
 		{ "77761", "modifier.rshift" }, -- Stampeding Roar
-		{ "80964", "modifier.lcontrol" }, -- Mighty Bash
+		{ "5211", "modifier.lcontrol" }, -- Mighty Bash
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
+		
+		{{-- Special HotW + Tranq + bear/when done
+			{ "108288", { -- Hearth of the Wild
+				"modifier.lalt",
+				"player.spell(108288).cooldown < .001",
+				"player.spell(740).cooldown < .001"
+			}, nil },
+			{ "!/cancelform", { -- remove bear form
+				"player.form > 0",
+				"player.spell(740).cooldown < .001",
+				"modifier.lalt"
+			}, nil },
+			{ "740", { -- Tranq
+				"modifier.lalt",
+				"player.spell(740).cooldown < .001"
+			}, nil },
+			{ "5487", { -- bear form
+				"!player.casting",
+				"!player.form = 1",
+				"modifier.lalt"
+			}, nil },
+		}, "player.spell(108288).exists" },
 
 	--	Buffs
-		{ "1126", "!player.buff" }, -- Mark of the Wild
+		{ "1126", {-- Mark of the Wild
+			"!player.buff",
+			"player.form = 0"
+		}, nil },
 
 },-----------------------------------------------------------------------------------------------------------
 function()
