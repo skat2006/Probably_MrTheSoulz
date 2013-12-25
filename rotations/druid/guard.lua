@@ -18,8 +18,14 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 
 	{{ -- Cooldowns
 		{ "Berserk" }, -- Berserk
-		{ "Incarnation" }, -- Incarnation
-		{ "Nature's Vigil" } -- Nature's Vigil
+		{ "Nature's Vigil" }, -- Nature's Vigil
+		{ "5229" }, -- Enrage
+		
+		-- Tallents
+			{ "106731", { -- Incarnation
+				"player.spell(106731).exists",
+				"player.spell(106731).cooldown < .001"
+			}, nil },
 	}, "modifier.cooldowns" },
  
 	{{--Defensive
@@ -34,9 +40,15 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 		}, nil },
 		{ "22812", "player.health <= 70" }, -- Barkskin
 		{ "Cenarion Ward" , "player.health <= 60", "player" }, -- Cenarion Ward
-		{ "Survival Instincts", "player.health <= 40" }, -- Survival Instincts
-		{ "Renewal", "player.health <= 40" }, -- Renewal
+		{ "61336", "player.health <= 40" }, -- Survival Instincts
 		{ "Might of Ursoc", "player.health < 30" }, -- Might of Ursoc
+		
+		-- Talents
+			{ "108238", { -- Renewal
+				"player.health <= 40",
+				"player.spell(108238).exists"
+			}, nil }, 
+			
 	}, "toggle.def" },
 
 	-- Rotation
@@ -60,8 +72,8 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 },{-------------------------------- out of combat
 
 	--	keybinds
-		{ "Stampeding Roar", "modifier.rshift" }, -- Stampeding Roar
-		{ "Mighty Bash", "modifier.lcontrol" }, -- Mighty Bash
+		{ "77761", "modifier.rshift" }, -- Stampeding Roar
+		{ "80964", "modifier.lcontrol" }, -- Mighty Bash
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
 
 	--	Buffs
