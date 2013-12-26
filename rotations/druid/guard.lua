@@ -20,13 +20,13 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 			{ "!/cancelform", { -- remove bear form
 				"player.form > 0",
 				"player.spell(740).cooldown < .001",
-				"modifier.rshift"
+				"modifier.lshift"
 			}, nil },
-			{ "20484", "modifier.rshift" }, -- Rebirth
+			{ "20484", "modifier.lshift" }, -- Rebirth
 			{ "5487", { -- bear form
 				"!player.casting",
 				"!player.form = 1",
-				"modifier.rshift"
+				"modifier.lshift"
 			}, nil },
 		
 		{{-- Special HotW + remove bear +Tranq + bear/when done
