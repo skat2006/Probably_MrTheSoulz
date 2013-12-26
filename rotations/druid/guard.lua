@@ -19,10 +19,9 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 		-- Rebirth
 			{ "!/cancelform", { -- remove bear form
 				"player.form > 0",
-				"player.spell(740).cooldown < .001",
 				"modifier.lshift"
 			}, nil },
-			{ "20484", "modifier.lshift" }, -- Rebirth
+			{ "20484", "modifier.lshift", "mouseover" }, -- Rebirth
 			{ "5487", { -- bear form
 				"!player.casting",
 				"!player.form = 1",
@@ -123,10 +122,9 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 		-- Rebirth
 			{ "!/cancelform", { -- remove bear form
 				"player.form > 0",
-				"player.spell(740).cooldown < .001",
 				"modifier.lshift"
 			}, nil },
-			{ "20484", "modifier.lshift" }, -- Rebirth
+			{ "20484", "modifier.lshift", "mouseover" }, -- Rebirth
 			{ "5487", { -- bear form
 				"!player.casting",
 				"!player.form = 1",
