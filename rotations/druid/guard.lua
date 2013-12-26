@@ -163,7 +163,7 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 
 },-----------------------------------------------------------------------------------------------------------
 function()
-	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_holy_devotionaura.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
+	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_nature_unyeildingstamina.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
 end)
 
 
