@@ -239,6 +239,13 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 			"lowest.health < 30",
 			"!player.moving",
 		}, "lowest" },
+		{ "114163", { --Eternal Flame
+			"player.spell(114163).exists",
+			"!@coreHealing.needsHealing(90, 3)", -- Use LoD instead.
+			"player.holypower >= 1",
+			"tank.buff(114163)",
+			"lowest.health < 75"
+		}, "lowest" },
 		{ "20925", { -- Sacred Shield
 			"player.spell(20925).exists",
 			"spell.charges(20925) >= 2",

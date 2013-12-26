@@ -2,14 +2,12 @@ ProbablyEngine.rotation.register_custom(105, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 -- Party/Raid Rotation
 
 	--Pause if
-		{ "pause", "player.form = 1" }, -- Bear
-		{ "pause", "player.form = 2" }, -- Swim
-		{ "pause", "player.form = 3" }, -- Cat
-		{ "pause", "player.form = 4" }, -- Travel
+		{ "pause", "player.form > 1" }, -- Any Player from but bear
 	
 	-- KeyBinds
 		{ "106731" , "modifier.rcontrol" }, -- Incarnation
 		{ "740" , "modifier.rshift" }, -- Tranquility
+		{ "20484", "modifier.lshift", "mouseover" }, -- Rebirth
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Mouseover Focus
 
 	--Dispel
@@ -127,26 +125,25 @@ ProbablyEngine.rotation.register_custom(105, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 		}, "lowest", }
 
 },{------------------------------------------------------------------------ Out Of Combat
-
-	--Pause if
-		{ "pause", "player.form = 1" }, -- Bear
-		{ "pause", "player.form = 2" }, -- Swim
-		{ "pause", "player.form = 3" }, -- Cat
-		{ "pause", "player.form = 4" }, -- Travel
 	
 	-- KeyBinds
 		{ "106731" , "modifier.rcontrol" }, -- Incarnation
 		{ "740" , "modifier.rshift" }, -- Tranq
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Mouseover Focus
+		{ "20484", "modifier.lshift", "mouseover" }, -- Rebirth
 
 	-- Healing
 		{ "774", { -- Rejuvenation
 			"lowest.health < 99", 
 			"!lowest.buff",
+			"player.form = 0"
 		}, "lowest" },
 	
-	--Buffs
-		{ "1126", "!player.buff" }, -- Mark of the Wild
+	--	Buffs
+		{ "1126", {-- Mark of the Wild
+			"!player.buff",
+			"player.form = 0"
+		}, nil },
 },		
 ------------------------------------------------------------------------------------------------------------
 -- Party/Raid Toggles

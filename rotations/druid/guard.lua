@@ -1,9 +1,7 @@
 ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Guardian|r]", {
 
 	--Pause if
-		{ "pause", "player.form = 2" }, -- Swim
-		{ "pause", "player.form = 3" }, -- Cat
-		{ "pause", "player.form = 4" }, -- Travel
+		{ "pause", "player.form > 1" }, -- Any Player from but bear
 
 	-- If not in form
 		{ "!/cast Bear Form", {
@@ -28,7 +26,7 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 				"modifier.lshift"
 			}, nil },
 		
-		{{-- Special HotW + remove bear +Tranq + bear/when done
+		{{-- HotW + Tranq
 			{ "108288", { -- Hearth of the Wild
 				"modifier.lalt",
 				"player.spell(108288).cooldown < .001",
@@ -89,10 +87,17 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 	}, "toggle.def" },
 
 	-- Deam of Cenarious
-		{ "5185", { --Healing touch
+		{ "5185", { -- Healing touch /  RAID/PARTY
 			"player.buff(145162)", --if got buff
-			"player.spell(108373).exists"
-		}, nil },
+			"player.spell(108373).exists",
+			"lowest.health < 90",
+			"!player.health < 90" -- player instead
+		}, "lowest" },
+		{ "5185", { -- Healing touch / PLAYER
+			"player.buff(145162)", --if got buff
+			"player.spell(108373).exists",
+			"player.health < 90"
+		}, "player" },
 
 	-- Rotation
 		{{-- Single target
@@ -131,7 +136,7 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 				"modifier.lshift"
 			}, nil },
 		
-		{{-- Special HotW + remove bear +Tranq + bear/when done
+		{{-- HotW + Tranq
 			{ "108288", { -- Hearth of the Wild
 				"modifier.lalt",
 				"player.spell(108288).cooldown < .001",
