@@ -1,7 +1,7 @@
 ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Guardian|r]", {
 
 	--Pause if
-		{ "pause", "player.form > 1" }, -- Any Player from but bear
+		{ "pause", "player.form > 1" }, -- Any Player form but bear
 
 	-- If not in form
 		{ "!/cast Bear Form", {
@@ -14,17 +14,20 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 		{ "5211", "modifier.lcontrol" }, -- Mighty Bash
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
 		
-		-- Rebirth
-			{ "!/cancelform", { -- remove bear form
-				"player.form > 0",
-				"modifier.lshift"
-			}, nil },
-			{ "20484", "modifier.lshift", "mouseover" }, -- Rebirth
-			{ "5487", { -- bear form
-				"!player.casting",
-				"!player.form = 1",
-				"modifier.lshift"
-			}, nil },
+		{{-- Rebirth
+			{{ -- Stop if player has Dream of Cenarious
+				{ "!/cancelform", { -- remove bear form
+					"player.form > 0",
+					"modifier.lshift"
+				}, nil },
+				{ "20484", "modifier.lshift", "mouseover" }, -- Rebirth
+				{ "!/cast Bear Form", { -- bear form
+					"!player.casting",
+					"!player.form = 1",
+					"modifier.lshift"
+				}, nil },
+			}, "!player.buff(145162)" },
+		}, "player.spell(20484).cooldown < .001" },
 		
 		{{-- HotW + Tranq
 			{ "108288", { -- Hearth of the Wild
@@ -41,9 +44,10 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 				"modifier.lalt",
 				"player.spell(740).cooldown < .001"
 			}, nil },
-			{ "5487", { -- bear form
+			{ "!/cast Bear Form", { -- bear form
 				"!player.casting",
 				"!player.form = 1",
+				"player.spell(740).cooldown > .006", -- just to detect if tranq been used
 				"modifier.lalt"
 			}, nil },
 		}, "player.spell(108288).exists" },
@@ -86,18 +90,18 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 			
 	}, "toggle.def" },
 
-	-- Deam of Cenarious
-		{ "5185", { -- Healing touch /  RAID/PARTY
-			"player.buff(145162)", --if got buff
-			"player.spell(108373).exists",
-			"lowest.health < 90",
-			"!player.health < 90" -- player instead
-		}, "lowest" },
-		{ "5185", { -- Healing touch / PLAYER
-			"player.buff(145162)", --if got buff
-			"player.spell(108373).exists",
-			"player.health < 90"
-		}, "player" },
+	{{-- Dream of Cenarious
+		{{ -- if got buff
+			-- needs a rebirth here.
+			{ "5185", { -- Healing touch /  RAID/PARTY
+				"lowest.health < 90",
+				"!player.health < 90" -- player instead
+			}, "lowest" },
+			{ "5185", { -- Healing touch / PLAYER
+				"player.health < 90"
+			}, "player" },
+		}, "player.buff(145162)" },
+	}, "player.spell(108373).exists" },
 
 	-- Rotation
 		{{-- Single target
@@ -130,7 +134,7 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 				"modifier.lshift"
 			}, nil },
 			{ "20484", "modifier.lshift", "mouseover" }, -- Rebirth
-			{ "5487", { -- bear form
+			{ "!/cast Bear Form", { -- bear form
 				"!player.casting",
 				"!player.form = 1",
 				"modifier.lshift"
@@ -151,7 +155,7 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 				"modifier.lalt",
 				"player.spell(740).cooldown < .001"
 			}, nil },
-			{ "5487", { -- bear form
+			{ "!/cast Bear Form", { -- bear form
 				"!player.casting",
 				"!player.form = 1",
 				"modifier.lalt"
