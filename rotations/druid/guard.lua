@@ -120,7 +120,20 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 		{ "5211", "modifier.lcontrol" }, -- Mighty Bash
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
 		
-		{{-- Special HotW + Tranq + bear/when done
+		-- Rebirth
+			{ "!/cancelform", { -- remove bear form
+				"player.form > 0",
+				"player.spell(740).cooldown < .001",
+				"modifier.lshift"
+			}, nil },
+			{ "20484", "modifier.lshift" }, -- Rebirth
+			{ "5487", { -- bear form
+				"!player.casting",
+				"!player.form = 1",
+				"modifier.lshift"
+			}, nil },
+		
+		{{-- Special HotW + remove bear +Tranq + bear/when done
 			{ "108288", { -- Hearth of the Wild
 				"modifier.lalt",
 				"player.spell(108288).cooldown < .001",

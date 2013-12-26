@@ -127,7 +127,10 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 		{ "4987", { "toggle.dispel", "@paladispell.paladin()" }, nil },
 
 	{{-- Cooldowns
-		{ "54428", "player.mana < 85" }, -- Divine Plea
+		{ "54428", { -- Divine Plea
+			"player.mana < 85",
+			"player.spell(28730).cooldown < .001"			
+		}, nil },
 		{ "114157", { -- Execution Sentence
 			"player.spell(114157).exists",
 			"lowest.health < 85",
@@ -140,6 +143,7 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 			{ "28730", { -- Arcane torrent
 			"player.mana < 80", 
 			"player.spell(28730).exists",
+			"player.spell(28730).cooldown < .001"
 			}, nil },
 			
 	}, "modifier.cooldowns" },
