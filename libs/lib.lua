@@ -2,14 +2,14 @@ local mts = {
   con = true,
   seals = true
 }
-------------------------------------------------------------------------------------------------------------------
+
 mts.ConToggle = function()
   return mts.con
 end
 mts.SealsToggle = function()
   return mts.seals
 end
-------------------------------------------------------------------------------------------------------------------
+
 ProbablyEngine.command.register('mts', function(msg, box)
 local command, text = msg:match("^(%S*)%s*(.-)$")
 
@@ -31,4 +31,9 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	  end
 	end
 end)
+
+ProbablyEngine.condition.register("talent", function(index)
+	return select(5, GetTalentInfo(index)) or false
+end)
+
 ProbablyEngine.library.register('mts', mts)
