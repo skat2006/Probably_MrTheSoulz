@@ -29,7 +29,7 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 			}, "!player.buff(145162)" },
 		}, "player.spell(20484).cooldown < .001" },
 		
-		-- HotW + Tranq
+		{{-- HotW + Tranq
 			{ "108288", { -- Hearth of the Wild
 				"modifier.lalt",
 				"player.spell(108288).cooldown < .001",
@@ -50,20 +50,21 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 				"player.spell(740).cooldown > .006", -- just to detect if tranq been used
 				"modifier.lalt"
 			}, nil },
-
+		}, "player.spell(108288).exists" },
+		
 	-- Interrupts
-		{ "Skull Bash", "target.interruptAt(50)", "target" }, -- Rebuke  
+		{ "Skull Bash", "modifier.interrupts" },
 
-	-- Survival
-		{ "#5512", "player.health <= 45"}, --Healthstone
-	
 	{{ -- Cooldowns
 		{ "Berserk" }, -- Berserk
 		{ "Nature's Vigil" }, -- Nature's Vigil
 		{ "5229" }, -- Enrage
 		
 		-- Tallents
-			{ "106731", "player.spell(106731).cooldown < .001" },
+			{ "106731", { -- Incarnation
+				"player.spell(106731).exists",
+				"player.spell(106731).cooldown < .001"
+			}, nil },
 	}, "modifier.cooldowns" },
  
 	{{--Defensive
@@ -82,11 +83,14 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 		{ "Might of Ursoc", "player.health < 30" }, -- Might of Ursoc
 		
 		-- Talents
-			{ "108238", "player.health <= 40" },  -- Renewal
+			{ "108238", { -- Renewal
+				"player.health <= 40",
+				"player.spell(108238).exists"
+			}, nil }, 
 			
 	}, "toggle.def" },
 
-	-- Dream of Cenarious
+	{{-- Dream of Cenarious
 		{{ -- if got buff
 			-- needs a rebirth here.
 			{ "5185", { -- Healing touch /  RAID/PARTY
@@ -97,6 +101,7 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 				"player.health < 90"
 			}, "player" },
 		}, "player.buff(145162)" },
+	}, "player.spell(108373).exists" },
 
 	-- Rotation
 		{{-- Single target
@@ -135,7 +140,7 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 				"modifier.lshift"
 			}, nil },
 		
-		-- HotW + Tranq
+		{{-- HotW + Tranq
 			{ "108288", { -- Hearth of the Wild
 				"modifier.lalt",
 				"player.spell(108288).cooldown < .001",
@@ -155,6 +160,7 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 				"!player.form = 1",
 				"modifier.lalt"
 			}, nil },
+		}, "player.spell(108288).exists" },
 
 	--	Buffs
 		{ "1126", {-- Mark of the Wild

@@ -2,29 +2,34 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 -- Solo Rotation
 
 	-- KeyBinds
-		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
+		{ "114158", { -- Light´s Hammer
+			"player.spell(114158).exists",
+			"modifier.lshift"
+		}, "ground"},
 		{ "31842" , "modifier.lcontrol" }, -- Divine Favor
 		{ "31884" , "modifier.lalt" }, -- Avenging Wrath
 		{ "105809" , "modifier.rcontrol" }, -- Holy Avenger
 		{ "86669" , "modifier.rshift" }, -- Guardian of Ancient Kings
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Mouseover Focus
-    
-	-- interrumpt
-		{ "96231", "target.interruptAt(50)", "target" }, -- Rebuke
-		
+        
 	-- Stuff
         { "20165", "player.seal != 3" }, -- Seal of Insight
         { "1044", "player.state.root"}, -- Hand of Freedom
         { "#5512", "player.health <= 45"}, --Healthstone
         { "54428", "player.mana < 85" }, -- Divine Plea
-        { "28730", "player.mana < 80" }, -- Arcane torrent
+        { "28730", { -- Arcane torrent
+        	"player.mana < 80", 
+            "player.spell(28730).exists"
+        }, nil },
         { "31821", "@coreHealing.needsHealing < 40, 5" }, -- Devotion Aura
-        { "#gloves" }, -- gloves     
+        { "#gloves" }, -- gloves
+        { "96231", "modifier.interrupts", "target" }, -- Rebuke        
         { "498", "player.health <= 90", "player" }, --Divine Protection
         { "642", "player.health <= 20", "player" }, -- Divine Shield
 	 
 	--Sefl Heal
 		{ "114163", { -- Eternal Flame
+			"player.spell(114163).exists",
 			"player.holypower >= 3",
 			"!player.buff(114163)",
 			"player.health <= 75"
@@ -34,6 +39,7 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 			"player.health < 70"
 		}, "player" },
 		{ "20925", { -- Sacred Shield
+			"player.spell(20925).exists",
 			"spell.charges(20925) >= 1",
 			"!player.buff", 
 			"player.health < 50",
@@ -62,7 +68,10 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 },{-------------------------------------------------------------------- Out Of Combat
 
 	-- Keybinds
-		{ "114158", "modifier.lshift", "ground" }, -- Light´s Hammer
+		{ "114158", { --Light´s Hammer
+			"player.spell(114158).exists",
+			"modifier.lshift"
+		}, "ground"},
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Mouseover Focus
 		
 	-- Healing
@@ -73,11 +82,11 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 		}, "player" },
 		
 	--Buffs
-		{ "19740", { -- Blessing of Might
+		{ "19740", { --Blessing of Might
 			"!player.buff",
 			"!toggle.buff"
 		}, nil },
-		{ "20217", { -- Blessing of Kings
+		{ "20217", { --Blessing of Kings
 			"!player.buff",
 			"toggle.buff"
 		}, nil },
@@ -95,7 +104,10 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 -- Party Rotation
 
 	-- KeyBinds
-		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
+		{ "114158", { -- Light´s Hammer
+			"player.spell(114158).exists",
+			"modifier.lshift"
+		}, "ground"},
 		{ "31842" , "modifier.lcontrol" }, -- Divine Favor
 		{ "31884" , "modifier.lalt" }, -- Avenging Wrath
 		{ "105809" , "modifier.rcontrol" }, -- Holy Avenger
@@ -120,6 +132,7 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 			"player.spell(28730).cooldown < .001"			
 		}, nil },
 		{ "114157", { -- Execution Sentence
+			"player.spell(114157).exists",
 			"lowest.health < 85",
 			"!player.moving"
 		}, "lowest" },
@@ -128,24 +141,23 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 		
 		-- Racials
 			{ "28730", { -- Arcane torrent
-			"player.mana < 80",
+			"player.mana < 80", 
+			"player.spell(28730).exists",
 			"player.spell(28730).cooldown < .001"
 			}, nil },
 			
 	}, "modifier.cooldowns" },
-    
-	-- interrumpt
-		{ "96231", "target.interruptAt(50)", "target" }, -- Rebuke
-	
+        
 	-- Stuff
         { "20165", "player.seal != 3" }, -- Seal of Insight
         { "1044", "player.state.root"}, -- Hand of Freedom
-        { "#5512", "player.health <= 45"}, --Healthstone      
+        { "#5512", "player.health <= 45"}, --Healthstone
+        { "96231", "modifier.interrupts", "target" }, -- Rebuke        
         { "498", "player.health <= 90", "player" }, --Divine Protection
         { "642", "player.health <= 20", "player" }, -- Divine Shield
 		{ "20165", "player.seal != 3" }, -- Seal of Insight
 		
-	-- Selfless Healer
+	{{-- Selfless Healer
 		{ "!/target [target=focustarget, harm, nodead]", "!target.exists" }, -- Target focus target
 		{ "20271", "target.spell(20271).range", "target" }, -- Judgment
 		{{ -- If got buff
@@ -164,7 +176,8 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 				"@coreHealing.needsHealing(90, 4)",
 				"!player.moving"
 			}, "lowest" },
-		}, "player.buff(114250)" },		
+		}, "player.buff(114250)" }
+	}, "player.spell(85804).exists" },		
 
 	-- Infusion of Light
 		{ "20473", "lowest.health < 100", "lowest" }, -- Holy Shock
@@ -227,12 +240,14 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 			"!player.moving",
 		}, "lowest" },
 		{ "114163", { --Eternal Flame
+			"player.spell(114163).exists",
 			"!@coreHealing.needsHealing(90, 3)", -- Use LoD instead.
 			"player.holypower >= 1",
 			"tank.buff(114163)",
 			"lowest.health < 75"
 		}, "lowest" },
 		{ "20925", { -- Sacred Shield
+			"player.spell(20925).exists",
 			"spell.charges(20925) >= 2",
 			"lowest.health < 90",
 			"!lowest.buff(148039)",
@@ -253,11 +268,13 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 			"tank.health <= 40"
 		}, "tank" },
 		{ "114163", { --Eternal Flame
+			"player.spell(114163).exists",
 			"player.holypower >= 3",
 			"!tank.buff(114163)",
 			"tank.health < 75"
 		}, "tank" },
 		{ "20925", { -- Sacred Shield
+			"player.spell(20925).exists",
 			"spell.charges(20925) >= 1",
 			"tank.health < 95",
 			"!tank.buff(148039)",
@@ -272,6 +289,7 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 		
 	-- Single target
 		{ "114165", { -- Holy Prism
+			"player.spell(114165).exists",
 			"lowest.health < 85",
 			"!player.moving"
 		}, "lowest"},
@@ -288,13 +306,16 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 },{------------------------------------------------------------------------ Out Of Combat
 
 	-- Keybinds
-		{ "114158", "modifier.lshift", "ground"}, --Light´s Hammer
+		{ "114158", { --Light´s Hammer
+			"player.spell(114158).exists",
+			"modifier.lshift"
+		}, "ground"},
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Mouseover Focus
 
 	-- Tank
 		{ "53563", { -- Beacon of light
 			"!tank.buff(53563)",
-			"tank.spell(53563).range"
+			"tank.spell(53563).range",
 		}, "tank" },
 		
 	-- Healing

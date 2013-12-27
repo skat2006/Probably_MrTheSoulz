@@ -1,7 +1,10 @@
 ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProtection-Paladin|r]", {
 
 	-- keybinds
-		{ "114158", "modifier.lshift", "ground"},-- Light´s Hammer
+		{ "114158", { -- Light´s Hammer
+			"player.spell(114158).exists",
+			"modifier.lshift"
+		}, "ground"},
 		{ "26573", { -- Consecration glyphed
 			"player.spell(54928).exists",
 			"modifier.rshift"
@@ -31,10 +34,13 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 		}, "focus" },
 		
 	-- Interrupt
-		{ "96231", "target.interruptAt(50)", "target" }, -- Rebuke
+		{ "96231", "modifier.interrupts"}, -- Rebuke
 
 	-- Survival
-		{ "20925", "!player.buff(20925)", "player" }, -- Sacred Shield	
+		{ "20925", { --Sacred Shield
+			"player.spell(20925).exists",
+			"!player.buff(20925)",
+		}, "player" }, 		
 		{ "31850", "player.health < 30"}, --Ardent Defender
 		{ "498", "player.health <= 95", "toggle.defcd" }, -- Divine Protection
 		{ "86659", "player.health <= 45", "toggle.defcd" }, -- Guardian of Ancient Kings
@@ -42,18 +48,20 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 		
 	-- Cooldowns
 		{ "31884", "modifier.cooldowns" }, -- Avenging Wrath
-		{ "105809", "modifier.cooldowns" }, --Holy Avenger
+		{ "105809", "player.spell(105809).exists", "modifier.cooldowns" }, --Holy Avenger
 		
 	-- Self Heal
 		{ "#5512", "player.health <= 45" }, --Healthstone
 		{ "633", "player.health <= 20", "player"}, --Lay on Hands	
 		{ "114163", { --Eternal Flame
+			"player.spell(114163).exists",
 			"!player.buff(114163)",
 			"player.buff(114637).count = 5", --Bastion of Glory
 			"player.holypower >= 3",
 			"player.health <= 85"
 		}, "player"}, 
 		{ "85673", { --Word of Glory
+			"player.spell(85673).exists",
 			"player.buff(114637).count = 5", --Bastion of Glory
 			"player.holypower >= 3",
 			"player.health <= 40"
@@ -87,19 +95,30 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 		---------------------------------------------------------
 			
 		{ "20271", "target.spell(20271).range", "target" }, -- Judgment
-		{ "114165", "target.spell(114165).range", "target" }, -- Holy Prism
-		{ "31935", "target.spell(31935).range", "target" }, -- Avenger´s Shield Normal
+		{ "114165", { -- Holy Prism
+			"player.spell(114165).exists",
+			"target.spell(114165).range"
+		}, "target" },
+		{ "31935", { -- Avenger´s Shield Normal
+			"target.spell(31935).range"
+		}, "target" },
 		{ "26573", { -- Consecration
 			"!player.spell(54928).exists", 
 			"@mts.ConToggle"
 		}, nil }, 
-		{ "114157", "target.spell(114157).range", "target" }, -- Execution Sentense
+		{ "114157", { -- Execution Sentense
+			"player.spell(114157).exists",
+			"target.spell(114157).range"
+		}, "target" },
 		{ "119072" }, -- Holy Wrath
 
 },{--------------------------------------- Out Of Combat
 
 	-- keybinds
-		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
+		{ "114158", { -- Light´s Hammer
+			"player.spell(114158).exists",
+			"modifier.lshift"
+		}, "ground"},
 		{ "26573", { -- Consecration glyphed
 			"player.spell(54928).exists",
 			"modifier.rshift"
