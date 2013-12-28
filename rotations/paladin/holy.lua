@@ -8,9 +8,10 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 		{ "105809" , "modifier.rcontrol" }, -- Holy Avenger
 		{ "86669" , "modifier.rshift" }, -- Guardian of Ancient Kings
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Mouseover Focus
-        
+    -- seals
+		{ "20165", "player.seal != 3" }, -- Seal of Insight
+	
 	-- Stuff
-        { "20165", "player.seal != 3" }, -- Seal of Insight
         { "1044", "player.state.root"}, -- Hand of Freedom
         { "#5512", "player.health <= 45"}, --Healthstone
         { "54428", "player.mana < 85" }, -- Divine Plea
@@ -121,31 +122,27 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 		{ "4987", "@coreHealing.needsDispelled('Breath of Fire')", nil },
 		{ "4987", { "toggle.dispel", "@paladispell.paladin()" }, nil },
 
+	-- Interrumpt
+		{ "96231", "modifier.interruptAt(50)", "target" }, -- Rebuke
+
+	-- Mana Regen
+		{ "54428", "player.mana < 85" }, -- Divine Plea
+		-- Racials
+			{ "28730", "player.mana < 80" },-- Arcane torrent
+			
 	{{-- Cooldowns
-		{ "54428", { -- Divine Plea
-			"player.mana < 85",
-			"player.spell(28730).cooldown < .001"			
-		}, nil },
 		{ "114157", { -- Execution Sentence
 			"lowest.health < 85",
 			"!player.moving"
 		}, "lowest" },
 		{ "#gloves" }, -- gloves
-		{ "31821", "@coreHealing.needsHealing < 40, 5" }, -- Devotion Aura
-		
-		-- Racials
-			{ "28730", { -- Arcane torrent
-				"player.mana < 80",
-				"player.spell(28730).cooldown < .001"
-			}, nil },
-			
+		{ "31821", "@coreHealing.needsHealing < 40, 5" }, -- Devotion Aura	
 	}, "modifier.cooldowns" },
         
 	-- Stuff
         { "20165", "player.seal != 3" }, -- Seal of Insight
         { "1044", "player.state.root"}, -- Hand of Freedom
-        { "#5512", "player.health <= 45"}, --Healthstone
-        { "96231", "modifier.interrupts", "target" }, -- Rebuke        
+        { "#5512", "player.health <= 45"}, --Healthstone       
         { "498", "player.health <= 90", "player" }, --Divine Protection
         { "642", "player.health <= 20", "player" }, -- Divine Shield
 		{ "20165", "player.seal != 3" }, -- Seal of Insight

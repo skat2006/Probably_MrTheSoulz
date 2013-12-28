@@ -3,7 +3,7 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 	-- keybinds
 		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
 		{ "26573", { -- Consecration glyphed
-			"player.spell(54928).exists",
+			"player.glyph(54928)",
 			"modifier.rshift"
 		}, "ground"}, 
 		{ "pause", "modifier.lalt"}, -- Pause
@@ -31,7 +31,7 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 		}, "focus" },
 		
 	-- Interrupt
-		{ "96231", "modifier.interrupts"}, -- Rebuke
+		{ "96231", "modifier.interruptAt(50)"}, -- Rebuke
 
 	-- Survival
 		{ "20925", "!player.buff(20925)", "player" }, -- Sacred Shield 		
@@ -75,7 +75,6 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 		}, "target" },
 		
 	-- AOE/Single
-		---------------------------------------------------------
 			{ "35395", { -- Crusader Strike
 				"!modifier.multitarget",
 				"target.spell(35395).range"
@@ -84,13 +83,12 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 				"modifier.multitarget",
 				"target.spell(53595).range"
 			}, "target" },
-		---------------------------------------------------------
 			
 		{ "20271", "target.spell(20271).range", "target" }, -- Judgment
 		{ "114165", "target.spell(114165).range", "target" }, -- Holy Prism
 		{ "31935", "target.spell(31935).range", "target" },-- Avenger´s Shield Normal
 		{ "26573", { -- Consecration
-			"!player.spell(54928).exists", 
+			"!player.glyph(54928)", 
 			"@mts.ConToggle"
 		}, nil }, 
 		{ "114157", "target.spell(114157).range", "target" }, -- Execution Sentense
@@ -101,7 +99,7 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 	-- keybinds
 		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
 		{ "26573", { -- Consecration glyphed
-			"player.spell(54928).exists",
+			"player.glyph(54928)",
 			"modifier.rshift"
 		}, "ground"}, 
 		{ "pause", "modifier.lalt"}, -- Pause

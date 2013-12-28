@@ -53,7 +53,7 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 		}, "talent(16)" },
 		
 	-- Interrupts
-		{ "Skull Bash", "modifier.interrupts" },
+		{ "Skull Bash", "modifier.interruptAt(50)" },
 
 	{{ -- Cooldowns
 		{ "Berserk" }, -- Berserk
