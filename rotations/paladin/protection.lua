@@ -33,19 +33,20 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 	-- Interrupt
 		{ "96231", "modifier.interruptAt(50)"}, -- Rebuke
 
-	-- Survival
+	{{-- Defensive Cooldowns
 		{ "20925", "!player.buff(20925)", "player" }, -- Sacred Shield 		
 		{ "31850", "player.health < 30"}, --Ardent Defender
-		{ "498", "player.health <= 95", "toggle.defcd" }, -- Divine Protection
-		{ "86659", "player.health <= 45", "toggle.defcd" }, -- Guardian of Ancient Kings
-		{ "#gloves", "toggle.defcd" },
-		
+		{ "498", "player.health <= 99" }, -- Divine Protection
+		{ "86659", "player.health <= 50" }, -- Guardian of Ancient Kings
+		{ "#gloves" },
+	}, "toggle.defcd" },
+	
 	-- Cooldowns
 		{ "31884", "modifier.cooldowns" }, -- Avenging Wrath
 		{ "105809", "modifier.cooldowns" }, --Holy Avenger
 		
 	-- Self Heal
-		{ "#5512", "player.health <= 45" }, --Healthstone
+		{ "#5512", "player.health <= 60" }, --Healthstone
 		{ "633", "player.health <= 20", "player"}, --Lay on Hands	
 		{ "114163", { --Eternal Flame
 			"!player.buff(114163)",
@@ -88,7 +89,8 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 		{ "114165", "target.spell(114165).range", "target" }, -- Holy Prism
 		{ "31935", "target.spell(31935).range", "target" },-- Avenger´s Shield Normal
 		{ "26573", { -- Consecration
-			"!player.glyph(54928)", 
+			"!player.glyph(54928)",
+			"target.range <= 5",		
 			"@mts.ConToggle"
 		}, nil }, 
 		{ "114157", "target.spell(114157).range", "target" }, -- Execution Sentense

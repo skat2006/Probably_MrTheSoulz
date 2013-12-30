@@ -1,105 +1,4 @@
-ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-Paladin|r]-[Solo]", {
--- Solo Rotation
-
-	-- KeyBinds
-		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
-		{ "31842" , "modifier.lcontrol" }, -- Divine Favor
-		{ "31884" , "modifier.lalt" }, -- Avenging Wrath
-		{ "105809" , "modifier.rcontrol" }, -- Holy Avenger
-		{ "86669" , "modifier.rshift" }, -- Guardian of Ancient Kings
-		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Mouseover Focus
-    -- seals
-		{ "20165", "player.seal != 3" }, -- Seal of Insight
-	
-	-- Stuff
-        { "1044", "player.state.root"}, -- Hand of Freedom
-        { "#5512", "player.health <= 45"}, --Healthstone
-        { "54428", "player.mana < 85" }, -- Divine Plea
-        { "31821", "@coreHealing.needsHealing < 40, 5" }, -- Devotion Aura
-        { "#gloves" }, -- gloves
-        { "96231", "modifier.interrupts", "target" }, -- Rebuke        
-        { "498", "player.health <= 90", "player" }, --Divine Protection
-        { "642", "player.health <= 20", "player" }, -- Divine Shield
-		
-			-- Racials
-				{ "28730", { -- Arcane torrent
-					"player.mana < 80",
-					"player.spell(28730).cooldown < .001"
-				}, nil },
-	 
-	--Sefl Heal
-		{ "114163", { -- Eternal Flame
-			"player.holypower >= 3",
-			"!player.buff(114163)",
-			"player.health <= 75"
-		},	"player" },
-		{ "85673", { -- Word of Glory
-			"player.holypower >= 3", 
-			"player.health < 70"
-		}, "player" },
-		{ "20925", { -- Sacred Shield
-			"spell.charges(20925) >= 1",
-			"!player.buff", 
-			"player.health < 50",
-			"!modifier.last"
-		}, "player" },
-		{ "19750", { -- Flash of light
-			"player.health < 70",
-			"!player.moving"
-		}, "player" },
-		
-	-- DPS
-		{ "2812", { -- Denounce
-			"!target.debuff(2812)",
-			"target.spell(2812).range",
-			"!modifier.last",
-			"!player.moving"
-		}, "target" },
-		{ "35395", "target.spell(35395).range", "target" }, -- Crusader Strike
-		{ "20271", "target.spell(20271).range", "target" }, -- Judgment
-		{ "20473", "target.spell(20473).range", "target" }, --Holy Shock
-		{ "24275", { -- Hammer of Wrath
-			"target.health <= 20",
-			"target.spell(24275).range"
-		}, "target" },
-		
-},{-------------------------------------------------------------------- Out Of Combat
-
-	-- Keybinds
-		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
-		{ "31842" , "modifier.lcontrol" }, -- Divine Favor
-		{ "31884" , "modifier.lalt" }, -- Avenging Wrath
-		{ "105809" , "modifier.rcontrol" }, -- Holy Avenger
-		{ "86669" , "modifier.rshift" }, -- Guardian of Ancient Kings
-		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Mouseover Focus
-		
-	-- Healing
-		{ "20473", "player.health < 100", "player" }, -- Holy Shock
-		{ "635", { -- Holy Light
-			"player.health < 100",
-			"!player.moving"
-		}, "player" },
-		
-	--Buffs
-		{ "19740", { --Blessing of Might
-			"!player.buff",
-			"!toggle.buff"
-		}, nil },
-		{ "20217", { --Blessing of Kings
-			"!player.buff",
-			"toggle.buff"
-		}, nil },
-		{ "20165", "player.seal != 3" }, -- seal of Insight
-},
-------------------------------------------------------------------------------------------------------------
--- Solo Toggles
-function()
-ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
-end)
-
-
-------------------------------------------------------------------------------------------------------------
-ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-Paladin|r]-[Party/Raid]", {
+ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-Paladin|r]", {
 -- Party Rotation
 
 	-- KeyBinds
@@ -178,15 +77,13 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 				"!player.moving"
 			}, "lowest" },
 		}, "player.buff(54149)" },
-	
-	-- AOE
-		{ "85222", { -- Light of Dawn
-			"@coreHealing.needsHealing(90, 3)",
-			"player.holypower >= 3"
-		}, "lowest" },
-		
-		{{ -- Normal HR
+
+		{{ -- AOE
 			{{ -- Party
+				{ "85222", { -- Light of Dawn
+					"@coreHealing.needsHealing(90, 3)",
+					"player.holypower >= 3"
+				}, "lowest" },
 				{ "82327", { -- Holy Radiance - Party
 					"@coreHealing.needsHealing(80, 3)",
 					"!modifier.last",
@@ -195,23 +92,32 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 			}, "modifier.party" },
 			{{ -- RAID
 				{{ -- Stop If 10+
+					{ "85222", { -- Light of Dawn
+						"@coreHealing.needsHealing(90, 5)",
+						"player.holypower >= 3"
+					}, "lowest" },
 					{ "82327", { -- Holy Radiance - Raid 10
-						"@coreHealing.needsHealing(80, 5)",
+						"@coreHealing.needsHealing(90, 5)",
 						"!modifier.last",
 						"!player.moving"
 					}, "lowest" },
 				}, "modifier.raid" },
 			}, "!modifier.members > 10" },
 			{{ -- Raid 25
+				{ "85222", { -- Light of Dawn
+					"@coreHealing.needsHealing(90, 8)",
+					"player.holypower >= 3"
+				}, "lowest" },
 				{ "82327", { -- Holy Radiance 10+
-					"@coreHealing.needsHealing(80, 8)",
+					"@coreHealing.needsHealing(90, 8)",
 					"!modifier.last",
 					"!player.moving"
 				}, "lowest" },
 			}, "modifier.members > 10" },
-		}, "!toggle.hr" },
+		}, "!toggle.aoe" },
 	
-		{{-- Holy Radiance - Forced
+		{{-- AOE - Forced
+			{ "85222", "player.holypower >= 3", "lowest" }, -- Light of Dawn
 			{ "82327", { -- Holy Radiance
 				"!player.moving" ,
 				"modifier.multitarget",
@@ -223,16 +129,10 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 		{ "85673", { -- Word of Glory
 			"player.holypower >= 3",
 			"lowest.health <= 80",
-			"!@coreHealing.needsHealing(90, 3)", -- Use LoD instead.
 		}, "lowest"  },
-		{ "19750", {-- Flash of light
-			"lowest.health < 30",
-			"!player.moving",
-		}, "lowest" },
 		{ "114163", { --Eternal Flame
-			"!@coreHealing.needsHealing(90, 3)", -- Use LoD instead.
 			"player.holypower >= 1",
-			"tank.buff(114163)",
+			"!lowest.buff(114163)",
 			"lowest.health < 75"
 		}, "lowest" },
 		{ "20925", { -- Sacred Shield
@@ -241,6 +141,10 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 			"!lowest.buff(148039)",
 			"lowest.spell(20925).range",
 			"!modifier.last"
+		}, "lowest" },
+		{ "19750", {-- Flash of light
+			"lowest.health < 30",
+			"!player.moving",
 		}, "lowest" },
 
 	-- Dps
@@ -255,10 +159,10 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 			"tank.spell(6940).range", 
 			"tank.health <= 40"
 		}, "tank" },
-		{ "114163", { --Eternal Flame
+		{ "114163", { -- Eternal Flame
 			"player.holypower >= 3",
 			"!tank.buff(114163)",
-			"tank.health < 75"
+			"tank.health <= 75"
 		}, "tank" },
 		{ "20925", { -- Sacred Shield
 			"spell.charges(20925) >= 1",
@@ -306,21 +210,6 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 		
 	-- Healing
 		{ "20473", "lowest.health < 100", "lowest" }, -- Holy Shock
-		{ "635", { -- Holy Light
-			"lowest.health < 97",
-			"!lowest.health < 65", -- DL instead
-			"!player.moving"
-		}, "lowest" },
-		{ "82326", { -- Divine Light
-			"lowest.health < 65",
-			"!lowest.health < 30", -- Flash Light Instead
-			"!modifier.last",
-			"!player.moving"
-		}, "lowest" },
-		{ "19750", {-- Flash of light
-			"lowest.health < 30",
-			"!player.moving",
-		}, "lowest" },
 
 	--Buffs
 		{ "19740", { --Blessing of Might
@@ -337,5 +226,5 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 function()
 	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds.')
 	ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
-	ProbablyEngine.toggle.create('hr', 'Interface\\Icons\\Achievement_bg_killingblow_startingrock.png', 'Manual Holy Radiance', 'Manualy control Holy Radiance. \nEnabling this means you will have to enable "Muli-Target" toggle everytime you want to cast Holy Radiance.')
+	ProbablyEngine.toggle.create('aoe', 'Interface\\Icons\\Achievement_bg_killingblow_startingrock.png', 'Manual AOE Healing', 'Manualy control Holy Radiance and Light of Dawn \nEnabling this means you will have to enable "Muli-Target" toggle everytime you want to cast Holy Radiance and/or Light of Dawn.')
 end)
