@@ -13,6 +13,10 @@ end
 ProbablyEngine.command.register('mts', function(msg, box)
 local command, text = msg:match("^(%S*)%s*(.-)$")
 
+	if command == 'ver' then
+		ProbablyEngine.command.print('MrTheSoulz Version: 1.6.0')
+	end
+
 	if command == 'con' then
 	mts.con = not mts.con
 		if mts.con then
@@ -24,12 +28,13 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	
 	if command == 'seals' then
 	mts.seals = not mts.seals
-	  if mts.seals then
-		ProbablyEngine.command.print('MrTheSoulz Rotation seals Enabled.')
-	  else
-		ProbablyEngine.command.print('MrTheSoulz Rotations seals Disabled.')
-	  end
+		if mts.seals then
+			ProbablyEngine.command.print('MrTheSoulz Rotation seals Enabled.')
+		else
+			ProbablyEngine.command.print('MrTheSoulz Rotations seals Disabled.')
+		end
 	end
+	
 end)
 
 ProbablyEngine.condition.register("talent", function(index)

@@ -19,7 +19,7 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 		{ "4987", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Torment')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{ "4987", { "toggle.dispel", "@paladispell.paladin()" }, nil },
+		{ "4987", { "toggle.dispel", "@paladispell.Cleanse()" }, nil },
 
 	-- Interrumpt
 		{ "96231", "modifier.interruptAt(50)", "target" }, -- Rebuke
@@ -45,7 +45,17 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
         { "498", "player.health <= 90", "player" }, --Divine Protection
         { "642", "player.health <= 20", "player" }, -- Divine Shield
 		{ "20165", "player.seal != 3" }, -- Seal of Insight
-		
+	
+	{{-- Divine Purpose
+		{ "85673", { -- Word of Glory
+			"lowest.health <= 80",
+		}, "lowest"  },
+		{ "114163", { --Eternal Flame
+			"!lowest.buff(114163)",
+			"lowest.health <= 85"
+		}, "lowest" },
+	}, "player.buff(86172)" },
+	
 	{{-- Selfless Healer
 		{ "!/target [target=focustarget, harm, nodead]", "!target.exists" }, -- Target focus target
 		{ "20271", "target.spell(20271).range", "target" }, -- Judgment
@@ -133,7 +143,7 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 		{ "114163", { --Eternal Flame
 			"player.holypower >= 1",
 			"!lowest.buff(114163)",
-			"lowest.health < 75"
+			"lowest.health <= 85"
 		}, "lowest" },
 		{ "20925", { -- Sacred Shield
 			"spell.charges(20925) >= 2",
@@ -224,7 +234,7 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 ------------------------------------------------------------------------------------------------------------
 -- Party Toggles
 function()
-	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds.')
+	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
 	ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
 	ProbablyEngine.toggle.create('aoe', 'Interface\\Icons\\Achievement_bg_killingblow_startingrock.png', 'Manual AOE Healing', 'Manualy control Holy Radiance and Light of Dawn \nEnabling this means you will have to enable "Muli-Target" toggle everytime you want to cast Holy Radiance and/or Light of Dawn.')
 end)
