@@ -1,16 +1,36 @@
 ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProtection-Paladin|r]", {
 
 	-- keybinds
-		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
-		{ "26573", { -- Consecration glyphed
-			"player.glyph(54928)",
-			"modifier.rshift"
-		}, "ground"}, 
 		{ "pause", "modifier.lalt"}, -- Pause
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
-		{ "105593", "modifier.lcontrol", "target"}, -- Fist of Justice
-		{ "853", "modifier.lcontrol", "target"}, -- Hammer of Justice
+		-- Stuns (Left Control)
+			{ "105593", "modifier.lcontrol", "target"}, -- Fist of Justice
+			{ "853", "modifier.lcontrol", "target"}, -- Hammer of Justice
+		-- Ground (Will Drop on Mouse-over)
+			{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
+			{ "26573", { -- Consecration glyphed
+				"player.glyph(54928)",
+				"modifier.rshift"
+			}, "ground"}, 
 
+	--Buffs
+		{ "25780", "!player.buff" }, -- Righteous Fury
+		{ "19740", { -- Blessing of Might
+			"!player.buff(19740).any",
+			"!player.buff(116956).any",
+			"!player.buff(93435).any",
+			"!player.buff(128997).any",
+			"!toggle.buff"
+		}, nil },
+		{ "20217", { -- Blessing of Kings
+			"!player.buff(20217).any",
+			"!player.buff(115921).any",
+			"!player.buff(1126).any",
+			"!player.buff(90363).any",
+			"!player.buff(69378).any",
+			"toggle.buff"
+		}, nil },
+			
 	-- Seals
 		{ "20165", { -- Seal of Insight
 			"player.seal != 3",
@@ -26,12 +46,12 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 	-- Hands
 		{ "1044", "player.state.root"}, -- Hand of Freedom
 		{ "6940", { -- Hand of Sacrifice
-			"focus.health <= 50",
-			"focus.range <= 40.",
-		}, "focus" },
+			"lowest.health <= 80",
+			"!player.health <= 40",
+		}, "lowest" },
 		
 	-- Interrupt
-		{ "96231", "modifier.interruptAt(50)"}, -- Rebuke
+		{ "96231", "modifier.interrupts"}, -- Rebuke
 
 	{{-- Defensive Cooldowns
 		{ "20925", "!player.buff(20925)", "player" }, -- Sacred Shield 		
@@ -75,7 +95,7 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 			"target.spell(53600).range"
 		}, "target" },
 		
-	-- AOE/Single
+		-- AOE/Single
 			{ "35395", { -- Crusader Strike
 				"!modifier.multitarget",
 				"target.spell(35395).range"
@@ -124,15 +144,22 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 	--Buffs
 		{ "25780", "!player.buff" }, -- Righteous Fury
 		{ "19740", { -- Blessing of Might
-			"!player.buff",
+			"!player.buff(19740).any",
+			"!player.buff(116956).any",
+			"!player.buff(93435).any",
+			"!player.buff(128997).any",
 			"!toggle.buff"
 		}, nil },
 		{ "20217", { -- Blessing of Kings
-			"!player.buff",
+			"!player.buff(20217).any",
+			"!player.buff(115921).any",
+			"!player.buff(1126).any",
+			"!player.buff(90363).any",
+			"!player.buff(69378).any",
 			"toggle.buff"
 		}, nil },
 	
-	--Other's
+	-- Hands
 		{ "1044", "player.state.root" } -- Hand of Freedom
 
 }, -----------------------------------------------------------------------------------------------------------------------

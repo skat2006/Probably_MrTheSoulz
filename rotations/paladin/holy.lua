@@ -2,14 +2,60 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 -- Party Rotation
 
 	-- KeyBinds
-		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
-		{ "31842" , "modifier.lcontrol" }, -- Divine Favor
-		{ "31884" , "modifier.lalt" }, -- Avenging Wrath
-		{ "105809" , "modifier.rcontrol" }, -- Holy Avenger
-		{ "86669" , "modifier.rshift" }, -- Guardian of Ancient Kings
-		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Mouseover Focus
+		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
+		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
 
-	--Dispel
+	--Buffs
+		{ "19740", { -- Blessing of Might
+			"!player.buff(19740).any",
+			"!player.buff(116956).any",
+			"!player.buff(93435).any",
+			"!player.buff(128997).any",
+			"!toggle.buff"
+		}, nil },
+		{ "20217", { -- Blessing of Kings
+			"!player.buff(20217).any",
+			"!player.buff(115921).any",
+			"!player.buff(1126).any",
+			"!player.buff(90363).any",
+			"!player.buff(69378).any",
+			"toggle.buff"
+		}, nil },
+	
+	-- Seal
+        { "20165", "player.seal != 3", nil }, -- Seal of Insight
+	
+	-- Interrupts
+		{ "96231", "modifier.interrupts", "target" }, -- Rebuke
+	
+	-- Mana Regen
+		{ "28730", "player.mana < 90", nil }, -- Arcane torrent
+		{ "54428", "player.mana < 85", nil }, -- Divine Plea
+		{ "#trinket1", "player.mana < 85", nil }, -- Trinket 1
+		{ "#trinket2", "player.mana < 85", nil }, -- Trinket 2
+		
+	-- Hands
+		{ "1044", "player.state.root" , nil }, -- Hand of Freedom
+		{ "6940", { -- Hand of Sacrifice
+			"tank.spell(6940).range", 
+			"tank.health < 40"
+		}, "tank" },
+
+	-- Survival
+		{ "#5512", "player.health <= 45", nil }, -- Healthstone       
+		{ "498", "player.health <= 90", "player" }, -- Divine Protection
+		{ "642", "player.health <= 20", "player" }, -- Divine Shield
+
+	{{-- Cooldowns
+		{ "#gloves" }, -- gloves
+		{ "31821", "@coreHealing.needsHealing(40, 5)", nil }, -- Devotion Aura	
+		{ "31884", "@coreHealing.needsHealing(95, 4)", nil }, -- Avenging Wrath
+		{ "86669", "@coreHealing.needsHealing(85, 4)", nil }, -- Guardian of Ancient Kings
+		{ "31842", "@coreHealing.needsHealing(90, 4", nil }, -- Divine Favor
+		{ "105809", "talent(13)", nil }, -- Holy Avenger
+	}, "modifier.cooldowns" },
+	
+	-- Dispel
 		{ "4987", { 
 			"player.buff(Gift of the Titans)", 
 			"@coreHealing.needsDispelled('Mark of Arrogance')" 
@@ -20,31 +66,6 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 		{ "4987", "@coreHealing.needsDispelled('Torment')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Breath of Fire')", nil },
 		{ "4987", { "toggle.dispel", "@paladispell.Cleanse()" }, nil },
-
-	-- Interrumpt
-		{ "96231", "modifier.interruptAt(50)", "target" }, -- Rebuke
-
-	-- Mana Regen
-		{ "54428", "player.mana < 85" }, -- Divine Plea
-		-- Racials
-			{ "28730", "player.mana < 80" },-- Arcane torrent
-			
-	{{-- Cooldowns
-		{ "114157", { -- Execution Sentence
-			"lowest.health < 85",
-			"!player.moving"
-		}, "lowest" },
-		{ "#gloves" }, -- gloves
-		{ "31821", "@coreHealing.needsHealing < 40, 5" }, -- Devotion Aura	
-	}, "modifier.cooldowns" },
-        
-	-- Stuff
-        { "20165", "player.seal != 3" }, -- Seal of Insight
-        { "1044", "player.state.root"}, -- Hand of Freedom
-        { "#5512", "player.health <= 45"}, --Healthstone       
-        { "498", "player.health <= 90", "player" }, --Divine Protection
-        { "642", "player.health <= 20", "player" }, -- Divine Shield
-		{ "20165", "player.seal != 3" }, -- Seal of Insight
 	
 	{{-- Divine Purpose
 		{ "85673", { -- Word of Glory
@@ -63,19 +84,19 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 			{ "19750", {-- Flash of light
 				"lowest.health < 85",
 				"!lowest.health < 65", -- DL instead
-				"!@coreHealing.needsHealing(90, 4)", -- HR instead
+				"!@coreHealing.needsHealing(95, 4)", -- HR instead
 				"!player.moving",
 			}, "lowest" },
 			{ "82326", { -- Divine Light
 				"lowest.health < 65",
-				"!@coreHealing.needsHealing(90, 4)", -- HR instead
+				"!@coreHealing.needsHealing(95, 4)", -- HR instead
 				"!player.moving"
 			}, "lowest" },
 			{ "82327", { -- Holy Radiance
-				"@coreHealing.needsHealing(90, 4)",
+				"@coreHealing.needsHealing(95, 4)",
 				"!player.moving"
 			}, "lowest" },
-		}, "player.buff(114250)" }
+		}, "player.buff(114250).count = 3" }
 	}, "talent(7)" },		
 
 	-- Infusion of Light
@@ -88,51 +109,51 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 			}, "lowest" },
 		}, "player.buff(54149)" },
 
-		{{ -- AOE
-			{{ -- Party
+	{{ -- AOE
+		{{ -- Party
+			{ "85222", { -- Light of Dawn
+				"@coreHealing.needsHealing(90, 3)",
+				"player.holypower >= 3"
+			}, "lowest" },
+			{ "82327", { -- Holy Radiance - Party
+				"@coreHealing.needsHealing(80, 3)",
+				"!modifier.last",
+				"!player.moving"
+			}, "lowest" },
+		}, "modifier.party" },
+		{{ -- RAID
+			{{ -- Stop If 10+
 				{ "85222", { -- Light of Dawn
-					"@coreHealing.needsHealing(90, 3)",
+					"@coreHealing.needsHealing(90, 5)",
 					"player.holypower >= 3"
 				}, "lowest" },
-				{ "82327", { -- Holy Radiance - Party
-					"@coreHealing.needsHealing(80, 3)",
+				{ "82327", { -- Holy Radiance - Raid 10
+					"@coreHealing.needsHealing(90, 5)",
 					"!modifier.last",
 					"!player.moving"
 				}, "lowest" },
-			}, "modifier.party" },
-			{{ -- RAID
-				{{ -- Stop If 10+
-					{ "85222", { -- Light of Dawn
-						"@coreHealing.needsHealing(90, 5)",
-						"player.holypower >= 3"
-					}, "lowest" },
-					{ "82327", { -- Holy Radiance - Raid 10
-						"@coreHealing.needsHealing(90, 5)",
-						"!modifier.last",
-						"!player.moving"
-					}, "lowest" },
-				}, "modifier.raid" },
-			}, "!modifier.members > 10" },
-			{{ -- Raid 25
-				{ "85222", { -- Light of Dawn
-					"@coreHealing.needsHealing(90, 8)",
-					"player.holypower >= 3"
-				}, "lowest" },
-				{ "82327", { -- Holy Radiance 10+
-					"@coreHealing.needsHealing(90, 8)",
-					"!modifier.last",
-					"!player.moving"
-				}, "lowest" },
-			}, "modifier.members > 10" },
-		}, "!toggle.aoe" },
+			}, "modifier.raid" },
+		}, "!modifier.members > 10" },
+		{{ -- Raid 25
+			{ "85222", { -- Light of Dawn
+				"@coreHealing.needsHealing(90, 8)",
+				"player.holypower >= 3"
+			}, "lowest" },
+			{ "82327", { -- Holy Radiance 10+
+				"@coreHealing.needsHealing(90, 8)",
+				"!modifier.last",
+				"!player.moving"
+			}, "lowest" },
+		}, "modifier.members > 10" },
+	}, "!toggle.aoe" },
 	
-		{{-- AOE - Forced
-			{ "85222", "player.holypower >= 3", "lowest" }, -- Light of Dawn
-			{ "82327", { -- Holy Radiance
-				"!player.moving" ,
-				"modifier.multitarget",
-			}, nil },
-		}, "toggle.hr" },
+	{{-- AOE - Forced
+		{ "85222", "player.holypower >= 3", "lowest" }, -- Light of Dawn
+		{ "82327", { -- Holy Radiance
+			"!player.moving" ,
+			"modifier.multitarget",
+		}, "lowest" },
+	}, "toggle.aoe" },
 	
 	-- HEAL FAST BITCH
 		{ "633", "lowest.health < 15", "lowest" }, -- Lay on Hands
@@ -165,10 +186,7 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 			"!tank.buff(53563)",
 			"tank.spell(53563).range",
 		}, "tank" },
-		{ "6940", { -- Hand of Sacrifice
-			"tank.spell(6940).range", 
-			"tank.health <= 40"
-		}, "tank" },
+		{ "114157", "tank.health < 85", "tank" }, -- Execution Sentence
 		{ "114163", { -- Eternal Flame
 			"player.holypower >= 3",
 			"!tank.buff(114163)",
@@ -198,38 +216,57 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 			"!player.moving"
 		}, "lowest" },
 		{ "82326", { -- Divine Light
-			"lowest.health < 65",
+			"lowest.health < 35",
 			"!player.moving"
 		}, "lowest" },
 		
 },{------------------------------------------------------------------------ Out Of Combat
 
 	-- Keybinds
-		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
-		{ "31842" , "modifier.lcontrol" }, -- Divine Favor
-		{ "31884" , "modifier.lalt" }, -- Avenging Wrath
-		{ "105809" , "modifier.rcontrol" }, -- Holy Avenger
-		{ "86669" , "modifier.rshift" }, -- Guardian of Ancient Kings
-		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Mouseover Focus
+		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
+		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
 
+	-- Seal
+        { "20165", "player.seal != 3", nil }, -- Seal of Insight
+	
+	-- Mana Regen
+		{ "28730", "player.mana < 90", nil }, -- Arcane torrent
+		{ "54428", "player.mana < 85", nil }, -- Divine Plea
+		{ "#trinket1", "player.mana < 85", nil }, -- Trinket 1
+		{ "#trinket2", "player.mana < 85", nil }, -- Trinket 2
+		
+	-- Hands
+		{ "1044", "player.state.root" , nil }, -- Hand of Freedom
+	
 	-- Tank
 		{ "53563", { -- Beacon of light
 			"!tank.buff(53563)",
 			"tank.spell(53563).range",
 		}, "tank" },
-		
-	-- Healing
-		{ "20473", "lowest.health < 100", "lowest" }, -- Holy Shock
 
 	--Buffs
-		{ "19740", { --Blessing of Might
-			"!player.buff",
+		{ "19740", { -- Blessing of Might
+			"!player.buff(19740).any",
+			"!player.buff(116956).any",
+			"!player.buff(93435).any",
+			"!player.buff(128997).any",
 			"!toggle.buff"
 		}, nil },
-		{ "20217", { --Blessing of Kings
-			"!player.buff",
+		{ "20217", { -- Blessing of Kings
+			"!player.buff(20217).any",
+			"!player.buff(115921).any",
+			"!player.buff(1126).any",
+			"!player.buff(90363).any",
+			"!player.buff(69378).any",
 			"toggle.buff"
 		}, nil },
+
+	-- Healing
+		{ "20473", "lowest.health < 100", "lowest" }, -- Holy Shock	
+	
+	-- Hands
+		{ "1044", "player.state.root", nil } -- Hand of Freedom	
+	
 },		
 ------------------------------------------------------------------------------------------------------------
 -- Party Toggles
