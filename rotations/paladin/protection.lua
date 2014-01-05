@@ -3,52 +3,22 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 	-- keybinds
 		{ "pause", "modifier.lalt"}, -- Pause
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
-		-- Stuns (Left Control)
-			{ "105593", "modifier.lcontrol", "target"}, -- Fist of Justice
-			{ "853", "modifier.lcontrol", "target"}, -- Hammer of Justice
-		-- Ground (Will Drop on Mouse-over)
-			{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
-			{ "26573", { -- Consecration glyphed
-				"player.glyph(54928)",
-				"modifier.rshift"
-			}, "ground"}, 
+		{ "105593", "modifier.lcontrol", "target"}, -- Fist of Justice
+		{ "853", "modifier.lcontrol", "target"}, -- Hammer of Justice
+		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
+		{ "26573", { "player.glyph(54928)", "modifier.rshift" }, "ground"}, -- Consecration glyphed
 
 	--Buffs
-		{ "25780", "!player.buff" }, -- Righteous Fury
-		{ "19740", { -- Blessing of Might
-			"!player.buff(19740).any",
-			"!player.buff(116956).any",
-			"!player.buff(93435).any",
-			"!player.buff(128997).any",
-			"!toggle.buff"
-		}, nil },
-		{ "20217", { -- Blessing of Kings
-			"!player.buff(20217).any",
-			"!player.buff(115921).any",
-			"!player.buff(1126).any",
-			"!player.buff(90363).any",
-			"!player.buff(69378).any",
-			"toggle.buff"
-		}, nil },
+		{ "19740", { "!player.buff(19740).any", "!player.buff(116956).any", "!player.buff(93435).any", "!player.buff(128997).any", "!toggle.buff" }, nil },-- Blessing of Might
+		{ "20217", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "toggle.buff" }, nil }, -- Blessing of Kings
 			
 	-- Seals
-		{ "20165", { -- Seal of Insight
-			"player.seal != 3",
-			"!modifier.multitarget",
-			"@mts.SealsToggle"
-		}, nil },
-		{ "20154", { -- Seal of righteousness
-			"player.seal != 2",
-			"modifier.multitarget",
-			"@mts.SealsToggle"
-		}, nil }, 
+		{ "20165", { "player.seal != 3", "!modifier.multitarget", "@mts.SealsToggle" }, nil }, -- Seal of Insight
+		{ "20154", { "player.seal != 2", "modifier.multitarget", "@mts.SealsToggle" }, nil }, -- Seal of righteousness
 			
 	-- Hands
 		{ "1044", "player.state.root"}, -- Hand of Freedom
-		{ "6940", { -- Hand of Sacrifice
-			"lowest.health <= 80",
-			"!player.health <= 40",
-		}, "lowest" },
+		{ "6940", { "lowest.health <= 80", "!player.health <= 40" }, "lowest" }, -- Hand of Sacrifice
 		
 	-- Interrupt
 		{ "96231", "modifier.interrupts"}, -- Rebuke
@@ -68,96 +38,40 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 	-- Self Heal
 		{ "#5512", "player.health <= 60" }, --Healthstone
 		{ "633", "player.health <= 20", "player"}, --Lay on Hands	
-		{ "114163", { --Eternal Flame
-			"!player.buff(114163)",
-			"player.buff(114637).count = 5", --Bastion of Glory
-			"player.holypower >= 3",
-			"player.health <= 85"
-		}, "player"}, 
-		{ "85673", { --Word of Glory
-			"player.buff(114637).count = 5", --Bastion of Glory
-			"player.holypower >= 3",
-			"player.health <= 40"
-		}, "player" },
+		{ "114163", { "!player.buff(114163)", "player.buff(114637).count = 5", "player.holypower >= 3", "player.health <= 85" }, "player"}, -- Eternal Flame
+		{ "85673", { "player.buff(114637).count = 5", "player.holypower >= 3", "player.health <= 40" }, "player" }, -- Word of Glory
 
 	-- Rotation
 
-		{ "24275", { -- Hammer of Wrath
-			"target.health <= 20",
-			"target.spell(24275).range"
-		}, "target" },
-		{ "31935", { -- Avenger´s Shield Proc
-			"player.buff(98057)",
-			"target.spell(31935).range"
-		}, "target" },
-		{ "53600", { -- Shield of the Righteous
-			"player.holypower >= 3",
-			"target.spell(53600).range"
-		}, "target" },
-		
-		-- AOE/Single
-			{ "35395", { -- Crusader Strike
-				"!modifier.multitarget",
-				"target.spell(35395).range"
-			}, "target" },
-			{ "53595", { -- Hammer of the Righteous
-				"modifier.multitarget",
-				"target.spell(53595).range"
-			}, "target" },
-			
+		{ "24275", { "target.health <= 20", "target.spell(24275).range" }, "target" }, -- Hammer of Wrath
+		{ "31935", { "player.buff(98057)", "target.spell(31935).range" }, "target" }, -- Avenger´s Shield Proc
+		{ "53600", { "player.holypower >= 3", "target.spell(53600).range" }, "target" }, -- Shield of the Righteous
+		{ "35395", { "!modifier.multitarget", "target.spell(35395).range" }, "target" }, -- Crusader Strike
+		{ "53595", { "modifier.multitarget", "target.spell(53595).range" }, "target" }, -- Hammer of the Righteous
 		{ "20271", "target.spell(20271).range", "target" }, -- Judgment
 		{ "114165", "target.spell(114165).range", "target" }, -- Holy Prism
 		{ "31935", "target.spell(31935).range", "target" },-- Avenger´s Shield Normal
-		{ "26573", { -- Consecration
-			"!player.glyph(54928)",
-			"target.range <= 5",		
-			"@mts.ConToggle"
-		}, nil }, 
+		{ "26573", { "!player.glyph(54928)", "target.range <= 5", "@mts.ConToggle" }, nil }, -- Consecration
 		{ "114157", "target.spell(114157).range", "target" }, -- Execution Sentense
 		{ "119072" }, -- Holy Wrath
 
 },{--------------------------------------- Out Of Combat
 
 	-- keybinds
-		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
-		{ "26573", { -- Consecration glyphed
-			"player.glyph(54928)",
-			"modifier.rshift"
-		}, "ground"}, 
 		{ "pause", "modifier.lalt"}, -- Pause
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
-		{ "105593", "modifier.lcontrol", "target" }, -- Fist of Justice
-		{ "853", "modifier.lcontrol", "target" }, -- Hammer of Justice
+		{ "105593", "modifier.lcontrol", "target"}, -- Fist of Justice
+		{ "853", "modifier.lcontrol", "target"}, -- Hammer of Justice
+		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
+		{ "26573", { "player.glyph(54928)", "modifier.rshift" }, "ground"}, -- Consecration glyphed
 		
 	-- Seals
-		{ "20165", { -- Seal of Insight
-			"player.seal != 3",
-			"!modifier.multitarget",
-			"@mts.SealsToggle"
-		}, nil },
-		{ "20154", { -- Seal of righteousness
-			"player.seal != 2",
-			"modifier.multitarget",
-			"@mts.SealsToggle"
-		}, nil }, 
+		{ "20165", { "player.seal != 3", "!modifier.multitarget", "@mts.SealsToggle" }, nil }, -- Seal of Insight
+		{ "20154", { "player.seal != 2", "modifier.multitarget", "@mts.SealsToggle" }, nil }, -- Seal of righteousness
 		
 	--Buffs
-		{ "25780", "!player.buff" }, -- Righteous Fury
-		{ "19740", { -- Blessing of Might
-			"!player.buff(19740).any",
-			"!player.buff(116956).any",
-			"!player.buff(93435).any",
-			"!player.buff(128997).any",
-			"!toggle.buff"
-		}, nil },
-		{ "20217", { -- Blessing of Kings
-			"!player.buff(20217).any",
-			"!player.buff(115921).any",
-			"!player.buff(1126).any",
-			"!player.buff(90363).any",
-			"!player.buff(69378).any",
-			"toggle.buff"
-		}, nil },
+		{ "19740", { "!player.buff(19740).any", "!player.buff(116956).any", "!player.buff(93435).any", "!player.buff(128997).any", "!toggle.buff" }, nil },-- Blessing of Might
+		{ "20217", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "toggle.buff" }, nil }, -- Blessing of Kings
 	
 	-- Hands
 		{ "1044", "player.state.root" } -- Hand of Freedom
@@ -167,4 +81,5 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 function()
 	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_holy_devotionaura.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
 	ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
+	ProbablyEngine.toggle.create('aggro', 'Interface\\Icons\\Ability_warrior_stalwartprotector.png', 'Aggro Control', 'Auto Taunts on mouse-over ot target if dosent have aggro.')
 end)

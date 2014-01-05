@@ -11,10 +11,7 @@ ProbablyEngine.rotation.register_custom(105, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Mouseover Focus
 
 	--Dispel
-		{ "88423", { 
-			"player.buff(Gift of the Titans)",
-			"@coreHealing.needsDispelled('Mark of Arrogance')" 
-		}, nil },
+		{ "88423", { "player.buff(Gift of the Titans)", "@coreHealing.needsDispelled('Mark of Arrogance')" }, nil },
 		{ "88423", "@coreHealing.needsDispelled('Shadow Word: Bane')", nil },
 		{ "88423", "@coreHealing.needsDispelled('Corrosive Blood')", nil },
 		{ "88423", "@coreHealing.needsDispelled('Harden Flesh')", nil },
@@ -32,97 +29,31 @@ ProbablyEngine.rotation.register_custom(105, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 	
 	-- AOE
 		{ "48438", "@coreHealing.needsHealing(85, 3)", "lowest" }, -- Wildgrowth
-		
-	-- HEAL FAST BITCH
-	
-			{{-- Incarnation: Tree of Life	
-				{ "8936", { -- Regrowth
-					"player.buff(16870)", -- Clearcasting
-					"!lowest.buff", 
-					"lowest.health < 80"
-				}, "lowest" },
-				{ "48438", { -- Wildgrowth
-					"@coreHealing.needsHealing(85, 3)"
-				}, "lowest" },
-				{ "33763", { -- Lifebloom
-					"!lowest.buff(33763)",
-					"lowest.health < 100"
-				}, "lowest" },
-			}, "player.buff(33891)" },
-			
-			{{ -- Clearcasting
-				{ "8936", { -- Regrowth
-					"!lowest.buff(8936)", 
-					"lowest.health < 80",
-					"!player.moving"
-				}, "lowest" },
-				{ "5185", { -- Healing Touch
-					"lowest.health < 80",
-					"!player.moving"
-				}, "lowest" },
-			}, "player.buff(16870)" }, 
-			
-		{ "5185", { -- Healing Touch tier set - 2
-			"player.buff(144871).count = 5", 
-			"lowest.health < 80",
-			"!player.moving"
-		}, "lowest" },
-		
+
+	-- Incarnation: Tree of Life	
+		{ "8936", { "player.buff(16870)", "!lowest.buff", "lowest.health < 80", "player.buff(33891)" }, "lowest" }, -- Regrowth
+		{ "48438", { "@coreHealing.needsHealing(85, 3)", "player.buff(33891)" }, "lowest" }, -- Wildgrowth
+		{ "33763", { "!lowest.buff(33763)", "lowest.health < 100", "player.buff(33891)" }, "lowest" }, -- Lifebloom
+
+	-- Clearcasting
+		{ "8936", { "!lowest.buff(8936)", "lowest.health < 80", "!player.moving", "player.buff(16870)" }, "lowest" }, -- Regrowth
+		{ "5185", { "lowest.health < 80", "!player.moving", "player.buff(16870)" }, "lowest" }, -- Healing Touch
+
 	-- Tank
-		{ "33763", { -- Renew - Life Bloom
-			"tank.buff(33763).duration < 2",
-			"tank.spell(33763).range",
-		}, "tank" },
-		{ "774", { -- Rejuvenation
-			"!tank.buff",
-			"tank.health < 95",
-			"tank.spell(774).range"
-		}, "tank" },
-		{ "33763", { -- Life Bloom
-			"tank.buff(33763).count < 3",
-			"tank.spell(33763).range"
-		}, "tank" },
+		{ "33763", { "tank.buff(33763).duration < 2", "tank.spell(33763).range" }, "tank" }, -- Renew - Life Bloom
+		{ "774", { "!tank.buff", "tank.health < 95", "tank.spell(774).range" }, "tank" }, -- Rejuvenation
+		{ "33763", { "tank.buff(33763).count < 3", "tank.spell(33763).range" }, "tank" }, -- Life Bloom
 	
 	-- Single target
-		{ "18562", { -- Swiftmend
-			"lowest.health < 80", 
-			"lowest.buff(774)" -- if Rejuvenation buff
-		}, "lowest" },
-		{ "145518", { -- Genesis
-			"!player.spell(18562).cooldown = 0",
-			"lowest.health < 40", 
-			"lowest.buff(774)" -- if Rejuvenation buff
-		}, "lowest" },
-		{ "774", { -- Rejuvenation
-			"lowest.health < 85", 
-			"!lowest.health < 60", -- Regrowth instead
-			"!lowest.buff"
-		}, "lowest" },
-		{ "145205", { -- Wild Mushroom
-			"lowest.health < 100", 
-			"!lowest.health < 60" -- Regrowth instead
-		}, "lowest" },
-		{ "102791", { -- Wild Mushroom - Bloom
-			"lowest.health < 100", 
-			"!lowest.health < 60", -- Regrowth instead
-			"player.totem(145205).duration >= 1",
-		}, "lowest" },
-		{ "50464", { -- Nourish
-			"player.buff(100977).duration <= 2", -- Harmony
-			"!lowest.health < 60", -- Regrowth instead
-			"lowest.health < 97",
-			"!player.moving"
-		}, "lowest" },
-		{ "8936", { -- Regrowth
-			"lowest.health < 60", 
-			"!lowest.health < 40", -- Healing Touch instead
-			"!lowest.buff(8936)",
-			"!player.moving"
-		}, "lowest" },
-		{ "5185", { -- Healing Touch
-			"lowest.health < 40",
-			"!player.moving"
-		}, "lowest", }
+		{ "5185", { "player.buff(144871).count = 5", "lowest.health < 80", "!player.moving" }, "lowest" }, -- Healing Touch tier set - 2
+		{ "18562", { "lowest.health < 80", "lowest.buff(774)" }, "lowest" }, -- Swiftmend
+		{ "145518", { "!player.spell(18562).cooldown = 0", "lowest.health < 40", "lowest.buff(774)" }, "lowest" }, -- Genesis
+		{ "774", { "lowest.health < 85", "!lowest.health < 60", "!lowest.buff" }, "lowest" }, -- Rejuvenation
+		{ "145205", { "lowest.health < 100", "!lowest.health < 60" }, "lowest" }, -- Wild Mushroom
+		{ "102791", { "lowest.health < 100", "!lowest.health < 60", "player.totem(145205).duration >= 1" }, "lowest" }, -- Wild Mushroom - Bloom
+		{ "50464", { "player.buff(100977).duration <= 2", "!lowest.health < 60", "lowest.health < 97", "!player.moving" }, "lowest" }, -- Nourish
+		{ "8936", { "lowest.health < 60", "!lowest.health < 40", "!lowest.buff(8936)", "!player.moving" }, "lowest" }, -- Regrowth
+		{ "5185", { "lowest.health < 40", "!player.moving" }, "lowest", } -- Healing Touch
 
 },{------------------------------------------------------------------------ Out Of Combat
 	
@@ -133,17 +64,11 @@ ProbablyEngine.rotation.register_custom(105, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 		{ "20484", "modifier.lshift", "mouseover" }, -- Rebirth
 
 	-- Healing
-		{ "774", { -- Rejuvenation
-			"lowest.health < 99", 
-			"!lowest.buff",
-			"player.form = 0"
-		}, "lowest" },
+		{ "774", { "lowest.health < 99", "!lowest.buff", "player.form = 0" }, "lowest" }, -- Rejuvenation
 	
 	--	Buffs
-		{ "1126", {-- Mark of the Wild
-			"!player.buff",
-			"player.form = 0"
-		}, nil },
+		{ "1126", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "player.form = 0" }, nil }, -- Mark of the Wild
+
 },		
 ------------------------------------------------------------------------------------------------------------
 -- Party/Raid Toggles

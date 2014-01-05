@@ -9,6 +9,7 @@ rotations\paladin\protection.lua
 rotations\paladin\holy.lua
 rotations\druid\resto.lua
 rotations\druid\guard.lua
+rotations\deathknight\blood.lua
 libs\lib.lua
 libs\libPalaDispell.lua
 libs\libDruidDispell.lua

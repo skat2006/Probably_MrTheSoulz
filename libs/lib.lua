@@ -14,7 +14,7 @@ ProbablyEngine.command.register('mts', function(msg, box)
 local command, text = msg:match("^(%S*)%s*(.-)$")
 
 	if command == 'ver' then
-		ProbablyEngine.command.print('MrTheSoulz Version: 1.7.0')
+		ProbablyEngine.command.print('MrTheSoulz Version: 1.8.0')
 	end
 
 	if command == 'con' then
