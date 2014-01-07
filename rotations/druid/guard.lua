@@ -25,7 +25,8 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 		{ "1126", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "player.form = 0" }, nil }, -- Mark of the Wild
 	
 	-- Interrupts
-		{ "Skull Bash", "modifier.interrupts)" },
+		{ "80964", "modifier.interrupts)" }, -- skull bash
+		{ "132469", "modifier.interrupts)"}, -- typhoon
 	
 	{{-- Aggro Control
 		{ "6795", { "mouseover.threat < 100" }, "mouseover" }, -- Growl / Mouse-Over
@@ -33,8 +34,8 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 	}, "toggle.aggro" },
 	
 	{{ -- Cooldowns
-		{ "Berserk" }, -- Berserk
-		{ "Nature's Vigil" }, -- Nature's Vigil
+		{ "50334" }, -- Berserk
+		{ "124974" }, -- Nature's Vigil
 		{ "5229" }, -- Enrage
 		{ "106731", "player.spell(106731).cooldown < .001" }, -- Incarnation
 	}, "modifier.cooldowns" },
@@ -43,11 +44,11 @@ ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 		{ "62606", { "!player.buff", "player.health <= 95" }, nil }, -- Savage Defense
 		{ "22842", { "!player.buff", "player.health <= 70", "player.rage >= 20" }, nil }, -- Frenzied Regeneration
 		{ "22812", "player.health <= 70" }, -- Barkskin
-		{ "Cenarion Ward" , "player.health <= 60", "player" }, -- Cenarion Ward
+		{ "102351", "player.health <= 60", "player" }, -- Cenarion Ward
 		{ "61336", "player.health <= 40" }, -- Survival Instincts
-		{ "Might of Ursoc", "player.health < 30" }, -- Might of Ursoc
+		{ "106922", "player.health < 30" }, -- Might of Ursoc
 		{ "108238", "player.health <= 40" }, -- Renewal		
-	}, "toggle.def" },
+	}, "toggle.defcd" },
 
 	-- Dream of Cenarious
 		-- Needs a Rebirth here

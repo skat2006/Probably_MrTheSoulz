@@ -1,12 +1,10 @@
 ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProtection-Paladin|r]", {
 
 	-- keybinds
-		{ "pause", "modifier.lalt"}, -- Pause
-		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
-		{ "105593", "modifier.lcontrol", "target"}, -- Fist of Justice
-		{ "853", "modifier.lcontrol", "target"}, -- Hammer of Justice
-		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
-		{ "26573", { "player.glyph(54928)", "modifier.rshift" }, "ground"}, -- Consecration glyphed
+		{ "105593", "modifier.control", "target"}, -- Fist of Justice
+		{ "853", "modifier.control", "target"}, -- Hammer of Justice
+		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
+		{ "26573", { "player.glyph(54928)", "modifier.alt" }, "ground"}, -- Consecration glyphed
 
 	--Buffs
 		{ "19740", { "!player.buff(19740).any", "!player.buff(116956).any", "!player.buff(93435).any", "!player.buff(128997).any", "!toggle.buff" }, nil },-- Blessing of Might
@@ -58,12 +56,10 @@ ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAProte
 },{--------------------------------------- Out Of Combat
 
 	-- keybinds
-		{ "pause", "modifier.lalt"}, -- Pause
-		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
-		{ "105593", "modifier.lcontrol", "target"}, -- Fist of Justice
-		{ "853", "modifier.lcontrol", "target"}, -- Hammer of Justice
-		{ "114158", "modifier.lshift", "ground"}, -- Light´s Hammer
-		{ "26573", { "player.glyph(54928)", "modifier.rshift" }, "ground"}, -- Consecration glyphed
+		{ "105593", "modifier.control", "target"}, -- Fist of Justice
+		{ "853", "modifier.control", "target"}, -- Hammer of Justice
+		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
+		{ "26573", { "player.glyph(54928)", "modifier.alt" }, "ground"}, -- Consecration glyphed
 		
 	-- Seals
 		{ "20165", { "player.seal != 3", "!modifier.multitarget", "@mts.SealsToggle" }, nil }, -- Seal of Insight

@@ -5,7 +5,7 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
 
 	--Buffs
-		{ "19740", { "!player.buff(19740).any", "!player.buff(116956).any", "!player.buff(93435).any", "!player.buff(128997).any", "!toggle.buff" }, nil },-- Blessing of Might
+		{ "19740", { "!player.buff(19740).any", "!player.buff(116956).any", "!player.buff(93435).any", "!player.buff(128997).any", "!toggle.buff" }, nil }, -- Blessing of Might
 		{ "20217", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "toggle.buff" }, nil }, -- Blessing of Kings
 	
 	-- Seal
@@ -80,7 +80,7 @@ ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAHoly-
 	-- HEAL FAST BITCH
 		{ "633", "lowest.health < 15", "lowest" }, -- Lay on Hands
 		{ "85673", { "player.holypower >= 3", "lowest.health <= 80" }, "lowest"  }, -- Word of Glory
-		{ "114163", { "player.holypower >= 1", "!lowest.buff(114163)", "lowest.health <= 85" }, "lowest" }, -- Eternal Flame
+		{ "114163", { "player.holypower >= 1", "!lowest.buff(114163)", "lowest.health <= 93" }, "lowest" }, -- Eternal Flame
 		{ "20925", { "spell.charges(20925) >= 2", "lowest.health < 90", "!lowest.buff(148039)", "lowest.spell(20925).range", "!modifier.last" }, "lowest" }, -- Sacred Shield
 		{ "19750", { "lowest.health < 30", "!player.moving" }, "lowest" }, -- Flash of light
 

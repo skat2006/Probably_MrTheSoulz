@@ -5,10 +5,9 @@ ProbablyEngine.rotation.register_custom(105, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 		{ "pause", "player.form > 1" }, -- Any Player from but bear
 	
 	-- KeyBinds
-		{ "106731" , "modifier.rcontrol" }, -- Incarnation
-		{ "740" , "modifier.rshift" }, -- Tranquility
-		{ "20484", "modifier.lshift", "mouseover" }, -- Rebirth
-		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Mouseover Focus
+		{ "740" , "modifier.shift" }, -- Tranq
+		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
+		{ "20484", "modifier.control", "mouseover" }, -- Rebirth
 
 	--Dispel
 		{ "88423", { "player.buff(Gift of the Titans)", "@coreHealing.needsDispelled('Mark of Arrogance')" }, nil },
@@ -22,6 +21,7 @@ ProbablyEngine.rotation.register_custom(105, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 	{{-- Cooldowns
 		{ "29166", "player.mana < 80", "player" }, -- Inervate
 		{ "132158", "player.spell(132158).cooldown = 0" }, -- Nature's Swiftness
+		{ "106731" , "@coreHealing.needsHealing(85, 4)" }, -- Incarnation
 	}, "modifier.cooldowns" },
 	
 	-- Survival
@@ -58,10 +58,9 @@ ProbablyEngine.rotation.register_custom(105, "|r[|cff9482C9MTS|r][|cffFF7D0ADrui
 },{------------------------------------------------------------------------ Out Of Combat
 	
 	-- KeyBinds
-		{ "106731" , "modifier.rcontrol" }, -- Incarnation
-		{ "740" , "modifier.rshift" }, -- Tranq
-		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Mouseover Focus
-		{ "20484", "modifier.lshift", "mouseover" }, -- Rebirth
+		{ "740" , "modifier.shift" }, -- Tranq
+		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
+		{ "20484", "modifier.control", "mouseover" }, -- Rebirth
 
 	-- Healing
 		{ "774", { "lowest.health < 99", "!lowest.buff", "player.form = 0" }, "lowest" }, -- Rejuvenation
