@@ -43,10 +43,11 @@ local lib = function()
 end)
 	
 -- ////////////////////-----------------------------------------COMMANDS-----------------------------------//////////////////////////////
+
 	ProbablyEngine.command.register('mts', function(msg, box)
 	local command, text = msg:match("^(%S*)%s*(.-)$")
 		
-		if command == 'ver' then
+		if command == 'ver' or command == 'version' then
 			GetVer()
 		end
 			
@@ -57,10 +58,10 @@ end
 local Shared = {
 
 	-- Presence
-		{"Blood Presence",        '!player.buff(Blood Presence)'},
+		{"48263", "player.seal != 1", nil }, -- Blood
 
 	-- Buffs
-		{ "49222", "player.buff(49222).charges < 6" }, -- Bone Shield
+		{ "49222", "player.buff(49222).count < 6" }, -- Bone Shield
   
 	-- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
@@ -166,5 +167,10 @@ local outCombat = {
   
 }
 -- ////////////////////-----------------------------------------END OUT-OF-COMBAT-----------------------------------//////////////////////////////
+
+for _, Shared in pairs(Shared) do
+  inCombat[#inCombat + 1] = Shared
+  outCombat[#outCombat + 1] = Shared
+end
 
 ProbablyEngine.rotation.register_custom(250, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight|r-Blood|r]", inCombat, outCombat, lib)
