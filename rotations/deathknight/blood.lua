@@ -1,16 +1,79 @@
-ProbablyEngine.rotation.register_custom(250, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-Blood|r]", {
+-- ///////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
+--														//DeathKnight Blood//
+--												  Thank Your For Your My ProFiles
+--														I Hope Your Enjoy Them
+--																MTS
+
+
+local lib = function()
+
+-- ////////////////-----------------------------------------TOGGLES-----------------------------------//////////////////////////////
+	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_deathknight_iceboundfortitude.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
+	ProbablyEngine.toggle.create('aggro', 'Interface\\Icons\\Ability_warrior_stalwartprotector.png', 'Aggro Control', 'Auto Taunts on mouse-over ot target if dosent have aggro.')
+	mts:message("\124cff9482C9*MrTheSoulz - \124cffC41F3BDeathKnight/Blood \124cff9482C9Loaded*")
+
+-- ////////////////-----------------------------------------NOTIFICATIONS-----------------------------------//////////////////////////////
+	ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
+	local event = select(2, ...)
+	local source = select(4, ...)
+	local spellId = select(12, ...)
+	if source ~= UnitGUID("player") then return false end
+	if event == "SPELL_CAST_SUCCESS" then
 
 	-- Keybinds
-		{ "Army of the Dead", "modifier.alt" }, -- Army of the Dead
-		{ "49576", "modifier.control" }, -- Death Grip
-		{ "43265", "modifier.shift", "ground" }, -- Death and Decay
+		if spellId == 43265 then
+			mts:message("*Casted Death and Decay*")
+		end
+		
+	-- Cooldowns
+		if spellId == 48707 then
+			mts:message("*Casted Anti-Magic Shell*")
+		end
+		if spellId == 49028 then
+			mts:message("*Casted Dancing Rune Weapon*")
+		end
+		if spellId == 55233 then
+			mts:message("*Casted Vampiric Blood*")
+		end
+		if spellId == 48792 then
+			mts:message("*Casted Icebound Fortitude*")
+		end
+		
+	end
+end)
 	
+-- ////////////////////-----------------------------------------COMMANDS-----------------------------------//////////////////////////////
+	ProbablyEngine.command.register('mts', function(msg, box)
+	local command, text = msg:match("^(%S*)%s*(.-)$")
+		
+		if command == 'ver' then
+			GetVer()
+		end
+			
+	end)
+end
+-- //////////////////////-----------------------------------------END LIB-----------------------------------//////////////////////////////
+
+local Shared = {
+
 	-- Presence
-		{ "48263", "player.seal != 1" }, -- Blood Presence
+		{"Blood Presence",        '!player.buff(Blood Presence)'},
 
 	-- Buffs
-		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
-		{ "Bone Shield", "player.buff(Bone Shield).charges < 1" },
+		{ "49222", "player.buff(49222).charges < 6" }, -- Bone Shield
+  
+	-- Keybinds
+		{ "42650", "modifier.alt" }, -- Army of the Dead
+		{ "49576", "modifier.control" }, -- Death Grip
+		{ "43265", "modifier.shift", "ground" }, -- Death and Decay
+  
+}
+-- ////////////////////////-----------------------------------------END SHARED-----------------------------------//////////////////////////////
+
+local inCombat = {
+ 
+	-- Buffs
+		{ "57330", "player.runicpower < 100)" }, -- Horn of Winter
 	
 	--  Racials
 		-- Dwarves
@@ -33,12 +96,12 @@ ProbablyEngine.rotation.register_custom(250, "|r[|cff9482C9MTS|r][|cffC41F3BDeat
 		-- Goblins
 			{ "69041", "player.moving" },
 
-	-- Battle Rez Mouseover
-		{ "Raise Ally", "!mouseover.alive", "mouseover" },
+	-- Combat Ress
+		{ "Raise Ally", "!mouseover.alive", "mouseover" }, -- Raise Ally
   
 	-- Interrupts
-		{ "Mind Freeze", "modifier.interrupts" },
-		{ "Strangulate", "modifier.interrupts" },
+		{ "47528", "modifier.interrupts" }, -- Mind freeze
+		{ "47476", "modifier.interrupts" }, -- Strangulate
 
 	{{-- Aggro Control
 		{ "56222", { "mouseover.threat < 100" }, "mouseover" }, -- Dark Command / Mouse-Over
@@ -49,7 +112,9 @@ ProbablyEngine.rotation.register_custom(250, "|r[|cff9482C9MTS|r][|cffC41F3BDeat
 	
 	-- Heal
 		{ "48982", "player.health <= 40" }, -- Rune Tap
-		{ "/cast Raise Dead\n/cast Death Pact", { "player.health < 35", "player.spell(Death Pact).cooldown", "player.spell(Raise Dead).cooldown", "player.spell(Death Pact).usable" }, nil },-- Death Pact Macro, Last Resort
+		{ "#5512", "player.health <= 60" }, --Healthstone
+		{ "/cast 46584\n/cast 48743", { "player.health < 35", "player.spell(48743).cooldown", "player.spell(46584).cooldown", "player.spell(48743).usable" }, nil },-- Death Pact Macro, Last Resort
+		--{ "/cast Raise Dead\n/cast Death Pact", { "player.health < 35", "player.spell(Death Pact).cooldown", "player.spell(Raise Dead).cooldown", "player.spell(Death Pact).usable" }, nil },-- Death Pact Macro, Last Resort
 	
 	{{-- Defensive
 		{ "48707", "player.health <= 70", "target.casting" }, -- Anti-Magic Shell
@@ -66,7 +131,7 @@ ProbablyEngine.rotation.register_custom(250, "|r[|cff9482C9MTS|r][|cffC41F3BDeat
 	-- Rotation
 	
 		-- Disease's
-			{ "Outbreak", "target.debuff(55095).duration < 3", "target.debuff(55078).duration <3", "target" },
+			{ "Outbreak", "target.debuff(55095).duration < 3", "target.debuff(55078).duration <3", "target" }, -- Outbreak
 			{ "48721", "player.runes(blood).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, -- Blood Boil
 			{ "48721", "player.runes(death).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, -- Blood Boil
 			{ "45477", "target.debuff(55095).duration < 3" }, -- Icy Touch
@@ -74,8 +139,8 @@ ProbablyEngine.rotation.register_custom(250, "|r[|cff9482C9MTS|r][|cffC41F3BDeat
 
 		{ "45529", "player.buff(114851).count >= 5" }, -- Blood Tap
 		{ "Pestilence", "target.debuff(55078", "target.debuff(55078)" },
-		{"114866", "target.health < 35" }, -- Soul Reaper
-		{"48721", { "player.buff(81141)", "target.range <= 5" }, "target" }, -- Blood Boil W/ Crimson Scourge
+		{ "114866", "target.health < 35" }, -- Soul Reaper
+		{ "48721", { "player.buff(81141)", "target.range <= 5" }, "target" }, -- Blood Boil W/ Crimson Scourge
 		
 		{{-- AoE
 			{ "55050", "modifier.enemies < 4", "target.spell(55050).range" }, -- Heart Strike
@@ -91,22 +156,15 @@ ProbablyEngine.rotation.register_custom(250, "|r[|cff9482C9MTS|r][|cffC41F3BDeat
 			{ "56815", "player.runicpower >= 40" }, -- Rune Strike
 		}, "!modifier.multitarget" },
   
-},{------------------------------------------------------------------------ Out Of Combat
+} 
+-- //////////////////////-----------------------------------------END IN-COMBAT-----------------------------------//////////////////////////////
 
-	-- Presence
-		{ "48263", "player.seal != 1" }, -- Blood Presence
+local outCombat = {
 
 	-- Buffs
 		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
-		{ "Bone Shield", "player.buff(Bone Shield).charges < 1" },
   
-	-- Keybinds
-		{ "Army of the Dead", "modifier.alt" },
-		{ "Death Grip", "modifier.control" },
-		{ "Death and Decay", "modifier.shift", "ground" },
+}
+-- ////////////////////-----------------------------------------END OUT-OF-COMBAT-----------------------------------//////////////////////////////
 
-},
-function()
-	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_deathknight_iceboundfortitude.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
-	ProbablyEngine.toggle.create('aggro', 'Interface\\Icons\\Ability_warrior_stalwartprotector.png', 'Aggro Control', 'Auto Taunts on mouse-over ot target if dosent have aggro.')
-end)
+ProbablyEngine.rotation.register_custom(250, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight|r-Blood|r]", inCombat, outCombat, lib)
