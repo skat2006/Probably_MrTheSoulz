@@ -107,7 +107,7 @@ end
 			-- Cooldowns
 				if spellId == 633 then
 					mts:message("*Casted Lay On Hands*")
-					if mtsPalaHoly.GetWS() then
+					if mtsPalaProt.GetWS() then
 						RunMacroText("/w "..tname.." MSG: Casted Lay On Hands on you.")
 					end
 				end
