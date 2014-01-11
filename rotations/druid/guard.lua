@@ -12,80 +12,90 @@ local lib = function()
 	ProbablyEngine.toggle.create('aggro', 'Interface\\Icons\\Ability_warrior_stalwartprotector.png', 'Aggro Control', 'Auto Taunts on mouse-over ot target if dosent have aggro.')
 	mts:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Guardian \124cff9482C9Loaded*")
 
+-- ///////////////////////-----------------------------------------COMMANDS-----------------------------------//////////////////////////////
+	
+	local mtsDruidGuard = {
+		wsp = false -- "!!!!Change this to true if you want it ON by default!!!"
+	}
+
+	function mtsDruidGuard.GetWS()
+		return mtsDruidGuard.wsp
+	end
+
+	ProbablyEngine.command.register('mts', function(msg, box)
+	local command, text = msg:match("^(%S*)%s*(.-)$")
+		
+		-- Displays Version
+			if command == 'ver' then
+				GetVer()
+			end
+
+		-- Allow Whispers
+			if command == 'ws' or command == 'whisper' then
+				mtsDruidGuard.wsp = not mtsDruidGuard.wsp
+				if mtsDruidGuard.wsp then
+					mts:message("*Whispers: ON*")
+				else
+					mts:message("*Whispers: OFF*")
+				end
+			end
+			
+	end)
+
 -- //////////////////////-----------------------------------------NOTIFICATIONS-----------------------------------//////////////////////////////
 	ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
 	local event = select(2, ...)
 	local source = select(4, ...)
 	local spellId = select(12, ...)
+	local tname = UnitName("target")
 	if source ~= UnitGUID("player") then return false end
-	if event == "SPELL_CAST_SUCCESS" then
-
-	-- Keybinds
 		
-		if spellId == 77761 then
-			mts:message("*Casted Stampeding Roar*")
-		end
-
-	-- Cooldowns
-		if spellId == 62606 then
-			mts:message("*CastedSavage Defense*")
-		end
-		if spellId == 22842 then
-			mts:message("*Casted Frenzied Regeneration*")
-		end
-		if spellId == 22812 then
-			mts:message("*Casted Barkskin*")
-		end
-		if spellId == 102351 then
-			mts:message("*Casted Cenarion Ward*")
-		end
-		if spellId == 61336 then
-			mts:message("*Casted Survival Instincts*")
-		end
-		if spellId == 106922 then
-			mts:message("*Casted Might of Ursoc*")
-		end
-		if spellId == 108238 then
-			mts:message("*Renewal*")
-		end	
-		
-	-- Combat Ress's
-		if spellId == 20484 then
-			mts:message("*Casted Rebirth*")
-		end
-
-	end
-end)
-	
--- ///////////////////////-----------------------------------------COMMANDS-----------------------------------//////////////////////////////
-	ProbablyEngine.command.register('mts', function(msg, box)
-	local command, text = msg:match("^(%S*)%s*(.-)$")
-		
-		if command == 'ver' then
-			GetVer()
-		end
+		if event == "SPELL_CAST_SUCCESS" then
 			
+		-- Keybinds
+				
+			if spellId == 77761 then
+				mts:message("*Casted Stampeding Roar*")
+			end
+
+		-- Cooldowns
+			if spellId == 62606 then
+				mts:message("*CastedSavage Defense*")
+			end
+			if spellId == 22842 then
+				mts:message("*Casted Frenzied Regeneration*")
+			end
+			if spellId == 22812 then
+				mts:message("*Casted Barkskin*")
+			end
+			if spellId == 102351 then
+				mts:message("*Casted Cenarion Ward*")
+			end
+			if spellId == 61336 then
+				mts:message("*Casted Survival Instincts*")
+			end
+			if spellId == 106922 then
+				mts:message("*Casted Might of Ursoc*")
+			end
+			if spellId == 108238 then
+				mts:message("*Renewal*")
+			end	
+
+			-- Combat Ress's
+				if spellId == 20484 then
+					mts:message("*Casted Rebirth on "..tname.."*")
+					if mtsDruidGuard.GetWS() then
+	                    RunMacroText("/w "..tname.." MESSAGE: Casted Rebirth on you.")
+	                end
+				end
+
+		end
 	end)
 	
-end	
+end
 -- /////////////////////////-----------------------------------------END LIB-----------------------------------//////////////////////////////
 
-local Shared = {
-
-	--	keybinds
-		{ "77761", "modifier.rshift" }, -- Stampeding Roar
-		{ "5211", "modifier.lcontrol" }, -- Mighty Bash
-		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
-		-- Rebirth
-			{ "!/cancelform", { "player.form > 0", "modifier.lshift" }, nil }, -- remove bear form
-			{ "20484", "modifier.lshift", "mouseover" }, -- Rebirth
-			{ "!/cast Bear Form", { "!player.casting", "!player.form = 1", "modifier.lshift" }, nil }, -- bear form
-		{{-- HotW + Tranq
-			{ "108288", { "modifier.lalt", "player.spell(108288).cooldown < .001", "player.spell(740).cooldown < .001" }, nil }, -- Hearth of the Wild
-			{ "!/cancelform", { "player.form > 0", "player.spell(740).cooldown < .001", "modifier.lalt" }, nil }, -- remove bear form
-			{ "740", { "modifier.lalt", "player.spell(740).cooldown < .001" }, nil }, -- Tranq
-			{ "!/cast Bear Form", { "!player.casting", "!player.form = 1", "modifier.lalt" }, nil }, -- bear form
-		}, "talent(16)" },
+local Buffs = {
 
 	--	Buffs
 		{ "1126", { -- Mark of the Wild
@@ -98,10 +108,25 @@ local Shared = {
 		}, nil },
   
 }
--- ////////////////////////-----------------------------------------END SHARED-----------------------------------//////////////////////////////
+-- ////////////////////////-----------------------------------------END BUFFS-----------------------------------//////////////////////////////
 
 local inCombat = {
   
+	--	keybinds
+		{ "77761", "modifier.rshift" }, -- Stampeding Roar
+		{ "5211", "modifier.lcontrol" }, -- Mighty Bash
+		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
+		-- Rebirth
+			{ "!/cancelform", { "player.form > 0", "player.spell(20484).cooldown < .001", "modifier.lshift" }, nil }, -- remove bear form
+			{ "20484", { "modifier.lshift", "!target.alive" }, "target" }, -- Rebirth
+			{ "!/cast Bear Form", { "!player.casting", "!player.form = 1", "modifier.last(20484)", "modifier.lshift" }, nil }, -- bear form
+		{{-- HotW + Tranq
+			{ "108288", { "modifier.lalt", "player.spell(108288).cooldown < .001", "player.spell(740).cooldown < .001" }, nil }, -- Hearth of the Wild
+			{ "!/cancelform", { "player.form > 0", "player.spell(740).cooldown < .001", "modifier.lalt" }, nil }, -- remove bear form
+			{ "740", { "modifier.lalt", "player.spell(740).cooldown < .001" }, nil }, -- Tranq
+			{ "!/cast Bear Form", { "!player.casting", "!player.form = 1", "modifier.lalt" }, nil }, -- bear form
+		}, "talent(16)" },
+
 	--Pause if
 		{ "pause", "player.form > 1" }, -- Any Player form but bear
 
@@ -112,8 +137,8 @@ local inCombat = {
 		{ "1126", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "player.form = 0" }, nil }, -- Mark of the Wild
 	
 	-- Interrupts
-		{ "80964", "modifier.interrupts)" }, -- skull bash
-		{ "132469", "modifier.interrupts)"}, -- typhoon
+		{ "80964", "modifier.interrupts" }, -- skull bash
+		{ "132469", "modifier.interrupts" }, -- typhoon
 	
 	{{-- Aggro Control
 		{ "6795", { "mouseover.threat < 100" }, "mouseover" }, -- Growl / Mouse-Over
@@ -167,14 +192,29 @@ local inCombat = {
 
 local outCombat = {
 
+	--	keybinds
+		{ "77761", "modifier.rshift" }, -- Stampeding Roar
+		{ "5211", "modifier.lcontrol" }, -- Mighty Bash
+		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
+		-- Rebirth
+			{ "!/cancelform", { "player.form > 0", "player.spell(20484).cooldown < .001", "modifier.lshift" }, nil }, -- remove bear form
+			{ "20484", { "modifier.lshift", "!target.alive" }, "target" }, -- Rebirth
+			{ "!/cast Bear Form", { "!player.casting", "!player.form = 1", "modifier.last(20484)", "modifier.lshift" }, nil }, -- bear form
+		{{-- HotW + Tranq
+			{ "108288", { "modifier.lalt", "player.spell(108288).cooldown < .001", "player.spell(740).cooldown < .001" }, nil }, -- Hearth of the Wild
+			{ "!/cancelform", { "player.form > 0", "player.spell(740).cooldown < .001", "modifier.lalt" }, nil }, -- remove bear form
+			{ "740", { "modifier.lalt", "player.spell(740).cooldown < .001" }, nil }, -- Tranq
+			{ "!/cast Bear Form", { "!player.casting", "!player.form = 1", "modifier.lalt" }, nil }, -- bear form
+		}, "talent(16)" },
+
 }
 -- //////////////////////-----------------------------------------END OUT-OF-COMBAT-----------------------------------//////////////////////////////
 
-for _, Shared in pairs(Shared) do
-  inCombat[#inCombat + 1] = Shared
-  outCombat[#outCombat + 1] = Shared
+for _, Buffs in pairs(Buffs) do
+  inCombat[#inCombat + 1] = Buffs
+  outCombat[#outCombat + 1] = Buffs
 end
 
-ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADruid|r-Guardian|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Guardian|r]", inCombat, outCombat, lib)
 
 

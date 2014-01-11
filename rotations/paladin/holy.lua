@@ -8,16 +8,37 @@
 local lib = function()
 	
 -- ///////////////////-----------------------------------------TOGGLES-----------------------------------//////////////////////////////
+
 	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
 	ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
 	mts:message("\124cff9482C9*MrTheSoulz - \124cffF58CBAPaladin/Holy \124cff9482C9Loaded*")
 	
 --///////////////////-----------------------------------------COMMANDS-----------------------------------//////////////////////////////
+
+	local mtsPalaHoly = {
+		wsp = false -- "!!!!Change this to true if you want it ON by default!!!"
+	}
+
+	function mtsPalaHoly.GetWS()
+		return mts2.wsp
+	end
+
 	ProbablyEngine.command.register('mts', function(msg, box)
 	local command, text = msg:match("^(%S*)%s*(.-)$")
 		
-		if command == 'ver' then
+		-- Dispaly Version
+		if command == 'ver' or command == 'version' then
 			GetVer()
+		end
+
+		-- Allow Whispers
+		if command == 'ws' or command == 'wsp' or command == 'whisper' then
+			mtsPalaHoly.wsp = not mtsPalaHoly.wsp
+			if mtsPalaHoly.wsp then
+				mts:message("*Whispers: ON*")
+			else
+				mts:message("*Whispers: OFF*")
+			end
 		end
 			
 	end)
@@ -59,63 +80,93 @@ local lib = function()
 		end
 		return false
 	  end})
-	
+
 -- ///////////////////-----------------------------------------NOTIFICATIONS-----------------------------------//////////////////////////////
+
 	ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
 	local event = select(2, ...)
 	local source = select(4, ...)
 	local spellId = select(12, ...)
+	local tname = UnitName("target")
+--	local dname = UnitDebuff("target")
 	if source ~= UnitGUID("player") then return false end
-	if event == "SPELL_CAST_SUCCESS" then
 
-	-- Keybinds
-		if spellId == 114158 then
-			mts:message("*Casted Light´s Hammer*")
-		end
-			
-	-- Stuns
-		if spellId == 105593 then
-			mts:message("*Stunned Target*")
-		end
-		if spellId == 853 then
-			mts:message("*Stunned Target*")
-		end
-			
-	-- Free Yourself
-		if spellId == 1044 then
-			mts:message("*Casted Hand of Freedom*")
-		end
+		-- CAST SUCCESS
+		if event == "SPELL_CAST_SUCCESS" then
 
-	-- Cooldowns
-		if spellId == 633 then
-			mts:message("*Casted Lay On Hands*")
-		end
-		if spellId == 31821 then
+			-- Keybinds
+				if spellId == 114158 then
+					mts:message("*Casted Light´s Hammer*")
+				end
+					
+			-- Stuns
+				if spellId == 105593 then
+					mts:message("*Stunned Target*")
+				end
+				if spellId == 853 then
+					mts:message("*Stunned Target*")
+				end
+					
+			-- Free Yourself
+				if spellId == 1044 then
+					mts:message("*Casted Hand of Freedom*")
+					if mtsPalaHoly.GetWS() then
+						RunMacroText("/w "..tname.." MSG: Casted Hand of Freedom on you.")
+					end
+				end
+
+			-- Cooldowns
+				if spellId == 633 then
+					mts:message("*Casted Lay On Hands*")
+					if mtsPalaHoly.GetWS() then
+						RunMacroText("/w "..tname.." MSG: Casted Lay On Hands on you.")
+					end
+				end
+				if spellId == 31821 then
 					mts:message("*Casted Devotion Aura*")
+				end
+				if spellId == 31884 then
+					mts:message("*Casted Avenging Wrath*")
+				end
+				if spellId == 86669 then
+					mts:message("*Casted Guardian of Ancient Kings*")
+				end
+				if spellId == 31842 then
+					mts:message("*Casted Divine Favor*")
+				end
+				if spellId == 6940 then
+					mts:message("*Casted Hand of Sacrifice*")
+					if mtsPalaHoly.GetWS() then
+						RunMacroText("/w "..tname.." MSG: Casted Hand of Sacrifice on you.")
+					end
+				end
+				if spellId == 105809 then
+					mts:message("*Casted Holy Avenger*")
+				end
+
 		end
-		if spellId == 31884 then
-			mts:message("*Casted Avenging Wrath*")
-		end
-		if spellId == 86669 then
-			mts:message("*Casted Guardian of Ancient Kings*")
-		end
-		if spellId == 31842 then
-			mts:message("*Casted Divine Favor*")
-		end
-		if spellId == 6940 then
-			mts:message("*Casted Hand of Sacrifice*")
-		end
-		if spellId == 105809 then
-			mts:message("*Casted Holy Avenger*")
-		end
-		
-	end
-end)
+
+-- Requires dname to be fixed and i havent figured this out yet.
+-- Will work on it later -.- 
+--			-- DISPELL SUCCESS
+--			if event == "SPELL_DISPEL" then
+--
+--				if spellId == 4987 then
+--					mts:message("*Dispelled "..name.." *")
+--					if mts.GetWS() then
+--						RunMacroText("/w "..targetname.." MESSAGE: Dispelled "..dname.." from you.")
+--					end
+--				end
+--
+--			end
+
+	end)
 
 end
+
 -- //////////////////////-----------------------------------------END LIB-----------------------------------//////////////////////////////
 
-local Shared = {
+local Buffs = {
 
 	-- Buffs
 		{ "19740", { -- Blessing of Might
@@ -136,30 +187,28 @@ local Shared = {
 	
 	-- Seals
 		{ "20165", "player.seal != 3" }, -- Seal of Insight
-	
+
+}
+-- ////////////////////////-----------------------------------------END BUFFS-----------------------------------//////////////////////////////
+
+local inCombat = {
+
+	-- keybinds
+		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
+		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
+
 	-- Mana Regen
 		{ "28730", "player.mana < 90", nil }, -- Arcane torrent
 		{ "54428", "player.mana < 85", nil }, -- Divine Plea
 		{ "#trinket1", "player.mana < 85", nil }, -- Trinket 1
 		{ "#trinket2", "player.mana < 85", nil }, -- Trinket 2
-		
-	-- Hands
-		{ "1044", "player.state.root" }, -- Hand of Freedom
-	
-	-- keybinds
-		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
-		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
-		
-}
--- ////////////////////////-----------------------------------------END SHARED-----------------------------------//////////////////////////////
-
-local inCombat = {
 	
 	-- Interrupts
 		{ "96231", "modifier.interrupts", "target" }, -- Rebuke
 		
 	-- Hands
 		{ "6940", { "tank.spell(6940).range", "tank.health < 40" }, "tank" }, -- Hand of Sacrifice
+		{ "1044", "player.state.root" }, -- Hand of Freedom
 
 	-- Survival
 		{ "#5512", "player.health <= 45", nil }, -- Healthstone       
@@ -236,9 +285,23 @@ local inCombat = {
 		{ "635", { "lowest.health < 97", "!lowest.health < 65", "!player.moving" }, "lowest" }, -- Holy Light
 		{ "82326", { "lowest.health < 35", "!player.moving" }, "lowest" }, -- Divine Light
   
-} -- ///////////////////-----------------------------------------END IN-COMBAT-----------------------------------//////////////////////////////
+} 
+-- //----/////////////////-----------------------------------------END IN-COMBAT-----------------------------------//////////////////////////////
 
 local outCombat = {
+
+	-- keybinds
+		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
+		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
+
+	-- Mana Regen
+		{ "28730", "player.mana < 90", nil }, -- Arcane torrent
+		{ "54428", "player.mana < 85", nil }, -- Divine Plea
+		{ "#trinket1", "player.mana < 85", nil }, -- Trinket 1
+		{ "#trinket2", "player.mana < 85", nil }, -- Trinket 2
+
+	-- Hands
+		{ "1044", "player.state.root" }, -- Hand of Freedom
  
 	-- Tank
 		{ "53563", { "!tank.buff(53563)", "tank.spell(53563).range" }, "tank" }, -- Beacon of light
@@ -248,9 +311,10 @@ local outCombat = {
   
 }-- ///////////////////-----------------------------------------END OUT-OF-COMBAT-----------------------------------//////////////////////////////
 
-for _, Shared in pairs(Shared) do
-  inCombat[#inCombat + 1] = Shared
-  outCombat[#outCombat + 1] = Shared
+for _, Buffs in pairs(Buffs) do
+  inCombat[#inCombat + 1] = Buffs
+  outCombat[#outCombat + 1] = Buffs
 end
 
-ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAPaladin|r-Holy|r]", inCombat, outCombat, lib)
+
+ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Holy|r]", inCombat, outCombat, lib)

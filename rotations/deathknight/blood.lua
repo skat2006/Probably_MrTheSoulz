@@ -11,6 +11,37 @@ local lib = function()
 	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_deathknight_iceboundfortitude.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
 	ProbablyEngine.toggle.create('aggro', 'Interface\\Icons\\Ability_warrior_stalwartprotector.png', 'Aggro Control', 'Auto Taunts on mouse-over ot target if dosent have aggro.')
 	mts:message("\124cff9482C9*MrTheSoulz - \124cffC41F3BDeathKnight/Blood \124cff9482C9Loaded*")
+	
+-- ////////////////////-----------------------------------------COMMANDS-----------------------------------//////////////////////////////
+
+	local mtsDkBlood = {
+		wsp = false -- "!!!!Change this to true if you want it ON by default!!!"
+	}
+
+	function mtsDkBlood.GetWS()
+		return mtsDkBlood.wsp
+	end
+
+	ProbablyEngine.command.register('mts', function(msg, box)
+	local command, text = msg:match("^(%S*)%s*(.-)$")
+		
+		-- Display Version
+			if command == 'ver' or command == 'version' then
+				GetVer()
+			end
+		
+		-- Allow Whispers
+			if command == 'ws' or command == 'whisper' then
+				mtsDkBlood.wsp = not mtsDkBlood.wsp
+				if mtsDkBlood.wsp then
+					mts:message("*Whispers: ON*")
+				else
+					mts:message("*Whispers: OFF*")
+				end
+			end
+			
+	end)
+end
 
 -- ////////////////-----------------------------------------NOTIFICATIONS-----------------------------------//////////////////////////////
 	ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
@@ -41,21 +72,10 @@ local lib = function()
 		
 	end
 end)
-	
--- ////////////////////-----------------------------------------COMMANDS-----------------------------------//////////////////////////////
 
-	ProbablyEngine.command.register('mts', function(msg, box)
-	local command, text = msg:match("^(%S*)%s*(.-)$")
-		
-		if command == 'ver' or command == 'version' then
-			GetVer()
-		end
-			
-	end)
-end
 -- //////////////////////-----------------------------------------END LIB-----------------------------------//////////////////////////////
 
-local Shared = {
+local Buffs = {
 
 	-- Presence
 		{"48263", "player.seal != 1", nil }, -- Blood
@@ -63,15 +83,15 @@ local Shared = {
 	-- Buffs
 		{ "49222", "player.buff(49222).count < 6" }, -- Bone Shield
   
+}
+-- ////////////////////////-----------------------------------------END BUFFS-----------------------------------//////////////////////////////
+
+local inCombat = {
+
 	-- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
 		{ "49576", "modifier.control" }, -- Death Grip
 		{ "43265", "modifier.shift", "ground" }, -- Death and Decay
-  
-}
--- ////////////////////////-----------------------------------------END SHARED-----------------------------------//////////////////////////////
-
-local inCombat = {
  
 	-- Buffs
 		{ "57330", "player.runicpower < 100)" }, -- Horn of Winter
@@ -162,15 +182,20 @@ local inCombat = {
 
 local outCombat = {
 
+	-- Keybinds
+		{ "42650", "modifier.alt" }, -- Army of the Dead
+		{ "49576", "modifier.control" }, -- Death Grip
+		{ "43265", "modifier.shift", "ground" }, -- Death and Decay
+
 	-- Buffs
 		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
   
 }
 -- ////////////////////-----------------------------------------END OUT-OF-COMBAT-----------------------------------//////////////////////////////
 
-for _, Shared in pairs(Shared) do
-  inCombat[#inCombat + 1] = Shared
-  outCombat[#outCombat + 1] = Shared
+for _, Buffs in pairs(Buffs) do
+  inCombat[#inCombat + 1] = Buffs
+  outCombat[#outCombat + 1] = Buffs
 end
 
-ProbablyEngine.rotation.register_custom(250, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight|r-Blood|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(250, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-Blood|r]", inCombat, outCombat, lib)

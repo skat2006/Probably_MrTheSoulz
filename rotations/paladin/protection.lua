@@ -13,98 +13,127 @@ local lib = function()
 	ProbablyEngine.toggle.create('aggro', 'Interface\\Icons\\Ability_warrior_stalwartprotector.png', 'Aggro Control', 'Auto Taunts on mouse-over ot target if dosent have aggro.')
 	mts:message("\124cff9482C9*MrTheSoulz - \124cffF58CBAPaladin/Protection \124cff9482C9Loaded*")
 	
--- //////////////////////-----------------------------------------NOTIFICATIONS-----------------------------------//////////////////////////////
-	ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
-	local event = select(2, ...)
-	local source = select(4, ...)
-	local spellId = select(12, ...)
-	if source ~= UnitGUID("player") then return false end
-	if event == "SPELL_CAST_SUCCESS" then
-
-	-- Keybinds
-		if spellId == 114158 then
-			mts:message("*Casted Light´s Hammer*")
-		end
-	
-	-- Stuns
-		if spellId == 105593 then
-			mts:message("*Stunned Target*")
-		end
-		if spellId == 853 then
-			mts:message("*Stunned Target*")
-		end
-	
-	-- Free Yourself
-		if spellId == 1044 then
-			mts:message("*Casted Hand of Freedom*")
-		end
-		
-	-- Cooldowns
-		if spellId == 633 then
-			mts:message("*Casted Lay On Hands*")
-		end
-		if spellId == 31821 then
-			mts:message("*Casted Devotion Aura*")
-		end
-		if spellId == 31884 then
-			mts:message("*Casted Avenging Wrath*")
-		end
-		if spellId == 86669 then
-			mts:message("*Casted Guardian of Ancient Kings*")
-		end
-		if spellId == 6940 then
-			mts:message("*Casted Hand of Sacrifice*")
-		end
-
-	end
-end)
-	
 -- ////////////////////////-----------------------------------------COMMANDS-----------------------------------//////////////////////////////
-	local mts = {
+	local mtsPalaProt = {
 		con = true,
-		seals = true
+		seals = true,
+		wsp = false -- "!!!!Change this to true if you want it ON by default!!!"
 	}
 
-	function mts.GetCon()
-		return mts.con
+	function mtsPalaProt.GetCon()
+		return mtsPalaProt.con
 	end
 
-	function mts.GetSeals()
-		return mts.seals
+	function mtsPalaProt.GetSeals()
+		return mtsPalaProt.seals
 	end
-	ProbablyEngine.library.register('mts', mts)
+
+	function mtsPalaProt.GetWS()
+		return mtsPalaProt.wsp
+	end
 	
 	ProbablyEngine.command.register('mts', function(msg, box)
 	local command, text = msg:match("^(%S*)%s*(.-)$")
 		
-		if command == 'ver' then
+		if command == 'ver' or command == 'version' then
 			GetVer()
 		end
-	
-		if command == 'con' then
-		mts.con = not mts.con
-			if mts.con then
-				mts:message('*Consecration Enabled.*')
-			else
-				mts:message('*Consecration Disabled*.')
+		
+		-- Disable Rotation Using Consecration
+			if command == 'con' then
+			mtsPalaProt.con = not mtsPalaProt.con
+				if mtsPalaProt.con then
+					mts:message('*Consecration Enabled.*')
+				else
+					mts:message('*Consecration Disabled*.')
+				end
 			end
-		end
-			
-		if command == 'seals' then
-		mts.seals = not mts.seals
-			if mts.seals then
-				mts:message('*Seals Enabled.*')
-			else
-				mts:message('*Seals Disabled.*')
+		
+		-- Disable Rotation Changing Seals	
+			if command == 'seals' then
+			mtsPalaProt.seals = not mtsPalaProt.seals
+				if mtsPalaProt.seals then
+					mts:message('*Seals Enabled.*')
+				else
+					mts:message('*Seals Disabled.*')
+				end
 			end
-		end
+
+		-- Allow Whispers
+			if command == 'ws' or command == 'wsp' or command == 'whisper' then
+				mtsPalaProt.wsp = not mtsPalaProt.wsp
+				if mtsPalaProt.wsp then
+					mts:message("*Whispers: ON*")
+				else
+					mts:message("*Whispers: OFF*")
+				end
+			end
+
 	end)
 
-end	
+ProbablyEngine.library.register('mtsPalaProt', mtsPalaProt)
+
+end
+
+-- //////////////////////-----------------------------------------NOTIFICATIONS-----------------------------------//////////////////////////////
+
+	ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
+	local event = select(2, ...)
+	local source = select(4, ...)
+	local spellId = select(12, ...)
+	local tname = UnitName("target")
+	if source ~= UnitGUID("player") then return false end
+	
+		if event == "SPELL_CAST_SUCCESS" then
+
+			-- Keybinds
+				if spellId == 114158 then
+					mts:message("*Casted Light´s Hammer*")
+				end
+
+			-- Stuns
+				if spellId == 105593 then
+					mts:message("*Stunned Target*")
+				end
+				if spellId == 853 then
+					mts:message("*Stunned Target*")
+				end
+	
+			-- Free Yourself
+				if spellId == 1044 then
+					mts:message("*Casted Hand of Freedom*")
+				end
+				
+			-- Cooldowns
+				if spellId == 633 then
+					mts:message("*Casted Lay On Hands*")
+					if mtsPalaHoly.GetWS() then
+						RunMacroText("/w "..tname.." MSG: Casted Lay On Hands on you.")
+					end
+				end
+				if spellId == 31821 then
+					mts:message("*Casted Devotion Aura*")
+				end
+				if spellId == 31884 then
+					mts:message("*Casted Avenging Wrath*")
+				end
+				if spellId == 86669 then
+					mts:message("*Casted Guardian of Ancient Kings*")
+				end
+				if spellId == 6940 then
+					mts:message("*Casted Hand of Sacrifice*")
+					if mtsPalaProt.GetWS() then
+						RunMacroText("/w "..tname.." MSG: Casted Hand of Sacrifice on you.")
+					end
+				end
+
+		end
+end)
+
 -- //////////////////////-----------------------------------------END LIB-----------------------------------//////////////////////////////
 
 
-local Shared = {
+local Buffs = {
 
 	-- Buffs
 		{ "19740", { -- Blessing of Might
@@ -123,22 +152,13 @@ local Shared = {
 			"toggle.buff"
 		}, nil },
 		{ "25780", "!player.buff(25780).any" }, -- Fury
-	
-	-- Seals
-		{ "20165", { -- Seal of Insight
-			"player.seal != 3",
-			"!modifier.multitarget",
-			"@mts.GetSeals()"
-		}, nil },
-		{ "20154", { -- Seal of righteousness
-			"player.seal != 2",
-			"modifier.multitarget",
-			"@mts.GetSeals()"
-		}, nil },
 		
-	-- Hands
-		{ "1044", "player.state.root" }, -- Hand of Freedom
-	
+}
+-- ////////////////////////-----------------------------------------END BUFFS-----------------------------------//////////////////////////////
+
+
+local inCombat = {
+			
 	-- keybinds
 		{ "105593", "modifier.control", "target"}, -- Fist of Justice
 		{ "853", "modifier.control", "target"}, -- Hammer of Justice
@@ -147,15 +167,22 @@ local Shared = {
 			"player.glyph(54928)", 
 			"modifier.alt" 
 		}, "ground"},
-		
-}
--- ////////////////////////-----------------------------------------END SHARED-----------------------------------//////////////////////////////
 
+	-- Seals
+		{ "20165", { -- Seal of Insight
+			"player.seal != 3",
+			"!modifier.multitarget",
+			"@mtsPalaProt.GetSeals()"
+		}, nil },
+		{ "20154", { -- Seal of righteousness
+			"player.seal != 2",
+			"modifier.multitarget",
+			"@mtsPalaProt.GetSeals()"
+		}, nil },
 
-local inCombat = {
-			
 	-- Hands
 		{ "6940", { "lowest.health <= 80", "!player.health <= 40" }, "lowest" }, -- Hand of Sacrifice
+		{ "1044", "player.state.root" }, -- Hand of Freedom
 		
 	-- Interrupt
 		{ "96231", "modifier.interrupts"}, -- Rebuke
@@ -215,7 +242,7 @@ local inCombat = {
 		{ "26573", { -- Consecration
 			"!player.glyph(54928)", 
 			"target.range <= 5", 
-			"@mts.GetCon()" 
+			"@mtsPalaProt.GetCon()" 
 		}, nil },
 		{ "114157", "target.spell(114157).range", "target" }, -- Execution Sentense
 		{ "119072" }, -- Holy Wrath
@@ -224,11 +251,35 @@ local inCombat = {
 
 local outCombat = {
 
+-- keybinds
+		{ "105593", "modifier.control", "target"}, -- Fist of Justice
+		{ "853", "modifier.control", "target"}, -- Hammer of Justice
+		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
+		{ "26573", { -- Consecration glyphed
+			"player.glyph(54928)", 
+			"modifier.alt" 
+		}, "ground"},
+
+	-- Seals
+		{ "20165", { -- Seal of Insight
+			"player.seal != 3",
+			"!modifier.multitarget",
+			"@mtsPalaProt.GetSeals()"
+		}, nil },
+		{ "20154", { -- Seal of righteousness
+			"player.seal != 2",
+			"modifier.multitarget",
+			"@mtsPalaProt.GetSeals()"
+		}, nil },
+
+	-- Hands
+		{ "1044", "player.state.root" }, -- Hand of Freedom
+
 }-- //////////////////////-----------------------------------------END OUT-OF-COMBAT-----------------------------------//////////////////////////////
 
-for _, Shared in pairs(Shared) do
-  inCombat[#inCombat + 1] = Shared
-  outCombat[#outCombat + 1] = Shared
+for _, Buffs in pairs(Buffs) do
+  inCombat[#inCombat + 1] = Buffs
+  outCombat[#outCombat + 1] = Buffs
 end
 
-ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAPaladin|r-Protection|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Protection|r]", inCombat, outCombat, lib)

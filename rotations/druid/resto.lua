@@ -12,14 +12,34 @@ local lib = function()
 	mts:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Restoration \124cff9482C9Loaded*")
 
 -- ////////////////-----------------------------------------COMMANDS-----------------------------------//////////////////////////////
+	local mtsDruidRsto = {
+		wsp = false -- "!!!!Change this to true if you want it ON by default!!!"
+	}
+
+	function mtsDruidRsto.GetWS()
+		return mtsDruidRsto.wsp
+	end
+
 	ProbablyEngine.command.register('mts', function(msg, box)
 	local command, text = msg:match("^(%S*)%s*(.-)$")
 		
-		if command == 'ver' then
-			GetVer()
-		end
+		-- Display Version
+			if command == 'ver' then
+				GetVer()
+			end
 
+		-- Allow Whispers
+			if command == 'ws' or command == 'whisper' then
+				mtsDruidRsto.wsp = not mtsDruidRsto.wsp
+				if mtsDruidRsto.wsp then
+					mts:message("*Whispers: ON*")
+				else
+					mts:message("*Whispers: OFF*")
+				end
+			end
+			
 	end)
+
 -- ////////////////-----------------------------------------DISPELS-----------------------------------//////////////////////////////
 	
 	-- Made By Tao
@@ -58,15 +78,43 @@ local lib = function()
 		return false
 	  end
 	})
+
+-- //////////////////////-----------------------------------------NOTIFICATIONS-----------------------------------//////////////////////////////
+	ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
+	local event = select(2, ...)
+	local source = select(4, ...)
+	local spellId = select(12, ...)
+	local tname = UnitName("target")
+	if source ~= UnitGUID("player") then return false end
+		
+		if event == "SPELL_CAST_SUCCESS" then
+			
+		-- Keybinds
+				
+			if spellId == 77761 then
+				mts:message("*Casted Stampeding Roar*")
+			end
+
+		-- Cooldowns
+--			if spellId == 62606 then
+--				mts:message("*CastedSavage Defense*")
+--			end
+
+			-- Combat Ress's
+				if spellId == 20484 then
+					mts:message("*Casted Rebirth on "..tname.."*")
+					if mtsDruidRsto.GetWS() then
+	                    RunMacroText("/w "..tname.." MESSAGE: Casted Rebirth on you.")
+	                end
+				end
+
+		end
+	end)
+
 end	
 -- ////////////////////////-----------------------------------------END LIB-----------------------------------//////////////////////////////
 
-local Shared = {
-
-	--	keybinds
-		{ "740" , "modifier.shift" }, -- Tranq
-		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
-		{ "20484", "modifier.control", "mouseover" }, -- Rebirth
+local Buffs = {
 
 	--	Buffs
 		{ "1126", { -- Mark of the Wild
@@ -79,9 +127,14 @@ local Shared = {
 		}, nil },
   
 }
--- ////////////////////////-----------------------------------------END SHARED-----------------------------------//////////////////////////////
+-- ////////////////////////-----------------------------------------END BUFFS-----------------------------------//////////////////////////////
 
 local inCombat = {
+
+	--	keybinds
+		{ "740" , "modifier.shift" }, -- Tranq
+		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
+		{ "20484", "modifier.control", "mouseover" }, -- Rebirth
   
 	--Pause if
 		{ "pause", "player.form > 1" }, -- Any Player from but bear
@@ -137,15 +190,20 @@ local inCombat = {
 
 local outCombat = {
 
+	--	keybinds
+		{ "740" , "modifier.shift" }, -- Tranq
+		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
+		{ "20484", "modifier.control", "mouseover" }, -- Rebirth
+
 	-- Healing
 		{ "774", { "lowest.health < 99", "!lowest.buff", "player.form = 0" }, "lowest" }, -- Rejuvenation
 
 }
 -- ///////////////////-----------------------------------------END OUT-OF-COMBAT-----------------------------------//////////////////////////////
 
-for _, Shared in pairs(Shared) do
-  inCombat[#inCombat + 1] = Shared
-  outCombat[#outCombat + 1] = Shared
+for _, Buffs in pairs(Buffs) do
+  inCombat[#inCombat + 1] = Buffs
+  outCombat[#outCombat + 1] = Buffs
 end
 
-ProbablyEngine.rotation.register_custom(105, "|r[|cff9482C9MTS|r][|cffFF7D0ADruid|r-Resto|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(105, "|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Resto|r]", inCombat, outCombat, lib)
