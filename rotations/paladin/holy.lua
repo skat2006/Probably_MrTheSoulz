@@ -220,7 +220,7 @@ local inCombat = {
 		{ "31821", "@coreHealing.needsHealing(40, 5)", nil }, -- Devotion Aura	
 		{ "31884", "@coreHealing.needsHealing(95, 4)", nil }, -- Avenging Wrath
 		{ "86669", "@coreHealing.needsHealing(85, 4)", nil }, -- Guardian of Ancient Kings
-		{ "31842", "@coreHealing.needsHealing(90, 4", nil }, -- Divine Favor
+		{ "31842", "@coreHealing.needsHealing(90, 4)", nil }, -- Divine Favor
 		{ "105809", "talent(13)", nil }, -- Holy Avenger
 	}, "modifier.cooldowns" },
 	

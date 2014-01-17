@@ -9,27 +9,33 @@ local lib = function()
 
 -- /////////////////////////-----------------------------------------TOGGLES-----------------------------------//////////////////////////////
 	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_holy_devotionaura.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
-	ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
-	ProbablyEngine.toggle.create('aggro', 'Interface\\Icons\\Ability_warrior_stalwartprotector.png', 'Aggro Control', 'Auto Taunts on mouse-over ot target if dosent have aggro.')
+	ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\Spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
+	ProbablyEngine.toggle.create('aggro', 'Interface\\Icons\\Ability_warrior_stalwartprotector.png', 'Aggro control', 'Auto Taunts on mouse-over ot target if dosent have aggro.')
 	mts:message("\124cff9482C9*MrTheSoulz - \124cffF58CBAPaladin/Protection \124cff9482C9Loaded*")
 	
 -- ////////////////////////-----------------------------------------COMMANDS-----------------------------------//////////////////////////////
+
 	local mtsPalaProt = {
 		con = true,
-		seals = true,
-		wsp = false -- "!!!!Change this to true if you want it ON by default!!!"
+		seal = true,
+		Whisper = true, -- "!!!!Change this to true if you want it ON by default!!!"
+		ChatOverlay = true
 	}
-
+	
 	function mtsPalaProt.GetCon()
 		return mtsPalaProt.con
 	end
 
-	function mtsPalaProt.GetSeals()
-		return mtsPalaProt.seals
+	function mtsPalaProt.Getseal()
+		return mtsPalaProt.seal
 	end
 
-	function mtsPalaProt.GetWS()
-		return mtsPalaProt.wsp
+	function mtsPalaProt.GetWhisper()
+		return mtsPalaProt.Whisper
+	end
+
+	function mtsPalaProt.GetChatOverlay()
+		return mtsPalaProt.ChatOverlay
 	end
 	
 	ProbablyEngine.command.register('mts', function(msg, box)
@@ -39,30 +45,40 @@ local lib = function()
 			GetVer()
 		end
 		
-		-- Disable Rotation Using Consecration
+		-- Disable Rotation Using consecration
 			if command == 'con' then
 			mtsPalaProt.con = not mtsPalaProt.con
 				if mtsPalaProt.con then
-					mts:message('*Consecration Enabled.*')
+					mts:message('*consecration Enabled.*')
 				else
-					mts:message('*Consecration Disabled*.')
+					mts:message('*consecration Disabled*.')
 				end
 			end
 		
-		-- Disable Rotation Changing Seals	
+		-- Disable Rotation Changing seals	
 			if command == 'seals' then
-			mtsPalaProt.seals = not mtsPalaProt.seals
-				if mtsPalaProt.seals then
-					mts:message('*Seals Enabled.*')
+			mtsPalaProt.seal = not mtsPalaProt.seal
+				if mtsPalaProt.seal then
+					mts:message('*seals Enabled.*')
 				else
-					mts:message('*Seals Disabled.*')
+					mts:message('*seals Disabled.*')
+				end
+			end
+
+		-- Disable Notes
+			if command == 'chat' then
+			mtsPalaProt.ChatOverlay = not mtsPalaProt.ChatOverlay
+				if mtsPalaProt.ChatOverlay then
+					mts:message('*Chat Overlay Enabled.*')
+				else
+					mts:message('*Chat Overlay Disabled.*')
 				end
 			end
 
 		-- Allow Whispers
-			if command == 'ws' or command == 'wsp' or command == 'whisper' then
-				mtsPalaProt.wsp = not mtsPalaProt.wsp
-				if mtsPalaProt.wsp then
+			if command == 'ws' or command == 'Whisper' or command == 'whisper' then
+				mtsPalaProt.Whisper = not mtsPalaProt.Whisper
+				if mtsPalaProt.Whisper then
 					mts:message("*Whispers: ON*")
 				else
 					mts:message("*Whispers: OFF*")
@@ -71,9 +87,6 @@ local lib = function()
 
 	end)
 
-ProbablyEngine.library.register('mtsPalaProt', mtsPalaProt)
-
-end
 
 -- //////////////////////-----------------------------------------NOTIFICATIONS-----------------------------------//////////////////////////////
 
@@ -83,52 +96,65 @@ end
 	local spellId = select(12, ...)
 	local tname = UnitName("target")
 	if source ~= UnitGUID("player") then return false end
+
+		if mtsPalaProt.GetChatOverlay() then
 	
-		if event == "SPELL_CAST_SUCCESS" then
+			if event == "SPELL_CAST_SUCCESS" then
 
-			-- Keybinds
-				if spellId == 114158 then
-					mts:message("*Casted Light´s Hammer*")
-				end
-
-			-- Stuns
-				if spellId == 105593 then
-					mts:message("*Stunned Target*")
-				end
-				if spellId == 853 then
-					mts:message("*Stunned Target*")
-				end
-	
-			-- Free Yourself
-				if spellId == 1044 then
-					mts:message("*Casted Hand of Freedom*")
-				end
-				
-			-- Cooldowns
-				if spellId == 633 then
-					mts:message("*Casted Lay On Hands*")
-					if mtsPalaProt.GetWS() then
-						RunMacroText("/w "..tname.." MSG: Casted Lay On Hands on you.")
+				-- Keybinds
+					if spellId == 114158 then
+						mts:message("*Casted Light´s Hammer*")
 					end
-				end
-				if spellId == 31821 then
-					mts:message("*Casted Devotion Aura*")
-				end
-				if spellId == 31884 then
-					mts:message("*Casted Avenging Wrath*")
-				end
-				if spellId == 86669 then
-					mts:message("*Casted Guardian of Ancient Kings*")
-				end
-				if spellId == 6940 then
-					mts:message("*Casted Hand of Sacrifice*")
-					if mtsPalaProt.GetWS() then
-						RunMacroText("/w "..tname.." MSG: Casted Hand of Sacrifice on you.")
-					end
-				end
 
+				-- Stuns
+					if spellId == 105593 then
+						mts:message("*Stunned Target*")
+					end
+					if spellId == 853 then
+						mts:message("*Stunned Target*")
+					end
+		
+				-- Free Yourself
+					if spellId == 1044 then
+						mts:message("*Casted Hand of Freedom*")
+					end
+					
+				-- Cooldowns
+					if spellId == 633 then
+						mts:message("*Casted Lay On Hands*")
+						if mtsPalaProt.GetWhisper() then
+							RunMacroText("/w "..tname.." MSG: Casted Lay On Hands on you.")
+						end
+					end
+					if spellId == 31821 then
+						mts:message("*Casted Devotion Aura*")
+					end
+					if spellId == 31884 then
+						mts:message("*Casted Avenging Wrath*")
+					end
+					if spellId == 86669 then
+						mts:message("*Casted Guardian of Ancient Kings*")
+					end
+					if spellId == 6940 then
+						mts:message("*Casted Hand of Sacrifice*")
+						if mtsPalaProt.GetWhisper() then
+							RunMacroText("/w "..tname.." MSG: Casted Hand of Sacrifice on you.")
+						end
+					end
+					if spellId == 1044 then
+						mts:message("*Casted Hand of Sacrifice*")
+						if mtsPalaProt.GetWhisper() then
+							RunMacroText("/w "..tname.." MSG: Casted Hand of Sacrifice on you.")
+						end
+					end
+
+			end
 		end
-end)
+	end)
+
+ProbablyEngine.library.register('mtsPalaProt', mtsPalaProt)
+
+end
 
 -- //////////////////////-----------------------------------------END LIB-----------------------------------//////////////////////////////
 
@@ -163,21 +189,21 @@ local inCombat = {
 		{ "105593", "modifier.control", "target"}, -- Fist of Justice
 		{ "853", "modifier.control", "target"}, -- Hammer of Justice
 		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
-		{ "26573", { -- Consecration glyphed
+		{ "26573", { -- consecration glyphed
 			"player.glyph(54928)", 
 			"modifier.alt" 
 		}, "ground"},
 
-	-- Seals
-		{ "20165", { -- Seal of Insight
+	-- seals
+		{ "20165", { -- seal of Insight
 			"player.seal != 3",
 			"!modifier.multitarget",
-			"@mtsPalaProt.GetSeals()"
+			"@mtsPalaProt.Getseal()"
 		}, nil },
-		{ "20154", { -- Seal of righteousness
+		{ "20154", { -- seal of righteousness
 			"player.seal != 2",
 			"modifier.multitarget",
-			"@mtsPalaProt.GetSeals()"
+			"@mtsPalaProt.Getseal()"
 		}, nil },
 
 	-- Hands
@@ -239,7 +265,7 @@ local inCombat = {
 		{ "20271", "target.spell(20271).range", "target" }, -- Judgment
 		{ "114165", "target.spell(114165).range", "target" }, -- Holy Prism
 		{ "31935", "target.spell(31935).range", "target" },-- Avenger´s Shield Normal
-		{ "26573", { -- Consecration
+		{ "26573", { -- consecration
 			"!player.glyph(54928)", 
 			"target.range <= 5", 
 			"@mtsPalaProt.GetCon()" 
@@ -255,21 +281,21 @@ local outCombat = {
 		{ "105593", "modifier.control", "target"}, -- Fist of Justice
 		{ "853", "modifier.control", "target"}, -- Hammer of Justice
 		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
-		{ "26573", { -- Consecration glyphed
+		{ "26573", { -- consecration glyphed
 			"player.glyph(54928)", 
 			"modifier.alt" 
 		}, "ground"},
 
-	-- Seals
-		{ "20165", { -- Seal of Insight
+	-- seals
+		{ "20165", { -- seal of Insight
 			"player.seal != 3",
 			"!modifier.multitarget",
-			"@mtsPalaProt.GetSeals()"
+			"@mtsPalaProt.Getseal()"
 		}, nil },
-		{ "20154", { -- Seal of righteousness
+		{ "20154", { -- seal of righteousness
 			"player.seal != 2",
 			"modifier.multitarget",
-			"@mtsPalaProt.GetSeals()"
+			"@mtsPalaProt.Getseal()"
 		}, nil },
 
 	-- Hands
