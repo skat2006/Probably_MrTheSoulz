@@ -8,71 +8,12 @@
 local lib = function()
 
 -- ////////////////-----------------------------------------TOGGLES-----------------------------------//////////////////////////////
+
 	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_deathknight_iceboundfortitude.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
 	ProbablyEngine.toggle.create('aggro', 'Interface\\Icons\\Ability_warrior_stalwartprotector.png', 'Aggro Control', 'Auto Taunts on mouse-over ot target if dosent have aggro.')
-	mts:message("\124cff9482C9*MrTheSoulz - \124cffC41F3BDeathKnight/Blood \124cff9482C9Loaded*")
+	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffC41F3BDeathKnight/Blood \124cff9482C9Loaded*")
 	
--- ////////////////////-----------------------------------------COMMANDS-----------------------------------//////////////////////////////
-
-	local mtsDkBlood = {
-		wsp = false -- "!!!!Change this to true if you want it ON by default!!!"
-	}
-
-	function mtsDkBlood.GetWS()
-		return mtsDkBlood.wsp
-	end
-
-	ProbablyEngine.command.register('mts', function(msg, box)
-	local command, text = msg:match("^(%S*)%s*(.-)$")
-		
-		-- Display Version
-			if command == 'ver' or command == 'version' then
-				GetVer()
-			end
-		
-		-- Allow Whispers
-			if command == 'ws' or command == 'whisper' then
-				mtsDkBlood.wsp = not mtsDkBlood.wsp
-				if mtsDkBlood.wsp then
-					mts:message("*Whispers: ON*")
-				else
-					mts:message("*Whispers: OFF*")
-				end
-			end
-			
-	end)
 end
-
--- ////////////////-----------------------------------------NOTIFICATIONS-----------------------------------//////////////////////////////
-	ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
-	local event = select(2, ...)
-	local source = select(4, ...)
-	local spellId = select(12, ...)
-	if source ~= UnitGUID("player") then return false end
-	if event == "SPELL_CAST_SUCCESS" then
-
-	-- Keybinds
-		if spellId == 43265 then
-			mts:message("*Casted Death and Decay*")
-		end
-		
-	-- Cooldowns
-		if spellId == 48707 then
-			mts:message("*Casted Anti-Magic Shell*")
-		end
-		if spellId == 49028 then
-			mts:message("*Casted Dancing Rune Weapon*")
-		end
-		if spellId == 55233 then
-			mts:message("*Casted Vampiric Blood*")
-		end
-		if spellId == 48792 then
-			mts:message("*Casted Icebound Fortitude*")
-		end
-		
-	end
-end)
-
 -- //////////////////////-----------------------------------------END LIB-----------------------------------//////////////////////////////
 
 local Buffs = {

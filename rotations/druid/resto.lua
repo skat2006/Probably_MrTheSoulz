@@ -9,107 +9,47 @@ local lib = function()
 
 -- ////////////////-----------------------------------------TOGGLES-----------------------------------//////////////////////////////
 	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\ability_shaman_cleansespirit', 'Dispel Everything', 'Dispels everything it finds.')
-	mts:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Restoration \124cff9482C9Loaded*")
+	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Restoration \124cff9482C9Loaded*")
 
--- ////////////////-----------------------------------------COMMANDS-----------------------------------//////////////////////////////
-	local mtsDruidRsto = {
-		wsp = false -- "!!!!Change this to true if you want it ON by default!!!"
-	}
 
-	function mtsDruidRsto.GetWS()
-		return mtsDruidRsto.wsp
-	end
-
-	ProbablyEngine.command.register('mts', function(msg, box)
-	local command, text = msg:match("^(%S*)%s*(.-)$")
-		
-		-- Display Version
-			if command == 'ver' then
-				GetVer()
-			end
-
-		-- Allow Whispers
-			if command == 'ws' or command == 'whisper' then
-				mtsDruidRsto.wsp = not mtsDruidRsto.wsp
-				if mtsDruidRsto.wsp then
-					mts:message("*Whispers: ON*")
-				else
-					mts:message("*Whispers: OFF*")
-				end
-			end
-			
-	end)
 
 -- ////////////////-----------------------------------------DISPELS-----------------------------------//////////////////////////////
 	
-	-- Made By Tao
-	local ignoreDebuffs = {
-	  'Mark of Arrogance',
-	  'Displaced Energy'
-	}
-	
-	ProbablyEngine.library.register('dispell', {
-	  druid = function(spell)
-		local prefix = (IsInRaid() and 'raid') or 'party'
-		for i = -1, GetNumGroupMembers() - 1 do
-		  local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
-		  if IsSpellInRange('88423', unit) then -- 88423 = druid dispell
+-- Made By Tao
+local ignoreDebuffs = {
+  'Mark of Arrogance',
+  'Displaced Energy'
+}
+
+ProbablyEngine.library.register('dispell', {
+druid = function(spell)
+local prefix = (IsInRaid() and 'raid') or 'party'
+	for i = -1, GetNumGroupMembers() - 1 do
+	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
+		if IsSpellInRange('88423', unit) then
 			for j = 1, 40 do
-			  local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(unit, j)
-			  if dispelType and dispelType == 'Magic' or dispelType == 'Poison' or dispelType == 'Disease' then
+			local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(unit, j)
+				if dispelType and dispelType == 'Magic' or dispelType == 'Poison' or dispelType == 'Disease' then
 				local ignore = false
 				for k = 1, #ignoreDebuffs do
-				  if debuffName == ignoreDebuffs[k] then
-					ignore = true
+					if debuffName == ignoreDebuffs[k] then
+						ignore = true
+						break
+					end
+				end
+					if not ignore then
+						ProbablyEngine.dsl.parsedTarget = unit
+						return true
+					end
+				end
+				if not debuffName then
 					break
-				  end
 				end
-				if not ignore then
-				  ProbablyEngine.dsl.parsedTarget = unit
-				  return true
-				end
-			  end
-			  if not debuffName then
-				break
-			  end
 			end
-		  end
 		end
+	end
 		return false
-	  end
-	})
-
--- //////////////////////-----------------------------------------NOTIFICATIONS-----------------------------------//////////////////////////////
-	ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
-	local event = select(2, ...)
-	local source = select(4, ...)
-	local spellId = select(12, ...)
-	local tname = UnitName("target")
-	if source ~= UnitGUID("player") then return false end
-		
-		if event == "SPELL_CAST_SUCCESS" then
-			
-		-- Keybinds
-				
-			if spellId == 77761 then
-				mts:message("*Casted Stampeding Roar*")
-			end
-
-		-- Cooldowns
---			if spellId == 62606 then
---				mts:message("*CastedSavage Defense*")
---			end
-
-			-- Combat Ress's
-				if spellId == 20484 then
-					mts:message("*Casted Rebirth on "..tname.."*")
-					if mtsDruidRsto.GetWS() then
-	                    RunMacroText("/w "..tname.." MESSAGE: Casted Rebirth on you.")
-	                end
-				end
-
-		end
-	end)
+end})
 
 end	
 -- ////////////////////////-----------------------------------------END LIB-----------------------------------//////////////////////////////
@@ -148,11 +88,10 @@ local inCombat = {
 		{ "88423", "@coreHealing.needsDispelled('Breath of Fire')", nil },
 		{ "88423", { "toggle.dispel", "@dispell.druid()" }, nil },
 
-	{{-- Cooldowns
-		{ "29166", "player.mana < 80", "player" }, -- Inervate
-		{ "132158", "player.spell(132158).cooldown = 0" }, -- Nature's Swiftness
-		{ "106731" , "@coreHealing.needsHealing(85, 4)" }, -- Incarnation
-	}, "modifier.cooldowns" },
+	-- Cooldowns
+		{ "29166", { "player.mana < 80", "modifier.cooldowns"}, "player" }, -- Inervate
+		{ "132158", { "player.spell(132158).cooldown = 0", "modifier.cooldowns" }, nil }, -- Nature's Swiftness
+		{ "106731" , { "@coreHealing.needsHealing(85, 4)", "modifier.cooldowns" }, nil }, -- Incarnation
 	
 	-- Survival
 		{ "#5512", "player.health <= 45"}, --Healthstone

@@ -5,9 +5,12 @@
 ## Interface: 50400
 ## Author: MrTheSoulz
 
+gui\main.lua
+gui\welcome.lua
+gui\alert.lua
+libs\lib.lua
 rotations\paladin\protection.lua
 rotations\paladin\holy.lua
 rotations\druid\resto.lua
 rotations\druid\guard.lua
 rotations\deathknight\blood.lua
-libs\lib.lua
