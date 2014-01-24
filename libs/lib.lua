@@ -236,7 +236,11 @@ if source ~= UnitGUID("player") then return false end
 		if spellId == 114158 then
 			mts_ConfigAlert("*Casted Light´s Hammer*")
 		end
-
+	
+		if spellId == 633 then
+			mts_ConfigWhisper(tname.." MSG: Casted Lay On Hands on you.")
+			mts_ConfigAlert("*Casted Lay on Hands*")
+		end
 
 -----------------------------
 	end -- Ends Table
@@ -282,9 +286,9 @@ function mts.initConfig()
 		
 end
 
-function mts.GetWhisper()
+function mts_ConfigWhisper(txt)
 	if mts.getConfig('getWhispers')then
-		return true
+		return RunMacroText("/w "..txt)
 	end
 	return false
 end

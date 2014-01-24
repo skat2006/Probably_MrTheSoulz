@@ -5,6 +5,7 @@ mConfigData = {}
 mConfigAllConfigs = {}
 
 local media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
+local mts_VERSION = "\124cff9482C9*MrTheSoulz Version: 3.B.1*"
 
 local mConfigVersion = 1
 if M_CONFIG_VERSION == nil or MCONFIG_VERSION < mConfigVersion then
@@ -474,7 +475,7 @@ function mConfig:createConfig(titleText,addOn,key,slashCommands)
 	mts_Alert_Version:SetPoint("TOP",0,0)
 	mts_Alert_Version.text = mts_Alert_Version:CreateFontString(nil,"OVERLAY","MovieSubtitleFont")
 	mts_Alert_Version.text:SetAllPoints()
-	mts_Alert_Version.text:SetText("\124cff9482C9*MrTheSoulz Version: 3.0.0*")
+	mts_Alert_Version.text:SetText(mts_VERSION)
 	mts_Alert_Version.texture = mts_Alert_Version:CreateTexture()
 	mts_Alert_Version.texture:SetAllPoints()
 	mts_Alert_Version.texture:SetTexture(0,0,0,0.7)
