@@ -125,10 +125,9 @@ local inCombat = {
 		{ "4987", "@coreHealing.needsDispelled('Breath of Fire')", nil },
 		{ "4987", { "@mts.getConfig('PalaHolyDispells')", "@dispell.Cleanse()" }, nil },
 	
-	{{-- Divine Purpose
-		{ "85673", "lowest.health <= 80", "lowest"  }, -- Word of Glory
-		{ "114163", { "!lowest.buff(114163)", "lowest.health <= 85" }, "lowest" }, -- Eternal Flame
-	}, "player.buff(86172)" },
+	-- Divine Purpose
+		{ "85673", { "lowest.health <= 80", "player.buff(86172)" }, "lowest"  }, -- Word of Glory
+		{ "114163", { "!lowest.buff(114163)", "lowest.health <= 85", "player.buff(86172)" }, "lowest" }, -- Eternal Flame
 	
 	{{-- Selfless Healer
 		{ "!/target [target=focustarget, harm, nodead]", "!target.exists" }, -- Target focus target
