@@ -63,7 +63,8 @@ local Buffs = {
 			"!player.buff(116956).any",
 			"!player.buff(93435).any",
 			"!player.buff(128997).any",
-			"!toggle.buff"
+			"@mts.getConfig('PalaHolyBuffs')",
+			"@mts.getSetting('toUsePalaHolyBuff', 'KINGS')"
 		}, nil },
 		
 		{ "20217", { -- Blessing of Kings
@@ -72,7 +73,8 @@ local Buffs = {
 			"!player.buff(1126).any",
 			"!player.buff(90363).any",
 			"!player.buff(69378).any",
-			"toggle.buff"
+			"@mts.getConfig('PalaHolyBuffs')",
+			"@mts.getSetting('toUsePalaHolyBuff', 'KINGS')" 
 		}, nil },
 	
 	-- Seals
@@ -101,7 +103,7 @@ local inCombat = {
 		{ "1044", "player.state.root" }, -- Hand of Freedom
 
 	-- Survival
-		{ "#5512", "player.health <= 45", nil }, -- Healthstone       
+		{ "#5512", "@mts.ConfigUnitHp('PalaHolyHs', 'player')" }, -- Healthstone       
 		{ "498", "player.health <= 90", "player" }, -- Divine Protection
 		{ "642", "player.health <= 20", "player" }, -- Divine Shield
 
@@ -121,7 +123,7 @@ local inCombat = {
 		{ "4987", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Torment')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{ "4987", { "toggle.dispel", "@dispell.Cleanse()" }, nil },
+		{ "4987", { "@mts.getConfig('PalaHolyDispells')", "@dispell.Cleanse()" }, nil },
 	
 	{{-- Divine Purpose
 		{ "85673", "lowest.health <= 80", "lowest"  }, -- Word of Glory
@@ -143,15 +145,19 @@ local inCombat = {
 		{ "82326", { "lowest.health < 75", "!@coreHealing.needsHealing(90, 4)", "!player.moving", "player.buff(54149)" }, "lowest" }, -- Divine Light
 	
 	-- AOE
+		-- Manual
+			{ "85222", { "@mts.getSetting('toUsePalaHolyHr', 'MANUAL')", "player.holypower >= 3" }, "lowest" }, -- Light of Dawn
+			{ "82327", "@mts.getSetting('toUsePalaHolyHr', 'MANUAL')", "lowest" }, -- Holy Radiance
+	
 		-- Party
-			{ "85222", { "@coreHealing.needsHealing(90, 3)", "player.holypower >= 3", "modifier.party" }, "lowest" }, -- Light of Dawn
-			{ "82327", { "@coreHealing.needsHealing(80, 3)", "!modifier.last", "!player.moving", "modifier.party" }, "lowest" }, -- Holy Radiance - Party
+			{ "85222", { "@mts.getSetting('toUsePalaHolyHr', 'AUTO')", "@coreHealing.needsHealing(90, 3)", "player.holypower >= 3", "modifier.party" }, "lowest" }, -- Light of Dawn
+			{ "82327", { "@mts.getSetting('toUsePalaHolyHr', 'AUTO')", "@coreHealing.needsHealing(80, 3)", "!modifier.last", "!player.moving", "modifier.party" }, "lowest" }, -- Holy Radiance - Party
 		-- RAID
-			{ "85222", { "@coreHealing.needsHealing(90, 5)", "player.holypower >= 3", "modifier.raid", "!modifier.members > 10" }, "lowest" }, -- Light of Dawn
-			{ "82327", { "@coreHealing.needsHealing(90, 5)", "!modifier.last", "!player.moving", "modifier.raid", "!modifier.members > 10" }, "lowest" }, -- Holy Radiance - Raid 10
+			{ "85222", { "@mts.getSetting('toUsePalaHolyHr', 'AUTO')", "@coreHealing.needsHealing(90, 5)", "player.holypower >= 3", "modifier.raid", "!modifier.members > 10" }, "lowest" }, -- Light of Dawn
+			{ "82327", { "@mts.getSetting('toUsePalaHolyHr', 'AUTO')", "@coreHealing.needsHealing(90, 5)", "!modifier.last", "!player.moving", "modifier.raid", "!modifier.members > 10" }, "lowest" }, -- Holy Radiance - Raid 10
 		-- Raid 25
-			{ "85222", { "@coreHealing.needsHealing(90, 8)", "player.holypower >= 3", "modifier.members > 10" }, "lowest" }, -- Light of Dawn
-			{ "82327", { "@coreHealing.needsHealing(90, 8)", "!modifier.last", "!player.moving", "modifier.members > 10" }, "lowest" }, -- Holy Radiance 10+
+			{ "85222", { "@mts.getSetting('toUsePalaHolyHr', 'AUTO')", "@coreHealing.needsHealing(90, 8)", "player.holypower >= 3", "modifier.members > 10" }, "lowest" }, -- Light of Dawn
+			{ "82327", { "@mts.getSetting('toUsePalaHolyHr', 'AUTO')", "@coreHealing.needsHealing(90, 8)", "!modifier.last", "!player.moving", "modifier.members > 10" }, "lowest" }, -- Holy Radiance 10+
 	
 	-- HEAL FAST BITCH
 		{ "633", "lowest.health < 15", "lowest" }, -- Lay on Hands

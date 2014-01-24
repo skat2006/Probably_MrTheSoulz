@@ -8,6 +8,7 @@
 
 
 local mts = {}
+local media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 
 -- //////////////////////-----------------------------------------Taunts-----------------------------------/////////////////////////////
 
@@ -233,7 +234,7 @@ if source ~= UnitGUID("player") then return false end
 	if event == "SPELL_CAST_SUCCESS" then	
 
 		if spellId == 114158 then
-			mts.configAlert("*Casted Light´s Hammer*")
+			mts_ConfigAlert("*Casted Light´s Hammer*")
 		end
 
 
@@ -248,24 +249,36 @@ ProbablyEngine.library.register('mts', mts)
 -- //////////////////////-----------------------------------------Config-----------------------------------//////////////////////////////
 
 -- mConfig copyright & thanks to https://github.com/kirk24788/mConfig
-mts.config = {}
+mts_Config = {}
 function mts.initConfig()
-        mts.config = mtsConfig:createConfig("MrTheSoulz Profiles Settings","mtsConfig","Default",{"/mts"})
+        mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","mtsConfig","Default",{"/mts"})
         
 		-- Settings
-        mts.config:addText("General Settings:")
-		mts.config:addCheckBox("getTaunts", "Auto Taunting", "Allows Auto Taunts", true)
-		mts.config:addCheckBox("getDispells", "Auto Dispelling", "Allows Auto Dispelling", true)
-		mts.config:addCheckBox("getAlerts", "Show Notifications", "Shows notification on top when used certain spells", true)
-		mts.config:addCheckBox("getWhispers", "Allow Whispers", "Whispers people after using certain spells", true)
+        mts_Config:addTitle("---> General Settings: <---")
+		mts_Config:addText("Everything in here is shared cross all of the profiles.")
+		mts_Config:addCheckBox("getAlerts", "Show Notifications", "Shows notification on top when used certain spells", true)
+		mts_Config:addCheckBox("getAlertSounds", "Notifications Sounds", "Plays a sound when a notification is shown.", true)
+		mts_Config:addCheckBox("getWhispers", "Allow Whispers", "Whispers people after using certain spells", true)
 		
         -- Paldin Protection
-        mts.config:addText("Paladin Protection:")
-		mts.config:addCheckBox("useConsecration", "Consecration", "Use Consecration", true)
-		mts.config:addCheckBox("changeSeals", "Seals", "Use Seals", true)
-		mts.config:addCheckBox("useBuffs", "Buffing", "Use Buffs", true)
-		mts.config:addCheckBox("pprotDefcd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
-		mts.config:addCheckBox("useBuffs", "Buffing", "Use Buffs", true)
+        mts_Config:addTitle("\124cffF58CBA---> Paladin Protection: <---")
+		mts_Config:addText("Everything in here only affects the Paladin Protection profile.")
+		mts_Config:addCheckBox("PalaProtTaunts", "Auto Taunting", "Allows Auto Taunts", true)
+		mts_Config:addCheckBox("PalaProtConsecration", "Consecration", "Use Consecration", true)
+		mts_Config:addCheckBox("PalaProtChangeSeals", "Seals", "Use Seals", true)
+		mts_Config:addCheckBox("PalaProtDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
+		mts_Config:addCheckBox("PalaProtBuffs", "Buffing", "Use Buffs Kings/Might/Fury", true)
+		mts_Config:addDropDown("toUsePalaProtBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
+		mts_Config:addSlider("PalaProtHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+		
+		-- Paldin Holy
+        mts_Config:addTitle("\124cffF58CBA---> Paladin Holy: <---")
+		mts_Config:addText("Everything in here only affects the Paladin Holy profile.")
+		mts_Config:addCheckBox("PalaHolyBuffs", "Buffing", "Use Buffs", true)
+		mts_Config:addCheckBox("PalaHolyDispells", "Auto Dispelling", "Allows Auto Dispelling", true)
+		mts_Config:addDropDown("toUsePalaHolyBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
+		mts_Config:addDropDown("toUsePalaHolyHr", "Holy Radiance:", "Choose how to use Holy Radiance", {AUTO="Auto", MANUAL="Manual"}, "AUTO")
+		mts_Config:addSlider("PalaHolyHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
 		
 end
 
@@ -276,30 +289,33 @@ function mts.GetWhisper()
 	return false
 end
 
-function mts.configAlert(txt)
+function mts_ConfigAlert(txt)
 	if mts.getConfig('getAlerts')then
-		return mtsAlert:message("\124cff9482C9ALERT!:\124cffF58C" ..txt)
+		if mts.getConfig('getAlertSounds')then
+			PlaySoundFile(media .. "beware.mp3", "master")
+		return mtsAlert:message(txt)
+		end
 	end
 end
 
 function mts.getConfig(key)
-	return mts.config:get(key)
+	return mts_Config:get(key)
 end
 
-function mts.configUnitHpBelowThreshold(key,unit)
-	return ProbablyEngine.condition["health"](unit) <= mts.config:get(key)
+function mts.getSetting(txt1, txt2)
+	if mts.getConfig(txt1) == txt2 then
+		return true
+	else
+		return false
+	end
 end
 
-function mts.modifierActionForSpellIsAlt(name)
-	return IsAltKeyDown() and not GetCurrentKeyBoardFocus() and mts.getConfig("altKeyAction")==name
-end
-
-function mts.modifierActionForSpellIsShift(name)
-	return IsShiftKeyDown() and not GetCurrentKeyBoardFocus() and mts.getConfig("shiftKeyAction")==name
-end
-
-function mts.modifierActionForSpellIsControl(name)
-	return IsControlKeyDown() and not GetCurrentKeyBoardFocus() and mts.getConfig("controlKeyAction")==name
+function mts.ConfigUnitHp(key, unit)
+	if ProbablyEngine.condition["health"](unit) <= mts_Config:get(key) then
+		return true
+	else
+		return false
+	end
 end
 
 mts.initConfig()

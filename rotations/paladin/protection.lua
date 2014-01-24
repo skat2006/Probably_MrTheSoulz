@@ -7,9 +7,6 @@
 
 local lib = function()
 
--- /////////////////////////-----------------------------------------TOGGLES-----------------------------------//////////////////////////////
-
-	ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\Spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
 	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffF58CBAPaladin/Protection \124cff9482C9Loaded*")
 
 end
@@ -24,8 +21,8 @@ local Buffs = {
 			"!player.buff(116956).any",
 			"!player.buff(93435).any",
 			"!player.buff(128997).any",
-			"@mts.getConfig('useBuffs')",
-			"!toggle.buff"
+			"@mts.getConfig('PalaProtBuffs')",
+			"@mts.getSetting('toUsePalaProtBuff', 'MIGHT')"
 		}, nil },
 		
 		{ "20217", { -- Blessing of Kings
@@ -34,11 +31,11 @@ local Buffs = {
 			"!player.buff(1126).any", 
 			"!player.buff(90363).any", 
 			"!player.buff(69378).any",
-			"@mts.getConfig('useBuffs')",
-			"toggle.buff" 
+			"@mts.getConfig('PalaProtBuffs')",
+			"@mts.getSetting('toUsePalaProtBuff', 'KINGS')" 
 		}, nil },
 		
-		{ "25780", "!player.buff(25780)" }, -- Fury
+		{ "25780", { "!player.buff(25780)","@mts.getConfig('PalaProtBuffs')" }, nil }, -- Fury
 		
 }
 
@@ -54,8 +51,8 @@ local inCombat = {
 		{ "26573", { "player.glyph(54928)", "modifier.alt" }, "ground"}, -- consecration glyphed
 
 	-- Seals
-		{ "20165", { "player.seal != 3", "!modifier.multitarget", "@mts.getConfig('changeSeals')"  }, nil }, -- seal of Insight
-		{ "20154", { "player.seal != 2", "modifier.multitarget", "@mts.getConfig('ChangeSeals')"  }, nil }, -- seal of righteousness
+		{ "20165", { "player.seal != 3", "!modifier.multitarget", "@mts.getConfig('PalaProtChangeSeals')"  }, nil }, -- seal of Insight
+		{ "20154", { "player.seal != 2", "modifier.multitarget", "@mts.getConfig('PalaProtChangeSeals')"  }, nil }, -- seal of righteousness
 
 	-- Hands
 		{ "6940", { "lowest.health <= 80", "!player.health <= 40", "!lowest.player" }, "lowest" }, -- Hand of Sacrifice
@@ -66,18 +63,18 @@ local inCombat = {
 		{ "96231", "modifier.interrupts" }, -- Rebuke
 
 	-- Defensive Cooldowns
-		{ "20925", { "!player.buff(20925)", "@mts.getConfig('pprotDefcd')" }, "player" }, -- Sacred Shield 		
-		{ "31850", { "player.health < 30", "@mts.getConfig('pprotDefcd')" }, nil }, --Ardent Defender
-		{ "498", { "player.health <= 99", "@mts.getConfig('pprotDefcd')" }, nil }, -- Divine Protection
-		{ "86659", { "player.health <= 50", "@mts.getConfig('pprotDefcd')" }, nil }, -- Guardian of Ancient Kings
-		{ "#gloves", "@mts.getConfig('pprotDefcd')", nil },
+		{ "20925", { "!player.buff(20925)", "@mts.getConfig('PalaProtDefCd')" }, "player" }, -- Sacred Shield 		
+		{ "31850", { "player.health < 30", "@mts.getConfig('PalaProtDefCd')" }, nil }, --Ardent Defender
+		{ "498", { "player.health <= 99", "@mts.getConfig('PalaProtDefCd')" }, nil }, -- Divine Protection
+		{ "86659", { "player.health <= 50", "@mts.getConfig('PalaProtDefCd')" }, nil }, -- Guardian of Ancient Kings
+		{ "#gloves", "@mts.getConfig('PalaProtDefCd')", nil },
 	
 	-- Cooldowns
 		{ "31884", "modifier.cooldowns" }, -- Avenging Wrath
 		{ "105809", "modifier.cooldowns" }, --Holy Avenger
 	
 	-- Items
-		{ "#5512", "player.health < 60" }, --Healthstone
+		{ "#5512", "@mts.ConfigUnitHp('PalaHolyHs', 'player')" }, --Healthstone
 		{ "#76097", { "player.health < 30", "@mts.HealthPot" }, nil }, -- Master Health Potion
 		--{ "#86125", "@mts.KafaPress", nil }, -- Kafa Press
 
@@ -104,9 +101,9 @@ local inCombat = {
         --{ "/TargetNearestEnemy", { "target.exists", "target.dead" }, nil },
 
     -- Taunts
-		{ "62124", { "@mts.getConfig('getTaunts')", "@mts.bossTaunt" }, "target" }, -- Boss // Reckoning
-		{ "62124", { "@mts.getConfig('getTaunts')", "target.threat < 100", "@mts.StopIfBoss" }, "target" }, -- Aggro Control // Reckoning
-		{ "62124", { "@mts.getConfig('getTaunts')", "mouseover.threat < 100", "@mts.StopIfBoss" }, "mouseover" }, -- Aggro Control // Reckoning
+		{ "62124", { "@mts.getConfig('PalaProtTaunts')", "@mts.bossTaunt" }, "target" }, -- Boss // Reckoning
+		{ "62124", { "@mts.getConfig('PalaProtTaunts')", "target.threat < 100", "@mts.StopIfBoss" }, "target" }, -- Aggro Control // Reckoning
+		{ "62124", { "@mts.getConfig('PalaProtTaunts')", "mouseover.threat < 100", "@mts.StopIfBoss" }, "mouseover" }, -- Aggro Control // Reckoning
 
 	-- Rotation
 		{ "24275", { -- Hammer of Wrath
@@ -135,7 +132,7 @@ local inCombat = {
 		{ "26573", { -- consecration
 			"!player.glyph(54928)", 
 			"target.range <= 5", 
-			"@mts.getConfig('useConsecration')" 
+			"@mts.getConfig('PalaProtConsecration')" 
 		}, nil },
 		{ "114157", "target.spell(114157).range", "target" }, -- Execution Sentense
 		{ "119072" }, -- Holy Wrath
@@ -153,8 +150,8 @@ local outCombat = {
 		{ "26573", { "player.glyph(54928)", "modifier.alt" }, "ground"}, -- consecration glyphed
 
 	-- seals
-		{ "20165", { "player.seal != 3", "!modifier.multitarget", "@mts.getConfig('changeSeals')"  }, nil }, -- seal of Insight
-		{ "20154", { "player.seal != 2", "modifier.multitarget", "@mts.getConfig('ChangeSeals')"  }, nil }, -- seal of righteousness
+		{ "20165", { "player.seal != 3", "!modifier.multitarget", "@mts.getConfig('PalaProtChangeSeals')"  }, nil }, -- seal of Insight
+		{ "20154", { "player.seal != 2", "modifier.multitarget", "@mts.getConfig('PalaProtChangeSeals')"  }, nil }, -- seal of righteousness
 
 	-- Hands
 		{ "1044", "player.state.root" }, -- Hand of Freedom

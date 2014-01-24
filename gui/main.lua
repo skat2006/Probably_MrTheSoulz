@@ -1,25 +1,22 @@
--- //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
---															   //Main frame//
---													  Thank Your For Your My ProFiles
---														  I Hope Your Enjoy Them
---																   MTS
+-- mConfig copyright & thanks to https://github.com/kirk24788/mConfig
+-- Modified by: MTS
 
+mConfigData = {}
+mConfigAllConfigs = {}
 
---mConfig copyright & thanks to https://github.com/kirk24788/mConfig
+local media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 
-mtsConfigData = {}
-
-mtsConfigAllData = {}
-
+local mConfigVersion = 1
+if M_CONFIG_VERSION == nil or MCONFIG_VERSION < mConfigVersion then
 local DISPLAYED_OPTIONS = 10
 local OPTIONS_HEIGHT = 40
 local OPTIONS_WIDTH = 600
-mtsConfig_VERSION = mtsConfigVersion
-mtsConfig = {}
+MCONFIG_VERSION = mConfigVersion
+mConfig = {}
 
-local function testmtsConfig()
+local function testMConfig()
     local veryLongText = " Oh Lord, won't you buy me a Mercedes Benz? My friends all drive Porsches, I must make amends. Worked hard all my lifetime, no help from my friends,So Lord, won't you buy me a Mercedes Benz ? "
-    local testConfig = mtsConfig:createConfig("mtsConfig Test","mtsConfig","Default",{"/mc"})
+    local testConfig = mConfig:createConfig("mConfig Test","mConfig","Default",{"/mc"})
     testConfig:addCheckBox("checkTest", "CheckBox Text: ".. veryLongText, "CheckBox Tooltip Text", false)
     testConfig:addTextBox("textTest", "TextBox Text: ".. veryLongText, "TextBox Tooltip Text", "giulia")
     testConfig:addNumericBox("numericTest", "NumericBox Text: ".. veryLongText, "NumericBox Tooltip Text", 42)
@@ -34,20 +31,24 @@ end
 local frame = CreateFrame("Frame")
 frame:RegisterEvent("VARIABLES_LOADED")
 frame:SetScript("OnEvent", function()
-    for _,c in pairs(mtsConfigAllData) do
-        if mtsConfigData[c.addOn] then
-            c.values=mtsConfigData[c.addOn][c.key]
+    for _,c in pairs(mConfigAllConfigs) do
+        if mConfigData[c.addOn] then
+            c.values=mConfigData[c.addOn][c.key]
             c:update()
+--       else
+--            print(c.addOn)
         end
     end
 end)
 
 local _nextElementId = 1
 local function nextElementId()
-    local name = "mtsConfig_ELEMENT_" .. _nextElementId
+    local name = "MCONFIG_ELEMENT_" .. _nextElementId
     _nextElementId = _nextElementId + 1
     return name
 end
+
+
 
 local function addTooltip(frame, title, text)
     if text and title then
@@ -64,7 +65,15 @@ local function addTooltip(frame, title, text)
     end
 end
 
-function mtsConfig:addButton(text,tooltip,fn)
+local testMode = false
+function mConfig:testMode()
+    if not testMode then
+        testMConfig()
+        testMode = true
+    end
+end
+
+function mConfig:addButton(text,tooltip,fn)
     local button = CreateFrame("Button", nil, self.frames.scrollFrame)
     button:SetNormalFontObject("GameFontNormal")
     button:SetSize(OPTIONS_WIDTH, OPTIONS_HEIGHT)
@@ -79,16 +88,13 @@ function mtsConfig:addButton(text,tooltip,fn)
     self:update()
 end
 
-function mtsConfig:addText(text, tooltip)
+function mConfig:addText(text, tooltip)
 
     local optionFrame = CreateFrame("Frame", nil, self.frames.scrollFrame)
     optionFrame:SetSize(OPTIONS_WIDTH, OPTIONS_HEIGHT)
-	optionFrame.texture = optionFrame:CreateTexture()
-	optionFrame.texture:SetAllPoints()
-	optionFrame.texture:SetTexture(0,0,0,0.5) 
     addTooltip(optionFrame, text, tooltip)
 
-    local optionText = optionFrame:CreateFontString(nil, "OVERLAY", "MovieSubtitleFont")
+    local optionText = optionFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     optionText:SetPoint("LEFT",optionFrame,20,-6)
     optionText:SetWidth(OPTIONS_WIDTH-40)
     optionText:SetHeight(OPTIONS_HEIGHT)
@@ -99,9 +105,29 @@ function mtsConfig:addText(text, tooltip)
     table.insert(self.frames.options, optionFrame)
 end
 
-function mtsConfig:addCheckBox(key, text, tooltip, defaultValue)
+function mConfig:addTitle(text, tooltip)
+
+    local optionFrame = CreateFrame("Frame", nil, self.frames.scrollFrame)
+    optionFrame:SetSize(OPTIONS_WIDTH, OPTIONS_HEIGHT)
+	optionFrame.texture = optionFrame:CreateTexture()
+	optionFrame.texture:SetAllPoints()
+	optionFrame.texture:SetTexture(0,0,0,0.5) 
+    addTooltip(optionFrame, text, tooltip)
+
+    local optionText = optionFrame:CreateFontString(nil, "OVERLAY", "MovieSubtitleFont")
+    optionText:SetPoint("LEFT",optionFrame,0,0)
+    optionText:SetWidth(OPTIONS_WIDTH)
+    optionText:SetHeight(OPTIONS_HEIGHT)
+    optionText:SetText(text)
+    optionText:SetJustifyH("CENTER")
+    optionText:SetJustifyV("CENTER")
+    
+    table.insert(self.frames.options, optionFrame)
+end
+
+function mConfig:addCheckBox(key, text, tooltip, defaultValue)
     if not defaultValue then defaultValue = false end
-    if self.values[key] == nil then self.values[key] = defaultValue end
+    if not self.values[key] then self.values[key] = defaultValue end
 
     local optionFrame = CreateFrame("Frame", nil, self.frames.scrollFrame)
     optionFrame:SetSize(OPTIONS_WIDTH, OPTIONS_HEIGHT)
@@ -110,10 +136,12 @@ function mtsConfig:addCheckBox(key, text, tooltip, defaultValue)
     local checkbutton = CreateFrame("CheckButton", nil, optionFrame, "ChatConfigSmallCheckButtonTemplate")
     checkbutton:SetHitRectInsets(4,4,4,4);
     checkbutton:SetPoint("RIGHT",optionFrame,-30,-5)
+    --checkbutton.tooltip = tooltip
     checkbutton:SetChecked(defaultValue)
     checkbutton:SetScript("OnClick", function()
         self.values[key] = checkbutton:GetChecked(defaultValue) == 1
     end)
+   -- checkbutton:SetWidth(30)
     optionFrame:Show()
 
     local optionText = optionFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
@@ -129,7 +157,7 @@ function mtsConfig:addCheckBox(key, text, tooltip, defaultValue)
     self.update(self)
 end
 
-function mtsConfig:addTextBox(key, text, tooltip, defaultValue)
+function mConfig:addTextBox(key, text, tooltip, defaultValue)
     if not defaultValue then defaultValue = "" end
     if not self.values[key] then self.values[key] = defaultValue end
 
@@ -152,6 +180,7 @@ function mtsConfig:addTextBox(key, text, tooltip, defaultValue)
     getglobal(textbox:GetName().."Middle"):SetPoint("RIGHT",getglobal(textbox:GetName().."Right"), "LEFT", 0, 0)
     textbox:ClearAllPoints()
     textbox:SetPoint("RIGHT",optionFrame,-20,-8)
+    --textbox:SetPoint("LEFT",
 
     local optionText = optionFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     optionText:SetPoint("LEFT",optionFrame,20,-6)
@@ -166,7 +195,7 @@ function mtsConfig:addTextBox(key, text, tooltip, defaultValue)
     self:update()
 end
 
-function mtsConfig:addNumericBox(key, text, tooltip, defaultValue)
+function mConfig:addNumericBox(key, text, tooltip, defaultValue)
     if not defaultValue then defaultValue = 0 end
     if not self.values[key] then self.values[key] = defaultValue end
 
@@ -205,7 +234,7 @@ function mtsConfig:addNumericBox(key, text, tooltip, defaultValue)
     self:update()
 end
 
-function mtsConfig:addSlider(key, text, tooltip, minValue, maxValue, defaultValue,stepSize)
+function mConfig:addSlider(key, text, tooltip, minValue, maxValue, defaultValue,stepSize)
     if not defaultValue then defaultValue = minValue end
     if not stepSize then stepSize = 1 end
     if not self.values[key] then self.values[key] = defaultValue end
@@ -230,6 +259,7 @@ function mtsConfig:addSlider(key, text, tooltip, minValue, maxValue, defaultValu
     slider:SetValue(self.values[key])
     slider:SetValueStep(stepSize)
     slider:SetWidth(120)
+    --slider:SetHeight(20)
     slider:EnableMouse(true)
     slider:SetPoint("RIGHT",optionFrame,-20,-8)
     getglobal(slider:GetName() .. 'Low'):SetText(lowText)
@@ -247,7 +277,8 @@ function mtsConfig:addSlider(key, text, tooltip, minValue, maxValue, defaultValu
     self:update()
 end
 
-function mtsConfig:addDropDown(key, text, tooltip, values, defaultValue)
+
+function mConfig:addDropDown(key, text, tooltip, values, defaultValue)
     if not defaultValue then defaultValue = 1 end
     if not self.values[key] then self.values[key] = defaultValue end
 
@@ -283,8 +314,8 @@ function mtsConfig:addDropDown(key, text, tooltip, values, defaultValue)
     end
 
     dropdown:SetPoint("RIGHT",optionFrame, 0,-8)
-    UIDropDownMenu_SetWidth(dropdown, 110);
-    UIDropDownMenu_JustifyText(dropdown, "LEFT");
+    UIDropDownMenu_SetWidth(dropdown, 200);
+    UIDropDownMenu_JustifyText(dropdown, "CENTER");
     UIDropDownMenu_Initialize(dropdown, InitializeDropdown)
     self.defaults[key] = defaultValue
     self.setters[key] = function(v) 
@@ -299,7 +330,9 @@ function mtsConfig:addDropDown(key, text, tooltip, values, defaultValue)
     self:update()
 end
 
-function mtsConfig:update()
+
+
+function mConfig:update()
     local numItems = #(self.frames.options)
     FauxScrollFrame_Update(self.frames.scrollFrame, numItems, DISPLAYED_OPTIONS, OPTIONS_HEIGHT)
     local offset = FauxScrollFrame_GetOffset(self.frames.scrollFrame) + 1
@@ -324,38 +357,27 @@ function mtsConfig:update()
     end
 end
 
-function mtsConfig:Show()
+function mConfig:Show()
     self.frames.configFrame:Show()
 end
-
-function mtsConfig:Hide()
+function mConfig:Hide()
     self.frames.configFrame:Hide()
 end
-
-function mtsConfig:Toggle()
+function mConfig:Toggle()
     if self.frames.configFrame:IsShown() then
         self.frames.configFrame:Hide()
     else
         self.frames.configFrame:Show()
     end
 end
-
-function mtsConfig:get(key)
-	if not self.values[key] then 
-		if not self.defaults[key] then
-			print("mtsConfig error: ".. key.." not found")
-			return 0
-		else
-			return self.defaults[key]
-		end
-	end
+function mConfig:get(key)
     return self.values[key]
 end
-function mtsConfig:set(key, value)
+function mConfig:set(key, value)
     self.values[key] = value
     return self:update()
 end
-function mtsConfig:defaultValues()
+function mConfig:defaultValues()
     for k,v in pairs(self.defaults) do
         self.values[k] = v
     end
@@ -365,39 +387,36 @@ end
 
 
 
-function mtsConfig:createConfig(titleText,addOn,key,slashCommands)
+function mConfig:createConfig(titleText,addOn,key,slashCommands)
     if not key then key = "Default" end
-    if not mtsConfigData[addOn] then mtsConfigData[addOn] = {} end
-    if not mtsConfigData[addOn][key] then mtsConfigData[addOn][key] = {} end
+    if not mConfigData[addOn] then mConfigData[addOn] = {} end
+    if not mConfigData[addOn][key] then mConfigData[addOn][key] = {} end
     local data = {
         frames={options={}},
         addOn=addOn,
         key=key,
-        values=mtsConfigData[addOn][key],
+        values=mConfigData[addOn][key],
         defaults={},
         setters={},
     }
-    table.insert(mtsConfigAllData, data)
+    table.insert(mConfigAllConfigs, data)
     setmetatable(data, self)
     self.__index = self
     data.frames.configFrame = CreateFrame("Frame", nil,UIParent)
     data.frames.configFrame:SetPoint("CENTER",UIParent)
     data.frames.configFrame:EnableMouse(true)
     data.frames.configFrame:SetMovable(true)
-    data.frames.configFrame:SetWidth(OPTIONS_WIDTH + 75)
-    data.frames.configFrame:SetHeight((DISPLAYED_OPTIONS+2) * OPTIONS_HEIGHT)
+    data.frames.configFrame:SetWidth(OPTIONS_WIDTH + 60)
+    data.frames.configFrame:SetHeight((DISPLAYED_OPTIONS+2) * OPTIONS_HEIGHT + 20)
     data.frames.configFrame:RegisterForDrag("LeftButton")
     data.frames.configFrame:SetScript("OnDragStart", function(self) self:StartMoving() end)
     data.frames.configFrame:SetScript("OnDragStop", function(self) self:StopMovingOrSizing() end)
     data.frames.configFrame:SetClampedToScreen(true)
-	data.frames.configFrame:SetBackdrop({
-		bgFile = "Interface/Tooltips/UI-Tooltip-Background", 
-		edgeFile = "Interface/Tooltips/UI-Tooltip-Border", 
-		tile = true, tileSize = 16, edgeSize = 16, 
-		insets = { left = 4, right = 4, top = 4, bottom = 4 }});
-	data.frames.configFrame:SetBackdropColor(0,0,0,5);
+    data.frames.configFrame.texture = data.frames.configFrame:CreateTexture()
+	data.frames.configFrame.texture:SetAllPoints()
+    data.frames.configFrame.texture:SetTexture(0,0,0,0.7)
     data.frames.configFrame:Hide()
-	
+    
     local title = CreateFrame("Frame", nil, data.frames.configFrame)
     title:SetPoint("TOP", data.frames.configFrame)
     title:SetWidth(OPTIONS_WIDTH)
@@ -409,26 +428,28 @@ function mtsConfig:createConfig(titleText,addOn,key,slashCommands)
     text:SetText(titleText)
     title:Show()
   
-    data.frames.scrollFrame = CreateFrame("ScrollFrame", "mtsConfigScrollFrame"..nextElementId(), data.frames.configFrame, "FauxScrollFrameTemplate")
-    data.frames.scrollFrame:SetPoint("CENTER", data.frames.configFrame)
-    data.frames.scrollFrame:SetWidth(OPTIONS_WIDTH + 10)
-    data.frames.scrollFrame:SetHeight(DISPLAYED_OPTIONS * OPTIONS_HEIGHT)
-	data.frames.scrollFrame.texture = data.frames.scrollFrame:CreateTexture()
+    data.frames.scrollFrame = CreateFrame("ScrollFrame", "mConfigScrollFrame"..nextElementId(), data.frames.configFrame, "FauxScrollFrameTemplate")
+    data.frames.scrollFrame:SetPoint("CENTER",data.frames.configFrame)
+    data.frames.scrollFrame:SetWidth(OPTIONS_WIDTH)
+    data.frames.scrollFrame:SetHeight(DISPLAYED_OPTIONS * OPTIONS_HEIGHT + 20)
+    data.frames.scrollFrame:Show()
+    data.frames.scrollFrame.texture = data.frames.scrollFrame:CreateTexture()
 	data.frames.scrollFrame.texture:SetAllPoints()
     data.frames.scrollFrame.texture:SetTexture(0,0,0,0.3)
-    data.frames.scrollFrame:Show()
     data.frames.scrollFrame:SetScript("OnVerticalScroll", function(self, offset)
         FauxScrollFrame_OnVerticalScroll(self, offset, OPTIONS_HEIGHT, function() data:update() end)
     end)
+    
+    --data.frames.scrollFrame:SetScript("OnUpdate", function() data:update() end)
 
-
+	-- Close Button
     local button = CreateFrame("Button", nil, data.frames.configFrame)
-    button:SetPoint("BOTTOM", data.frames.configFrame, "BOTTOM", - 100, 10)
+    button:SetPoint("BOTTOM", data.frames.configFrame, "BOTTOM", 0, 10)
     button:SetWidth(100)
     button:SetHeight(25)
     button:SetText("Close")
     button:SetNormalFontObject("GameFontNormal")
-    button:SetScript("OnClick", function(self) data.frames.configFrame:Hide() end)
+    button:SetScript("OnClick", function(self) data.frames.configFrame:Hide(); mts_Alert_Version:Hide() end)
     -- Button Textures
     local closeButton1 = button:CreateTexture()
     closeButton1:SetTexture(0,0,0,1)
@@ -445,32 +466,21 @@ function mtsConfig:createConfig(titleText,addOn,key,slashCommands)
     closeButton3:SetTexCoord(0, 0.625, 0, 0.6875)
     closeButton3:SetAllPoints()
     button:SetPushedTexture(closeButton3)
-	
-	local versionButton = CreateFrame("Button", nil, data.frames.configFrame)
-    versionButton:SetPoint("BOTTOM", data.frames.configFrame, "BOTTOM", 100 , 10)
-    versionButton:SetWidth(100)
-    versionButton:SetHeight(25)
-    versionButton:SetText("Version")
-    versionButton:SetNormalFontObject("GameFontNormal")
-    versionButton:SetScript("OnClick", function(self) mtsAlert:message("\124cff9482C9*MrTheSoulz Version: 3.0.0*") end)
-    local versionButton1 = versionButton:CreateTexture()
-    versionButton1:SetTexture(0,0,0,1)
-    versionButton1:SetTexCoord(0, 0.625, 0, 0.6875)
-    versionButton1:SetAllPoints() 
-    versionButton:SetNormalTexture(versionButton1)
-    local versionButton2 = versionButton:CreateTexture()
-    versionButton2:SetTexture(0.5,0.5,0.5,1)
-    versionButton2:SetTexCoord(0, 0.625, 0, 0.6875)
-    versionButton2:SetAllPoints()
-    versionButton:SetHighlightTexture(versionButton2)
-    local versionButton3 = versionButton:CreateTexture()
-    versionButton3:SetTexture(0,0,0,1)
-    versionButton3:SetTexCoord(0, 0.625, 0, 0.6875)
-    versionButton3:SetAllPoints()
-    versionButton:SetPushedTexture(versionButton3)
     
+	mts_Alert_Version = CreateFrame("Frame",nil,UIParent)
+	mts_Alert_Version:SetWidth(400)
+	mts_Alert_Version:SetHeight(30)
+	mts_Alert_Version:Hide()
+	mts_Alert_Version:SetPoint("TOP",0,0)
+	mts_Alert_Version.text = mts_Alert_Version:CreateFontString(nil,"OVERLAY","MovieSubtitleFont")
+	mts_Alert_Version.text:SetAllPoints()
+	mts_Alert_Version.text:SetText("\124cff9482C9*MrTheSoulz Version: 3.0.0*")
+	mts_Alert_Version.texture = mts_Alert_Version:CreateTexture()
+	mts_Alert_Version.texture:SetAllPoints()
+	mts_Alert_Version.texture:SetTexture(0,0,0,0.7)
+	
     if slashCommands then
-        local slashId = "mtsConfig_"..addOn.."_"..key
+        local slashId = "MCONFIG_"..addOn.."_"..key
         if type(slashCommands) == "table" then
             local pos = 1
             for _,slashCommand in pairs(slashCommands) do
@@ -483,12 +493,18 @@ function mtsConfig:createConfig(titleText,addOn,key,slashCommands)
         SlashCmdList[slashId] = function(msg,editbox)
             if data.frames.configFrame:IsShown() then
                 data.frames.configFrame:Hide()
+				mts_Alert_Version:Hide()
+				PlaySoundFile(media .. "menu.mp3", "master")
             else
                 data.frames.configFrame:Show()
                 data.frames.scrollFrame:Show()
+				mts_Alert_Version:Show()
+				PlaySoundFile(media .. "menu.mp3", "master")
             end
         end
     end
 
     return data
+end
+
 end

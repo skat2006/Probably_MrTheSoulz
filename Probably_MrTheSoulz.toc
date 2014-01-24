@@ -4,9 +4,9 @@
 ## Dependencies: Probably
 ## Interface: 50400
 ## Author: MrTheSoulz
+## SavedVariables: mConfigData
 
 gui\main.lua
-gui\welcome.lua
 gui\alert.lua
 libs\lib.lua
 rotations\paladin\protection.lua
