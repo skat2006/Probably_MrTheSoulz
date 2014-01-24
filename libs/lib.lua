@@ -241,7 +241,40 @@ if source ~= UnitGUID("player") then return false end
 			mts_ConfigWhisper(tname.." MSG: Casted Lay On Hands on you.")
 			mts_ConfigAlert("*Casted Lay on Hands*")
 		end
+		
+		if spellId == 1044 then
+			mts_ConfigWhisper(tname.." MSG: Casted Hand of Freedom on you.")
+			mts_ConfigAlert("*Casted Hand of Freedom*")
+		end
+		
+		if spellId == 6940 then
+			mts_ConfigAlert("*Casted Hand of Sacrifice*")
+			mts_ConfigWhisper("/w "..tname.." MSG: Casted Hand of Sacrifice on you.")
+		end
+		
+		if spellId == 105593 then
+			mts_ConfigAlert("*Stunned Target*")
+		end
+		
+		if spellId == 853 then
+			mts_ConfigAlert("*Stunned Target*")
+		end
 
+		if spellId == 31821 then
+			mts_ConfigAlert("*Casted Devotion Aura*")
+		end
+		
+		if spellId == 31884 then
+			mts_ConfigAlert("*Casted Avenging Wrath*")
+		end
+		
+		if spellId == 86669 then
+			mts_ConfigAlert("*Casted Guardian of Ancient Kings*")
+		end
+		
+		if spellId == 31842 then
+			mts_ConfigAlert("*Casted Divine Favor*")
+		end
 -----------------------------
 	end -- Ends Table
 end)
