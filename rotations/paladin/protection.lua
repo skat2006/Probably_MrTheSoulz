@@ -75,8 +75,8 @@ local inCombat = {
 	
 	-- Items
 		{ "#5512", "@mts.ConfigUnitHp('PalaHolyHs', 'player')" }, --Healthstone
-		{ "#76097", { "player.health < 30", "@mts.HealthPot" }, nil }, -- Master Health Potion
-		--{ "#86125", "@mts.KafaPress", nil }, -- Kafa Press
+		{ "#76097", { "@mts.getConfig('PalaProtItems')", "player.health < 30", "@mts.HealthPot" }}, -- Master Health Potion
+		--{ "#86125", { "@mts.getConfig('PalaProtItems')","@mts.KafaPress" }}, -- Kafa Press
 
 	-- Self Heal
 		{ "633", "player.health < 20", "player"}, -- Lay on Hands

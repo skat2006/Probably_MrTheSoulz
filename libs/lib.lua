@@ -300,6 +300,7 @@ function mts.initConfig()
         -- Paldin Protection
         mts_Config:addTitle("\124cffF58CBA---> Paladin Protection: <---")
 		mts_Config:addText("Everything in here only affects the Paladin Protection profile.")
+		mts_Config:addCheckBox("PalaProtItems", "Use items", "Allows usage of items", true)
 		mts_Config:addCheckBox("PalaProtTaunts", "Auto Taunting", "Allows Auto Taunts", true)
 		mts_Config:addCheckBox("PalaProtConsecration", "Consecration", "Use Consecration", true)
 		mts_Config:addCheckBox("PalaProtChangeSeals", "Seals", "Use Seals", true)
@@ -311,11 +312,21 @@ function mts.initConfig()
 		-- Paldin Holy
         mts_Config:addTitle("\124cffF58CBA---> Paladin Holy: <---")
 		mts_Config:addText("Everything in here only affects the Paladin Holy profile.")
+		mts_Config:addCheckBox("PalaHolyItems", "Use items", "Allows usage of items", true)
 		mts_Config:addCheckBox("PalaHolyBuffs", "Buffing", "Use Buffs", true)
 		mts_Config:addCheckBox("PalaHolyDispells", "Auto Dispelling", "Allows Auto Dispelling", true)
 		mts_Config:addDropDown("toUsePalaHolyBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
 		mts_Config:addDropDown("toUsePalaHolyHr", "Holy Radiance:", "Choose how to use Holy Radiance", {AUTO="Auto", MANUAL="Manual"}, "AUTO")
 		mts_Config:addSlider("PalaHolyHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+		
+		-- DeathKinght Blood
+        mts_Config:addTitle("\124cffC41F3B---> DeathKinght Blood: <---")
+		mts_Config:addText("Everything in here only affects the DeathKinght Blood profile.")
+		mts_Config:addCheckBox("DkBloodTaunts", "Auto Taunting", "Allows Auto Taunts", true)
+		mts_Config:addCheckBox("DkBloodDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
+		mts_Config:addCheckBox("DkBloodItems", "Use items", "Allows usage of items", true)
+		mts_Config:addCheckBox("DkBloodBuffs", "Buffing", "Use Buffs", true)
+		mts_Config:addSlider("DkBloodHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
 		
 end
 
