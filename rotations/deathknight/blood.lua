@@ -82,9 +82,8 @@ local inCombat = {
 		{ "55233", { "player.health <= 55", "@mts.getConfig('DkBloodDefCd')" }}, -- Vampiric Blood
 		{ "48792", { "player.health <= 50", "@mts.getConfig('DkBloodDefCd')" }},-- Icebound Fortitude	
 		
-	{{-- Cooldowns
-		{ "Empower Rune Weapon", "player.health <= 40" }, -- Empower Rune Weapon
-	}, "modifier.cooldowns" },
+	-- Cooldowns
+		{ "Empower Rune Weapon", { "player.health <= 40", "modifier.cooldowns" }}, -- Empower Rune Weapon
 	
 	-- Rotation
 	
