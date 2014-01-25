@@ -9,6 +9,8 @@
 
 local mts = {}
 local media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
+local _playerClass, _englishClass, _idClass = UnitClass("player");
+local _playerSpec = GetSpecialization()
 
 -- //////////////////////-----------------------------------------Taunts-----------------------------------/////////////////////////////
 
@@ -315,8 +317,6 @@ ProbablyEngine.library.register('mts', mts)
 
 mts_Config = {}
 function mts.initConfig()
-local _playerClass, _englishClass, _idClass = UnitClass("player");
-local _playerSpec = GetSpecialization()
 mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","mtsConfig","Default",{"/mts"})
         
 		-- Settings
