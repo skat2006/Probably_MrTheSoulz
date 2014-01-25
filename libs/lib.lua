@@ -56,8 +56,8 @@ function mts.bossTaunt()
 			for j = 1, 4 do
 			local bossID = "boss" .. j
 			local boss = UnitID(bossID) -- /script print(UnitID("target"))
-											
--- //////////////////////-----------------------------------------SoO-----------------------------------//////////////////////////////
+
+		-- //////////////////////--------------------SoO--------------------------//////////////////////////////
 
 				if boss == 71543 then -- Immersus
 					if mts.stackCheck("Corrosive Blast", otherTank, 1) then
@@ -120,7 +120,7 @@ function mts.bossTaunt()
 					end
 				end 
 
--- //////////////////////-----------------------------------------ToT-----------------------------------//////////////////////////////
+		-- //////////////////////--------------------ToT--------------------------//////////////////////////////
 
 				if boss == 69465 then -- Jin’rokh the Breaker
 				local debuffName, _, _, debuffCount = UnitDebuff(otherTank, "Static Wound")
@@ -184,7 +184,7 @@ function mts.bossTaunt()
 					end 
 				end
 
--- //////////////////////-----------------------------------------END TABLE-----------------------------------//////////////////////////////
+
 
 			end
 		end
@@ -276,6 +276,21 @@ if source ~= UnitGUID("player") then return false end
 			mts_ConfigAlert("*Casted Avenging Wrath*")
 		end
 		
+		if spellId == 105809 then
+			mts_ConfigAlertSound()
+			mts_ConfigAlert("*Casted Guardian of Ancient Kings*")
+		end
+		
+		if spellId == 31850 then
+			mts_ConfigAlertSound()
+			mts_ConfigAlert("*Casted Ardent Dfender*")
+		end
+		
+		if spellId == 86659 then
+			mts_ConfigAlertSound()
+			mts_ConfigAlert("*Casted Holy Avenger*")
+		end
+		
 		if spellId == 86669 then
 			mts_ConfigAlertSound()
 			mts_ConfigAlert("*Casted Guardian of Ancient Kings*")
@@ -285,7 +300,7 @@ if source ~= UnitGUID("player") then return false end
 			mts_ConfigAlertSound()
 			mts_ConfigAlert("*Casted Divine Favor*")
 		end
------------------------------
+
 	end -- Ends Table
 end)
 
@@ -296,6 +311,8 @@ ProbablyEngine.library.register('mts', mts)
 -- //////////////////////-----------------------------------------Config-----------------------------------//////////////////////////////
 
 -- mConfig copyright & thanks to https://github.com/kirk24788/mConfig
+-- Modified by MTS
+
 mts_Config = {}
 function mts.initConfig()
         mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","mtsConfig","Default",{"/mts"})
@@ -355,7 +372,7 @@ end
 
 function mts_ConfigAlertSound()
 	if mts.getConfig('getAlertSounds')then
-		PlaySoundFile(media .. "beware.mp3", "master")
+		PlaySoundFile(media .. "beep.mp3", "master")
 	end
 end
 
