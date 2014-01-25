@@ -234,45 +234,55 @@ if source ~= UnitGUID("player") then return false end
 	if event == "SPELL_CAST_SUCCESS" then	
 
 		if spellId == 114158 then
+			mts_ConfigAlertSound()
 			mts_ConfigAlert("*Casted Light´s Hammer*")
 		end
 	
 		if spellId == 633 then
+			mts_ConfigAlertSound()
 			mts_ConfigWhisper(tname.." MSG: Casted Lay On Hands on you.")
 			mts_ConfigAlert("*Casted Lay on Hands*")
 		end
 		
 		if spellId == 1044 then
+			mts_ConfigAlertSound()
 			mts_ConfigWhisper(tname.." MSG: Casted Hand of Freedom on you.")
 			mts_ConfigAlert("*Casted Hand of Freedom*")
 		end
 		
 		if spellId == 6940 then
+			mts_ConfigAlertSound()
 			mts_ConfigAlert("*Casted Hand of Sacrifice*")
 			mts_ConfigWhisper("/w "..tname.." MSG: Casted Hand of Sacrifice on you.")
 		end
 		
 		if spellId == 105593 then
+			mts_ConfigAlertSound()
 			mts_ConfigAlert("*Stunned Target*")
 		end
 		
 		if spellId == 853 then
+			mts_ConfigAlertSound()
 			mts_ConfigAlert("*Stunned Target*")
 		end
 
 		if spellId == 31821 then
+			mts_ConfigAlertSound()
 			mts_ConfigAlert("*Casted Devotion Aura*")
 		end
 		
 		if spellId == 31884 then
+			mts_ConfigAlertSound()
 			mts_ConfigAlert("*Casted Avenging Wrath*")
 		end
 		
 		if spellId == 86669 then
+			mts_ConfigAlertSound()
 			mts_ConfigAlert("*Casted Guardian of Ancient Kings*")
 		end
 		
 		if spellId == 31842 then
+			mts_ConfigAlertSound()
 			mts_ConfigAlert("*Casted Divine Favor*")
 		end
 -----------------------------
@@ -339,10 +349,13 @@ end
 
 function mts_ConfigAlert(txt)
 	if mts.getConfig('getAlerts')then
-		if mts.getConfig('getAlertSounds')then
-			PlaySoundFile(media .. "beware.mp3", "master")
 		return mtsAlert:message(txt)
-		end
+	end
+end
+
+function mts_ConfigAlertSound()
+	if mts.getConfig('getAlertSounds')then
+		PlaySoundFile(media .. "beware.mp3", "master")
 	end
 end
 
