@@ -9,8 +9,6 @@ local lib = function()
 	
 -- ///////////////////-----------------------------------------TOGGLES-----------------------------------//////////////////////////////
 
-	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
-	ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
 	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffF58CBAPaladin/Holy \124cff9482C9Loaded*")
 
 -- ///////////////////-----------------------------------------DISPELS-----------------------------------//////////////////////////////
@@ -64,7 +62,7 @@ local Buffs = {
 			"!player.buff(93435).any",
 			"!player.buff(128997).any",
 			"@mts.getConfig('PalaHolyBuffs')",
-			"@mts.getSetting('toUsePalaHolyBuff', 'KINGS')"
+			"@mts.getSetting('toUsePalaHolyBuff', 'MIGHT')"
 		}, nil },
 		
 		{ "20217", { -- Blessing of Kings
