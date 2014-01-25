@@ -349,7 +349,7 @@ mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","m
 			else
 				mts_Config:addTitle("---> Not Supported: <---")
 				mts_Config:addText("This Class or/and Spec is Currently not supported by MTS.")
-				mts_Config:addText("If you have changed Spec or Character please do /reload, there is currently and issue auto-updating when this occurs.")
+				mts_Config:addText("If you have changed Spec or Character please do reload, there is currently and issue auto-updating when this occurs.")
 			end
 		elseif _idClass == 6 then -- DeathKinght
 			if _playerSpec == 1 then -- Blood
@@ -363,7 +363,7 @@ mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","m
 			else
 				mts_Config:addTitle("---> Not Supported: <---")
 				mts_Config:addText("This Class or/and Spec is Currently not supported by MTS.")
-				mts_Config:addText("If you have changed Spec or Character please do /reload, there is currently and issue auto-updating when this occurs.")
+				mts_Config:addText("If you have changed Spec or Character please do reload, there is currently and issue auto-updating when this occurs.")
 			end
 		elseif _idClass == 11 then -- Druid
 		
@@ -378,12 +378,12 @@ mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","m
 			else
 				mts_Config:addTitle("---> Not Supported: <---")
 				mts_Config:addText("This Class or/and Spec is Currently not supported by MTS.")
-				mts_Config:addText("If you have changed Spec or Character please do /reload, there is currently and issue auto-updating when this occurs.")
+				mts_Config:addText("If you have changed Spec or Character please do reload, there is currently and issue auto-updating when this occurs.")
 			end
 		else
 			mts_Config:addTitle("---> Not Supported: <---")
 			mts_Config:addText("This Class or/and Spec is Currently not supported by MTS.")
-			mts_Config:addText("If you have changed Spec or Character please do /reload, there is currently and issue auto-updating when this occurs.")
+			mts_Config:addText("If you have changed Spec or Character please do reload, there is currently and issue auto-updating when this occurs.")
 		end
 		
 end
