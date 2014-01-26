@@ -49,8 +49,6 @@ local function nextElementId()
     return name
 end
 
-
-
 local function addTooltip(frame, title, text)
     if text and title then
         frame:SetScript("OnEnter",  function (self)
@@ -278,7 +276,6 @@ function mConfig:addSlider(key, text, tooltip, minValue, maxValue, defaultValue,
     self:update()
 end
 
-
 function mConfig:addDropDown(key, text, tooltip, values, defaultValue)
     if not defaultValue then defaultValue = 1 end
     if not self.values[key] then self.values[key] = defaultValue end
@@ -331,8 +328,6 @@ function mConfig:addDropDown(key, text, tooltip, values, defaultValue)
     self:update()
 end
 
-
-
 function mConfig:update()
     local numItems = #(self.frames.options)
     FauxScrollFrame_Update(self.frames.scrollFrame, numItems, DISPLAYED_OPTIONS, OPTIONS_HEIGHT)
@@ -384,9 +379,6 @@ function mConfig:defaultValues()
     end
     return self:update()
 end
-
-
-
 
 function mConfig:createConfig(titleText,addOn,key,slashCommands)
     if not key then key = "Default" end
@@ -445,7 +437,7 @@ function mConfig:createConfig(titleText,addOn,key,slashCommands)
 
 	-- Close Button
     local button = CreateFrame("Button", nil, data.frames.configFrame)
-    button:SetPoint("BOTTOM", data.frames.configFrame, "BOTTOM", - 50, 10)
+    button:SetPoint("BOTTOM", data.frames.configFrame, "BOTTOM", 0, 10)
     button:SetWidth(100)
     button:SetHeight(25)
     button:SetText("Close")
@@ -467,43 +459,6 @@ function mConfig:createConfig(titleText,addOn,key,slashCommands)
     closeButton3:SetTexCoord(0, 0.625, 0, 0.6875)
     closeButton3:SetAllPoints()
     button:SetPushedTexture(closeButton3)
-	
-	-- Reload
-    local button = CreateFrame("Button", nil, data.frames.configFrame)
-    button:SetPoint("BOTTOM", data.frames.configFrame, "BOTTOM", 50, 10)
-    button:SetWidth(100)
-    button:SetHeight(25)
-    button:SetText("Reload")
-    button:SetNormalFontObject("GameFontNormal")
-    button:SetScript("OnClick", function(self) ReloadUI() end)
-    -- Button Textures
-    local closeButton1 = button:CreateTexture()
-    closeButton1:SetTexture(0,0,0,1)
-    closeButton1:SetTexCoord(0, 0.625, 0, 0.6875)
-    closeButton1:SetAllPoints() 
-    button:SetNormalTexture(closeButton1)
-    local closeButton2 = button:CreateTexture()
-    closeButton2:SetTexture(0.5,0.5,0.5,1)
-    closeButton2:SetTexCoord(0, 0.625, 0, 0.6875)
-    closeButton2:SetAllPoints()
-    button:SetHighlightTexture(closeButton2)
-    local closeButton3 = button:CreateTexture()
-    closeButton3:SetTexture(0,0,0,1)
-    closeButton3:SetTexCoord(0, 0.625, 0, 0.6875)
-    closeButton3:SetAllPoints()
-    button:SetPushedTexture(closeButton3)
-    
-	mts_Alert_Version = CreateFrame("Frame",nil,UIParent)
-	mts_Alert_Version:SetWidth(400)
-	mts_Alert_Version:SetHeight(30)
-	mts_Alert_Version:Hide()
-	mts_Alert_Version:SetPoint("TOP",0,0)
-	mts_Alert_Version.text = mts_Alert_Version:CreateFontString(nil,"OVERLAY","MovieSubtitleFont")
-	mts_Alert_Version.text:SetAllPoints()
-	mts_Alert_Version.text:SetText(mts_VERSION)
-	mts_Alert_Version.texture = mts_Alert_Version:CreateTexture()
-	mts_Alert_Version.texture:SetAllPoints()
-	mts_Alert_Version.texture:SetTexture(0,0,0,0.7)
     
 	mts_Alert_Version = CreateFrame("Frame",nil,UIParent)
 	mts_Alert_Version:SetWidth(400)

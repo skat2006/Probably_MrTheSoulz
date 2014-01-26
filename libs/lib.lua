@@ -319,43 +319,68 @@ mts_Config = {}
 function mts.initConfig()
 mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","mtsConfig","Default",{"/mts"})
         
-		-- Settings
-        mts_Config:addTitle("---> General Settings: <---")
-		mts_Config:addText("Everything in here is shared cross all of the profiles.")
-		mts_Config:addCheckBox("getAlerts", "Show Notifications", "Shows notification on top when used certain spells", true)
-		mts_Config:addCheckBox("getAlertSounds", "Notifications Sounds", "Plays a sound when a notification is shown.", true)
-		mts_Config:addCheckBox("getWhispers", "Allow Whispers", "Whispers people after using certain spells", true)
-		mts_Config:addTitle("\124cffF58CBA---> Paladin Holy: <---")
-		mts_Config:addText("Everything in here only affects the Paladin Holy profile.")
-		mts_Config:addCheckBox("PalaHolyItems", "Use items", "Allows usage of items", true)
-		mts_Config:addCheckBox("PalaHolyBuffs", "Buffing", "Use Buffs", true)
-		mts_Config:addCheckBox("PalaHolyDispells", "Auto Dispelling", "Allows Auto Dispelling", true)
-		mts_Config:addDropDown("toUsePalaHolyBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
-		mts_Config:addDropDown("toUsePalaHolyHr", "Holy Radiance:", "Choose how to use Holy Radiance", {AUTO="Auto", MANUAL="Manual"}, "AUTO")
-		mts_Config:addSlider("PalaHolyHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
-		mts_Config:addTitle("\124cffF58CBA---> Paladin Protection: <---")
-		mts_Config:addText("Everything in here only affects the Paladin Protection profile.")
-		mts_Config:addCheckBox("PalaProtItems", "Use items", "Allows usage of items", true)
-		mts_Config:addCheckBox("PalaProtTaunts", "Auto Taunting", "Allows Auto Taunts", true)
-		mts_Config:addCheckBox("PalaProtConsecration", "Consecration", "Use Consecration", true)
-		mts_Config:addCheckBox("PalaProtChangeSeals", "Seals", "Use Seals", true)
-		mts_Config:addCheckBox("PalaProtDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
-		mts_Config:addCheckBox("PalaProtBuffs", "Buffing", "Use Buffs Kings/Might/Fury", true)
-		mts_Config:addDropDown("toUsePalaProtBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
-		mts_Config:addSlider("PalaProtHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
-		mts_Config:addTitle("\124cffC41F3B---> DeathKinght Blood: <---")
-		mts_Config:addText("Everything in here only affects the DeathKinght Blood profile.")
-		mts_Config:addCheckBox("DkBloodTaunts", "Auto Taunting", "Allows Auto Taunts", true)
-		mts_Config:addCheckBox("DkBloodDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
-		mts_Config:addCheckBox("DkBloodItems", "Use items", "Allows usage of items", true)
-		mts_Config:addCheckBox("DkBloodBuffs", "Buffing", "Use Buffs", true)
-		mts_Config:addSlider("DkBloodHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
-		mts_Config:addTitle("\124cffFF7D0A---> Druid Guardian: <---")
-		mts_Config:addText("Everything in here only affects the Druid Guardian profile.")
-		mts_Config:addSlider("DoodGuard", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
-		mts_Config:addTitle("\124cffFF7D0A---> Druid Restoration: <---")
-		mts_Config:addText("Everything in here only affects the Druid Restoration profile.")
-		mts_Config:addSlider("DoodResto", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+	-- Settings
+	mts_Config:addTitle("---> General Settings: <---")
+	mts_Config:addText("Everything in here is shared cross all of the profiles.")
+	mts_Config:addCheckBox("getAlerts", "Show Notifications", "Shows notification on top when used certain spells", true)
+	mts_Config:addCheckBox("getAlertSounds", "Notifications Sounds", "Plays a sound when a notification is shown.", true)
+	mts_Config:addCheckBox("getWhispers", "Allow Whispers", "Whispers people after using certain spells", true)
+
+	--Paladin Holy
+	mts_Config:addTitle("\124cffF58CBA---> Paladin Holy: <---")
+	mts_Config:addText("Everything in here only affects the Paladin Holy profile.")
+	mts_Config:addCheckBox("PalaHolyItems", "Use items", "Allows usage of items", true)
+	mts_Config:addCheckBox("PalaHolyBuffs", "Buffing", "Use Buffs", true)
+	mts_Config:addCheckBox("PalaHolyDispells", "Auto Dispelling", "Allows Auto Dispelling", true)
+	mts_Config:addDropDown("toUsePalaHolyBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
+	mts_Config:addDropDown("toUsePalaHolyHr", "Holy Radiance:", "Choose how to use Holy Radiance", {AUTO="Auto", MANUAL="Manual"}, "AUTO")
+	mts_Config:addSlider("PalaHolyHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+	mts_Config:addSlider("PalaHolyEf", "Eternal Flame @ HP %", "HP percentage you need to drop to use Eternal Flame", 10,100,93,1)
+	mts_Config:addSlider("PalaHolyLoh", "Lay on Hands @ HP %", "HP percentage you need to drop to use Lay on Hands", 10,100,15,1)
+	mts_Config:addCheckBox("usePalaHolyTk1", "Use Trinket 1", "Allows usage of Trinket 1", true)
+	mts_Config:addCheckBox("usePalaHolyTk2", "Use Trinket 2", "Allows usage of Trinket 2", true)
+	mts_Config:addSlider("PalaHolyTk1", "Trinket 1 @ MANA %", "MANA percentage you need to drop to use Trinket 1", 10,100,85,1)
+	mts_Config:addSlider("PalaHolyTk2", "Trinket 2 @ MANA %", "MANA percentage you need to drop to use Trinket 2", 10,100,85,1)
+
+	-- Paladin Protection
+	mts_Config:addTitle("\124cffF58CBA---> Paladin Protection: <---")
+	mts_Config:addText("Everything in here only affects the Paladin Protection profile.")
+	mts_Config:addCheckBox("PalaProtItems", "Use items", "Allows usage of items", true)
+	mts_Config:addCheckBox("PalaProtTaunts", "Auto Taunting", "Allows Auto Taunts", true)
+	mts_Config:addCheckBox("PalaProtConsecration", "Consecration", "Use Consecration", true)
+	mts_Config:addCheckBox("PalaProtChangeSeals", "Seals", "Use Seals", true)
+	mts_Config:addCheckBox("PalaProtDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
+	mts_Config:addCheckBox("PalaProtBuffs", "Buffing", "Use Buffs Kings/Might/Fury", true)
+	mts_Config:addDropDown("toUsePalaProtBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
+	mts_Config:addSlider("PalaProtHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+
+	-- DeathKinght Blood
+	mts_Config:addTitle("\124cffC41F3B---> DeathKinght Blood: <---")
+	mts_Config:addText("Everything in here only affects the DeathKinght Blood profile.")
+	mts_Config:addCheckBox("DkBloodTaunts", "Auto Taunting", "Allows Auto Taunts", true)
+	mts_Config:addCheckBox("DkBloodDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
+	mts_Config:addCheckBox("DkBloodItems", "Use items", "Allows usage of items", true)
+	mts_Config:addCheckBox("DkBloodBuffs", "Buffing", "Use Buffs", true)
+	mts_Config:addSlider("DkBloodHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+
+		-- Druid Guardian
+	mts_Config:addTitle("\124cffFF7D0A---> Druid Guardian: <---")
+	mts_Config:addText("Everything in here only affects the Druid Guardian profile.")
+	mts_Config:addCheckBox("DoodGuardTaunts", "Auto Taunting", "Allows Auto Taunts", true)
+	mts_Config:addCheckBox("DoodGuardDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
+	mts_Config:addCheckBox("DoodGuardBuffs", "Buffing", "Use Buffs", true)
+	mts_Config:addCheckBox("DoodGuardItems", "Use items", "Allows usage of items", true)
+	mts_Config:addSlider("DoodGuardHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+
+	-- Druid Restoration
+	mts_Config:addTitle("\124cffFF7D0A---> Druid Restoration: <---")
+	mts_Config:addText("Everything in here only affects the Druid Restoration profile.")
+	mts_Config:addCheckBox("DoodRestoDispells", "Auto Dispelling", "Allows Auto Dispelling", true)
+	mts_Config:addCheckBox("DoodRestoBuffs", "Buffing", "Use Buffs", true)
+	mts_Config:addCheckBox("DoodRestoItems", "Use items", "Allows usage of items", true)
+	mts_Config:addCheckBox("DoodRestoMr", "Use Wild Mushroom", "Allows usage of Wild Mushroom", true)
+	mts_Config:addSlider("toUseDoodRestoMr", "Wild Mushroom @ HP %", "HP percentage you need to drop to use Wild Mushroom", 60,100,95,1)
+	mts_Config:addSlider("DoodRestoHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
 		
 end
 
@@ -384,6 +409,14 @@ end
 
 function mts.getSetting(txt1, txt2)
 	if mts.getConfig(txt1) == txt2 then
+		return true
+	else
+		return false
+	end
+end
+
+function mts.ConfigUnitMana(key, unit)
+	if ProbablyEngine.condition["mana"](unit) <= mts_Config:get(key) then
 		return true
 	else
 		return false

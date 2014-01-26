@@ -8,8 +8,7 @@
 local lib = function()
 
 -- ///////////////////////-----------------------------------------TOGGLES-----------------------------------//////////////////////////////
-	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Ability_racial_bearform.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
-	ProbablyEngine.toggle.create('aggro', 'Interface\\Icons\\Ability_warrior_stalwartprotector.png', 'Aggro Control', 'Auto Taunts on mouse-over ot target if dosent have aggro.')
+
 	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Guardian \124cff9482C9Loaded*")
 
 end
@@ -24,6 +23,7 @@ local Buffs = {
 			"!player.buff(1126).any",
 			"!player.buff(90363).any",
 			"!player.buff(69378).any",
+			"@mts.getConfig('DoodGuardBuffs')",
 			"player.form = 0" 
 		}, nil },
   
@@ -60,30 +60,30 @@ local inCombat = {
 		{ "80964", "modifier.interrupts" }, -- skull bash
 		{ "132469", "modifier.interrupts" }, -- typhoon
 	
-	{{-- Aggro Control
-		{ "6795", { "mouseover.threat < 100" }, "mouseover" }, -- Growl / Mouse-Over
-		{ "6795", { "target.threat < 100" }, "target" }, -- Growl
-	}, "toggle.aggro" },
+	-- Aggro Control
+		{ "62124", { "@mts.getConfig('DoodGuardTaunts')", "@mts.bossTaunt" }, "target" }, -- Boss // Reckoning
+		{ "6795", { "mouseover.threat < 100", "@mts.getConfig('DoodGuardTaunts')" }, "mouseover" }, -- Growl / Mouse-Over
+		{ "6795", { "target.threat < 100", "@mts.getConfig('DoodGuardTaunts')" }, "target" }, -- Growl
 	
 	-- Items
-		{ "#5512", "player.health <= 60" }, --Healthstone
+		{ "#5512", "@mts.ConfigUnitHp('DoodGuardHs', 'player')" }, --Healthstone
+		{ "#76097", { "@mts.getConfig('DoodGuardItems')", "player.health < 30", "@mts.HealthPot" }}, -- Master Health Potion
+		--{ "#86125", { "@mts.getConfig('DoodGuardItems')","@mts.KafaPress" }}, -- Kafa Press
 	
-	{{ -- Cooldowns
-		{ "50334" }, -- Berserk
-		{ "124974" }, -- Nature's Vigil
-		{ "5229" }, -- Enrage
-		{ "106731" }, -- Incarnation
-	}, "modifier.cooldowns" },
+	-- Cooldowns
+		{ "50334", "modifier.cooldowns" }, -- Berserk
+		{ "124974", "modifier.cooldowns" }, -- Nature's Vigil
+		{ "5229", "modifier.cooldowns" }, -- Enrage
+		{ "106731", "modifier.cooldowns" }, -- Incarnation
  
-	{{--Defensive
-		{ "62606", { "!player.buff", "player.health <= 95" }, nil }, -- Savage Defense
-		{ "22842", { "!player.buff", "player.health <= 70", "player.rage >= 20" }, nil }, -- Frenzied Regeneration
-		{ "22812", "player.health <= 70" }, -- Barkskin
-		{ "102351", "player.health <= 60", "player" }, -- Cenarion Ward
-		{ "61336", "player.health <= 40" }, -- Survival Instincts
-		{ "106922", "player.health < 30" }, -- Might of Ursoc
-		{ "108238", "player.health <= 40" }, -- Renewal		
-	}, "toggle.defcd" },
+	--Defensive
+		{ "62606", { "!player.buff", "player.health <= 95", "@mts.getConfig('DoodGuardDefCd')" }, nil }, -- Savage Defense
+		{ "22842", { "!player.buff", "player.health <= 70", "player.rage >= 20", "@mts.getConfig('DoodGuardDefCd')" }, nil }, -- Frenzied Regeneration
+		{ "22812", { "player.health <= 70", "@mts.getConfig('DoodGuardDefCd')" }, nil }, -- Barkskin
+		{ "102351", { "player.health <= 60", "@mts.getConfig('DoodGuardDefCd')" }, "player" }, -- Cenarion Ward
+		{ "61336", { "player.health <= 40", "@mts.getConfig('DoodGuardDefCd')" }, nil }, -- Survival Instincts
+		{ "106922", { "player.health < 30", "@mts.getConfig('DoodGuardDefCd')" }, nil }, -- Might of Ursoc
+		{ "108238", { "player.health <= 40", "@mts.getConfig('DoodGuardDefCd')" }, nil }, -- Renewal		
 
 	-- Dream of Cenarious
 		-- Needs a Rebirth here

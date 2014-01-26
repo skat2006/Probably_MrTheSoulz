@@ -90,8 +90,8 @@ local inCombat = {
 	-- Mana Regen
 		{ "28730", "player.mana < 90", nil }, -- Arcane torrent
 		{ "54428", "player.mana < 85", nil }, -- Divine Plea
-		{ "#trinket1", "player.mana < 85", nil }, -- Trinket 1
-		{ "#trinket2", "player.mana < 85", nil }, -- Trinket 2
+		{ "#trinket1", { "@mts.getConfig('usePalaHolyTk1')", "@mts.ConfigUnitMana('PalaHolyTk1', 'player')" }, nil }, -- Trinket 1
+		{ "#trinket2", { "@mts.getConfig('usePalaHolyTk1')", "@mts.ConfigUnitMana('PalaHolyTk2', 'player')" }, nil }, -- Trinket 2
 	
 	-- Interrupts
 		{ "96231", "modifier.interrupts", "target" }, -- Rebuke
@@ -143,9 +143,8 @@ local inCombat = {
 	
 	-- AOE
 		-- Manual
-			{ "85222", { "@mts.getSetting('toUsePalaHolyHr', 'MANUAL')", "player.holypower >= 3" }, "lowest" }, -- Light of Dawn
-			{ "82327", "@mts.getSetting('toUsePalaHolyHr', 'MANUAL')", "lowest" }, -- Holy Radiance
-	
+			{ "85222", { "@mts.getSetting('toUsePalaHolyHr', 'MANUAL')", "player.holypower >= 3", "modifier.multitarget" }, "lowest" }, -- Light of Dawn
+			{ "82327", { "@mts.getSetting('toUsePalaHolyHr', 'MANUAL')", "modifier.multitarget" }, "lowest" }, -- Holy Radiance
 		-- Party
 			{ "85222", { "@mts.getSetting('toUsePalaHolyHr', 'AUTO')", "@coreHealing.needsHealing(90, 3)", "player.holypower >= 3", "modifier.party" }, "lowest" }, -- Light of Dawn
 			{ "82327", { "@mts.getSetting('toUsePalaHolyHr', 'AUTO')", "@coreHealing.needsHealing(80, 3)", "!modifier.last", "!player.moving", "modifier.party" }, "lowest" }, -- Holy Radiance - Party
@@ -156,10 +155,11 @@ local inCombat = {
 			{ "85222", { "@mts.getSetting('toUsePalaHolyHr', 'AUTO')", "@coreHealing.needsHealing(90, 8)", "player.holypower >= 3", "modifier.members > 10" }, "lowest" }, -- Light of Dawn
 			{ "82327", { "@mts.getSetting('toUsePalaHolyHr', 'AUTO')", "@coreHealing.needsHealing(90, 8)", "!modifier.last", "!player.moving", "modifier.members > 10" }, "lowest" }, -- Holy Radiance 10+
 	
+	
 	-- HEAL FAST BITCH
-		{ "633", "lowest.health < 15", "lowest" }, -- Lay on Hands
+		{ "633", "@mts.ConfigUnitHp('PalaHolyLoh', 'lowest')", "lowest" }, -- Lay on Hands
 		{ "85673", { "player.holypower >= 3", "lowest.health <= 80" }, "lowest"  }, -- Word of Glory
-		{ "114163", { "player.holypower >= 1", "!lowest.buff(114163)", "lowest.health <= 93" }, "lowest" }, -- Eternal Flame
+		{ "114163", { "player.holypower >= 1", "!lowest.buff(114163)", "@mts.ConfigUnitHp('PalaHolyEf', 'lowest')" }, "lowest" }, -- Eternal Flame
 		{ "20925", { "spell.charges(20925) >= 2", "lowest.health < 90", "!lowest.buff(148039)", "lowest.spell(20925).range", "!modifier.last" }, "lowest" }, -- Sacred Shield
 		{ "19750", { "lowest.health < 30", "!player.moving" }, "lowest" }, -- Flash of light
 
