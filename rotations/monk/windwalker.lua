@@ -1,93 +1,5 @@
 -- Originaly made by Tao
 
-local UnitID = UnitID
-local DSL = ProbablyEngine.dsl.get
-local lastState, lastShift, shiftCount, loadedMultiState = false, false, 0, false
-
-local function toggleMultiTarget()
-  if not loadedMultiState then
-    ProbablyEngine.buttons.setInactive("multitarget")
-    ProbablyEngine.buttons.text("multitarget", "Off")
-    loadedMultiState = true
-  end
-
-  local shiftState, altState = DSL("modifier.shift")(), DSL("modifier.alt")()
-
-  if shiftCount == 0 and ProbablyEngine.config.read("button_states", "multitarget", false) then
-    shiftState, lastState, altState = true, false, false
-  end
-
-  if shiftCount > 0 and not ProbablyEngine.config.read("button_states", "multitarget", false) then
-    shiftCount = 0
-  end
-
-  if shiftState ~= lastState and not altState then
-    if shiftState == true then
-      shiftCount = (shiftCount + 1) % 3
-
-      if shiftCount > 1 and lastShift and GetTime() - lastShift > 1 then
-        shiftCount = 0
-      end
-
-      local text = shiftCount
-      if shiftCount == 0 then
-        ProbablyEngine.buttons.setInactive("multitarget")
-        text = "Off"
-      else
-        ProbablyEngine.buttons.setActive("multitarget")
-        text = text == 1 and "SEF" or "SCK"
-      end
-      ProbablyEngine.buttons.text("multitarget", text)
-
-      lastShift = GetTime()
-    end
-    lastState = shiftState
-  end
-  return false
-end
-
-local sefUnits, lastSEFCount, lastSEFTarget = {}, 0
-local function SEF()
-  if shiftCount == 0 then return false end
-
-  local count = DSL("buff.count")("player", "Storm, Earth, and Fire")
-  if count > lastSEFCount and lastSEFTarget then
-    sefUnits[lastSEFTarget], lastSEFCount, lastSEFTarget = true, count, nil
-  end
-
-  if count < 2
-     and DSL("enemy")("mouseover")
-     and DSL("modifier.enemies")() >= 3
-     and DSL("ttd")("target") > 10 then
-
-    local mouseover, target = UnitGUID("mouseover"), UnitGUID("target")
-
-    if mouseover and target ~= mouseover and not sefUnits[mouseover] and DSL("ttd")("mouseover") > 10 then
-      lastSEFTarget = mouseover
-      return true
-    end
-  end
-
-  return false
-end
-
-local function cancelSEF()
-  if DSL("buff")("player", "Storm, Earth, and Fire")
-     and (shiftCount == 0 or DSL("modifier.enemies")() < 3) then
-    sefUnits, lastSEFCount, lastSEFTarget = {}, 0, nil
-    return true
-  end
-  return false
-end
-
-local function multiTargetEnabled()
-  return shiftCount > 0
-end
-
-local function SCK()
-  return shiftCount == 2
-end
-
 local buffs = {
 
   { "Legacy of the White Tiger", {
@@ -111,23 +23,12 @@ local buffs = {
 
 }
 
-local multitarget = {
-
-  { "Rushing Jade Wind", { "modifier.cooldowns", SCK }},
-  { "Zen Sphere", "!target.debuff(Zen Sphere)" },
-  { "Chi Wave" },
-  { "Chi Burst" },
-  { "Spinning Crane Kick", { "!player.spell(Rushing Jade Wind).exists", SCK }}
-  
-}
-
 local combatTable = {
 
 	-- keybinds
 	{ "Paralysis", { "modifier.ctrl", "mouseover.enemy", "!mouseover.dead" }, "mouseover" },
 	{ "Crackling Jade Lightning", { "modifier.shift", "modifier.alt" }},
-	{ "Healing Sphere", "modifier.alt", "ground" }, 
-	{ "pause", toggleMultiTarget },
+	{ "Healing Sphere", "modifier.alt", "ground" },
 
 	{ "Touch of Death", "player.buff(Death Note)" },
 	{ "Tiger's Lust", "target.range >= 15" },
@@ -145,8 +46,6 @@ local combatTable = {
 		{ "Spear Hand Strike", { "!target.debuff(Charging Ox Wave)", "!target.debuff(Leg Sweep)", "player.spell(Charging Ox Wave).cooldown = 0", "player.spell(Leg Sweep).cooldown = 0"}},
 	}, "target.interruptsAt(50)" },
 
-	{ "Storm, Earth, and Fire", SEF, "mouseover" },
-
 	{ "Chi Brew", { "player.chi <= 2", "player.spell(Chi Brew).charges = 1", "player.spell(Chi Brew).recharge <= 10" }},
 	{ "Chi Brew", { "player.chi <= 2", "player.spell(Chi Brew).charges = 2" }},
 	{ "Chi Brew", { "player.chi <= 2", "target.ttd < 10" }},
@@ -158,8 +57,13 @@ local combatTable = {
 	{ "Tiger Palm", { "!player.buff(Tiger Power)", "target.debuff(Rising Sun Kick).duration > 1", "player.timetomax > 1" }},
 	{ "Invoke Xuen, the White Tiger", "modifier.cooldowns" },
 
-	{ multitarget, multiTargetEnabled },
-	{ "/cancelaura Storm, Earth, and Fire", cancelSEF },
+	{{ -- AOE
+		{ "Rushing Jade Wind", "modifier.cooldowns"},
+		{ "Zen Sphere", "!target.debuff(Zen Sphere)" },
+		{ "Chi Wave" },
+		{ "Chi Burst" },
+		{ "Spinning Crane Kick", "!player.spell(Rushing Jade Wind).exists" }
+	}, "modifier.multitarget" },
 
 	{ "Rising Sun Kick" },
 	{ "Fists of Fury", { "!player.buff(Energizing Brew)", "player.timetomax > 4", "player.buff(Tiger Power).duration > 4" }},
@@ -180,11 +84,8 @@ local combatTable = {
 
 local outOfCombatTable = {
 
-  { "Storm, Earth, and Fire", SEF, "mouseover" },
-  { "/cancelaura Storm, Earth, and Fire", cancelSEF },
   { "Crackling Jade Lightning", { "modifier.shift", "modifier.alt" }},
-  { "Healing Sphere", "modifier.alt", "ground" }, 
-  { "pause", toggleMultiTarget },
+  { "Healing Sphere", "modifier.alt", "ground" },
   
 }
 

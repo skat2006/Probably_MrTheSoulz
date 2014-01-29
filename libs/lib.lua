@@ -7,20 +7,14 @@
 
 
 
-local mts = {}
+local mtsLib = {}
 local media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local _playerClass, _englishClass, _idClass = UnitClass("player");
 local _playerSpec = GetSpecialization();
+local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
+local cc = {49203,6770,1776,51514,9484,118,28272,28271,61305,61025,61721,61780,3355,19386,20066,90337,2637,82676,115078,76780,9484,1513,115268}
 
-mts.darkSimSpells = {
--- siege of orgrimmar
-"Froststorm Bolt","Arcane Shock","Rage of the Empress","Chain Lightning",
--- pvp
-"Hex","Mind Control","Cyclone","Polymorph","Pyroblast","Tranquility","Divine Hymn","Hymn of Hope","Ring of Frost","Entangling Roots"
-}
-
--- Thanks blazinsheath
-function mts.StopIfBoss()
+function mtsLib.StopIfBoss()
 if UnitExists("boss1") then
 local npcId = tonumber(UnitGUID("target"):sub(6,10), 16)
 	if npcId == 71543 then boss = true end -- Immersus
@@ -41,15 +35,15 @@ end
 	return true 
 end
 
-function mts.stackCheck(spell, otherTank, stacks)
-        local debuffName, _, _, debuffCount = UnitDebuff(otherTank, spell)
-        if debuffName and debuffCount >= stacks and not UnitDebuff("player", spell) then
-                return true
-        end 
+function mtsLib.stackCheck(spell, otherTank, stacks)
+	local debuffName, _, _, debuffCount = UnitDebuff(otherTank, spell)
+	if debuffName and debuffCount >= stacks and not UnitDebuff("player", spell) then
+		return true
+	end 
         return false
 end
 
-function mts.bossTaunt()
+function mtsLib.bossTaunt()
 	if UnitGroupRolesAssigned("player") == "TANK" and IsInRaid() then
 	local otherTank
 	for i = 1, GetNumGroupMembers() do
@@ -66,61 +60,61 @@ function mts.bossTaunt()
 		-- //////////////////////--------------------SoO--------------------------//////////////////////////////
 
 				if boss == 71543 then -- Immersus
-					if mts.stackCheck("Corrosive Blast", otherTank, 1) then
+					if mtsLib.stackCheck("Corrosive Blast", otherTank, 1) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end 
 				elseif boss == 72276 then -- Norushen
-					if mts.stackCheck("Self Doubt", otherTank, 3) then
+					if mtsLib.stackCheck("Self Doubt", otherTank, 3) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end 
 				elseif boss == 71734 then -- Sha of Pride
-					if mts.stackCheck("Wounded Pride", otherTank, 1) then
+					if mtsLib.stackCheck("Wounded Pride", otherTank, 1) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end
 				elseif boss == 72249 then -- Galakras
-					if mts.stackCheck("Flames of Galakrond", otherTank, 3) then
+					if mtsLib.stackCheck("Flames of Galakrond", otherTank, 3) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end  
 				elseif boss == 71466 then -- Iron Juggernaut
-					if mts.stackCheck("Ignite Armor", otherTank, 2) then
+					if mtsLib.stackCheck("Ignite Armor", otherTank, 2) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end  
 				elseif boss == 71859 then -- Kor'kron Dark Shaman / Earthbreaker Haromm
-					if mts.stackCheck("Froststorm Strike", otherTank, 5) then
+					if mtsLib.stackCheck("Froststorm Strike", otherTank, 5) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end   
 				elseif boss == 71515 then -- General Nazgrim
-					if mts.stackCheck("Sundering Blow", otherTank, 3) then
+					if mtsLib.stackCheck("Sundering Blow", otherTank, 3) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end
 				elseif boss == 71454 then -- Malkorok
-					if mts.stackCheck("Fatal Strike", otherTank, 12) then
+					if mtsLib.stackCheck("Fatal Strike", otherTank, 12) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end
 				elseif boss == 71529 then -- Thok the Bloodsthirsty
-					if mts.stackCheck("Panic", otherTank, 3)
-					or mts.stackCheck("Acid Breath", otherTank, 3) 
-					or mts.stackCheck("Freezing Breath", otherTank, 3)
-					or mts.stackCheck("Scorching Breath", otherTank, 3) then
+					if mtsLib.stackCheck("Panic", otherTank, 3)
+					or mtsLib.stackCheck("Acid Breath", otherTank, 3) 
+					or mtsLib.stackCheck("Freezing Breath", otherTank, 3)
+					or mtsLib.stackCheck("Scorching Breath", otherTank, 3) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end
 				elseif boss == 71504 then -- Siegecrafter Blackfuse
-					if mts.stackCheck("Electrostatic Charge", otherTank, 4) then
+					if mtsLib.stackCheck("Electrostatic Charge", otherTank, 4) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end
 				elseif boss == 71865 then -- Garrosh Hellscream
-					if mts.stackCheck("Gripping Despair", otherTank, 3)
-					or mts.stackCheck("Empowered Gripping Despair", otherTank, 3) then
+					if mtsLib.stackCheck("Gripping Despair", otherTank, 3)
+					or mtsLib.stackCheck("Empowered Gripping Despair", otherTank, 3) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end
@@ -137,54 +131,54 @@ function mts.bossTaunt()
 						return true
 					end
 				elseif boss == 68476 then -- Horridon
-					if mts.stackCheck("Triple Puncture", otherTank, 9) then
+					if mtsLib.stackCheck("Triple Puncture", otherTank, 9) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end
 				elseif boss == 69131 then -- Council of Elders / Frost King Malakk
-					if mts.stackCheck("Frigid Assault", otherTank, 13) then
+					if mtsLib.stackCheck("Frigid Assault", otherTank, 13) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end                                
 				elseif boss == 69712 then -- Ji-Kun
-					if mts.stackCheck("Talon Rake", otherTank, 2) then
+					if mtsLib.stackCheck("Talon Rake", otherTank, 2) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end
 				elseif boss == 68036 then -- Durumu the Forgotten
-					if mts.stackCheck("Hard Stare", otherTank, 5) then
+					if mtsLib.stackCheck("Hard Stare", otherTank, 5) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end
 				elseif boss == 69017 then -- Primordius
-					if mts.stackCheck("Malformed Blood", otherTank, 8) then
+					if mtsLib.stackCheck("Malformed Blood", otherTank, 8) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end
 				elseif boss == 69699 then -- Dark Animus - Massive Anima Golem
-					if mts.stackCheck("Explosive Slam", otherTank, 5) then
+					if mtsLib.stackCheck("Explosive Slam", otherTank, 5) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end
 				elseif boss == 68078 then -- Iron Qon
-					if mts.stackCheck("Impale", otherTank, 4) then
+					if mtsLib.stackCheck("Impale", otherTank, 4) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end
 				elseif boss == 68905 then -- Twin Consorts - Lu’lin
-					if mts.stackCheck("Beast of Nightmare", otherTank, 1) then
+					if mtsLib.stackCheck("Beast of Nightmare", otherTank, 1) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end
 				elseif boss == 68904 then -- Twin Consorts - Suen
-					if mts.stackCheck("Fan of Flames", otherTank, 3) then
+					if mtsLib.stackCheck("Fan of Flames", otherTank, 3) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end
 				elseif boss == 68397 then -- Lei Shen
-					if mts.stackCheck("Decapitate", otherTank, 1) 
-					or mts.stackCheck("Fusion Slash", otherTank, 1) 
-					or mts.stackCheck("Overwhelming Power", otherTank, 12) then
+					if mtsLib.stackCheck("Decapitate", otherTank, 1) 
+					or mtsLib.stackCheck("Fusion Slash", otherTank, 1) 
+					or mtsLib.stackCheck("Overwhelming Power", otherTank, 12) then
 						ProbablyEngine.dsl.parsedTarget = bossID
 						return true
 					end 
@@ -199,44 +193,19 @@ function mts.bossTaunt()
 end
 
 
-function mts.shouldStop(unit)
-if not UnitAffectingCombat(unit) then return false end
-local cc = {
-	49203, -- Hungering Cold
-	6770, -- Sap
-	 1776, -- Gouge
-	51514, -- Hex
-	9484, -- Shackle Undead
-	118, -- Polymorph
-	28272, -- Polymorph (pig)
-	28271, -- Polymorph (turtle)
-	61305, -- Polymorph (black cat)
-	61025, -- Polymorph (serpent) -- FIXME: gone ?
-	61721, -- Polymorph (rabbit)
-	61780, -- Polymorph (turkey)
-	3355, -- Freezing Trap
-	19386, -- Wyvern Sting
-	20066, -- Repentance
-	90337, -- Bad Manner (Monkey) -- FIXME: to check
-	2637, -- Hibernate
-	82676, -- Ring of Frost
-	115078, -- Paralysis
-	76780, -- Bind Elemental
-	9484, -- Shackle Undead
-	1513, -- Scare Beast
-	115268, -- Mesmerize
-}
-if mts.hasDebuffTable(unit, cc) then return false end
-if UnitAura(unit,GetSpellInfo(116994))
-	or UnitAura(unit,GetSpellInfo(122540))
-	or UnitAura(unit,GetSpellInfo(123250))
-	or UnitAura(unit,GetSpellInfo(106062))
-	or UnitAura(unit,GetSpellInfo(110945))
-	or UnitAura(unit,GetSpellInfo(143593)) -- General Nazgrim: Defensive Stance
-	or UnitAura(unit,GetSpellInfo(143574)) -- Heroic Immerseus: Swelling Corruption
-	then return false 
-end
-	return true
+function mtsLib.shouldStop(unit)
+	if not UnitAffectingCombat(unit) then return false end
+	if mtsLib.hasDebuffTable(unit, cc) then return false end
+	if UnitAura(unit,GetSpellInfo(116994))
+		or UnitAura(unit,GetSpellInfo(122540))
+		or UnitAura(unit,GetSpellInfo(123250))
+		or UnitAura(unit,GetSpellInfo(106062))
+		or UnitAura(unit,GetSpellInfo(110945))
+		or UnitAura(unit,GetSpellInfo(143593)) -- General Nazgrim: Defensive Stance
+		or UnitAura(unit,GetSpellInfo(143574)) -- Heroic Immerseus: Swelling Corruption
+		then return false 
+	end
+		return true
 end
 
 ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
@@ -248,7 +217,6 @@ if source ~= UnitGUID("player") then return false end
 
 	if event == "SPELL_CAST_SUCCESS" then	
 
-	-- Paladin shit here
 		if spellId == 114158 then
 			mts_ConfigAlertSound()
 			mts_ConfigAlert("*Casted Light´s Hammer*")
@@ -317,14 +285,14 @@ if source ~= UnitGUID("player") then return false end
 			mts_ConfigAlert("*Casted Divine Favor*")
 		end
 
-	end -- Ends Table
+	end
 end)
 
 ProbablyEngine.condition.register("talent", function(index)
 	return select(5, GetTalentInfo(index)) or false
 end)
 
-function mts.HealthPot()
+function mtsLib.HealthPot()
 	if GetItemCount(76097) > 1
 	and GetItemCooldown(76097) == 0 then 
 		return true
@@ -332,7 +300,7 @@ function mts.HealthPot()
 	return false
 end
 
-function mts.KafaPress()
+function mtsLib.KafaPress()
 	if GetItemCount(86125) > 0
 	and GetItemCooldown(86125) == 0 then 
 		return true
@@ -341,41 +309,29 @@ function mts.KafaPress()
 end
 
 function mts_ConfigWhisper(txt)
-	if mts.getConfig('getWhispers')then
+	if mtsLib.getConfig('getWhispers')then
 		return RunMacroText("/w "..txt)
 	end
 	return false
 end
 
 function mts_ConfigAlert(txt)
-	if mts.getConfig('getAlerts')then
+	if mtsLib.getConfig('getAlerts')then
 		return mtsAlert:message(txt)
 	end
 end
 
 function mts_ConfigAlertSound()
-	if mts.getConfig('getAlertSounds')then
+	if mtsLib.getConfig('getAlertSounds')then
 		PlaySoundFile(media .. "beep.mp3", "master")
 	end
 end
 
-function mts.getConfig(key)
+function mtsLib.getConfig(key)
 	return mts_Config:get(key)
 end
 
-function mts.dummy()					-- Dummy Check
-	mts_Dummies = {
-		31146, --Raider's Training Dummy - Lvl ??
-		67127, --Training Dummy - Lvl 90
-		46647, --Training Dummy - Lvl 85
-		32546, --Ebon Knight's Training Dummy - Lvl 80
-		31144, --Training Dummy - Lvl 80
-		32667, --Training Dummy - Lvl 70
-		32542, --Disciple's Training Dummy - Lvl 65
-		32666, --Training Dummy - Lvl 60
-		32545, --Initiate's Training Dummy - Lvl 55 
-		32541, --Initiate's Training Dummy - Lvl 55 (Scarlet Enclave) 
-	}
+function mtsLib.dummy()	
 	for i=1, #mts_Dummies do
 		if UnitExists("target") then
 			mts_Dummies_ID = tonumber(UnitGUID("target"):sub(-13, -9), 16)
@@ -383,33 +339,31 @@ function mts.dummy()					-- Dummy Check
 			mts_Dummies_ID = 0
 		end
 		if mts_Dummies_ID == mts_Dummies[i] then
-			return true
-		else
 			return false
+		else
+			return true
 		end	
 	end
 end
 
-function mts.ShouldTaunt(key)
+function mtsLib.ShouldTaunt(key)
 	if UnitIsTappedByPlayer("target")
-	and mts_Config:get(key) == true
-	and not UnitIsTapped("target")
-	and not mts.dummy() then
+	and mts_Config:get(key) == true then
 		return true
 	else
 		return false
 	end
 end
 
-function mts.getSetting(txt1, txt2)
-	if mts.getConfig(txt1) == txt2 then
+function mtsLib.getSetting(txt1, txt2)
+	if mtsLib.getConfig(txt1) == txt2 then
 		return true
 	else
 		return false
 	end
 end
 
-function mts.ConfigUnitMana(key, unit)
+function mtsLib.ConfigUnitMana(key, unit)
 	if ProbablyEngine.condition["mana"](unit) <= mts_Config:get(key) then
 		return true
 	else
@@ -417,7 +371,7 @@ function mts.ConfigUnitMana(key, unit)
 	end
 end
 
-function mts.ConfigUnitHp(key, unit)
+function mtsLib.ConfigUnitHp(key, unit)
 	if ProbablyEngine.condition["health"](unit) <= mts_Config:get(key) then
 		return true
 	else
@@ -425,89 +379,29 @@ function mts.ConfigUnitHp(key, unit)
 	end
 end
 
-function mts.modifierActionForSpellIsAlt(name)
-	return IsAltKeyDown() and not GetCurrentKeyBoardFocus() and mts.getConfig("altKeyAction") == name
+function mtsLib.modifierActionForSpellIsAlt(name)
+	return IsAltKeyDown() and not GetCurrentKeyBoardFocus() and mtsLib.getConfig("altKeyAction") == name
 end
 
-function mts.modifierActionForSpellIsShift(name)
-	return IsShiftKeyDown() and not GetCurrentKeyBoardFocus() and mts.getConfig("shiftKeyAction") == name
+function mtsLib.modifierActionForSpellIsShift(name)
+	return IsShiftKeyDown() and not GetCurrentKeyBoardFocus() and mtsLib.getConfig("shiftKeyAction") == name
 end
 
-function mts.modifierActionForSpellIsControl(name)
-	return IsControlKeyDown() and not GetCurrentKeyBoardFocus() and mts.getConfig("controlKeyAction") == name
+function mtsLib.modifierActionForSpellIsControl(name)
+	return IsControlKeyDown() and not GetCurrentKeyBoardFocus() and mtsLib.getConfig("controlKeyAction") == name
 end
 
-function mts.shoulDarkSimUnit(unit)
-	for index,spellName in pairs(mts.darkSimSpells) do
-		if ProbablyEngine.condition["casting"](unit, spellName) then return true end
-	end
-	return false
-end
-
-function mts.canCastPlagueLeech(timeLeft)
-	local frostFeverApplied, _, ffExpires, ffCaster = UnitDebuff("target","Frost Fever","player")
-	local bloodPlagueApplied, _, bpExpires, bpCaster = UnitDebuff("target","Blood Plague","player")
-	local durationFF = 0
-	local durationBP = 0
-	if ffExpires and ffCaster == "player" then
-		durationFF = (ffExpires - (GetTime()-(ProbablyEngine.lag/1000)))
-	end
-	if bpExpires and bpCaster == "player" then
-		durationBP = (bpExpires - (GetTime()-(ProbablyEngine.lag/1000)))
-	end
-	
-	if not frostFeverApplied or not bloodPlagueApplied then return false end
-	if durationFF <= timeLeft then
-		return true
-	end
-	if durationBP <= timeLeft then
-		return true
-	end
-	return false
-end
-
-function mts.shouldBloodTap()
-	local _, _, _, count, _, _, _, _, _ = UnitBuff("player","Blood Charge")
-	if count == nil then count = 0 end	
-	if count >= 5 then return true end
-	return false
-end
-
-function mts.gotBloodRunes()
-	if GetRuneType(1) ~= 4 and GetRuneType(2) ~= 4 then
-		return true
-	end 
-	return false
-end
-
-
-function mts.hasGhoul()
-		if ProbablyEngine.module.player.specName == "Unholy" then
-			if UnitExists("pet") == nil then return false end
-		else
-			if select(1,GetTotemInfo(1)) == false then return false end
-		end
-		return true
-	end
-	
-function mts.gotBloodRunes()
-	if GetRuneType(1) ~= 4 and GetRuneType(2) ~= 4 then
-		return true
-	end 
-	return false
-end
 
 -- //////////////////////-----------------------------------------Register Lib-----------------------------------//////////////////////////////
 
-ProbablyEngine.library.register('mts', mts)
+ProbablyEngine.library.register('mtsLib', mtsLib)
 
 -- //////////////////////-----------------------------------------Config-----------------------------------//////////////////////////////
 
 -- mConfig copyright & thanks to https://github.com/kirk24788/mConfig
 -- Modified by MTS
-
 mts_Config = {}
-function mts.initConfig()
+function mtsLib.initConfig()
 mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","mtsConfig","Default",{"/mts"})
         
 	-- Settings
@@ -541,7 +435,7 @@ mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","m
 		mts_Config:addCheckBox("PalaProtItems", "Use items", "Allows usage of items", true)
 		mts_Config:addCheckBox("PalaProtTaunts", "Auto Taunting", "Allows Auto Taunts", true)
 		mts_Config:addCheckBox("PalaProtConsecration", "Consecration", "Use Consecration", true)
-		mts_Config:addCheckBox("PalaProtChangeSeals", "Seals", "Use Seals", true)
+		mts_Config:addCheckBox("PalaProtChangeSeals", "Change Seals", "Allow the rotation to change Seals suto", true)
 		mts_Config:addCheckBox("PalaProtDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
 		mts_Config:addCheckBox("PalaProtBuffs", "Buffing", "Use Buffs Kings/Might/Fury", true)
 		mts_Config:addDropDown("toUsePalaProtBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
@@ -582,4 +476,4 @@ mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","m
 		
 end
 
-mts.initConfig()
+mtsLib.initConfig()

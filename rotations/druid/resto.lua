@@ -4,45 +4,11 @@
 --														I Hope Your Enjoy Them
 --																MTS
 
-local ignoreDebuffs = {
-  'Mark of Arrogance',
-  'Displaced Energy'
-}
 
-local lib = function()
+
+local exeOnLoad = function()
 
 	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Restoration \124cff9482C9Loaded*")
-
--- Made By Tao
-ProbablyEngine.library.register('dispell', {
-druid = function(spell)
-local prefix = (IsInRaid() and 'raid') or 'party'
-	for i = -1, GetNumGroupMembers() - 1 do
-	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
-		if IsSpellInRange("Nature's Cure", unit) then
-			for j = 1, 40 do
-			local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(unit, j)
-				if dispelType and dispelType == 'Magic' or dispelType == 'Poison' or dispelType == 'Disease' then
-				local ignore = false
-				for k = 1, #ignoreDebuffs do
-					if debuffName == ignoreDebuffs[k] then
-						ignore = true
-						break
-					end
-				end
-					if not ignore then
-						ProbablyEngine.dsl.parsedTarget = unit
-						return true
-					end
-				end
-				if not debuffName then
-					break
-				end
-			end
-		end
-	end
-		return false
-end})
 
 end	
 
@@ -55,7 +21,7 @@ local Buffs = {
 			"!player.buff(1126).any",
 			"!player.buff(90363).any",
 			"!player.buff(69378).any",
-			"@mts.getConfig('DoodRestoBuffs')",
+			"@mtsLib.getConfig('DoodRestoBuffs')",
 			"player.form = 0" 
 		}, nil },
   
@@ -78,7 +44,7 @@ local inCombat = {
 		{ "88423", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 		{ "88423", "@coreHealing.needsDispelled('Torment')", nil },
 		{ "88423", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{ "88423", { "@mts.getConfig('DoodRestoDispells')", "@dispell.druid()" }, nil },
+		{ "88423", { "@mtsLib.getConfig('DoodRestoDispells')", "@dispell.druid()" }, nil },
 
 	-- Cooldowns
 		{ "29166", { "player.mana < 80", "modifier.cooldowns"}, "player" }, -- Inervate
@@ -86,7 +52,7 @@ local inCombat = {
 		{ "106731" , { "@coreHealing.needsHealing(85, 4)", "modifier.cooldowns" }, nil }, -- Incarnation
 	
 	-- Survival
-		{ "#5512", "@mts.ConfigUnitHp('DoodRestoHs', 'player')" }, --Healthstone
+		{ "#5512", "@mtsLib.ConfigUnitHp('DoodRestoHs', 'player')" }, --Healthstone
 	
 	-- AOE
 		{ "48438", "@coreHealing.needsHealing(85, 3)", "lowest" }, -- Wildgrowth
@@ -110,8 +76,8 @@ local inCombat = {
 		{ "18562", { "lowest.health < 80", "lowest.buff(774)" }, "lowest" }, -- Swiftmend
 		{ "145518", { "!player.spell(18562).cooldown = 0", "lowest.health < 40", "lowest.buff(774)" }, "lowest" }, -- Genesis
 		{ "774", { "lowest.health < 85", "!lowest.health < 60", "!lowest.buff" }, "lowest" }, -- Rejuvenation
-		{ "145205", { "@mts.ConfigUnitHp('toUseDoodRestoMr', 'lowest')", "@mts.getConfig('DoodRestoMr')", "!lowest.health < 60" }, "lowest" }, -- Wild Mushroom
-		{ "102791", { "@mts.ConfigUnitHp('toUseDoodRestoMr', 'lowest')", "@mts.getConfig('DoodRestoMr')", "!lowest.health < 60", "player.totem(145205).duration >= 1" }, "lowest" }, -- Wild Mushroom - Bloom
+		{ "145205", { "@mtsLib.ConfigUnitHp('toUseDoodRestoMr', 'lowest')", "@mtsLib.getConfig('DoodRestoMr')", "!lowest.health < 60" }, "lowest" }, -- Wild Mushroom
+		{ "102791", { "@mtsLib.ConfigUnitHp('toUseDoodRestoMr', 'lowest')", "@mtsLib.getConfig('DoodRestoMr')", "!lowest.health < 60", "player.totem(145205).duration >= 1" }, "lowest" }, -- Wild Mushroom - Bloom
 		{ "50464", { "player.buff(100977).duration <= 2", "!lowest.health < 60", "lowest.health < 97", "!player.moving" }, "lowest" }, -- Nourish
 		{ "8936", { "lowest.health < 60", "!lowest.health < 40", "!lowest.buff(8936)", "!player.moving" }, "lowest" }, -- Regrowth
 		{ "5185", { "lowest.health < 40", "!player.moving" }, "lowest", } -- Healing Touch
@@ -135,4 +101,4 @@ for _, Buffs in pairs(Buffs) do
   outCombat[#outCombat + 1] = Buffs
 end
 
-ProbablyEngine.rotation.register_custom(105, "|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Resto|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(105, "|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Resto|r]", inCombat, outCombat, exeOnLoad)

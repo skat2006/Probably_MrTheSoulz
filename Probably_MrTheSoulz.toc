@@ -10,6 +10,9 @@ gui\main.lua
 gui\alert.lua
 libs\lib.lua
 libs\dotTracker.lua
+classlibs\dk.lua
+classlibs\druid.lua
+classlibs\paladin.lua
 rotations\paladin\protection.lua
 rotations\paladin\holy.lua
 rotations\druid\resto.lua
