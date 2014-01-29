@@ -4,19 +4,16 @@
 --														I Hope Your Enjoy Them
 --																MTS
 
-
-local lib = function()
-
-	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Restoration \124cff9482C9Loaded*")
-
--- ////////////////-----------------------------------------DISPELS-----------------------------------//////////////////////////////
-	
--- Made By Tao
 local ignoreDebuffs = {
   'Mark of Arrogance',
   'Displaced Energy'
 }
 
+local lib = function()
+
+	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Restoration \124cff9482C9Loaded*")
+
+-- Made By Tao
 ProbablyEngine.library.register('dispell', {
 druid = function(spell)
 local prefix = (IsInRaid() and 'raid') or 'party'
@@ -48,7 +45,6 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 end})
 
 end	
--- ////////////////////////-----------------------------------------END LIB-----------------------------------//////////////////////////////
 
 local Buffs = {
 
@@ -64,7 +60,6 @@ local Buffs = {
 		}, nil },
   
 }
--- ////////////////////////-----------------------------------------END BUFFS-----------------------------------//////////////////////////////
 
 local inCombat = {
 
@@ -122,7 +117,6 @@ local inCombat = {
 		{ "5185", { "lowest.health < 40", "!player.moving" }, "lowest", } -- Healing Touch
   
 }
--- ///////////////////-----------------------------------------END IN-COMBAT-----------------------------------//////////////////////////////
 
 local outCombat = {
 
@@ -135,7 +129,6 @@ local outCombat = {
 		{ "774", { "lowest.health < 99", "!lowest.buff", "player.form = 0" }, "lowest" }, -- Rejuvenation
 
 }
--- ///////////////////-----------------------------------------END OUT-OF-COMBAT-----------------------------------//////////////////////////////
 
 for _, Buffs in pairs(Buffs) do
   inCombat[#inCombat + 1] = Buffs

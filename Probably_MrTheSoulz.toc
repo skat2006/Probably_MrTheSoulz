@@ -9,8 +9,10 @@
 gui\main.lua
 gui\alert.lua
 libs\lib.lua
+libs\dotTracker.lua
 rotations\paladin\protection.lua
 rotations\paladin\holy.lua
 rotations\druid\resto.lua
 rotations\druid\guard.lua
 rotations\deathknight\blood.lua
+rotations\monk\windwalker.lua

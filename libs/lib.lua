@@ -10,9 +10,14 @@
 local mts = {}
 local media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local _playerClass, _englishClass, _idClass = UnitClass("player");
-local _playerSpec = GetSpecialization()
+local _playerSpec = GetSpecialization();
 
--- //////////////////////-----------------------------------------Taunts-----------------------------------/////////////////////////////
+mts.darkSimSpells = {
+-- siege of orgrimmar
+"Froststorm Bolt","Arcane Shock","Rage of the Empress","Chain Lightning",
+-- pvp
+"Hex","Mind Control","Cyclone","Polymorph","Pyroblast","Tranquility","Divine Hymn","Hymn of Hope","Ring of Frost","Entangling Roots"
+}
 
 -- Thanks blazinsheath
 function mts.StopIfBoss()
@@ -35,7 +40,6 @@ local npcId = tonumber(UnitGUID("target"):sub(6,10), 16)
 end
 	return true 
 end
-
 
 function mts.stackCheck(spell, otherTank, stacks)
         local debuffName, _, _, debuffCount = UnitDebuff(otherTank, spell)
@@ -194,36 +198,46 @@ function mts.bossTaunt()
 		return false
 end
 
--- //////////////////////-----------------------------------------Items-----------------------------------//////////////////////////////
 
--- Master Health Potion
-function mts.HealthPot()
-	if GetItemCount(76097) > 1 
-	and GetItemCooldown(76097) == 0 
-	and ProbablyEngine.condition["modifier.cooldowns"] then 
-		return true
-	end
-	return false
+function mts.shouldStop(unit)
+if not UnitAffectingCombat(unit) then return false end
+local cc = {
+	49203, -- Hungering Cold
+	6770, -- Sap
+	 1776, -- Gouge
+	51514, -- Hex
+	9484, -- Shackle Undead
+	118, -- Polymorph
+	28272, -- Polymorph (pig)
+	28271, -- Polymorph (turtle)
+	61305, -- Polymorph (black cat)
+	61025, -- Polymorph (serpent) -- FIXME: gone ?
+	61721, -- Polymorph (rabbit)
+	61780, -- Polymorph (turkey)
+	3355, -- Freezing Trap
+	19386, -- Wyvern Sting
+	20066, -- Repentance
+	90337, -- Bad Manner (Monkey) -- FIXME: to check
+	2637, -- Hibernate
+	82676, -- Ring of Frost
+	115078, -- Paralysis
+	76780, -- Bind Elemental
+	9484, -- Shackle Undead
+	1513, -- Scare Beast
+	115268, -- Mesmerize
+}
+if mts.hasDebuffTable(unit, cc) then return false end
+if UnitAura(unit,GetSpellInfo(116994))
+	or UnitAura(unit,GetSpellInfo(122540))
+	or UnitAura(unit,GetSpellInfo(123250))
+	or UnitAura(unit,GetSpellInfo(106062))
+	or UnitAura(unit,GetSpellInfo(110945))
+	or UnitAura(unit,GetSpellInfo(143593)) -- General Nazgrim: Defensive Stance
+	or UnitAura(unit,GetSpellInfo(143574)) -- Heroic Immerseus: Swelling Corruption
+	then return false 
 end
-
--- Kafa Press
---function mts.KafaPress()
---if GetItem(86125)
---and GetItemCooldown(86125) == 0 
---and ProbablyEngine.condition["modifier.cooldowns"] then 
---	return true
---end
---	return false
---end
-
--- //////////////////////-----------------------------------------CONDITIONS-----------------------------------//////////////////////////////
-
-ProbablyEngine.condition.register("talent", function(index)
-	return select(5, GetTalentInfo(index)) or false
-end)
-
-
--- //////////////////////-----------------------------------------Alerts-----------------------------------//////////////////////////////
+	return true
+end
 
 ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
 local event = select(2, ...)
@@ -306,82 +320,24 @@ if source ~= UnitGUID("player") then return false end
 	end -- Ends Table
 end)
 
--- //////////////////////-----------------------------------------Register Lib-----------------------------------//////////////////////////////
+ProbablyEngine.condition.register("talent", function(index)
+	return select(5, GetTalentInfo(index)) or false
+end)
 
-ProbablyEngine.library.register('mts', mts)
+function mts.HealthPot()
+	if GetItemCount(76097) > 1
+	and GetItemCooldown(76097) == 0 then 
+		return true
+	end
+	return false
+end
 
--- //////////////////////-----------------------------------------Config-----------------------------------//////////////////////////////
-
--- mConfig copyright & thanks to https://github.com/kirk24788/mConfig
--- Modified by MTS
-
-mts_Config = {}
-function mts.initConfig()
-mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","mtsConfig","Default",{"/mts"})
-        
-	-- Settings
-	mts_Config:addTitle("---> General Settings: <---")
-	mts_Config:addText("Everything in here is shared cross all of the profiles.")
-	mts_Config:addCheckBox("getAlerts", "Show Notifications", "Shows notification on top when used certain spells", true)
-	mts_Config:addCheckBox("getAlertSounds", "Notifications Sounds", "Plays a sound when a notification is shown.", true)
-	mts_Config:addCheckBox("getWhispers", "Allow Whispers", "Whispers people after using certain spells", true)
-
-	--Paladin Holy
-	mts_Config:addTitle("\124cffF58CBA---> Paladin Holy: <---")
-	mts_Config:addText("Everything in here only affects the Paladin Holy profile.")
-	mts_Config:addCheckBox("PalaHolyItems", "Use items", "Allows usage of items", true)
-	mts_Config:addCheckBox("PalaHolyBuffs", "Buffing", "Use Buffs", true)
-	mts_Config:addCheckBox("PalaHolyDispells", "Auto Dispelling", "Allows Auto Dispelling", true)
-	mts_Config:addDropDown("toUsePalaHolyBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
-	mts_Config:addDropDown("toUsePalaHolyHr", "Holy Radiance:", "Choose how to use Holy Radiance", {AUTO="Auto", MANUAL="Manual"}, "AUTO")
-	mts_Config:addSlider("PalaHolyHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
-	mts_Config:addSlider("PalaHolyEf", "Eternal Flame @ HP %", "HP percentage you need to drop to use Eternal Flame", 10,100,93,1)
-	mts_Config:addSlider("PalaHolyLoh", "Lay on Hands @ HP %", "HP percentage you need to drop to use Lay on Hands", 10,100,15,1)
-	mts_Config:addCheckBox("usePalaHolyTk1", "Use Trinket 1", "Allows usage of Trinket 1", true)
-	mts_Config:addCheckBox("usePalaHolyTk2", "Use Trinket 2", "Allows usage of Trinket 2", true)
-	mts_Config:addSlider("PalaHolyTk1", "Trinket 1 @ MANA %", "MANA percentage you need to drop to use Trinket 1", 10,100,85,1)
-	mts_Config:addSlider("PalaHolyTk2", "Trinket 2 @ MANA %", "MANA percentage you need to drop to use Trinket 2", 10,100,85,1)
-
-	-- Paladin Protection
-	mts_Config:addTitle("\124cffF58CBA---> Paladin Protection: <---")
-	mts_Config:addText("Everything in here only affects the Paladin Protection profile.")
-	mts_Config:addCheckBox("PalaProtItems", "Use items", "Allows usage of items", true)
-	mts_Config:addCheckBox("PalaProtTaunts", "Auto Taunting", "Allows Auto Taunts", true)
-	mts_Config:addCheckBox("PalaProtConsecration", "Consecration", "Use Consecration", true)
-	mts_Config:addCheckBox("PalaProtChangeSeals", "Seals", "Use Seals", true)
-	mts_Config:addCheckBox("PalaProtDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
-	mts_Config:addCheckBox("PalaProtBuffs", "Buffing", "Use Buffs Kings/Might/Fury", true)
-	mts_Config:addDropDown("toUsePalaProtBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
-	mts_Config:addSlider("PalaProtHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
-
-	-- DeathKinght Blood
-	mts_Config:addTitle("\124cffC41F3B---> DeathKinght Blood: <---")
-	mts_Config:addText("Everything in here only affects the DeathKinght Blood profile.")
-	mts_Config:addCheckBox("DkBloodTaunts", "Auto Taunting", "Allows Auto Taunts", true)
-	mts_Config:addCheckBox("DkBloodDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
-	mts_Config:addCheckBox("DkBloodItems", "Use items", "Allows usage of items", true)
-	mts_Config:addCheckBox("DkBloodBuffs", "Buffing", "Use Buffs", true)
-	mts_Config:addSlider("DkBloodHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
-
-		-- Druid Guardian
-	mts_Config:addTitle("\124cffFF7D0A---> Druid Guardian: <---")
-	mts_Config:addText("Everything in here only affects the Druid Guardian profile.")
-	mts_Config:addCheckBox("DoodGuardTaunts", "Auto Taunting", "Allows Auto Taunts", true)
-	mts_Config:addCheckBox("DoodGuardDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
-	mts_Config:addCheckBox("DoodGuardBuffs", "Buffing", "Use Buffs", true)
-	mts_Config:addCheckBox("DoodGuardItems", "Use items", "Allows usage of items", true)
-	mts_Config:addSlider("DoodGuardHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
-
-	-- Druid Restoration
-	mts_Config:addTitle("\124cffFF7D0A---> Druid Restoration: <---")
-	mts_Config:addText("Everything in here only affects the Druid Restoration profile.")
-	mts_Config:addCheckBox("DoodRestoDispells", "Auto Dispelling", "Allows Auto Dispelling", true)
-	mts_Config:addCheckBox("DoodRestoBuffs", "Buffing", "Use Buffs", true)
-	mts_Config:addCheckBox("DoodRestoItems", "Use items", "Allows usage of items", true)
-	mts_Config:addCheckBox("DoodRestoMr", "Use Wild Mushroom", "Allows usage of Wild Mushroom", true)
-	mts_Config:addSlider("toUseDoodRestoMr", "Wild Mushroom @ HP %", "HP percentage you need to drop to use Wild Mushroom", 60,100,95,1)
-	mts_Config:addSlider("DoodRestoHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
-		
+function mts.KafaPress()
+	if GetItemCount(86125) > 0
+	and GetItemCooldown(86125) == 0 then 
+		return true
+	end
+	return false
 end
 
 function mts_ConfigWhisper(txt)
@@ -407,6 +363,44 @@ function mts.getConfig(key)
 	return mts_Config:get(key)
 end
 
+function mts.dummy()					-- Dummy Check
+	mts_Dummies = {
+		31146, --Raider's Training Dummy - Lvl ??
+		67127, --Training Dummy - Lvl 90
+		46647, --Training Dummy - Lvl 85
+		32546, --Ebon Knight's Training Dummy - Lvl 80
+		31144, --Training Dummy - Lvl 80
+		32667, --Training Dummy - Lvl 70
+		32542, --Disciple's Training Dummy - Lvl 65
+		32666, --Training Dummy - Lvl 60
+		32545, --Initiate's Training Dummy - Lvl 55 
+		32541, --Initiate's Training Dummy - Lvl 55 (Scarlet Enclave) 
+	}
+	for i=1, #mts_Dummies do
+		if UnitExists("target") then
+			mts_Dummies_ID = tonumber(UnitGUID("target"):sub(-13, -9), 16)
+		else
+			mts_Dummies_ID = 0
+		end
+		if mts_Dummies_ID == mts_Dummies[i] then
+			return true
+		else
+			return false
+		end	
+	end
+end
+
+function mts.ShouldTaunt(key)
+	if UnitIsTappedByPlayer("target")
+	and mts_Config:get(key) == true
+	and not UnitIsTapped("target")
+	and not mts.dummy() then
+		return true
+	else
+		return false
+	end
+end
+
 function mts.getSetting(txt1, txt2)
 	if mts.getConfig(txt1) == txt2 then
 		return true
@@ -429,6 +423,163 @@ function mts.ConfigUnitHp(key, unit)
 	else
 		return false
 	end
+end
+
+function mts.modifierActionForSpellIsAlt(name)
+	return IsAltKeyDown() and not GetCurrentKeyBoardFocus() and mts.getConfig("altKeyAction") == name
+end
+
+function mts.modifierActionForSpellIsShift(name)
+	return IsShiftKeyDown() and not GetCurrentKeyBoardFocus() and mts.getConfig("shiftKeyAction") == name
+end
+
+function mts.modifierActionForSpellIsControl(name)
+	return IsControlKeyDown() and not GetCurrentKeyBoardFocus() and mts.getConfig("controlKeyAction") == name
+end
+
+function mts.shoulDarkSimUnit(unit)
+	for index,spellName in pairs(mts.darkSimSpells) do
+		if ProbablyEngine.condition["casting"](unit, spellName) then return true end
+	end
+	return false
+end
+
+function mts.canCastPlagueLeech(timeLeft)
+	local frostFeverApplied, _, ffExpires, ffCaster = UnitDebuff("target","Frost Fever","player")
+	local bloodPlagueApplied, _, bpExpires, bpCaster = UnitDebuff("target","Blood Plague","player")
+	local durationFF = 0
+	local durationBP = 0
+	if ffExpires and ffCaster == "player" then
+		durationFF = (ffExpires - (GetTime()-(ProbablyEngine.lag/1000)))
+	end
+	if bpExpires and bpCaster == "player" then
+		durationBP = (bpExpires - (GetTime()-(ProbablyEngine.lag/1000)))
+	end
+	
+	if not frostFeverApplied or not bloodPlagueApplied then return false end
+	if durationFF <= timeLeft then
+		return true
+	end
+	if durationBP <= timeLeft then
+		return true
+	end
+	return false
+end
+
+function mts.shouldBloodTap()
+	local _, _, _, count, _, _, _, _, _ = UnitBuff("player","Blood Charge")
+	if count == nil then count = 0 end	
+	if count >= 5 then return true end
+	return false
+end
+
+function mts.gotBloodRunes()
+	if GetRuneType(1) ~= 4 and GetRuneType(2) ~= 4 then
+		return true
+	end 
+	return false
+end
+
+
+function mts.hasGhoul()
+		if ProbablyEngine.module.player.specName == "Unholy" then
+			if UnitExists("pet") == nil then return false end
+		else
+			if select(1,GetTotemInfo(1)) == false then return false end
+		end
+		return true
+	end
+	
+function mts.gotBloodRunes()
+	if GetRuneType(1) ~= 4 and GetRuneType(2) ~= 4 then
+		return true
+	end 
+	return false
+end
+
+-- //////////////////////-----------------------------------------Register Lib-----------------------------------//////////////////////////////
+
+ProbablyEngine.library.register('mts', mts)
+
+-- //////////////////////-----------------------------------------Config-----------------------------------//////////////////////////////
+
+-- mConfig copyright & thanks to https://github.com/kirk24788/mConfig
+-- Modified by MTS
+
+mts_Config = {}
+function mts.initConfig()
+mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","mtsConfig","Default",{"/mts"})
+        
+	-- Settings
+		mts_Config:addTitle("---> General Settings: <---")
+		mts_Config:addText("Everything in here is shared cross all of the profiles.")
+		mts_Config:addCheckBox("getAlerts", "Show Notifications", "Shows notification on top when used certain spells", true)
+		mts_Config:addCheckBox("getAlertSounds", "Notifications Sounds", "Plays a sound when a notification is shown.", true)
+		mts_Config:addCheckBox("getWhispers", "Allow Whispers", "Whispers people after using certain spells", true)
+
+	--Paladin Holy
+		mts_Config:addTitle("\124cffF58CBA---> Paladin Holy: <---")
+		mts_Config:addText("Everything in here only affects the Paladin Holy profile.")
+		mts_Config:addCheckBox("PalaHolyItems", "Use items", "Allows usage of items", true)
+		mts_Config:addCheckBox("PalaHolyBuffs", "Buffing", "Use Buffs", true)
+		mts_Config:addCheckBox("PalaHolyDispells", "Auto Dispelling", "Allows Auto Dispelling", true)
+		mts_Config:addDropDown("toUsePalaHolyBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
+		mts_Config:addDropDown("toUsePalaHolyHr", "Holy Radiance:", "Choose how to use Holy Radiance", {AUTO="Auto", MANUAL="Manual"}, "AUTO")
+		mts_Config:addSlider("PalaHolyHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+		mts_Config:addSlider("PalaHolyEf", "Eternal Flame @ HP %", "HP percentage you need to drop to use Eternal Flame", 10,100,93,1)
+		mts_Config:addSlider("PalaHolyLoh", "Lay on Hands @ HP %", "HP percentage you need to drop to use Lay on Hands", 10,100,15,1)
+		mts_Config:addCheckBox("usePalaHolyTk1", "Use Trinket 1", "Allows usage of Trinket 1", true)
+		mts_Config:addCheckBox("usePalaHolyTk2", "Use Trinket 2", "Allows usage of Trinket 2", true)
+		mts_Config:addSlider("PalaHolyTk1", "Trinket 1 @ MANA %", "MANA percentage you need to drop to use Trinket 1", 10,100,85,1)
+		mts_Config:addSlider("PalaHolyTk2", "Trinket 2 @ MANA %", "MANA percentage you need to drop to use Trinket 2", 10,100,85,1)
+		mts_Config:addSlider("PalaHolyAct", "Arcane Torrent *Racial* @ MANA %", "MANA percentage you need to drop to use Arcane Torrent *Racial*", 10,100,90,1)
+		mts_Config:addSlider("PalaHolyDvp", "Divine Plea @ MANA %", "MANA percentage you need to drop to use Divine Plea", 10,100,85,1)
+
+	-- Paladin Protection
+		mts_Config:addTitle("\124cffF58CBA---> Paladin Protection: <---")
+		mts_Config:addText("Everything in here only affects the Paladin Protection profile.")
+		mts_Config:addCheckBox("PalaProtItems", "Use items", "Allows usage of items", true)
+		mts_Config:addCheckBox("PalaProtTaunts", "Auto Taunting", "Allows Auto Taunts", true)
+		mts_Config:addCheckBox("PalaProtConsecration", "Consecration", "Use Consecration", true)
+		mts_Config:addCheckBox("PalaProtChangeSeals", "Seals", "Use Seals", true)
+		mts_Config:addCheckBox("PalaProtDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
+		mts_Config:addCheckBox("PalaProtBuffs", "Buffing", "Use Buffs Kings/Might/Fury", true)
+		mts_Config:addDropDown("toUsePalaProtBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
+		mts_Config:addSlider("PalaProtHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+
+	-- DeathKinght Blood
+		mts_Config:addTitle("\124cffC41F3B---> DeathKinght Blood: <---")
+		mts_Config:addSlider("ibfPercentage","Icebound Fortitude HP %","HP % you need to drop to use Icebound Fortitude", 10,100,40,1)
+		mts_Config:addSlider("vbPercentage","Vampiric Blood HP %","HP % you need to drop to use Vampiric Blood", 10,100,40,1)
+		mts_Config:addSlider("dpPercentage","Death Pact HP %","HP % you need to drop to use Death Pact", 10,100,50,1)
+		mts_Config:addSlider("lichbornePercentage","Lichborne HP %","HP % you need to drop to use Lichborne", 10,100,50,1)
+		mts_Config:addSlider("runeTapPercentage","Rune Tap HP %","HP % you need to drop to use Rune Tap", 10,100,80,1)
+		mts_Config:addSlider("deathStrikePercentage","Death Strike HP %","HP % you need to drop to use Death Strike on CD", 10,100,70,1)
+		mts_Config:addCheckBox("useOutOfCombatHorn", "Horn of Winter out of combat", "Use Horn of Winter out of combat", true)
+		mts_Config:addCheckBox("DkBloodTaunts", "Auto Taunting", "Allows Auto Taunts", true)
+		mts_Config:addDropDown("altKeyAction", "Alt-Key Action", "Action to do when Alt-Key is pressed", {ANTIMAGICZONE="Anti Magic Zone", DND="Death and Decay", PAUSE="Pause Rotation", ARMY="Army of Death"}, "ANTIMAGICZONE")
+		mts_Config:addDropDown("shiftKeyAction", "Shift-Key Action", "Action to do when Shift-Key is pressed", {ANTIMAGICZONE="Anti Magic Zone", DND="Death and Decay", PAUSE="Pause Rotation", ARMY="Army of Death"}, "DND")
+		mts_Config:addDropDown("controlKeyAction", "Control-Key Action", "Action to do when Control-Key is pressed", {ANTIMAGICZONE="Anti Magic Zone", DND="Death and Decay", PAUSE="Pause Rotation", ARMY="Army of Death"}, "PAUSE")
+
+	-- Druid Guardian
+		mts_Config:addTitle("\124cffFF7D0A---> Druid Guardian: <---")
+		mts_Config:addText("Everything in here only affects the Druid Guardian profile.")
+		mts_Config:addCheckBox("DoodGuardTaunts", "Auto Taunting", "Allows Auto Taunts", true)
+		mts_Config:addCheckBox("DoodGuardDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
+		mts_Config:addCheckBox("DoodGuardBuffs", "Buffing", "Use Buffs", true)
+		mts_Config:addCheckBox("DoodGuardItems", "Use items", "Allows usage of items", true)
+		mts_Config:addSlider("DoodGuardHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+
+	-- Druid Restoration
+		mts_Config:addTitle("\124cffFF7D0A---> Druid Restoration: <---")
+		mts_Config:addText("Everything in here only affects the Druid Restoration profile.")
+		mts_Config:addCheckBox("DoodRestoDispells", "Auto Dispelling", "Allows Auto Dispelling", true)
+		mts_Config:addCheckBox("DoodRestoBuffs", "Buffing", "Use Buffs", true)
+		mts_Config:addCheckBox("DoodRestoItems", "Use items", "Allows usage of items", true)
+		mts_Config:addCheckBox("DoodRestoMr", "Use Wild Mushroom", "Allows usage of Wild Mushroom", true)
+		mts_Config:addSlider("toUseDoodRestoMr", "Wild Mushroom @ HP %", "HP percentage you need to drop to use Wild Mushroom", 60,100,95,1)
+		mts_Config:addSlider("DoodRestoHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+		
 end
 
 mts.initConfig()

@@ -1,5 +1,6 @@
 -- ///////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
 --														//DeathKnight Blood//
+--													  Originaly made by PCMD
 --												  Thank Your For Your My ProFiles
 --														I Hope Your Enjoy Them
 --																MTS
@@ -7,127 +8,126 @@
 
 local lib = function()
 
--- ////////////////-----------------------------------------TOGGLES-----------------------------------//////////////////////////////
 
-	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffC41F3BDeathKnight/Blood \124cff9482C9Loaded*")
+	ProbablyEngine.toggle.create("DPS", "Interface\\Icons\\Spell_DeathKnight_DarkConviction", "Push your DPS with Rune Strike", "Toggle On if you want to prioritize Rune Strike over Death Strike")
+	ProbablyEngine.toggle.create("DRW", "Interface\\Icons\\INV_Sword_07", "Stop using Dancing Rune Weapon", "Toggle Off if you dont want to use DRW on CD")
+	ProbablyEngine.toggle.create("RD", "Interface\\Icons\\spell_shadow_animatedead", "Enable or Disable Raise Dead", "Toggle On to use Raise Dead for DPS / Toggle Off to use Raise Dead for Death Pact")
 	
 end
--- //////////////////////-----------------------------------------END LIB-----------------------------------//////////////////////////////
 
 local Buffs = {
 
 	-- Presence
 		{"48263", "player.seal != 1", nil }, -- Blood
 
-	-- Buffs
-		{ "49222", "player.buff(49222).count < 6" }, -- Bone Shield
-  
 }
--- ////////////////////////-----------------------------------------END BUFFS-----------------------------------//////////////////////////////
 
 local inCombat = {
-
-	-- Keybinds
-		{ "42650", "modifier.alt" }, -- Army of the Dead
-		{ "49576", "modifier.control" }, -- Death Grip
-		{ "43265", "modifier.shift", "ground" }, -- Death and Decay
- 
-	-- Buffs
-		{ "57330", "player.runicpower < 100)" }, -- Horn of Winter
 	
-	--  Racials
-		-- Dwarves
-			{ "20594", "player.health <= 65" },
-		-- Humans
-			{ "59752", "player.state.charm" },
-			{ "59752", "player.state.fear" },
-			{ "59752", "player.state.incapacitate" },
-			{ "59752", "player.state.sleep" },
-			{ "59752", "player.state.stun" },
-		-- Draenei
-			{ "28880", "player.health <= 70", "player" },
-		-- Gnomes
-			{ "20589", "player.state.root" },
-			{ "20589", "player.state.snare" },
-		-- Forsaken
-			{ "7744", "player.state.fear" },
-			{ "7744", "player.state.charm" },
-			{ "7744", "player.state.sleep" },
-		-- Goblins
-			{ "69041", "player.moving" },
+	{ "Pause", "@mts.modifierActionForSpellIsAlt('PAUSE')" },
+	{ "Pause", "@mts.modifierActionForSpellIsShift('PAUSE')" },
+	{ "Pause", "@mts.modifierActionForSpellIsControl('PAUSE')" },
+	
+	{ "Death and Decay", "@mts.modifierActionForSpellIsAlt('DND')" },
+	{ "Death and Decay", "@mts.modifierActionForSpellIsShift('DND')","ground" },
+	{ "Death and Decay", "@mts.modifierActionForSpellIsControl('DND')","ground" },
+	
+	{ "Anti-Magic Zone", "@mts.modifierActionForSpellIsAlt('ANTIMAGICZONE')" },
+	{ "Anti-Magic Zone", "@mts.modifierActionForSpellIsShift('ANTIMAGICZONE')","ground" },
+	{ "Anti-Magic Zone", "@mts.modifierActionForSpellIsControl('ANTIMAGICZONE')","ground" },
+	
+	{ "Army of the Dead", "@mts.modifierActionForSpellIsAlt('ARMY')" },
+	{ "Army of the Dead", "@mts.modifierActionForSpellIsShift('ARMY')" },
+	{ "Army of the Dead", "@mts.modifierActionForSpellIsControl('ARMY')" },
 
-	-- Combat Ress
-		{ "Raise Ally", "!mouseover.alive", "mouseover" }, -- Raise Ally
-  
-	-- Interrupts
-		{ "47528", "modifier.interrupts" }, -- Mind freeze
-		{ "47476", "modifier.interrupts" }, -- Strangulate
+	-- Defensive cooldowns
+	{{
+		{ "#5512", "player.health < 70"}, --healthstone
+		{ "Icebound Fortitude", "@mts.ConfigUnitHp('ibfPercentage", "player')" },
+		{ "Vampiric Blood", {"modifier.cooldowns","@mts.ConfigUnitHp('vbPercentage", "player')" }},
+		{ "Death Pact", {"@mts.ConfigUnitHp('dpPercentage', 'player')","@mts.hasGhoul()" }},
+		{ "Lichborne", {"@mts.ConfigUnitHp('lichbornePercentage', 'player')","player.runicpower >= 40","player.spell.exists(Lichborne)" }},
+		{ "Death Coil", {"player.health < 90","player.runicpower >= 40","player.buff(lichborne)" }, "player"},
+	}, "modifier.cooldowns" },
+
+	{ "Rune Tap", "@mts.ConfigUnitHp('runeTapPercentage", "player')" },
 
 	-- Aggro Control
-		{ "56222", { "mouseover.threat < 100", "@mts.getConfig('DkBloodTaunts')" }, "mouseover" }, -- Dark Command / Mouse-Over
-		{ "56222", { "target.threat < 100", "@mts.getConfig('DkBloodTaunts')"  }, "target" }, -- Dark Command
-		{ "49576", { "mouseover.threat < 100", "@mts.getConfig('DkBloodTaunts')" }, "mouseover" }, -- Death Grip / Mouse-Over
-		{ "49576", { "target.threat < 100", "@mts.getConfig('DkBloodTaunts')" }, "target" }, -- Death Grip
+	{ "62124", { "@mts.ShouldTaunt('PalaProtTaunts')", "@mts.bossTaunt" }, "target" }, -- Boss // Dark Command
+	{ "56222", { "mouseover.threat < 100", "@mts.ShouldTaunt('DkBloodTaunts')" }, "mouseover" }, -- Dark Command / Mouse-Over
+	{ "56222", { "target.threat < 100", "@mts.ShouldTaunt('DkBloodTaunts')"  }, "target" }, -- Dark Command
+	{ "49576", { "mouseover.threat < 100", "@mts.ShouldTaunt('DkBloodTaunts')" }, "mouseover" }, -- Death Grip / Mouse-Over
+	{ "49576", { "target.threat < 100", "@mts.ShouldTaunt('DkBloodTaunts')" }, "target" }, -- Death Grip
+
 	
-	-- Heal
-		{ "48982", "player.health <= 40" }, -- Rune Tap
-		{ "#5512", "@mts.ConfigUnitHp('DkBloodHs', 'player')" }, --Healthstone
-		{ "/cast 46584\n/cast 48743", { "player.health < 35", "player.spell(48743).cooldown", "player.spell(46584).cooldown", "player.spell(48743).usable" }, nil },-- Death Pact Macro, Last Resort
-		--{ "/cast Raise Dead\n/cast Death Pact", { "player.health < 35", "player.spell(Death Pact).cooldown", "player.spell(Raise Dead).cooldown", "player.spell(Death Pact).usable" }, nil },-- Death Pact Macro, Last Resort
-	
-	-- Defensive
-		{ "48707", { "player.health <= 70", "target.casting", "@mts.getConfig('DkBloodDefCd')" }}, -- Anti-Magic Shell
-		{ "49028", { "player.health <= 75", "@mts.getConfig('DkBloodDefCd')" }}, -- Dancing Rune Weapon
-		{ "Conversion", { "player.health <= 60", "@mts.getConfig('DkBloodDefCd')" }},
-		{ "55233", { "player.health <= 55", "@mts.getConfig('DkBloodDefCd')" }}, -- Vampiric Blood
-		{ "48792", { "player.health <= 50", "@mts.getConfig('DkBloodDefCd')" }},-- Icebound Fortitude	
-		
-	-- Cooldowns
-		{ "Empower Rune Weapon", { "player.health <= 40", "modifier.cooldowns" }}, -- Empower Rune Weapon
-	
+	{{-- Interrupts
+		{ "mind freeze" },
+		{ "Strangulate", { "!target.spell(47528).range", "!player.modifier.last(47528)" }},
+		{ "Asphyxiate", "!modifier.last(47528)"},
+	}, "target.interruptsAt(50)" },
+
+	-- Spell Steal
+	{ "Dark Simulacrum ", "@mts.shoulDarkSimUnit('target')" , "target" },
+	{ "Dark Simulacrum ", "@mts.shoulDarkSimUnit('focus')" , "focus" },
+
+	{ "Raise Dead", {"modifier.cooldowns","toggle.RD","!@mts.hasGhoul()" }},
+	{ "Raise Dead", {"!toggle.RD","@mts.ConfigUnitHp('dpPercentage", "player')","!@mts.hasGhoul()" }},
+	{
+		{
+			{"Dancing Rune Weapon", "!toggle.DRW"},
+			-- Requires engineering
+			{ "#gloves"},
+			-- Requires herbalism
+			{"Lifeblood"},
+			-- Racials
+			{ "Berserking"},
+			{ "Blood Fury"},
+		},
+		{ "modifier.cooldowns", "target.spell(56815).range" }
+	},
+
+	-- Buff
+	{ "Bone Shield", "!player.buff(Bone Shield)" },
+
+	-- Diseases
+	{ "Unholy Blight", "target.debuff(frost fever).duration < 2" },
+	{ "Unholy Blight", "target.debuff(blood plague).duration < 2" },
+	{ "Outbreak", "target.debuff(frost fever).duration < 2" },
+	{ "Outbreak", "target.debuff(blood plague).duration < 2" },
+
+	-- Multi-target
+	{ "Blood Boil",	{"modifier.multitarget","target.range <= 10" }},
+	{ "Rune Strike", {"player.runicpower >= 30","toggle.DPS" }},
+	{ "Blood Boil",	{"player.buff(Crimson Scourge)","target.range <= 10" }},
+
 	-- Rotation
-	
-		-- Disease's
-			{ "Outbreak", "target.debuff(55095).duration < 3", "target.debuff(55078).duration <3", "target" }, -- Outbreak
-			{ "48721", "player.runes(blood).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, -- Blood Boil
-			{ "48721", "player.runes(death).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, -- Blood Boil
-			{ "45477", "target.debuff(55095).duration < 3" }, -- Icy Touch
-			{ "45462", "target.debuff(55078).duration < 3" }, -- Plague Strike
+	{ "Death Strike", "@mts.ConfigUnitHp('deathStrikePercentage', 'player')" },
+	{ "Death Strike", "player.buff(Blood Shield).duration <= 4" },
+	{ "Soul Reaper", "target.health <= 35"},
+	{ "Plague Strike", "target.debuff(Blood Plague).duration = 0" },
+	{ "Icy Touch", "target.debuff(Frost Fever).duration = 0" },
+	{ "Rune Strike", {"player.runicpower >= 80", "player.runes(frost).count < 2", "player.runes(unholy).count < 2" }},
+	{ "Death Strike" },
 
-		{ "45529", "player.buff(114851).count >= 5" }, -- Blood Tap
-		{ "Pestilence", "target.debuff(55078", "target.debuff(55078)" },
-		{ "114866", "target.health < 35" }, -- Soul Reaper
-		{ "48721", { "player.buff(81141)", "target.range <= 5" }, "target" }, -- Blood Boil W/ Crimson Scourge
-		
-		{{-- AoE
-			{ "55050", "modifier.enemies < 4", "target.spell(55050).range" }, -- Heart Strike
-			{ "48721", "modifier.enemies > 3", "target.range < " }, -- Blood Boil
-			{ "49998", "!modifier.last(49998)" }, -- Death Strike
-			{ "56815", "player.runicpower >= 40" }, -- Rune Strike
-		}, "modifier.multitarget" },
+	-- Death Siphon
+	{"Death Siphon", "player.health < 60"},
 
-		{{-- Single
-			{ "49998", "!modifier.last(49998)" }, -- Death Strike
-			{ "55050", "player.runes(blood).count >= 1", "target.health > 35" }, -- Heart Strike
-			{ "114866", "player.runes(blood).count >= 1", "target.health < 35" }, -- Soul Reaper
-			{ "56815", "player.runicpower >= 40" }, -- Rune Strike
-		}, "!modifier.multitarget" },
-  
-} 
--- //////////////////////-----------------------------------------END IN-COMBAT-----------------------------------//////////////////////////////
+	{"Heart Strike", {"target.debuff(Blood Plague).duration > 0","target.debuff(Frost Fever).duration > 0","@mts.gotBloodRunes()" }},
+	{"Rune Strike",	{"player.runicpower >= 30","!player.buff(lichborne)" }},
+
+	{"Horn of Winter"},
+	{"Plague Leech", "@mts.canCastPlagueLeech(3)" },
+	{"Blood Tap", "@mts.shouldBloodTap()" },
+	{"Empower Rune Weapon",	{"modifier.cooldowns","target.spell(56815).range","player.runes(death).count < 1","player.runes(frost).count < 1","player.runes(unholy).count < 1","player.runicpower < 30" }},
+
+}
 
 local outCombat = {
 
-	-- Keybinds
-		{ "42650", "modifier.alt" }, -- Army of the Dead
-		{ "49576", "modifier.control" }, -- Death Grip
-		{ "43265", "modifier.shift", "ground" }, -- Death and Decay
+	-- Out Of Combat
+	{ "Horn of Winter", {"@mts.getConfig('useOutOfCombatHorn')","!player.buff(Horn of Winter)" }},
 
-	-- Buffs
-		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
-  
 }
--- ////////////////////-----------------------------------------END OUT-OF-COMBAT-----------------------------------//////////////////////////////
 
 for _, Buffs in pairs(Buffs) do
   inCombat[#inCombat + 1] = Buffs

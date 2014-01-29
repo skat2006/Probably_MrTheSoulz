@@ -56,14 +56,15 @@ local inCombat = {
 	--	Buffs
 		{ "1126", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "player.form = 0" }, nil }, -- Mark of the Wild
 	
-	-- Interrupts
-		{ "80964", "modifier.interrupts" }, -- skull bash
-		{ "132469", "modifier.interrupts" }, -- typhoon
+	{{-- Interrupts
+		{ "80964" }, -- skull bash
+		{ "132469" }, -- typhoon
+	}, "target.interruptsAt(50)" },
 	
 	-- Aggro Control
-		{ "62124", { "@mts.getConfig('DoodGuardTaunts')", "@mts.bossTaunt" }, "target" }, -- Boss // Reckoning
-		{ "6795", { "mouseover.threat < 100", "@mts.getConfig('DoodGuardTaunts')" }, "mouseover" }, -- Growl / Mouse-Over
-		{ "6795", { "target.threat < 100", "@mts.getConfig('DoodGuardTaunts')" }, "target" }, -- Growl
+		{ "62124", { "@mts.ShouldTaunt('DoodGuardTaunts')", "@mts.bossTaunt" }, "target" }, -- Boss // Reckoning
+		{ "6795", { "mouseover.threat < 100", "@mts.ShouldTaunt('DoodGuardTaunts')" }, "mouseover" }, -- Growl / Mouse-Over
+		{ "6795", { "target.threat < 100", "@mts.ShouldTaunt('DoodGuardTaunts')" }, "target" }, -- Growl
 	
 	-- Items
 		{ "#5512", "@mts.ConfigUnitHp('DoodGuardHs', 'player')" }, --Healthstone

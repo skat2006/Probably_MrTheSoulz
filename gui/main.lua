@@ -248,7 +248,7 @@ function mConfig:addSlider(key, text, tooltip, minValue, maxValue, defaultValue,
     optionText:SetPoint("LEFT",optionFrame,20,-6)
     optionText:SetWidth(OPTIONS_WIDTH-180)
     optionText:SetHeight(OPTIONS_HEIGHT)
-    optionText:SetText("|cffffffff" ..text .. "|r |cFFFF0000 (" .. (math.floor(self.values[key]*10)/10) .. ")|r")
+    optionText:SetText("|cffffffff" ..text .. " |cFFFF0000 (" .. (math.floor(self.values[key]*10)/10) .. ")|r")
     optionText:SetJustifyH("LEFT")
 
     local slider = CreateFrame("Slider", nextElementId(), optionFrame, "OptionsSliderTemplate")
@@ -266,7 +266,7 @@ function mConfig:addSlider(key, text, tooltip, minValue, maxValue, defaultValue,
     getglobal(slider:GetName() .. 'Text'):SetText(title)
     slider:SetScript("OnValueChanged", function()
         self.values[key] = slider:GetValue() 
-        optionText:SetText(text .. "|r |cffffffff (" .. (math.floor(self.values[key]*10)/10) .. ")|r")
+        optionText:SetText("|cffffffff" ..text .. " |cFFFF0000 (" .. (math.floor(self.values[key]*10)/10) .. ")|r")
     end)
     
     self.defaults[key] = defaultValue

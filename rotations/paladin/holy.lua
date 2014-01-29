@@ -88,13 +88,13 @@ local inCombat = {
 		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
 
 	-- Mana Regen
-		{ "28730", "player.mana < 90", nil }, -- Arcane torrent
-		{ "54428", "player.mana < 85", nil }, -- Divine Plea
+		{ "28730", "@mts.ConfigUnitMana('PalaHolyAct', 'player')", nil }, -- Arcane torrent
+		{ "54428", "@mts.ConfigUnitMana('PalaHolyDvp', 'player')", nil }, -- Divine Plea
 		{ "#trinket1", { "@mts.getConfig('usePalaHolyTk1')", "@mts.ConfigUnitMana('PalaHolyTk1', 'player')" }, nil }, -- Trinket 1
 		{ "#trinket2", { "@mts.getConfig('usePalaHolyTk1')", "@mts.ConfigUnitMana('PalaHolyTk2', 'player')" }, nil }, -- Trinket 2
 	
 	-- Interrupts
-		{ "96231", "modifier.interrupts", "target" }, -- Rebuke
+		{ "96231", "target.interruptsAt(50)", "target" }, -- Rebuke
 		
 	-- Hands
 		{ "6940", { "tank.spell(6940).range", "tank.health < 40" }, "tank" }, -- Hand of Sacrifice
@@ -155,7 +155,6 @@ local inCombat = {
 			{ "85222", { "@mts.getSetting('toUsePalaHolyHr', 'AUTO')", "@coreHealing.needsHealing(90, 8)", "player.holypower >= 3", "modifier.members > 10" }, "lowest" }, -- Light of Dawn
 			{ "82327", { "@mts.getSetting('toUsePalaHolyHr', 'AUTO')", "@coreHealing.needsHealing(90, 8)", "!modifier.last", "!player.moving", "modifier.members > 10" }, "lowest" }, -- Holy Radiance 10+
 	
-	
 	-- HEAL FAST BITCH
 		{ "633", "@mts.ConfigUnitHp('PalaHolyLoh', 'lowest')", "lowest" }, -- Lay on Hands
 		{ "85673", { "player.holypower >= 3", "lowest.health <= 80" }, "lowest"  }, -- Word of Glory
@@ -168,14 +167,15 @@ local inCombat = {
 		
 	-- Tank
 		{ "53563", { "!tank.buff(53563)", "tank.spell(53563).range" }, "tank" }, -- Beacon of light
+		{ "20925", { "spell.charges(20925) >= 1", "tank.health < 100", "!tank.buff(148039)", "tank.spell(20925).range", "!modifier.last" }, "tank" }, -- Sacred Shield
+		{ "635", { "tank.health < 97", "!tank.health < 65", "!player.moving" }, "tank" }, -- Holy Light
 		{ "114157", "tank.health < 85", "tank" }, -- Execution Sentence
 		{ "114163", { "player.holypower >= 3", "!tank.buff(114163)", "tank.health <= 75" }, "tank" }, -- Eternal Flame
-		{ "20925", { "spell.charges(20925) >= 1", "tank.health < 95", "!tank.buff(148039)", "tank.spell(20925).range", "!modifier.last" }, "tank" }, -- Sacred Shield
 		{ "82326", { "tank.health < 65", "tank.spell(82326).range", "!player.moving" }, "tank" }, -- Divine Light
 		
 	-- Single target
 		{ "114165", { "lowest.health < 85", "!player.moving" }, "lowest"}, -- Holy Prism
-		{ "635", { "lowest.health < 97", "!lowest.health < 65", "!player.moving" }, "lowest" }, -- Holy Light
+		{ "635", { "lowest.health < 97", "!lowest.health < 65", "!player.moving", "modifier.party" }, "lowest" }, -- Holy Light
 		{ "82326", { "lowest.health < 35", "!player.moving" }, "lowest" }, -- Divine Light
   
 } 
@@ -190,8 +190,8 @@ local outCombat = {
 	-- Mana Regen
 		{ "28730", "player.mana < 90", nil }, -- Arcane torrent
 		{ "54428", "player.mana < 85", nil }, -- Divine Plea
-		{ "#trinket1", "player.mana < 85", nil }, -- Trinket 1
-		{ "#trinket2", "player.mana < 85", nil }, -- Trinket 2
+		{ "#trinket1", { "@mts.getConfig('usePalaHolyTk1')", "@mts.ConfigUnitMana('PalaHolyTk1', 'player')" }, nil }, -- Trinket 1
+		{ "#trinket2", { "@mts.getConfig('usePalaHolyTk1')", "@mts.ConfigUnitMana('PalaHolyTk2', 'player')" }, nil }, -- Trinket 2
 
 	-- Hands
 		{ "1044", "player.state.root" }, -- Hand of Freedom
