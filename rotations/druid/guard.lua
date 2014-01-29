@@ -58,7 +58,7 @@ local inCombat = {
 	}, "target.interruptsAt(50)" },
 	
 	{{-- Aggro Control
-		{ "62124", "@mtsLib.bossTaunt", "target" }, -- Boss // Reckoning
+		{ "62124", "@mtsBossLib.bossTaunt", "target" }, -- Boss // Reckoning
 		{ "6795", { "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Growl / Mouse-Over
 		{ "6795", { "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Growl
 	},{ "@mtsLib.dummy()", "@mtsLib.ShouldTaunt('DoodGuardTaunts')" }},

@@ -91,7 +91,7 @@ local inCombat = {
         --{ "/TargetNearestEnemy", { "target.exists", "target.dead" }, nil },
 
     {{-- Taunts
-		{ "62124", "@mtsLib.bossTaunt", "target" }, -- Boss // Reckoning
+		{ "62124", "@mtsBossLib.bossTaunt", "target" }, -- Boss // Reckoning
 		{ "62124", { "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Aggro Control // Reckoning
 		{ "62124", { "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Aggro Control // Reckoning
 	},{ "@mtsLib.dummy()", "@mtsLib.ShouldTaunt('PalaProtTaunts')" }},

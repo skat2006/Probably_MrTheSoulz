@@ -7,9 +7,13 @@ MTS
 
 local function onUpdate(self,elapsed) 
 	if self.time < GetTime() - 2.0 then
-		if self:GetAlpha() == 0 then self:Hide() else self:SetAlpha(self:GetAlpha() - .05) end
+		if self:GetAlpha() == 0 then
+			self:Hide()
+		else 
+			self:SetAlpha(self:GetAlpha() - .05)
 		end
 	end
+end
 	
 mtsAlert = CreateFrame("Frame",nil,UIParent)
 mtsAlert:SetWidth(400)

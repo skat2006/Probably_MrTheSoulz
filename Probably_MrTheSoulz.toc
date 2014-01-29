@@ -10,6 +10,8 @@ gui\main.lua
 gui\alert.lua
 libs\lib.lua
 libs\dotTracker.lua
+libs\tracker.lua
+libs\bossTaunts.lua
 classlibs\dk.lua
 classlibs\druid.lua
 classlibs\paladin.lua

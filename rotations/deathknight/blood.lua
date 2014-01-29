@@ -53,7 +53,7 @@ local inCombat = {
 	{ "Rune Tap", "@mtsLib.ConfigUnitHp('runeTapPercentage", "player')" },
 
 	{{-- Aggro Control
-		{ "62124", "@mtsLib.bossTaunt", "target" }, -- Boss // Dark Command
+		{ "62124", "@mtsBossLib.bossTaunt", "target" }, -- Boss // Dark Command
 		{ "56222", { "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Dark Command / Mouse-Over
 		{ "56222", { "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Dark Command
 		{ "49576", { "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Death Grip / Mouse-Over

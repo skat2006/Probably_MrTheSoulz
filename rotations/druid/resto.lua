@@ -34,7 +34,7 @@ local inCombat = {
 		{ "20484", "modifier.control", "mouseover" }, -- Rebirth
   
 	--Pause if
-		{ "pause", "player.form > 1" }, -- Any Player from but bear
+		{ "pause", "player.form > 1" }, -- Any from but bear
 
 	--Dispel
 		{ "88423", { "player.buff(Gift of the Titans)", "@coreHealing.needsDispelled('Mark of Arrogance')" }, nil },
