@@ -1,6 +1,6 @@
---[[ //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
+--[[ ///---INFO---////
 // DeathKnight Blood //
-!Originaly made by pcmd!
+!Originaly made by PCMD!
 Thank Your For Your My ProFiles
 I Hope Your Enjoy Them
 MTS

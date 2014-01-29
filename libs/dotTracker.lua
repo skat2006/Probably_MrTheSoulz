@@ -1,8 +1,13 @@
---[[
-by PCMD
-usage:
+--[[ ///---INFO---////
+// Paladin's Lib //
+!Originaly made by PCMD!
+Thank Your For Your My ProFiles
+I Hope Your Enjoy Them
+MTS
+]]
 
-define the dot's you want to track:
+--[[ // Usage: //
+Define the dot's you want to track:
 
 dotEngine.addDot(dotID, localizedName, {"intellect","mastery","crit"}, refrestAtSeconds )
 1. param= dotID = you dot's spellID
@@ -13,27 +18,19 @@ dotEngine.addDot(dotID, localizedName, {"intellect","mastery","crit"}, refrestAt
 possible modifiers:
 attackPower
 crit
-dmg   (dmg buffs like Fluidity, tricks)
+dmg (dmg buffs like Fluidity, tricks)
 mastery
 strength
 agility
 spirit
 
 
-usage inside your rotation
-
+usage inside your rotation:
 {spellName, @dotEngine.shouldRefresh(dotName or ID, unit), target}
-for instance:
 
 {"Corruption", '@dotEngine.shouldRefresh("Corruption", "target"),"target"},
 {"Corruption", '@dotEngine.shouldRefresh("Corruption", "mousoever"),"mousoever"},
 {"Corruption", '@dotEngine.shouldRefresh("Corruption", "focus"),"focus"},
-
-all valid API units ( bossN, etc... are supported)
-
-
-if you don't know what modify your dot dmg read some guides / check tooltips@wowhead
-
 ]]--
 
 
