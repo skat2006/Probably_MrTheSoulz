@@ -1,5 +1,11 @@
--- mConfig copyright & thanks to https://github.com/kirk24788/mConfig
--- Modified by: MTS
+--[[ //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
+// Main GUI //
+mConfig copyright & thanks to https://github.com/kirk24788/mConfig
+Modified by: MTS
+Thank Your For Your My ProFiles
+I Hope Your Enjoy Them
+MTS
+]]
 
 mConfigData = {}
 mConfigAllConfigs = {}

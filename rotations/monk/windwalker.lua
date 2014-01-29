@@ -1,4 +1,16 @@
--- Originaly made by Tao
+--[[ //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
+// Monk WindWalker //
+!Originaly made by Tao!
+Thank Your For Your My ProFiles
+I Hope Your Enjoy Them
+MTS
+]]
+
+local exeOnLoad = function()
+
+	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffC41F3BDeathKnight/Blood \124cff9482C9Loaded*")
+
+end
 
 local buffs = {
 
@@ -95,4 +107,4 @@ for _, buff in pairs(buffs) do
 end
 
 -- SPEC ID 269
-ProbablyEngine.rotation.register_custom(269, "|r[|cff9482C9MTS|r][|cffC41F3BMonk-WindWalker|r]", combatTable, outOfCombatTable)
+ProbablyEngine.rotation.register_custom(269, "|r[|cff9482C9MTS|r][|cffC41F3BMonk-WindWalker|r]", combatTable, outOfCombatTable, exeOnLoad)

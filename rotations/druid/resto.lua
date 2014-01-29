@@ -1,10 +1,9 @@
--- ///////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
---														//Druid- Restoration//
---												   Thank Your For Your My ProFiles
---														I Hope Your Enjoy Them
---																MTS
-
-
+--[[-- //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
+// Druid Resto //
+Thank Your For Your My ProFiles
+I Hope Your Enjoy Them
+MTS
+]]
 
 local exeOnLoad = function()
 

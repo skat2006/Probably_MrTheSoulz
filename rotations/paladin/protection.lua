@@ -1,16 +1,15 @@
--- //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
---													   	//Paladin Protection//
---													Thank Your For Your My ProFiles
---														I Hope Your Enjoy Them
---																  MTS
-
+--[[ //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
+// Paladin Protection //
+Thank Your For Your My ProFiles
+I Hope Your Enjoy Them
+MTS
+]]
 
 local exeOnLoad = function()
 
 	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffF58CBAPaladin/Protection \124cff9482C9Loaded*")
 
 end
-
 
 local Buffs = {
 
@@ -37,7 +36,6 @@ local Buffs = {
 		{ "25780", { "!player.buff(25780)","@mtsLib.getConfig('PalaProtBuffs')" }, nil }, -- Fury
 		
 }
-
 
 local inCombat = {
 			

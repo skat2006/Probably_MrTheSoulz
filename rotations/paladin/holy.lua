@@ -1,9 +1,9 @@
--- ///////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
---														 //Paladin Holy//
---												  Thank Your For Your My ProFiles
---													  I Hope Your Enjoy Them
---															    MTS
-
+--[[ //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
+// Paladin - Holy //
+Thank Your For Your My ProFiles
+I Hope Your Enjoy Them
+MTS
+]]
 
 local exeOnLoad = function()
 

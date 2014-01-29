@@ -1,3 +1,10 @@
+--[[ //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
+// DeathKnight's Lib //
+Thank Your For Your My ProFiles
+I Hope Your Enjoy Them
+MTS
+]]
+
 local mtsLibDK = {}
 
 mtsLibDK.darkSimSpells = {

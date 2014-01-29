@@ -1,11 +1,9 @@
--- //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
---															//General Lib//
---													Thank Your For Your My ProFiles
---														I Hope Your Enjoy Them
---																  MTS
-
-
-
+--[[ //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
+//General Lib//
+Thank Your For Your My ProFiles
+I Hope Your Enjoy Them
+MTS
+]]
 
 local mtsLib = {}
 local media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
@@ -391,12 +389,10 @@ function mtsLib.modifierActionForSpellIsControl(name)
 	return IsControlKeyDown() and not GetCurrentKeyBoardFocus() and mtsLib.getConfig("controlKeyAction") == name
 end
 
-
--- //////////////////////-----------------------------------------Register Lib-----------------------------------//////////////////////////////
-
 ProbablyEngine.library.register('mtsLib', mtsLib)
 
--- //////////////////////-----------------------------------------Config-----------------------------------//////////////////////////////
+
+
 
 -- mConfig copyright & thanks to https://github.com/kirk24788/mConfig
 -- Modified by MTS

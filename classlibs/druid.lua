@@ -1,3 +1,10 @@
+--[[ //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
+// Druid's Lib //
+Thank Your For Your My ProFiles
+I Hope Your Enjoy Them
+MTS
+]]
+
 -- Made By Tao
 local ignoreDebuffs = {
   'Mark of Arrogance',

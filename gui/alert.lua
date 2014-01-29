@@ -1,9 +1,9 @@
--- //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
---															   //Main GUI//
---													  Thank Your For Your My ProFiles
---														  I Hope Your Enjoy Them
---																   MTS
-
+--[[ //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
+// Alerts GUI //
+Thank Your For Your My ProFiles
+I Hope Your Enjoy Them
+MTS
+]]
 
 local function onUpdate(self,elapsed) 
 	if self.time < GetTime() - 2.0 then

@@ -1,19 +1,17 @@
--- ///////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
---														//DeathKnight Blood//
---													  Originaly made by PCMD
---												  Thank Your For Your My ProFiles
---														I Hope Your Enjoy Them
---																MTS
-
-
-
+--[[ //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
+// DeathKnight Blood //
+!Originaly made by pcmd!
+Thank Your For Your My ProFiles
+I Hope Your Enjoy Them
+MTS
+]]
 
 local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create("DPS", "Interface\\Icons\\Spell_DeathKnight_DarkConviction", "Push your DPS with Rune Strike", "Toggle On if you want to prioritize Rune Strike over Death Strike")
 	ProbablyEngine.toggle.create("DRW", "Interface\\Icons\\INV_Sword_07", "Stop using Dancing Rune Weapon", "Toggle Off if you dont want to use DRW on CD")
 	ProbablyEngine.toggle.create("RD", "Interface\\Icons\\spell_shadow_animatedead", "Enable or Disable Raise Dead", "Toggle On to use Raise Dead for DPS / Toggle Off to use Raise Dead for Death Pact")
-	mts:message("\124cff9482C9*MrTheSoulz - \124cffC41F3BDeathKnight/Blood \124cff9482C9Loaded*")
+	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffC41F3BDeathKnight/Blood \124cff9482C9Loaded*")
 
 end
 
