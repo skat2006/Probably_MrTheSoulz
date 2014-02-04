@@ -78,7 +78,7 @@ local inCombat = {
 		{ "4987", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Torment')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{ "4987", { "@mtsLib.getConfig('PalaHolyDispells')", "@dispell.Cleanse()" }, nil },
+		{ "4987", { "@mtsLib.getConfig('PalaHolyDispells')", "@mtsLibPL.Cleanse()" }, nil },
 	
 	-- Divine Purpose
 		{ "85673", { "lowest.health <= 80", "player.buff(86172)" }, "lowest"  }, -- Word of Glory

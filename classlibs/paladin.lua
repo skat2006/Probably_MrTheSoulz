@@ -11,8 +11,7 @@ local ignoreDebuffs = {
   'Displaced Energy'
 }
 	
-ProbablyEngine.library.register('dispell', {
-Cleanse = function(spell)
+mtsLibPL.Cleanse = function(spell)
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
 	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
@@ -39,4 +38,6 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 		end
 	end
 		return false
-end})
+end
+
+ProbablyEngine.library.register('mtsLibPL', mtsLibPL)
