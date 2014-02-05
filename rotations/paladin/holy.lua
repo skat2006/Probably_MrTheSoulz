@@ -70,7 +70,7 @@ local inCombat = {
 		{ "31842", "@coreHealing.needsHealing(90, 4)", nil }, -- Divine Favor
 		{ "105809", "talent(13)", nil }, -- Holy Avenger
 	}, "modifier.cooldowns" },
-	
+
 	-- Dispel
 		{ "4987", { "player.buff(Gift of the Titans)", "@coreHealing.needsDispelled('Mark of Arrogance')" }, nil },
 		{ "4987", "@coreHealing.needsDispelled('Shadow Word: Bane')", nil },
@@ -78,8 +78,8 @@ local inCombat = {
 		{ "4987", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Torment')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{ "4987", { "@mtsLib.getConfig('PalaHolyDispells')", "@mtsLibPL.Cleanse()" }, nil },
-	
+		{ "4987", { "@mtsLib.getConfig('PalaHolyDispells')", "@mtsLib.Dispell('Cleanse')" }, nil },
+
 	-- Divine Purpose
 		{ "85673", { "lowest.health <= 80", "player.buff(86172)" }, "lowest"  }, -- Word of Glory
 		{ "114163", { "!lowest.buff(114163)", "lowest.health <= 85", "player.buff(86172)" }, "lowest" }, -- Eternal Flame

@@ -11,7 +11,7 @@ local ignoreDebuffs = {
   'Displaced Energy'
 }
 
-mtsLibDood.druid = function(spell)
+function mtsLibDood.druid()
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
 	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i

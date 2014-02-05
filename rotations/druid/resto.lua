@@ -43,7 +43,7 @@ local inCombat = {
 		{ "88423", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 		{ "88423", "@coreHealing.needsDispelled('Torment')", nil },
 		{ "88423", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{ "88423", { "@mtsLib.getConfig('DoodRestoDispells')", "@mtsLibDood.druid()" }, nil },
+		{ "88423", { "@mtsLib.getConfig('DoodRestoDispells')", "mtsLib.Dispell('Nature's Cure')" }, nil },
 
 	-- Cooldowns
 		{ "29166", { "player.mana < 80", "modifier.cooldowns"}, "player" }, -- Inervate

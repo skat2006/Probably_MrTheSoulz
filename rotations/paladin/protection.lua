@@ -87,8 +87,8 @@ local inCombat = {
         { "85673", { "player.holypower >= 1", "player.health < 30" }, "lowest" }, -- Word of Glory
 
     -- Auto Target
-    	--{ "/TargetNearestEnemy", "!target.exists", nil },
-        --{ "/TargetNearestEnemy", { "target.exists", "target.dead" }, nil },
+    	{ "/TargetNearestEnemy", "!target.exists" },
+        { "/TargetNearestEnemy", { "target.exists", "target.dead" } },
 
     {{-- Taunts
 		{ "62124", "@mtsBossLib.bossTaunt", "target" }, -- Boss // Reckoning
