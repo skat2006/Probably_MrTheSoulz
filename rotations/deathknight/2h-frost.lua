@@ -97,7 +97,7 @@ local inCombat = {
 		{ "49184", "player.buff(59052)", "target.spell(49184).range" }, -- Howling Blast if Freezing Fog
 	    { "49143", "player.buff(51124)", "target.spell(49143).range" }, -- Frost Strike if Killing Machine
 		{ "49143", "player.runicpower >= 70", "target.spell(49143).range" }, -- Frost Strike
-		{ "49020", "!modifier.last(49998)" }, -- Obliterate
+		{ "49020", "!modifier.last(49020)" }, -- Obliterate
   
 } 
 -- //////////////////////-----------------------------------------END IN-COMBAT-----------------------------------//////////////////////////////

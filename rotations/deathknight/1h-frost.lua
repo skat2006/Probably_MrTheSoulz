@@ -95,9 +95,9 @@ local inCombat = {
 		{ "49184", { "player.buff(59052)", "modifier.multitarget", "target.spell(49184).range" }, "target" }, -- Howling Blast
 		{ "114866", "target.health < 35" }, -- Soul Reaper
 		{ "49184", "player.buff(59052)", "target.spell(49184).range" }, -- Howling Blast if Freezing Fog
-	    { "49143", "player.buff(51124)", "target.spell(49143).range" }, -- Frost Strike if Killing Machine
+	    { "49020", "player.buff(51124)", "target.spell(49143).range" }, -- Obliterate if Killing Machine
+	    { "49020", { "!modifier.last(49020)", "player.runes(blood).count > 1", "player.runes(death).count > 1", "player.runes(frost).count >1" }, "target" }, -- Obliterate
 		{ "49143", "player.runicpower >= 70", "target.spell(49143).range" }, -- Frost Strike
-		{ "49020", "!modifier.last(49998)" }, -- Obliterate
   
 } 
 -- //////////////////////-----------------------------------------END IN-COMBAT-----------------------------------//////////////////////////////
