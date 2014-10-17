@@ -20,5 +20,7 @@ rotations\paladin\holy.lua
 rotations\druid\resto.lua
 rotations\druid\guard.lua
 rotations\deathknight\blood.lua
+rotations\deathknight\2h-frost.lua
+rotations\deathknight\1h-frost.lua
 rotations\monk\windwalker.lua
 rotations\warrior\fury.lua
