@@ -13,6 +13,8 @@ local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541
 local _cc = {49203,6770,1776,51514,9484,118,28272,28271,61305,61025,61721,61780,3355,19386,20066,90337,2637,82676,115078,76780,9484,1513,115268}
 local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 
+
+
 function mtsLib.StopIfBoss()
 if UnitExists("boss1") then
 local npcId = tonumber(UnitGUID("target"):sub(6,10), 16)
