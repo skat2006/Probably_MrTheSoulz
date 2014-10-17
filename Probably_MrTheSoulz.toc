@@ -2,7 +2,7 @@
 ## Title: Probably |r[|cffC41F3BMrTheSoulz|r]
 ## Notes: A MrTheSoulz Profiles For PE.
 ## Dependencies: Probably
-## Interface: 50400
+## Interface: 60000
 ## Author: MrTheSoulz
 ## SavedVariables: mConfigData
 
@@ -21,3 +21,4 @@ rotations\druid\resto.lua
 rotations\druid\guard.lua
 rotations\deathknight\blood.lua
 rotations\monk\windwalker.lua
+rotations\warrior\fury.lua
