@@ -227,19 +227,37 @@ mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","m
 		mts_Config:addDropDown("toUsePalaProtBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
 		mts_Config:addSlider("PalaProtHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
 
-	-- DeathKinght Blood
-		mts_Config:addTitle("\124cffC41F3B---> DeathKinght Blood: <---")
-		mts_Config:addSlider("ibfPercentage","Icebound Fortitude HP %","HP % you need to drop to use Icebound Fortitude", 10,100,40,1)
+	-- Warrior Fury
+		mts_Config:addTitle("\124cffC79C6E---> Warrior Fury: <---")
+		mts_Config:addText("Everything in here only affects the Warrior Fury profile.")
+		mts_Config:addCheckBox("WarFuryItems", "Use items", "Allows usage of items", true)
+		mts_Config:addCheckBox("WarFuryChangeStances", "Change Stances", "Allow the rotation to change Stances suto", true)
+		mts_Config:addCheckBox("WarFuryDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
+		mts_Config:addCheckBox("WarFuryBuffs", "Buffing", "Use Buffs", true)
+		mts_Config:addSlider("WarFuryHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+
+    -- DeathKinght all
+        mts_Config:addTitle("\124cffC41F3B---> DeathKinght All: <---")
+        mts_Config:addSlider("ibfPercentage","Icebound Fortitude HP %","HP % you need to drop to use Icebound Fortitude", 10,100,40,1)
 		mts_Config:addSlider("vbPercentage","Vampiric Blood HP %","HP % you need to drop to use Vampiric Blood", 10,100,40,1)
 		mts_Config:addSlider("dpPercentage","Death Pact HP %","HP % you need to drop to use Death Pact", 10,100,50,1)
 		mts_Config:addSlider("lichbornePercentage","Lichborne HP %","HP % you need to drop to use Lichborne", 10,100,50,1)
 		mts_Config:addSlider("runeTapPercentage","Rune Tap HP %","HP % you need to drop to use Rune Tap", 10,100,80,1)
 		mts_Config:addSlider("deathStrikePercentage","Death Strike HP %","HP % you need to drop to use Death Strike on CD", 10,100,70,1)
 		mts_Config:addCheckBox("useOutOfCombatHorn", "Horn of Winter out of combat", "Use Horn of Winter out of combat", true)
-		mts_Config:addCheckBox("DkBloodTaunts", "Auto Taunting", "Allows Auto Taunts", true)
 		mts_Config:addDropDown("altKeyAction", "Alt-Key Action", "Action to do when Alt-Key is pressed", {ANTIMAGICZONE="Anti Magic Zone", DND="Death and Decay", PAUSE="Pause Rotation", ARMY="Army of Death"}, "ANTIMAGICZONE")
 		mts_Config:addDropDown("shiftKeyAction", "Shift-Key Action", "Action to do when Shift-Key is pressed", {ANTIMAGICZONE="Anti Magic Zone", DND="Death and Decay", PAUSE="Pause Rotation", ARMY="Army of Death"}, "DND")
 		mts_Config:addDropDown("controlKeyAction", "Control-Key Action", "Action to do when Control-Key is pressed", {ANTIMAGICZONE="Anti Magic Zone", DND="Death and Decay", PAUSE="Pause Rotation", ARMY="Army of Death"}, "PAUSE")
+
+	-- DeathKinght Blood
+		mts_Config:addTitle("\124cffC41F3B---> DeathKinght Blood: <---")
+		mts_Config:addCheckBox("DkBloodTaunts", "Auto Taunting", "Allows Auto Taunts", true)
+
+	-- DeathKinght Frost2h
+		mts_Config:addTitle("\124cffC41F3B---> DeathKinght Frost -2h: <---")
+
+	-- DeathKinght Frost1h
+		mts_Config:addTitle("\124cffC41F3B---> DeathKinght Frost -1h: <---")
 
 	-- Druid Guardian
 		mts_Config:addTitle("\124cffFF7D0A---> Druid Guardian: <---")
