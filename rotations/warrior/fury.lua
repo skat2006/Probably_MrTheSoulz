@@ -23,7 +23,7 @@ local inCombat = {
 	-- keybinds
 		--{ "", "modifier.control", "target"}, -- **
 		--{ "", "modifier.shift", "ground"}, -- **
-		--{ "", "modifier.alt", "ground"}, -- **
+		{ "100", { "modifier.alt", "target.spell(100).range" }, "target"}, -- Charge
 
 	-- Stances
 		{ "2487", { "player.seal != 1", "@mtsLib.getConfig('WarFuryChangeStances')" }, nil  }, -- Battle Stance
@@ -66,7 +66,7 @@ local outCombat = {
     -- keybinds
 		--{ "", "modifier.control", "target"}, -- **
 		--{ "", "modifier.shift", "ground"}, -- **
-		--{ "", "modifier.alt", "ground"}, -- **
+		{ "100", { "modifier.alt", "target.spell(100).range" }, "target"}, -- Charge
 
 	-- Stances
 		{ "2487", { "player.seal != 1", "@mtsLib.getConfig('WarFuryChangeStances')" }, nil  }, -- Battle Stance
