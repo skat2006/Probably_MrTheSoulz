@@ -81,4 +81,4 @@ for _, Buffs in pairs(Buffs) do
   outCombat[#outCombat + 1] = Buffs
 end
 
-ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Protection|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(72, "|r[|cff9482C9MTS|r][|cffF58CBAWarrior-Fury|r]", inCombat, outCombat, exeOnLoad)
