@@ -10,7 +10,6 @@ local exeOnLoad = function()
 
 -- ////////////////-----------------------------------------TOGGLES-----------------------------------//////////////////////////////
 	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_deathknight_iceboundfortitude.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
-	ProbablyEngine.toggle.create('aggro', 'Interface\\Icons\\Ability_warrior_stalwartprotector.png', 'Aggro Control', 'Auto Taunts on mouse-over ot target if dosent have aggro.')
 	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffC41F3BDeathKnight/Blood \124cff9482C9Loaded*")
 
 end
@@ -65,59 +64,40 @@ local inCombat = {
 	-- Interrupts
 		{ "47528", "modifier.interrupts" }, -- Mind freeze
 		{ "47476", "modifier.interrupts" }, -- Strangulate
-
-	{{-- Aggro Control
-		{ "56222", { "mouseover.threat < 100" }, "mouseover" }, -- Dark Command / Mouse-Over
-		{ "56222", { "target.threat < 100" }, "target" }, -- Dark Command
-		{ "49576", { "mouseover.threat < 100" }, "mouseover" }, -- Death Grip / Mouse-Over
-		{ "49576", { "target.threat < 100" }, "target" }, -- Death Grip
-	}, "toggle.aggro" },
 	
 	-- Heal
-		{ "48982", "player.health <= 40" }, -- Rune Tap
 		{ "#5512", "player.health <= 60" }, --Healthstone
 		{ "/cast 46584\n/cast 48743", { "player.health < 35", "player.spell(48743).cooldown", "player.spell(46584).cooldown", "player.spell(48743).usable" }, nil },-- Death Pact Macro, Last Resort
 		--{ "/cast Raise Dead\n/cast Death Pact", { "player.health < 35", "player.spell(Death Pact).cooldown", "player.spell(Raise Dead).cooldown", "player.spell(Death Pact).usable" }, nil },-- Death Pact Macro, Last Resort
 	
 	{{-- Defensive
 		{ "48707", "player.health <= 70", "target.casting" }, -- Anti-Magic Shell
-		{ "49028", "player.health <= 75" }, -- Dancing Rune Weapon
-		{ "Conversion", "player.health <= 60" },
-		{ "55233", "player.health <= 55" }, -- Vampiric Blood
 		{ "48792", "player.health <= 50" },-- Icebound Fortitude
 	}, "toggle.defcd" },	
 		
 	{{-- Cooldowns
-		{ "Empower Rune Weapon", "player.health <= 40" }, -- Empower Rune Weapon
+		{ "47568", "player.runes(blood).count < 1" }, -- Empower Rune Weapon
+		{ "47568", "player.runes(death).count < 1" }, -- Empower Rune Weapon
+		{ "47568", "player.runes(frost).count < 1" }, -- Empower Rune Weapon
+		{ "51271" }, -- Pillar of Frost
 	}, "modifier.cooldowns" },
 	
 	-- Rotation
 	
 		-- Disease's
-			{ "Outbreak", "target.debuff(55095).duration < 3", "target.debuff(55078).duration <3", "target" }, -- Outbreak
-			{ "48721", "player.runes(blood).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, -- Blood Boil
-			{ "48721", "player.runes(death).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, -- Blood Boil
+			{ "77575", { "target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, "target" }, -- Outbreak
+			{ "48721", { "player.runes(blood).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, nil }, -- Blood Boil
+			{ "48721", { "player.runes(death).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, nil }, -- Blood Boil
 			{ "45477", "target.debuff(55095).duration < 3" }, -- Icy Touch
 			{ "45462", "target.debuff(55078).duration < 3" }, -- Plague Strike
 
 		{ "45529", "player.buff(114851).count >= 5" }, -- Blood Tap
-		{ "Pestilence", "target.debuff(55078", "target.debuff(55078)" },
+		{ "49184", { "player.buff(59052)", "modifier.multitarget", "target.spell(49184).range" }, "target" }, -- Howling Blast
 		{ "114866", "target.health < 35" }, -- Soul Reaper
-		{ "48721", { "player.buff(81141)", "target.range <= 5" }, "target" }, -- Blood Boil W/ Crimson Scourge
-		
-		{{-- AoE
-			{ "55050", "modifier.enemies < 4", "target.spell(55050).range" }, -- Heart Strike
-			{ "48721", "modifier.enemies > 3", "target.range < " }, -- Blood Boil
-			{ "49998", "!modifier.last(49998)" }, -- Death Strike
-			{ "56815", "player.runicpower >= 40" }, -- Rune Strike
-		}, "modifier.multitarget" },
-
-		{{-- Single
-			{ "49998", "!modifier.last(49998)" }, -- Death Strike
-			{ "55050", "player.runes(blood).count >= 1", "target.health > 35" }, -- Heart Strike
-			{ "114866", "player.runes(blood).count >= 1", "target.health < 35" }, -- Soul Reaper
-			{ "56815", "player.runicpower >= 40" }, -- Rune Strike
-		}, "!modifier.multitarget" },
+		{ "49184", "player.buff(59052)", "target.spell(49184).range" }, -- Howling Blast if Freezing Fog
+	    { "49143", "player.buff(51124)", "target.spell(49143).range" }, -- Frost Strike if Killing Machine
+		{ "49143", "player.runicpower >= 70", "target.spell(49143).range" }, -- Frost Strike
+		{ "49020", "!modifier.last(49998)" }, -- Obliterate
   
 } 
 -- //////////////////////-----------------------------------------END IN-COMBAT-----------------------------------//////////////////////////////
