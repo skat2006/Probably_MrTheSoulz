@@ -1,7 +1,7 @@
 --[[ ///---INFO---////
 // Paladin's Lib //
 !Originaly made by PCMD!
-Thank Your For Your My ProFiles
+Thank You For Using My ProFiles
 I Hope Your Enjoy Them
 MTS
 ]]

@@ -1,6 +1,6 @@
 --[[ ///---INFO---////
 // Paladin's Lib //
-Thank Your For Your My ProFiles
+Thank You For Using My ProFiles
 I Hope Your Enjoy Them
 MTS
 ]]

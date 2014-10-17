@@ -1,6 +1,6 @@
 --[[ ///---INFO---////
 //General Lib//
-Thank Your For Your My ProFiles
+Thank You For Using My ProFiles
 I Hope Your Enjoy Them
 MTS
 ]]
@@ -14,6 +14,7 @@ if source ~= UnitGUID("player") then return false end
 
 	if event == "SPELL_CAST_SUCCESS" then	
 
+        -- Paladin
 		if spellId == 114158 then
 			mtsLib.ConfigAlertSound()
 			mtsLib.ConfigAlert("*Casted Light´s Hammer*")
