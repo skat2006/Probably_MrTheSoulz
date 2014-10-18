@@ -75,19 +75,24 @@ if source ~= UnitGUID("player") then return false end
     -- DeathKnight
 
 		if spellId == 43265 then
-			mts:message("*Casted Death and Decay*")
+			mtsLib.ConfigAlertSound()
+			mtsLib.ConfigAlert("*Casted Death and Decay*")
 		end
 		if spellId == 48707 then
-			mts:message("*Casted Anti-Magic Shell*")
+			mtsLib.ConfigAlertSound()
+			mtsLib.ConfigAlert("*Casted Anti-Magic Shell*")
 		end
 		if spellId == 49028 then
-			mts:message("*Casted Dancing Rune Weapon*")
+			mtsLib.ConfigAlertSound()
+			mtsLib.ConfigAlert("*Casted Dancing Rune Weapon*")
 		end
 		if spellId == 55233 then
-			mts:message("*Casted Vampiric Blood*")
+			mtsLib.ConfigAlertSound()
+			mtsLib.ConfigAlert("*Casted Vampiric Blood*")
 		end
 		if spellId == 48792 then
-			mts:message("*Casted Icebound Fortitude*")
+			mtsLib.ConfigAlertSound()
+			mtsLib.ConfigAlert("*Casted Icebound Fortitude*")
 		end
 
 	end

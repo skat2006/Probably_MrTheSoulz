@@ -198,13 +198,12 @@ mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","m
 		mts_Config:addCheckBox("getAlerts", "Show Notifications", "Shows notification on top when used certain spells", true)
 		mts_Config:addCheckBox("getAlertSounds", "Notifications Sounds", "Plays a sound when a notification is shown.", true)
 		mts_Config:addCheckBox("getWhispers", "Allow Whispers", "Whispers people after using certain spells", true)
+		mts_Config:addText("---------------------------------------------------------------------------------------------------------------")
 
 	--Paladin Holy
 		mts_Config:addTitle("\124cffF58CBA---> Paladin Holy: <---")
-		mts_Config:addText("Everything in here only affects the Paladin Holy profile.")
 		mts_Config:addCheckBox("PalaHolyItems", "Use items", "Allows usage of items", true)
 		mts_Config:addCheckBox("PalaHolyBuffs", "Buffing", "Use Buffs", true)
-		mts_Config:addCheckBox("PalaHolyDispells", "Auto Dispelling", "Allows Auto Dispelling", true)
 		mts_Config:addDropDown("toUsePalaHolyBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
 		mts_Config:addDropDown("toUsePalaHolyHr", "Holy Radiance:", "Choose how to use Holy Radiance", {AUTO="Auto", MANUAL="Manual"}, "AUTO")
 		mts_Config:addSlider("PalaHolyHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
@@ -216,10 +215,10 @@ mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","m
 		mts_Config:addSlider("PalaHolyTk2", "Trinket 2 @ MANA %", "MANA percentage you need to drop to use Trinket 2", 10,100,85,1)
 		mts_Config:addSlider("PalaHolyAct", "Arcane Torrent *Racial* @ MANA %", "MANA percentage you need to drop to use Arcane Torrent *Racial*", 10,100,90,1)
 		mts_Config:addSlider("PalaHolyDvp", "Divine Plea @ MANA %", "MANA percentage you need to drop to use Divine Plea", 10,100,85,1)
+		mts_Config:addText("---------------------------------------------------------------------------------------------------------------")
 
 	-- Paladin Protection
 		mts_Config:addTitle("\124cffF58CBA---> Paladin Protection: <---")
-		mts_Config:addText("Everything in here only affects the Paladin Protection profile.")
 		mts_Config:addCheckBox("PalaProtItems", "Use items", "Allows usage of items", true)
 		mts_Config:addCheckBox("PalaProtTaunts", "Auto Taunting", "Allows Auto Taunts", true)
 		mts_Config:addCheckBox("PalaProtConsecration", "Consecration", "Use Consecration", true)
@@ -228,57 +227,54 @@ mts_Config = mConfig:createConfig("\124cff9482C9MrTheSoulz Profiles Settings","m
 		mts_Config:addCheckBox("PalaProtBuffs", "Buffing", "Use Buffs Kings/Might/Fury", true)
 		mts_Config:addDropDown("toUsePalaProtBuff", "Buff To Use:", "Choose buff to use Might or Kings", {MIGHT="Might", KINGS="Kings"}, "KINGS")
 		mts_Config:addSlider("PalaProtHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+		mts_Config:addText("---------------------------------------------------------------------------------------------------------------")
 
 	-- Warrior Fury
 		mts_Config:addTitle("\124cffC79C6E---> Warrior Fury: <---")
-		mts_Config:addText("Everything in here only affects the Warrior Fury profile.")
 		mts_Config:addCheckBox("WarFuryItems", "Use items", "Allows usage of items", true)
 		mts_Config:addCheckBox("WarFuryChangeStances", "Change Stances", "Allow the rotation to change Stances suto", true)
 		mts_Config:addCheckBox("WarFuryDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
 		mts_Config:addCheckBox("WarFuryBuffs", "Buffing", "Use Buffs", true)
 		mts_Config:addSlider("WarFuryHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
-
-    -- DeathKinght all
-        mts_Config:addTitle("\124cffC41F3B---> DeathKinght All: <---")
-        mts_Config:addSlider("ibfPercentage","Icebound Fortitude HP %","HP % you need to drop to use Icebound Fortitude", 10,100,40,1)
-		mts_Config:addSlider("vbPercentage","Vampiric Blood HP %","HP % you need to drop to use Vampiric Blood", 10,100,40,1)
-		mts_Config:addSlider("dpPercentage","Death Pact HP %","HP % you need to drop to use Death Pact", 10,100,50,1)
-		mts_Config:addSlider("lichbornePercentage","Lichborne HP %","HP % you need to drop to use Lichborne", 10,100,50,1)
-		mts_Config:addSlider("runeTapPercentage","Rune Tap HP %","HP % you need to drop to use Rune Tap", 10,100,80,1)
-		mts_Config:addSlider("deathStrikePercentage","Death Strike HP %","HP % you need to drop to use Death Strike on CD", 10,100,70,1)
-		mts_Config:addCheckBox("useOutOfCombatHorn", "Horn of Winter out of combat", "Use Horn of Winter out of combat", true)
-		mts_Config:addDropDown("altKeyAction", "Alt-Key Action", "Action to do when Alt-Key is pressed", {ANTIMAGICZONE="Anti Magic Zone", DND="Death and Decay", PAUSE="Pause Rotation", ARMY="Army of Death"}, "ANTIMAGICZONE")
-		mts_Config:addDropDown("shiftKeyAction", "Shift-Key Action", "Action to do when Shift-Key is pressed", {ANTIMAGICZONE="Anti Magic Zone", DND="Death and Decay", PAUSE="Pause Rotation", ARMY="Army of Death"}, "DND")
-		mts_Config:addDropDown("controlKeyAction", "Control-Key Action", "Action to do when Control-Key is pressed", {ANTIMAGICZONE="Anti Magic Zone", DND="Death and Decay", PAUSE="Pause Rotation", ARMY="Army of Death"}, "PAUSE")
+		mts_Config:addText("---------------------------------------------------------------------------------------------------------------")
 
 	-- DeathKinght Blood
 		mts_Config:addTitle("\124cffC41F3B---> DeathKinght Blood: <---")
 		mts_Config:addCheckBox("DkBloodTaunts", "Auto Taunting", "Allows Auto Taunts", true)
+		mts_Config:addSlider("DkBloodHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+		mts_Config:addCheckBox("DkBloodOutOfCombatHorn", "Horn of Winter out of combat", "Use Horn of Winter out of combat", true)
+		mts_Config:addSlider("runeTapPercentage","Rune Tap HP %","HP % you need to drop to use Rune Tap", 10,100,80,1)
+		mts_Config:addSlider("DkBloodDeathStrikePercentage","Death Strike HP %","HP % you need to drop to use Death Strike on CD", 10,100,70,1)
+		mts_Config:addSlider("DkBloodLichbornePercentage","Lichborne HP %","HP % you need to drop to use Lichborne", 10,100,50,1)
+		mts_Config:addSlider("BloodDpPercentage","Death Pact HP %","HP % you need to drop to use Death Pact", 10,100,50,1)
+		mts_Config:addSlider("vbPercentage","Vampiric Blood HP %","HP % you need to drop to use Vampiric Blood", 10,100,40,1)
+		mts_Config:addSlider("DkBloodIbfPercentage","Icebound Fortitude HP %","HP % you need to drop to use Icebound Fortitude", 10,100,40,1)
+		mts_Config:addText("---------------------------------------------------------------------------------------------------------------")
 
-	-- DeathKinght Frost2h
-		mts_Config:addTitle("\124cffC41F3B---> DeathKinght Frost -2h: <---")
-
-	-- DeathKinght Frost1h
-		mts_Config:addTitle("\124cffC41F3B---> DeathKinght Frost -1h: <---")
+	-- DeathKinght Frost
+		mts_Config:addTitle("\124cffC41F3B---> DeathKinght Frost: <---")
+		mts_Config:addSlider("DkFrostHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+		mts_Config:addCheckBox("DkFrostOutOfCombatHorn", "Horn of Winter out of combat", "Use Horn of Winter out of combat", true)
+		mts_Config:addText("---------------------------------------------------------------------------------------------------------------")
 
 	-- Druid Guardian
 		mts_Config:addTitle("\124cffFF7D0A---> Druid Guardian: <---")
-		mts_Config:addText("Everything in here only affects the Druid Guardian profile.")
 		mts_Config:addCheckBox("DoodGuardTaunts", "Auto Taunting", "Allows Auto Taunts", true)
 		mts_Config:addCheckBox("DoodGuardDefCd", "Defensive Cooldowns", "Use Defensive Cooldowns", true)
 		mts_Config:addCheckBox("DoodGuardBuffs", "Buffing", "Use Buffs", true)
 		mts_Config:addCheckBox("DoodGuardItems", "Use items", "Allows usage of items", true)
 		mts_Config:addSlider("DoodGuardHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+		mts_Config:addText("---------------------------------------------------------------------------------------------------------------")
 
 	-- Druid Restoration
 		mts_Config:addTitle("\124cffFF7D0A---> Druid Restoration: <---")
-		mts_Config:addText("Everything in here only affects the Druid Restoration profile.")
 		mts_Config:addCheckBox("DoodRestoDispells", "Auto Dispelling", "Allows Auto Dispelling", true)
 		mts_Config:addCheckBox("DoodRestoBuffs", "Buffing", "Use Buffs", true)
 		mts_Config:addCheckBox("DoodRestoItems", "Use items", "Allows usage of items", true)
 		mts_Config:addCheckBox("DoodRestoMr", "Use Wild Mushroom", "Allows usage of Wild Mushroom", true)
 		mts_Config:addSlider("toUseDoodRestoMr", "Wild Mushroom @ HP %", "HP percentage you need to drop to use Wild Mushroom", 60,100,95,1)
 		mts_Config:addSlider("DoodRestoHs", "HealthStone @ HP %", "HP percentage you need to drop to use HealthStone", 10,100,60,1)
+		mts_Config:addText("---------------------------------------------------------------------------------------------------------------")
 		
 end
 

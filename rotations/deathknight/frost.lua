@@ -74,10 +74,9 @@ local Shared = {
 		{ "Raise Ally", "!mouseover.alive", "mouseover" }, -- Raise Ally
 	
 	-- Heal
-		{ "#5512", "player.health <= 60" }, --Healthstone
-		{ "/cast 46584\n/cast 48743", { "player.health < 35", "player.spell(48743).cooldown", "player.spell(46584).cooldown", "player.spell(48743).usable" }, nil },-- Death Pact Macro, Last Resort
-		--{ "/cast Raise Dead\n/cast Death Pact", { "player.health < 35", "player.spell(Death Pact).cooldown", "player.spell(Raise Dead).cooldown", "player.spell(Death Pact).usable" }, nil },-- Death Pact Macro, Last Resort
-  
+		{ "#5512", "@mtsLib.ConfigUnitHp('DkFrostHs', 'player')" }, --Healthstone
+		{ "/cast 46584\n/cast 48743", { "player.spell(48743).cooldown", "player.spell(46584).cooldown", "@mtsLib.ConfigUnitHp('dpPercentage', 'player')", "@mtsLibDK.hasGhoul" }, nil },-- Death Pact Macro, Last Resort
+		  
 }
 
 local inCombat_1h = {
@@ -124,7 +123,7 @@ local outCombat = {
 		{ "42650", "modifier.alt" }, -- Army of the Dead
 		{ "49576", "modifier.control" }, -- Death Grip
 		{ "43265", "modifier.shift", "ground" }, -- Death and Decay
-		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
+		{ "57330", { "@mtsLib.getConfig('DkFrostOutOfCombatHorn')","!player.buff(57330)" }}, -- Horn of Winter
   
 }
 
