@@ -127,11 +127,17 @@ local outCombat = {
   
 }
 
+for _, Shared in pairs(Shared) do
+  inCombat_1h[#inCombat_1h + 1] = Shared
+  inCombat_2h[#inCombat_2h + 1] = Shared
+  outCombat[#outCombat + 1] = Shared
+end
+
 for _, Buffs in pairs(Buffs) do
   inCombat_1h[#inCombat_1h + 1] = Buffs
   inCombat_2h[#inCombat_2h + 1] = Buffs
   outCombat[#outCombat + 1] = Buffs
 end
 
-ProbablyEngine.rotation.register_custom(251, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-1h-Frost|r]", inCombat_1h, outCombat, exeOnLoad, Shared)
-ProbablyEngine.rotation.register_custom(251, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-2h-Frost|r]", inCombat_2h, outCombat, exeOnLoad, Shared)
+ProbablyEngine.rotation.register_custom(251, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-1h-Frost|r]", inCombat_1h, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(251, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-2h-Frost|r]", inCombat_2h, outCombat, exeOnLoad)
