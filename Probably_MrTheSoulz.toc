@@ -19,6 +19,7 @@ rotations\paladin\protection.lua
 rotations\paladin\holy.lua
 rotations\druid\resto.lua
 rotations\druid\guard.lua
+rotations\druid\feral.lua
 rotations\deathknight\blood.lua
 rotations\deathknight\frost.lua
 rotations\monk\windwalker.lua
