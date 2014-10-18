@@ -16,21 +16,8 @@ end
 local Buffs = {
 
 	-- Buffs
-		{ "19740", { -- Blessing of Might
-			"!player.buff(19740).any",
-			"!player.buff(116956).any",
-			"!player.buff(93435).any",
-			"!player.buff(128997).any",
-			"!toggle.buff"
-		}, nil },
-		{ "20217", { -- Blessing of Kings
-			"!player.buff(20217).any",
-			"!player.buff(115921).any",
-			"!player.buff(1126).any",
-			"!player.buff(90363).any",
-			"!player.buff(69378).any",
-			"toggle.buff"
-		}, nil },
+		{ "19740", { "!player.buff(19740).any", "!player.buff(116956).any", "!player.buff(93435).any", "!player.buff(128997).any", "!toggle.buff" }}, -- Blessing of Might
+		{ "20217", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "toggle.buff" }}, -- Blessing of Kings
 	
 	-- Seals
 		{ "20165", "player.seal != 3" }, -- Seal of Insight

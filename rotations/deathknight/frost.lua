@@ -90,12 +90,12 @@ local inCombat_1h = {
 			{ "45462", "target.debuff(55078).duration < 3" }, -- Plague Strike
 
 		{ "45529", "player.buff(114851).count >= 5" }, -- Blood Tap
-		{ "49184", { "player.buff(59052)", "modifier.multitarget", "target.spell(49184).range" }, "target" }, -- Howling Blast
+		{ "49184", { "player.buff(59052)", "modifier.multitarget" }, "target" }, -- Howling Blast
 		{ "114866", "target.health < 35" }, -- Soul Reaper
-		{ "49184", "player.buff(59052)", "target.spell(49184).range" }, -- Howling Blast if Freezing Fog
-	    { "49020", "player.buff(51124)", "target.spell(49143).range" }, -- Obliterate if Killing Machine
-	    { "49020", { "!modifier.last(49020)", "player.runes(blood).count > 1", "player.runes(death).count > 1", "player.runes(frost).count >1" }, "target" }, -- Obliterate
-		{ "49143", "player.runicpower >= 70", "target.spell(49143).range" }, -- Frost Strike
+		{ "49184", "player.buff(59052)" }, -- Howling Blast if Freezing Fog
+	    { "49020", "player.buff(51124)" }, -- Obliterate if Killing Machine
+	    { "49020", { "player.runes(blood).count > 1", "player.runes(death).count > 1", "player.runes(frost).count >1" }, "target" }, -- Obliterate
+		{ "49143", "player.runicpower >= 70" }, -- Frost Strike
   
 }
 
@@ -108,13 +108,13 @@ local inCombat_2h = {
 			{ "45477", "target.debuff(55095).duration < 3" }, -- Icy Touch
 			{ "45462", "target.debuff(55078).duration < 3" }, -- Plague Strike
 
-		{ "45529", "player.buff(114851).count >= 5" }, -- Blood Tap
-		{ "49184", { "player.buff(59052)", "modifier.multitarget", "target.spell(49184).range" }, "target" }, -- Howling Blast
+		{ "45529", "player.buff(114851).count >= 5", nil }, -- Blood Tap
+		{ "49184", { "player.buff(59052)", "modifier.multitarget" }, "target" }, -- Howling Blast
 		{ "114866", "target.health < 35" }, -- Soul Reaper
-		{ "49184", "player.buff(59052)", "target.spell(49184).range" }, -- Howling Blast if Freezing Fog
-	    { "49143", "player.buff(51124)", "target.spell(49143).range" }, -- Frost Strike if Killing Machine
-		{ "49143", "player.runicpower >= 70", "target.spell(49143).range" }, -- Frost Strike
-		{ "49020", "!modifier.last(49020)" }, -- Obliterate
+		{ "49184", "player.buff(59052)" }, -- Howling Blast if Freezing Fog
+	    { "49143", "player.buff(51124)" }, -- Frost Strike if Killing Machine
+		{ "49143", "player.runicpower >= 70" }, -- Frost Strike
+		{ "49020" }, -- Obliterate
   
 } 
 
@@ -134,5 +134,11 @@ for _, Buffs in pairs(Buffs) do
   outCombat[#outCombat + 1] = Buffs
 end
 
-ProbablyEngine.rotation.register_custom(251, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-1h-Frost|r]", inCombat_1h, outCombat, exeOnLoad, Shared)
-ProbablyEngine.rotation.register_custom(251, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-2h-Frost|r]", inCombat_2h, outCombat, exeOnLoad, Shared)
+for _, Shared in pairs(Shared) do
+  inCombat_1h[#inCombat_1h + 1] = Shared
+  inCombat_2h[#inCombat_2h + 1] = Shared
+  outCombat[#outCombat + 1] = Shared
+end
+
+ProbablyEngine.rotation.register_custom(251, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-1h-Frost|r]", inCombat_1h, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(251, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-2h-Frost|r]", inCombat_2h, outCombat, exeOnLoad)
