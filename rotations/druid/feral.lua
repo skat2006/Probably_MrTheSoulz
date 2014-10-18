@@ -37,6 +37,9 @@ local inCombat = {
 	  { "124974", "modifier.cooldowns" }, -- Nature's Vigil
 	  { "102543", "modifier.cooldowns" }, -- incarnation
 
+-- Tiger's Fury // Spend Combo
+  	{ "Tiger's Fury", "player.energy <= 35"},
+
   --Keybinds
 	  { "Ursol's Vortex", "modifier.shift", "ground" },
 	  { "Disorienting Roar", "modifier.shift" },
@@ -53,41 +56,43 @@ local inCombat = {
   	{ "Healing Touch", { "player.buff(Predatory Swiftness)", "player.health <= 70" }},
   	{ "Regrowth", { "player.buff(Predatory Swiftness)", "player.health <= 90" }},
 
-  -- AoE
-	  { "Swipe", "modifier.multitarget" },
-	  { "106830", { "modifier.multitarget", "target.debuff(Thrash).duration <= 1.5" }},
-	  --{ "102355", { "!target.debuff(102355)", "player.spell(106707).exists" }, "target" },
-
   -- Buffs
-	  { "Savage Roar", { "!player.buff(Savage Roar)", "player.combopoints = 0", "!player.combat", "target.enemy" }},
-	  { "Savage Roar", { "player.buff(Savage Roar).duration < 5", "player.combopoints = 5" }},
-	  { "Savage Roar", { "player.buff(Savage Roar).duration < 3", "player.combopoints >= 2" }},
+	{ "Savage Roar", { "!player.buff(Savage Roar)", "player.combopoints = 0", "!player.combat", "target.enemy" }},
+	{ "Savage Roar", { "player.buff(Savage Roar).duration < 5", "player.combopoints = 5" }},
+	{ "Savage Roar", { "player.buff(Savage Roar).duration < 3", "player.combopoints >= 2" }},
+	{ "Faerie Fire", { "!target.debuff(Faerie Fire)", "!player.spell(106707).exists" }, "target" }, -- Faerie Fire
+	--{ "102355", { "!target.debuff(102355)", "player.spell(106707).exists" }, "target" }, -- Faerie swarm
 
-  -- Free Thrash
-  	{ "Thrash", "player.buff(Omen of Clarity)" },
-  
-  -- Tiger's Fury // Spend Combo
-  	{ "Tiger's Fury", "player.energy <= 35"},
+	-- Free Thrash
+  		{ "Thrash", "player.buff(Omen of Clarity)" },
 
-  -- Rake
-  	{ "Rake", "target.debuff(Rake).duration <= 4" },
+	{{-- AoE
+		{ "22568", "player.combopoints = 5" },
+		{ "106830", { "modifier.multitarget", "!target.debuff(Thrash).duration >= 1.5" }}, -- Tharsh
+		{ "106785", { "modifier.multitarget", "!target.debuff(Thrash).duration <= 1.5" }}, -- Swipe
+	}, "modifier.multitarget" },	
 
-  -- Rip
-  	{ "Rip", { "!target.debuff(Rip)", "player.combopoints = 5" }},
-  	{ "Rip", { "target.health > 25", "target.debuff(Rip).duration < 5", "player.combopoints = 5" }},
-
-  -- Ferocious Bite // Target Health is less then 25%
-  	{ "Ferocious Bite", { "target.debuff(Rip)", "target.health < 30", "player.combopoints = 5" }},
-
-  -- Max Combo and Rip or Savage do not need refreshed
-  	{ "Ferocious Bite", { "player.combopoints = 5", "target.debuff(Rip).duration > 5", "player.buff(Savage Roar).duration > 5" }},
-  
-  -- Shred // Combo Point Building Rotation
-	  {{
-	  	{ "Shred", "player.buff(Clearcasting)" },
-	  	{ "Shred", "player.buff(Berserk)" },
-	  	{ "Shred", "player.combopoints < 5" },
-	  }, "player.behind" },
+  {{ -- dont use if AEO
+  	-- Rake
+      	{ "Rake", "target.debuff(Rake).duration <= 4" },
+    
+      -- Rip
+      	{ "Rip", { "!target.debuff(Rip)", "player.combopoints = 5" }},
+      	{ "Rip", { "target.health > 25", "target.debuff(Rip).duration < 5", "player.combopoints = 5" }},
+    
+      -- Ferocious Bite // Target Health is less then 25%
+      	{ "22568", { "target.debuff(Rip)", "target.health < 30", "player.combopoints = 5" }},
+    
+      -- Max Combo and Rip or Savage do not need refreshed
+      	{ "Ferocious Bite", { "player.combopoints = 5", "target.debuff(Rip).duration > 5", "player.buff(Savage Roar).duration > 5" }},
+      
+      -- Shred // Combo Point Building Rotation
+    	  {{
+    	  	{ "Shred", "player.buff(Clearcasting)" },
+    	  	{ "Shred", "player.buff(Berserk)" },
+    	  	{ "Shred", "player.combopoints < 5" },
+    	  }, "player.behind" },
+   	}, "!modifier.multitarget" },
   
 }
 
