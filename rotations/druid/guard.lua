@@ -20,7 +20,7 @@ local Buffs = {
 			"!player.buff(1126).any",
 			"!player.buff(90363).any",
 			"!player.buff(69378).any",
-			"@mtsLib.getConfig('DoodGuardBuffs')",
+			--"@mtsLib.getConfig('DoodGuardBuffs')",
 			"player.form = 0" 
 		}, nil },
   
@@ -64,8 +64,8 @@ local inCombat = {
 	},{ "@mtsLib.dummy()", "@mtsLib.ShouldTaunt('DoodGuardTaunts')" }},
 	
 	-- Items
-		{ "#5512", "@mtsLib.ConfigUnitHp('DoodGuardHs', 'player')" }, --Healthstone
-		{ "#76097", { "@mtsLib.getConfig('DoodGuardItems')", "player.health < 30", "@mtsLib.HealthPot" }}, -- Master Health Potion
+		--{ "#5512", "@mtsLib.ConfigUnitHp('DoodGuardHs', 'player')" }, --Healthstone
+		--{ "#76097", { "@mtsLib.getConfig('DoodGuardItems')", "player.health < 30", "@mtsLib.HealthPot" }}, -- Master Health Potion
 		--{ "#86125", { "@mtsLib.getConfig('DoodGuardItems')","@mtsLib.KafaPress" }}, -- Kafa Press
 	
 	-- Cooldowns
@@ -75,13 +75,13 @@ local inCombat = {
 		{ "106731", "modifier.cooldowns" }, -- Incarnation
  
 	--Defensive
-		{ "62606", { "!player.buff", "player.health <= 95", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Savage Defense
-		{ "22842", { "!player.buff", "player.health <= 70", "player.rage >= 20", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Frenzied Regeneration
-		{ "22812", { "player.health <= 70", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Barkskin
-		{ "102351", { "player.health <= 60", "@mtsLib.getConfig('DoodGuardDefCd')" }, "player" }, -- Cenarion Ward
-		{ "61336", { "player.health <= 40", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Survival Instincts
-		{ "106922", { "player.health < 30", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Might of Ursoc
-		{ "108238", { "player.health <= 40", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Renewal		
+		--{ "62606", { "!player.buff", "player.health <= 95", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Savage Defense
+		--{ "22842", { "!player.buff", "player.health <= 70", "player.rage >= 20", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Frenzied Regeneration
+		--{ "22812", { "player.health <= 70", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Barkskin
+		--{ "102351", { "player.health <= 60", "@mtsLib.getConfig('DoodGuardDefCd')" }, "player" }, -- Cenarion Ward
+		--{ "61336", { "player.health <= 40", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Survival Instincts
+		--{ "106922", { "player.health < 30", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Might of Ursoc
+		--{ "108238", { "player.health <= 40", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Renewal		
 
 	-- Dream of Cenarious
 		-- Needs a Rebirth here

@@ -26,7 +26,7 @@ local inCombat = {
 		{ "100", { "modifier.alt", "target.spell(100).range" }, "target"}, -- Charge
 
 	-- Stances
-		{ "2487", { "player.seal != 1", "@mtsLib.getConfig('WarFuryChangeStances')" }, nil  }, -- Battle Stance
+		{ "2487", "player.seal != 1", nil  }, -- Battle Stance
 
 	-- Freedoom
 		--{ "", "player.state.root" }, -- **
@@ -36,14 +36,14 @@ local inCombat = {
 
 	-- Defensive Cooldowns		
 		--{ "", { "player.health < 30", "@mtsLib.getConfig('WarFuryDefCd')" }, nil }, -- **
-		{ "#gloves", "@mtsLib.getConfig('WarFuryDefCd')", nil },
+		{ "#gloves" },
 	
 	-- Cooldowns
 		--{ "", "modifier.cooldowns" }, -- **
 	
 	-- Items
-		{ "#5512", "@mtsLib.ConfigUnitHp('WarFuryHs', 'player')" }, --Healthstone
-		{ "#76097", { "@mtsLib.getConfig('WarFuryItems')", "player.health < 30", "@mtsLib.HealthPot" }}, -- Master Health Potion
+		{ "#5512" }, --Healthstone
+		{ "#76097", "player.health < 30", "@mtsLib.HealthPot" }, -- Master Health Potion
 		--{ "#86125", { "@mtsLib.getConfig('WarFuryItems')","@mtsLib.KafaPress" }}, -- Kafa Press
 
     -- Auto Target
@@ -69,7 +69,7 @@ local outCombat = {
 		{ "100", { "modifier.alt", "target.spell(100).range" }, "target"}, -- Charge
 
 	-- Stances
-		{ "2487", { "player.seal != 1", "@mtsLib.getConfig('WarFuryChangeStances')" }, nil  }, -- Battle Stance
+		{ "2487", "player.seal != 1", nil  }, -- Battle Stance
 
 	-- Freedoom
 		--{ "", "player.state.root" }, -- **
