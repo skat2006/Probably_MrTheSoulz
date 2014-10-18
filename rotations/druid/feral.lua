@@ -7,6 +7,7 @@ MTS
 
 local exeOnLoad = function()
 
+	ProbablyEngine.toggle.create('cat', 'Interface\\Icons\\Ability_druid_prowl.png', 'Defensive Cooldowns', 'Enable or Disable out of combat feral & prowl.')
 	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Feral \124cff9482C9Loaded*")
 
 end
@@ -98,7 +99,10 @@ local outCombat = {
 	 	{ "Mighty Bash", "modifier.shift" },
 	  	{ "Typhoon", "modifier.alt" },
 	  	{ "Mass Entanglement", "modifier.shift" },
-	{ "Cat Form", { "player.buff(Mark of the Wild).any", "!player.buff(Cat Form)" }},
+	{{-- Go cat and grow
+		{ "Cat Form", { "player.buff(Mark of the Wild).any", "!player.buff(Cat Form)" }},
+		{ "Prowl", { "player.buff(Cat Form)", "target.enemy" }},
+	}, "toggle.cat" },
 	{ "/cancelaura Cat Form", { "player.buff(Cat Form)", "!player.buff(Mark of the Wild)" }},
 
 }
