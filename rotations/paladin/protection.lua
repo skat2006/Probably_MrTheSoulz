@@ -1,15 +1,19 @@
---[[ ///---INFO---////
-// Paladin Protection //
-Thank You For Using My ProFiles
-I Hope Your Enjoy Them
-MTS
-]]
+-- //////////////////////-----------------------------------------INFO-----------------------------------//////////////////////////////
+--													   	//Paladin Protection//
+--													Thank Your For Your My ProFiles
+--														I Hope Your Enjoy Them
+--																  MTS
 
-local exeOnLoad = function()
 
+local lib = function()
+
+	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_holy_devotionaura.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
+	ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\Spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
+	ProbablyEngine.toggle.create('aggro', 'Interface\\Icons\\Ability_warrior_stalwartprotector.png', 'Aggro control', 'Auto Taunts on mouse-over ot target if dosent have aggro.')
 	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffF58CBAPaladin/Protection \124cff9482C9Loaded*")
 
 end
+
 
 local Buffs = {
 
@@ -19,21 +23,17 @@ local Buffs = {
 			"!player.buff(116956).any",
 			"!player.buff(93435).any",
 			"!player.buff(128997).any",
-			"@mtsLib.getConfig('PalaProtBuffs')",
-			"@mtsLib.getSetting('toUsePalaProtBuff', 'MIGHT')"
+			"!toggle.buff"
 		}, nil },
-		
 		{ "20217", { -- Blessing of Kings
-			"!player.buff(20217).any", 
-			"!player.buff(115921).any", 
-			"!player.buff(1126).any", 
-			"!player.buff(90363).any", 
+			"!player.buff(20217).any",
+			"!player.buff(115921).any",
+			"!player.buff(1126).any",
+			"!player.buff(90363).any",
 			"!player.buff(69378).any",
-			"@mtsLib.getConfig('PalaProtBuffs')",
-			"@mtsLib.getSetting('toUsePalaProtBuff', 'KINGS')" 
+			"toggle.buff"
 		}, nil },
-		
-		{ "25780", { "!player.buff(25780)","@mtsLib.getConfig('PalaProtBuffs')" }, nil }, -- Fury
+		{ "25780", "!player.buff(25780).any" }, -- Fury
 		
 }
 
@@ -43,69 +43,72 @@ local inCombat = {
 		{ "105593", "modifier.control", "target"}, -- Fist of Justice
 		{ "853", "modifier.control", "target"}, -- Hammer of Justice
 		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
-		{ "26573", { "player.glyph(54928)", "modifier.alt" }, "ground"}, -- consecration glyphed
+		{ "26573", "modifier.alt", "ground"}, -- consecration
 
-	-- Seals
-		{ "20165", { "player.seal != 3", "!modifier.multitarget", "@mtsLib.getConfig('PalaProtChangeSeals')" }, nil  }, -- seal of Insight
-		{ "20154", { "player.seal != 2", "modifier.multitarget", "@mtsLib.getConfig('PalaProtChangeSeals')" }, nil }, -- seal of righteousness
+	-- seals
+		{ "20165", { -- seal of Insight
+			"player.seal != 3",
+		}, nil },
 
 	-- Hands
-		{ "6940", { "lowest.health <= 80", "!player.health <= 40", "!lowest.player" }, "lowest" }, -- Hand of Sacrifice
+		{ "6940", { "lowest.health <= 80", "!player.health <= 40" }, "lowest" }, -- Hand of Sacrifice
 		{ "1044", "player.state.root" }, -- Hand of Freedom
-		{ "1022", { "!lowest.role(tank)", "!lowest.immune.melee", "lowest.health < 25" }, "lowest" }, -- Hand of Protection
 		
 	-- Interrupt
-		{ "96231", "target.interruptsAt(50)" }, -- Rebuke
+		{ "96231", "modifier.interrupts"}, -- Rebuke
 
-	-- Defensive Cooldowns
-		{ "20925", { "!player.buff(20925)", "@mtsLib.getConfig('PalaProtDefCd')" }, "player" }, -- Sacred Shield 		
-		{ "31850", { "player.health < 30", "@mtsLib.getConfig('PalaProtDefCd')" }, nil }, --Ardent Defender
-		{ "498", { "player.health <= 99", "@mtsLib.getConfig('PalaProtDefCd')" }, nil }, -- Divine Protection
-		{ "86659", { "player.health <= 50", "@mtsLib.getConfig('PalaProtDefCd')" }, nil }, -- Guardian of Ancient Kings
-		{ "#gloves", "@mtsLib.getConfig('PalaProtDefCd')", nil },
+	{{-- Defensive Cooldowns
+		{ "20925", "!player.buff(20925)", "player" }, -- Sacred Shield 		
+		{ "31850", "player.health < 30" }, --Ardent Defender
+		{ "498", "player.health <= 99" }, -- Divine Protection
+		{ "86659", "player.health <= 50" }, -- Guardian of Ancient Kings
+		{ "#gloves" },
+	}, "toggle.defcd" },
 	
 	-- Cooldowns
 		{ "31884", "modifier.cooldowns" }, -- Avenging Wrath
 		{ "105809", "modifier.cooldowns" }, --Holy Avenger
-	
-	-- Items
-		{ "#5512", "@mtsLib.ConfigUnitHp('PalaHolyHs', 'player')" }, --Healthstone
-		{ "#76097", { "@mtsLib.getConfig('PalaProtItems')", "player.health < 30", "@mtsLib.HealthPot" }}, -- Master Health Potion
-		--{ "#86125", { "@mtsLib.getConfig('PalaProtItems')","@mtsLib.KafaPress" }}, -- Kafa Press
-
+		
 	-- Self Heal
-		{ "633", "player.health < 20", "player"}, -- Lay on Hands
-		{ "114163", { "!player.buff(114163)", "player.buff(114637).count = 5", "player.holypower >= 3", "player.health < 60" }, "player"}, -- Eternal Flame
-		{ "114163", { "player.holypower >= 1", "player.health < 30" }, "player"}, -- Eternal Flame / Low
-		{ "85673", { "player.buff(114637).count = 5", "player.holypower >= 3", "player.health < 60" }, "player" }, -- Word of Glory
-		{ "85673", { "player.holypower >= 1", "player.health < 30" }, "player" }, -- Word of Glory / Low
-		{ "19750", { "player.health < 70", "player.buff(114250).count > 2", "player.buff(114637" }, "player" }, -- Flash of Light 
+		{ "#5512", "player.health <= 60" }, --Healthstone
+		{ "633", "player.health <= 20", "player"}, -- Lay on Hands
+		{ "114163", { -- Eternal Flame
+			"!player.buff(114163)",
+			"player.buff(114637).count = 5",
+			"player.holypower >= 3",
+			"player.health <= 85"
+		}, "player"},
+		{ "85673", {  -- Word of Glory
+			"player.buff(114637).count = 5",
+			"player.holypower >= 3",
+			"player.health <= 40"
+		}, "player" },
 
-	-- Raid Heal
-		{ "19750", { "lowest.health < 50", "player.buff(114250).count > 2" }, "lowest" }, -- Flash of Light
-        { "114163", { "player.holypower >= 1", "player.health < 30" }, "Lowest"}, -- Eternal Flame
-        { "85673", { "player.holypower >= 1", "player.health < 30" }, "lowest" }, -- Word of Glory
-
-    -- Auto Target
-    	{ "/TargetNearestEnemy", "!target.exists" },
-        { "/TargetNearestEnemy", { "target.exists", "target.dead" } },
-
-    {{-- Taunts
-		{ "62124", "@mtsBossLib.bossTaunt", "target" }, -- Boss // Reckoning
-		{ "62124", { "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Aggro Control // Reckoning
-		{ "62124", { "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Aggro Control // Reckoning
-	},{ "@mtsLib.dummy()", "@mtsLib.ShouldTaunt('PalaProtTaunts')" }},
-	
 	-- Rotation
-		{ "24275", { "target.health <= 20", "target.spell(24275).range" }, "target" }, -- Hammer of Wrath
-		{ "31935", { "player.buff(98057)", "target.spell(31935).range" }, "target" }, -- Avenger´s Shield Proc
-		{ "53600", { "player.holypower >= 3", "target.spell(53600).range" }, "target" }, -- Shield of the Righteous
-		{ "35395", { "!modifier.multitarget", "target.spell(35395).range" }, "target" }, -- Crusader Strike
-		{ "53595", { "modifier.multitarget", "target.spell(53595).range" }, "target" }, -- Hammer of the Righteous
+
+		{ "24275", { -- Hammer of Wrath
+			"target.health <= 20",
+			"target.spell(24275).range"
+		}, "target" },
+		{ "31935", { -- Avenger´s Shield Pro
+			"player.buff(98057)",
+			"target.spell(31935).range"
+		}, "target" },
+		{ "53600", { -- Shield of the Righteous
+			"player.holypower >= 3", 
+			"target.spell(53600).range" 
+		}, "target" },
+		{ "35395", { -- Crusader Strike
+			"!modifier.multitarget", 
+			"target.spell(35395).range" 
+		}, "target" },
+		{ "53595", { -- Hammer of the Righteous
+			"modifier.multitarget", 
+			"target.spell(53595).range" 
+		}, "target" },
 		{ "20271", "target.spell(20271).range", "target" }, -- Judgment
 		{ "114165", "target.spell(114165).range", "target" }, -- Holy Prism
 		{ "31935", "target.spell(31935).range", "target" },-- Avenger´s Shield Normal
-		{ "26573", { "!player.glyph(54928)", "target.range <= 5", "@mtsLib.getConfig('PalaProtConsecration')" }, nil }, -- consecration
 		{ "114157", "target.spell(114157).range", "target" }, -- Execution Sentense
 		{ "119072" }, -- Holy Wrath
   
@@ -117,11 +120,12 @@ local outCombat = {
 		{ "105593", "modifier.control", "target"}, -- Fist of Justice
 		{ "853", "modifier.control", "target"}, -- Hammer of Justice
 		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
-		{ "26573", { "player.glyph(54928)", "modifier.alt" }, "ground"}, -- consecration glyphed
+		{ "26573", "modifier.alt", "ground"}, -- consecration
 
-	-- Seals
-		{ "20165", { "player.seal != 3", "!modifier.multitarget", "@mtsLib.getConfig('PalaProtChangeSeals')" }, nil  }, -- seal of Insight
-		{ "20154", { "player.seal != 2", "modifier.multitarget", "@mtsLib.getConfig('PalaProtChangeSeals')" }, nil }, -- seal of righteousness
+	-- seals
+		{ "20165", { -- seal of Insight
+			"player.seal != 3",
+		}, nil },
 
 	-- Hands
 		{ "1044", "player.state.root" }, -- Hand of Freedom
@@ -133,4 +137,4 @@ for _, Buffs in pairs(Buffs) do
   outCombat[#outCombat + 1] = Buffs
 end
 
-ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Protection|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Protection|r]", inCombat, outCombat, lib)

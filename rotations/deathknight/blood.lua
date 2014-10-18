@@ -30,15 +30,15 @@ local inCombat = {
 	{ "43265", "modifier.shift", "ground" }, -- Death and Decay
 
 	{{-- Defensive cooldowns
-		{ "#5512", "@mtsLib.ConfigUnitHp('DkBloodHs', 'player')" }, --Healthstone
-		{ "48792", "@mtsLib.ConfigUnitHp('DkBloodIbfPercentage", "player')" }, -- icebound fortitude
+		{ "#5512", "player.health < 70"}, --healthstone
+		{ "48792", "@mtsLib.ConfigUnitHp('ibfPercentage", "player')" },
 		{ "55233", { "modifier.cooldowns", "@mtsLib.ConfigUnitHp('vbPercentage", "player')" }},
-		{ "48743", { "@mtsLib.ConfigUnitHp('BloodDpPercentage', 'player')", "@mtsLibDK.hasGhoul" }}, -- death pact
-		{ "49039", { "@mtsLib.ConfigUnitHp('DkBloodLichbornePercentage', 'player')", "player.runicpower >= 40", "player.spell.exists(49039)" }},
+		{ "48743", { "@mtsLib.ConfigUnitHp('dpPercentage', 'player')", "@mtsLibDK.hasGhoul" }},
+		{ "49039", { "@mtsLib.ConfigUnitHp('lichbornePercentage', 'player')", "player.runicpower >= 40", "player.spell.exists(49039)" }},
 		{ "47541", { "player.health < 90", "player.runicpower >= 40", "player.buff(49039)" }, "player"},
 	}, "modifier.cooldowns" },
 
-	{ "48982", "@mtsLib.ConfigUnitHp('runeTapPercentage", "player')" }, --rune tap
+	{ "48982", "@mtsLib.ConfigUnitHp('runeTapPercentage", "player')" },
 
 	{{-- Aggro Control
 		{ "62124", "@mtsBossLib.bossTaunt", "target" }, -- Boss // Dark Command
@@ -60,7 +60,7 @@ local inCombat = {
 	
 	{{-- Cooldowns
 		{ "61999", { "toggle.RD", "@mtsLibDK.hasGhoul" }},
-		{ "61999", { "!toggle.RD", "@mtsLib.ConfigUnitHp('BloodDpPercentage", "player')", "@mtsLibDK.hasGhoul" }},
+		{ "61999", { "!toggle.RD", "@mtsLib.ConfigUnitHp('dpPercentage", "player')", "@mtsLibDK.hasGhoul" }},
 		{"49028", "!toggle.DRW"},
 		{ "#gloves"},
 	},  "modifier.cooldowns" },
@@ -79,7 +79,7 @@ local inCombat = {
 	{ "50842",	{"player.buff(Crimson Scourge)","target.range <= 10" }}, -- Blood Boil
 
 	-- Rotation
-	{ "49998", "@mtsLib.ConfigUnitHp('DkBloodDeathStrikePercentage', 'player')" }, -- Death Strike
+	{ "49998", "@mtsLib.ConfigUnitHp('deathStrikePercentage', 'player')" }, -- Death Strike
 	{ "49998", "player.buff(77513).duration <= 4" }, -- Death Strike
 	{ "114866", "target.health <= 35"}, -- Soul Reaper
 	{ "45462", "target.debuff(55078).duration = 0" }, -- Plague Strike
@@ -104,7 +104,9 @@ local outCombat = {
 	{ "42650", "modifier.alt" }, -- Army of the Dead
 	{ "49576", "modifier.control" }, -- Death Grip
 	{ "43265", "modifier.shift", "ground" }, -- Death and Decay
-	{ "57330", { "@mtsLib.getConfig('DkBloodOutOfCombatHorn')","!player.buff(57330)" }}, -- Horn of Winter
+
+	-- Out Of Combat
+	{ "57330", { "@mtsLib.getConfig('useOutOfCombatHorn')","!player.buff(57330)" }}, -- Horn of Winter
 
 }
 
