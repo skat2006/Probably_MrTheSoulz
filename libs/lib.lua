@@ -5,7 +5,7 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
-local mtsLib = {}
+local mtsLib = { wisp = false, alert = true, sound = true }
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local _playerClass, _englishClass, _idClass = UnitClass("player");
 local _playerSpec = GetSpecialization();
@@ -13,12 +13,52 @@ local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541
 local _cc = {49203,6770,1776,51514,9484,118,28272,28271,61305,61025,61721,61780,3355,19386,20066,90337,2637,82676,115078,76780,9484,1513,115268}
 local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 
+function mtsLib.GetWisp()
+	return mtsLib.wisp
+end
+
+function mtsLib.GetAlert()
+	return mtsLib.alert
+end
+
+function mtsLib.GetSound()
+	return mtsLib.sound
+end
+
 ProbablyEngine.command.register('mts', function(msg, box)
 local command, text = msg:match("^(%S*)%s*(.-)$")
 		
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
-		return mtsAlert:message('MrTheSoulz Version: 0.0.4')
+		mtsLib.ConfigAlertSound()
+		mtsAlert:message('MrTheSoulz Version: 0.0.5')
+	end
+	
+	if command == 'wisp' or command == 'wsp' or command == 'w' then
+	mtsLib.wisp = not mtsLib.wisp
+		if mtsLib.wisp then
+			mtsAlert:message('*Whispers Enabled.*')
+		else
+			mtsAlert:message('*Whispers Disabled*.')
+		end
+	end
+	
+	if command == 'alerts' or command == 'notifications' or command == 'a' then
+	mtsLib.alert = not mtsLib.alert
+		if mtsLib.alert then
+			mtsAlert:message('*Alerts Enabled.*')
+		else
+			mtsAlert:message('*Alerts Disabled*.')
+		end
+	end
+	
+	if command == 'sounds' or command == 'sound' or command == 's' then
+	mtsLib.sound = not mtsLib.sound
+		if mtsLib.sound then
+			mtsAlert:message('*Sounds Enabled.*')
+		else
+			mtsAlert:message('*Sounds Disabled*.')
+		end
 	end
 			
 end)
@@ -196,22 +236,22 @@ function mtsLib.KafaPress()
 end
 
 function mtsLib.ConfigWhisper(txt)
---	if mtsLib.getConfig('getWhispers')then
---		return RunMacroText("/w "..txt)
---	end
+	if mtsLib.GetWisp() then
+		return RunMacroText("/w "..txt)
+	end
 	return false
 end
 
 function mtsLib.ConfigAlert(txt)
---	if mtsLib.getConfig('getAlerts')then
+	if mtsLib.GetAlert() then
 		return mtsAlert:message(txt)
---	end
+	end
 end
 
 function mtsLib.ConfigAlertSound()
---	if mtsLib.getConfig('getAlertSounds')then
+	if mtsLib.GetSound() then
 		PlaySoundFile(_media .. "beep.mp3", "master")
---	end
+	end
 end
 
 --function mtsLib.getConfig(key)
