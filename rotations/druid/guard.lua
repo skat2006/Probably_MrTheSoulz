@@ -47,7 +47,7 @@ local inCombat = {
 		{ "pause", "player.form > 1" }, -- Any Player form but bear
 
 	-- If not in form
-		{ "!/cast Bear Form", { "player.seal = 0", "!modifier.lalt" }, nil },
+		{ "/cast Bear Form", { "player.form != 1", "!modifier.lalt" }},
 	
 	--	Buffs
 		{ "1126", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "player.form = 0" }, nil }, -- Mark of the Wild
@@ -101,7 +101,7 @@ local inCombat = {
 			{ "6807", "player.rage >= 80" }, -- Maul
 			{ "33878" }, -- Mangle
 			{ "77758", "!target.buff(77758)" }, -- Thrash
-			{ "770", "!target.buff(113746)" }, -- Faerie Fire
+			{ "770", "!target.debuff(770)" }, -- Faerie Fire
 			{ "33745" }, -- Lacerate
 		}, "!modifier.multitarget" },
   
