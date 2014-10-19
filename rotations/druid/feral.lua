@@ -7,6 +7,7 @@ MTS
 
 local exeOnLoad = function()
 
+	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create('cat', 'Interface\\Icons\\Ability_druid_prowl.png', 'Defensive Cooldowns', 'Enable or Disable out of combat feral & prowl.')
 	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Feral \124cff9482C9Loaded*")
 
@@ -30,6 +31,13 @@ local inCombat = {
   
   -- Cat
   	{ "Cat Form", "!player.buff(Cat Form)" },
+
+  -- Auto Target
+		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
+   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
+
+  --Run fast
+  	{ "1850", { "target.boss", "target.range >= 30" }},
 
   --Cooldowns
 	  { "106737", { "player.spell(106737).charges > 2", "!modifier.last(106737)", "player.spell(106737).exists" }}, --Force of Nature

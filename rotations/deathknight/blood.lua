@@ -27,7 +27,7 @@ local inCombat = {
 	-- Keybinds
 	{ "42650", "modifier.alt" }, -- Army of the Dead
 	{ "49576", "modifier.control" }, -- Death Grip
-	{ "43265", "modifier.shift", "ground" }, -- Death and Decay
+	{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 
 	{{-- Defensive cooldowns
 		{ "#5512", "player.health < 70"}, --healthstone
@@ -46,7 +46,7 @@ local inCombat = {
 		{ "56222", { "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Dark Command
 		{ "49576", { "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Death Grip / Mouse-Over
 		{ "49576", { "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Death Grip
-	},{ "@mtsLib.dummy()", "@mtsLib.ShouldTaunt('DkBloodTaunts')" }},
+	},{ "@mtsLib.ShouldTaunt('DkBloodTaunts')" }},
 
 	{{-- Interrupts
 		{ "47528", "modifier.interrupts" }, -- Mind freeze
@@ -103,7 +103,7 @@ local outCombat = {
 	-- Keybinds
 	{ "42650", "modifier.alt" }, -- Army of the Dead
 	{ "49576", "modifier.control" }, -- Death Grip
-	{ "43265", "modifier.shift", "ground" }, -- Death and Decay
+	{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 
 	-- Out Of Combat
 	{ "57330", "!player.buff(57330)" }, -- Horn of Winter

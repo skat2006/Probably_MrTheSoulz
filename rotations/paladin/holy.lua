@@ -27,7 +27,7 @@ local Buffs = {
 local inCombat = {
 
 	-- keybinds
-		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
+		{ "114158", "modifier.shift", "target.ground"}, -- Light´s Hammer
 		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
 
 	-- Mana Regen
@@ -123,7 +123,7 @@ local inCombat = {
 local outCombat = {
 
 	-- keybinds
-		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
+		{ "114158", "modifier.shift", "target.ground"}, -- Light´s Hammer
 		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
 
 	-- Mana Regen

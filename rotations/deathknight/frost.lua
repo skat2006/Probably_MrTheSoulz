@@ -8,6 +8,7 @@ MTS
 
 local exeOnLoad = function()
 
+	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_deathknight_iceboundfortitude.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
 	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffC41F3BDeathKnight/Blood \124cff9482C9Loaded*")
 
@@ -46,6 +47,10 @@ local Shared = {
 		-- Goblins
 			{ "69041", "player.moving" },
 
+	-- Auto Target
+		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
+   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
+
     -- Interrumpts
     	{ "47528", "modifier.interrupts" }, -- Mind freeze
 		{ "47476", "modifier.interrupts" }, -- Strangulate
@@ -53,7 +58,7 @@ local Shared = {
     -- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
 		{ "49576", "modifier.control" }, -- Death Grip
-		{ "43265", "modifier.shift", "ground" }, -- Death and Decay
+		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 
     {{-- Defensive
 		{ "48707", "player.health <= 70", "target.casting" }, -- Anti-Magic Shell
@@ -123,7 +128,7 @@ local outCombat = {
 
 		{ "42650", "modifier.alt" }, -- Army of the Dead
 		{ "49576", "modifier.control" }, -- Death Grip
-		{ "43265", "modifier.shift", "ground" }, -- Death and Decay
+		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
   
 }

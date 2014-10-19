@@ -3,13 +3,11 @@
 --													Thank Your For Your My ProFiles
 --														I Hope Your Enjoy Them
 --																  MTS
-
-
 local lib = function()
 
+	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_holy_devotionaura.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
 	ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\Spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
-	ProbablyEngine.toggle.create('aggro', 'Interface\\Icons\\Ability_warrior_stalwartprotector.png', 'Aggro control', 'Auto Taunts on mouse-over ot target if dosent have aggro.')
 	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffF58CBAPaladin/Protection \124cff9482C9Loaded*")
 
 end
@@ -27,10 +25,15 @@ local Buffs = {
 local inCombat = {
 			
 	-- keybinds
-		{ "105593", "modifier.control", "target"}, -- Fist of Justice
-		{ "853", "modifier.control", "target"}, -- Hammer of Justice
-		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
-		{ "26573", "modifier.alt", "ground"}, -- consecration
+		{ "105593", "modifier.control", "target" }, -- Fist of Justice
+		{ "853", "modifier.control", "target" }, -- Hammer of Justice
+		{ "114158", "modifier.shift", "target.ground" }, -- Light´s Hammer
+		{ "26573", "modifier.alt", "target.ground" }, -- consecration
+		
+	
+	-- Auto Target
+		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
+   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
 	-- seals
 		{ "20165", { -- seal of Insight
@@ -72,7 +75,6 @@ local inCombat = {
 		}, "player" },
 
 	-- Rotation
-
 		{ "24275", { -- Hammer of Wrath
 			"target.health <= 20",
 			"target.spell(24275).range"
@@ -104,10 +106,10 @@ local inCombat = {
 local outCombat = {
 
 -- keybinds
-		{ "105593", "modifier.control", "target"}, -- Fist of Justice
-		{ "853", "modifier.control", "target"}, -- Hammer of Justice
-		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer
-		{ "26573", "modifier.alt", "ground"}, -- consecration
+		{ "105593", "modifier.control", "target" }, -- Fist of Justice
+		{ "853", "modifier.control", "target" }, -- Hammer of Justice
+		{ "114158", "modifier.shift", "target.ground" }, -- Light´s Hammer
+		{ "26573", "modifier.alt", "target.ground" }, -- consecration
 
 	-- seals
 		{ "20165", { -- seal of Insight

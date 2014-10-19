@@ -5,7 +5,7 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
-local mtsLib = { wisp = false, alert = true, sound = true }
+local mtsLib = { wisp = false, alert = true, sound = true, taunt = false }
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local _playerClass, _englishClass, _idClass = UnitClass("player");
 local _playerSpec = GetSpecialization();
@@ -25,13 +25,17 @@ function mtsLib.GetSound()
 	return mtsLib.sound
 end
 
+function mtsLib.GetTaunt()
+	return mtsLib.taunt
+end
+
 ProbablyEngine.command.register('mts', function(msg, box)
 local command, text = msg:match("^(%S*)%s*(.-)$")
 		
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mtsLib.ConfigAlertSound()
-		mtsAlert:message('MrTheSoulz Version: 0.0.7')
+		mtsAlert:message('MrTheSoulz Version: 0.0.8')
 	end
 	
 	if command == 'wisp' or command == 'wsp' or command == 'w' then
@@ -58,6 +62,15 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 			mtsAlert:message('*Sounds Enabled.*')
 		else
 			mtsAlert:message('*Sounds Disabled*.')
+		end
+	end
+
+	if command == 'taunts' or command == 'taunt' or command == 't' then
+	mtsLib.taunt = not mtsLib.taunt
+		if mtsLib.taunt then
+			mtsAlert:message('*Taunts Enabled.*')
+		else
+			mtsAlert:message('*Taunts Disabled*.')
 		end
 	end
 			
@@ -174,6 +187,69 @@ local npcId = tonumber(UnitGUID("target"):sub(6,10), 16)
 end
 	return true 
 end
+
+if not mtsLib then mtsLib = {} end
+
+local lastRapture
+local mtsLib = {}
+
+--mouseover healing Immerseus - Contaminated Puddle
+function mtsLib.mouseover()
+ if UnitExists("mouseover") and not UnitIsPlayer("mouseover") then
+   local npcid = tonumber(UnitGUID("mouseover"):sub(6,10), 16)        
+   if npcid == 71604 then 
+   return true 
+   end
+  end
+end
+
+function mtsLib.checkRapture()
+  if not lastRapture then
+    lastRapture = time()
+    return true
+  end
+  if time() - lastRapture > 12 then return true end
+  return false
+end
+
+function mtsLib.bossCheck()
+  if UnitExists("boss1") then
+    local npcId = tonumber(UnitGUID("boss1"):sub(6,10), 16)
+    if npcId == 71454 then
+      return true 
+  end
+  end
+end 
+
+function mtsLib.stopCast(unit)
+  if UnitBuff("player", 31821) then return false end -- Devo
+  if not unit then unit = "boss1" end
+  local spell, _, _, _, _, endTime = UnitCastingInfo(unit)
+  local stop = false
+  if spell == GetSpellInfo(138763) then stop = true end -- Dark Animus
+  if spell == GetSpellInfo(137457) then stop = true end -- Oondasta
+  if spell == GetSpellInfo(143343) then stop = true end -- Thok
+  if stop then
+    if UnitCastingInfo("player") or UnitChannelInfo("player") then
+	 local CastFinish = endTime / 1000 - GetTime()
+     if CastFinish <= .25 then
+       return true
+     end
+	end
+  end
+  return false
+end
+
+local function findRapture(timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, ...)
+  if CombatLog_Object_IsA(sourceFlags, COMBATLOG_FILTER_ME) and event == 'SPELL_ENERGIZE' then
+    local name = select(2, ...)
+    if name == 'Rapture' then lastRapture = timestamp end
+  end
+end
+ProbablyEngine.listener.register('COMBAT_LOG_EVENT_UNFILTERED', findRapture)
+
+
+
 	
 function mtsLib.Dispell(text)
 local prefix = (IsInRaid() and 'raid') or 'party'
@@ -254,10 +330,6 @@ function mtsLib.ConfigAlertSound()
 	end
 end
 
---function mtsLib.getConfig(key)
---	return mts_Config:get(key)
---end
-
 function mtsLib.dummy()	
 	for i=1, #mts_Dummies do
 		if UnitExists("target") then
@@ -273,38 +345,14 @@ function mtsLib.dummy()
 	end
 end
 
-function mtsLib.ShouldTaunt(key)
-	if UnitIsTappedByPlayer("target") then
---	and mts_Config:get(key) == true then
+function mtsLib.ShouldTaunt()
+	if UnitIsTappedByPlayer("target") 
+	and mtsLib.GetTaunt()
+	and not mtsLib.dummy() then
 		return true
 	else
 		return false
 	end
 end
-
---function mtsLib.getSetting(txt1, txt2)
---	if mtsLib.getConfig(txt1) == txt2 then
---		return true
---	else
---		return false
---	end
---end
-
---function mtsLib.ConfigUnitMana(key, unit)
---	if ProbablyEngine.condition["mana"](unit) <= mts_Config:get(key) then
---		return true
---	else
---		return false
---	end
---end
-
---function mtsLib.ConfigUnitHp(key, unit)
---	if ProbablyEngine.condition["health"](unit) <= mts_Config:get(key) then
---		return true
---	else
---		return false
---	end
---end
-
 
 ProbablyEngine.library.register('mtsLib', mtsLib)

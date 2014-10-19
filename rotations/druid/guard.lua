@@ -7,6 +7,7 @@ MTS
 
 local exeOnLoad = function()
 
+	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Guardian \124cff9482C9Loaded*")
 
 end
@@ -48,6 +49,10 @@ local inCombat = {
 
 	-- If not in form
 		{ "/cast Bear Form", { "player.form != 1", "!modifier.lalt" }},
+
+	-- Auto Target
+		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
+   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 	
 	--	Buffs
 		{ "1126", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "player.form = 0" }, nil }, -- Mark of the Wild
