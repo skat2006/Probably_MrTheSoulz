@@ -12,6 +12,13 @@ local _playerSpec = GetSpecialization();
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
 local _cc = {49203,6770,1776,51514,9484,118,28272,28271,61305,61025,61721,61780,3355,19386,20066,90337,2637,82676,115078,76780,9484,1513,115268}
 local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
+mtsLib.darkSimSpells = {
+-- siege of orgrimmar
+"Froststorm Bolt","Arcane Shock","Rage of the Empress","Chain Lightning",
+-- pvp
+"Hex","Mind Control","Cyclone","Polymorph","Pyroblast","Tranquility","Divine Hymn","Hymn of Hope","Ring of Frost","Entangling Roots"
+}
+
 
 function mtsLib.GetWisp()
 	return mtsLib.wisp
@@ -35,7 +42,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mtsLib.ConfigAlertSound()
-		mtsAlert:message('MrTheSoulz Version: 0.0.8')
+		mtsAlert:message('MrTheSoulz Version: 0.0.9')
 	end
 	
 	if command == 'wisp' or command == 'wsp' or command == 'w' then
@@ -165,6 +172,10 @@ if source ~= UnitGUID("player") then return false end
 			mtsLib.ConfigAlertSound()
 			mtsLib.ConfigAlert("*Casted Icebound Fortitude*")
 		end
+		if spellId == 42650 then
+			mtsLib.ConfigAlertSound()
+			mtsLib.ConfigAlert("*Casting Army of the Dead*")
+		end
 
 	end
 end)
@@ -247,6 +258,52 @@ function mtsLib.KafaPress()
 	end
 	return false
 end
+
+function mtsLib.shoulDarkSimUnit(unit)
+	for index,spellName in pairs(mtsLib.darkSimSpells) do
+		if ProbablyEngine.condition["casting"](unit, spellName) then return true end
+	end
+		return false
+end
+
+function mtsLib.canCastPlagueLeech(timeLeft)
+local frostFeverApplied, _, ffExpires, ffCaster = UnitDebuff("target","Frost Fever","player")
+local bloodPlagueApplied, _, bpExpires, bpCaster = UnitDebuff("target","Blood Plague","player")
+local durationFF = 0
+local durationBP = 0
+	if ffExpires and ffCaster == "player" then
+		durationFF = (ffExpires - (GetTime()-(ProbablyEngine.lag/1000)))
+	end
+	if bpExpires and bpCaster == "player" then
+		durationBP = (bpExpires - (GetTime()-(ProbablyEngine.lag/1000)))
+	end
+		
+	if not frostFeverApplied or not bloodPlagueApplied then return false end
+	if durationFF <= timeLeft then
+		return true
+	end
+	if durationBP <= timeLeft then
+		return true
+	end
+		return false
+end
+
+function mtsLib.gotBloodRunes()
+	if GetRuneType(1) ~= 4 and GetRuneType(2) ~= 4 then
+		return true
+	end 
+	return false
+end
+
+function mtsLib.hasGhoul()
+	if ProbablyEngine.module.player.specName == "Unholy" then
+		if UnitExists("pet") == nil then return false end
+	else
+		if select(1,GetTotemInfo(1)) == false then return false end
+	end
+		return true
+end
+
 
 function mtsLib.ConfigWhisper(txt)
 	if mtsLib.GetWisp() then
