@@ -104,6 +104,10 @@ local outCombat = {
 	{ "2061", {"!player.moving","lowest.health <= 75","lowest.spell(2061).range"}, "lowest" }, --Flash Heal
 	{ "596", {"!player.moving","@coreHealing.needsHealing(90, 4)","lowest.spell(596).range"}, "lowest" }, --Prayer of Healing
 
+	-- GIMME Feather's SO I CAN RUN FAST BITCH!
+		{ "121536", {"player.moving", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		--{ "121536", {"tank.moving", "toggle.feather", "!tank.buff(121557)", "player.spell(121536).charges >= 1" }, "tank.ground" },   
+
 }
 
 local inCombatSolo = {	
