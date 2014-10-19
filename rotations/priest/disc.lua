@@ -22,6 +22,10 @@ local inCombat = {
 	{ "81700", "player.buff(81661).count = 5" },--Archangel
 	{ "109964", "modifier.lshift" }, --Spirit Shell
 	{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5"}, "lowest" }, --Prayer of Healing
+
+	-- GIMME Feather's SO I CAN RUN FAST BITCH!
+	{ "121536", {"player.moving", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+	{ "121536", {"tank.moving", "!tank.buff(121557)", "player.spell(121536).charges >= 1" }, "tank.ground" },
 	
   -- Mana/Survival
   

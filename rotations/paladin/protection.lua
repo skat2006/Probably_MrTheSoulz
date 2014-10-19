@@ -30,6 +30,7 @@ local inCombat = {
 		{ "114158", "modifier.shift", "target.ground" }, -- Light´s Hammer
 		{ "26573", "modifier.alt", "target.ground" }, -- consecration
 		
+		{ "121536", "player.moving", "player.ground" }, -- consecration
 	
 	-- Auto Target
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
