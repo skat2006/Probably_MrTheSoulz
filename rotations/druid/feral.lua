@@ -78,9 +78,9 @@ local inCombat = {
 		{ "22568", "player.combopoints = 5" },
 		{ "106830", { "modifier.multitarget", "!target.debuff(Thrash).duration >= 1.5" }}, -- Tharsh
 		{ "106785", { "modifier.multitarget", "!target.debuff(Thrash).duration <= 1.5" }}, -- Swipe
-	}, "modifier.multitarget" },	
+	}, "modifier.multitarget", function() return UnitsAroundUnit('target', 6) >= 2 end },	
 
-  {{ -- dont use if AEO
+ -- {{ -- dont use if AEO
   	-- Rake
       	{ "Rake", "target.debuff(Rake).duration <= 4" },
     
@@ -100,7 +100,7 @@ local inCombat = {
     	  	{ "Shred", "player.buff(Berserk)" },
     	  	{ "Shred", "player.combopoints < 5" },
     	  }, "player.behind" },
-   	}, "!modifier.multitarget" },
+   	--}, "!modifier.multitarget" },
   
 }
 
