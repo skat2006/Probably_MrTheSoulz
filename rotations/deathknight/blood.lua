@@ -8,7 +8,9 @@ MTS
 
 local exeOnLoad = function()
 
+	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create("DRW", "Interface\\Icons\\INV_Sword_07", "Stop using Dancing Rune Weapon", "Toggle Off if you dont want to use DRW on CD")
+	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_deathknight_iceboundfortitude.png', 'Defensive Cooldowns & Heals', 'Enable or Disable Defensive & Healing Cooldowns.')
 	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffC41F3BDeathKnight/Blood \124cff9482C9Loaded*")
 
 end
@@ -23,83 +25,107 @@ local Buffs = {
 
 local inCombat = {
 	
+	--Racials
+        -- Dwarves
+			{ "20594", "player.health <= 65" },
+		-- Humans
+			{ "59752", "player.state.charm" },
+			{ "59752", "player.state.fear" },
+			{ "59752", "player.state.incapacitate" },
+			{ "59752", "player.state.sleep" },
+			{ "59752", "player.state.stun" },
+		-- Draenei
+			{ "28880", "player.health <= 70", "player" },
+		-- Gnomes
+			{ "20589", "player.state.root" },
+			{ "20589", "player.state.snare" },
+		-- Forsaken
+			{ "7744", "player.state.fear" },
+			{ "7744", "player.state.charm" },
+			{ "7744", "player.state.sleep" },
+		-- Goblins
+			{ "69041", "player.moving" },
+
+	--Auto target
+		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
+		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
+   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
+
 	-- Just Do it!
-	{ "50842",	{"modifier.multitarget", function() return UnitsAroundUnit('target', 6) >= 3 end, "modifier.last(77575)" }}, -- Blood Boil
+		{ "50842",	{"modifier.multitarget", function() return UnitsAroundUnit('target', 6) >= 3 end, "modifier.last(77575)" }}, -- Blood Boil
 
 	-- Keybinds
-	{ "42650", "modifier.alt" }, -- Army of the Dead
-	{ "49576", "modifier.control" }, -- Death Grip
-	{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
+		{ "42650", "modifier.alt" }, -- Army of the Dead
+		{ "49576", "modifier.control" }, -- Death Grip
+		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 
-	{{-- Defensive cooldowns
+	-- items
 		{ "#5512", "player.health < 70"}, --healthstone
-		{ "48792", "player.health <= 40", "player')" },
-		{ "55233", { "modifier.cooldowns", "player.health <= 40", "player')" }},
-		{ "48743", "player.health <= 50" },
-		{ "49039", { "player.health <= 40", "player.runicpower >= 40", "player.spell.exists(49039)" }},
-		{ "47541", { "player.health < 90", "player.runicpower >= 40", "player.buff(49039)" }, "player"},
-	}, "modifier.cooldowns" },
 
-	{ "48982", "player.health <= 60" , "player')" },
+	-- Def cooldowns // heals
+		{ "48792", { "toggle.defcd", "player.health <= 40" }, "player')" }, -- Icebound Fortitude
+		{ "55233", { "toggle.defcd", "player.health <= 40" }}, -- Vampiric Blood
+		{ "48743", { "toggle.defcd", "player.health <= 50" }}, -- Death Pact
+		{ "49039", { "toggle.defcd", "player.state.fear", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //fear
+		{ "49039", { "toggle.defcd", "player.state.sleep", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //sleep
+		{ "49039", { "toggle.defcd", "player.state.charm", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //charm
+		{ "48982", { "toggle.defcd", "player.health <= 60" }}, -- rune tap
+		{ "108196", { "toggle.defcd","player.health < 60" }},-- Death Siphon
 
-	{{-- Aggro Control
-		{ "62124", "@mtsBossLib.bossTaunt", "target" }, -- Boss // Dark Command
-		{ "56222", { "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Dark Command / Mouse-Over
-		{ "56222", { "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Dark Command
-		{ "49576", { "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Death Grip / Mouse-Over
-		{ "49576", { "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Death Grip
-	},{ "@mtsLib.ShouldTaunt('DkBloodTaunts')" }},
+	-- Cooldowns
+		--{ "61999", { "modifier.cooldowns", "player.health <= 30" }, "mouseover" }, -- Raise Ally
+		{ "49028", { "modifier.cooldowns", "!toggle.DRW" }, "target" }, -- Dancing Rune Weapon
+		{ "47568", { "modifier.cooldowns", "player.runes(death).count < 1", "player.runes(frost).count < 1", "player.runes(unholy).count < 1", "player.runicpower < 30" }}, -- Empower Rune Weapon
+		{ "#gloves"},
 
-	{{-- Interrupts
-		{ "47528", "modifier.interrupts" }, -- Mind freeze
-		{ "47476", "modifier.interrupts", "!player.modifier.last(47528)" }, -- Strangulate,
-		{ "108194", "!modifier.last(47528)" },
-	}, "target.interruptsAt(50)" },
+	-- Aggro Control
+		{ "62124", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "@mtsBossLib.bossTaunt", "target.threat < 100" }, "target" }, -- Boss // Dark Command
+		{ "56222", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Dark Command / Mouse-Over
+		{ "56222", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Dark Command
+		{ "49576", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Death Grip / Mouse-Over
+		{ "49576", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Death Grip
+
+	-- Interrupts
+		{ "47528", { "target.interruptsAt(50)", "modifier.interrupts" }, "target" }, -- Mind freeze
+		{ "47476", { "target.interruptsAt(50)", "modifier.interrupts", "!player.modifier.last(47528)"}, "target" }, -- Strangulate
+		{ "108194", { "target.interruptsAt(50)", "!modifier.last(47528)" }, "target" }, -- Asphyxiate
 
 	-- Spell Steal
-	{ "77606", "@mtsLib.shoulDarkSimUnit('target')" , "target" },
-	{ "77606", "@mtsLib.shoulDarkSimUnit('focus')" , "focus" },
-	
-	{{-- Cooldowns
-		{ "61999", "player.health <= 30" },
-		{ "49028", "!toggle.DRW" },
-		{ "#gloves"},
-	},  "modifier.cooldowns" },
+		{ "77606", "@mtsLib.shoulDarkSimUnit('target')", "target" }, -- Dark Simulacrum
+		{ "77606", "@mtsLib.shoulDarkSimUnit('focus')", "focus" },  -- Dark Simulacrum
 
 	-- Buff
-	{ "49222", "!player.buff(49222)" }, -- bone shield
+		{ "49222", "!player.buff(49222)" }, -- bone shield
 
 	-- Diseases
-	{ "115989", "target.debuff(55095).duration < 2" },
-	{ "115989", "target.debuff(55078).duration < 2" },
-	{ "77575", "target.debuff(55095).duration < 2" }, -- Outbreak
-	{ "77575", "target.debuff(55078).duration < 2" }, -- Outbreak
+		{ "115989", "target.debuff(55095).duration < 2" }, -- Unholy Blight
+		{ "115989", "target.debuff(55078).duration < 2" }, -- Unholy Blight
+		{ "77575", "target.debuff(55095).duration < 2" }, -- Outbreak
+		{ "77575", "target.debuff(55078).duration < 2" }, -- Outbreak
 
 	-- Multi-target
-	{ "50842",	{"modifier.multitarget","target.range <= 10", function() return UnitsAroundUnit('target', 6) >= 3 end }}, -- Blood Boil
-	{ "50842",	{"player.buff(Crimson Scourge)","target.range <= 10" }}, -- Blood Boil
+		{ "50842",	{"modifier.multitarget","target.range <= 10", function() return UnitsAroundUnit('target', 6) >= 3 end }}, -- Blood Boil
+		{ "50842",	{"player.buff(Crimson Scourge)","target.range <= 10" }}, -- Blood Boil
 
 	-- Rotation
-	{ "49998", { "player.buff(77513).duration <= 1", "modifier.last(114866)" }}, -- Death Strike //refresh buff
-	{ "49998", { "player.spell(49998).charges > 4", "modifier.last(114866)" }}, -- Death Strike
-	{ "114866" }, -- Soul Reaper
-	{ "45462", "target.debuff(55078).duration < 2" }, -- Plague Strike
-	{ "45477", "target.debuff(55095).duration < 2" }, -- Icy Touch
-	{ "47541", "player.runicpower >= 30" }, -- Death Coil
+		{ "47541", "player.runicpower >= 90", "target" }, -- Death Coil // Full runic
+		{ "49998", { "player.buff(77513).duration <= 1" }, "target" }, -- Death Strike
+		{ "114866", "target.health <= 35", "target" }, -- Soul Reaper
+		{ "50842",	{ "target.range <= 10", "!target.health <= 35" }}, -- Blood Boil
+		{ "45462", "target.debuff(55078).duration < 2", "target" }, -- Plague Strike
+		{ "45477", "target.debuff(55095).duration < 2", "target" }, -- Icy Touch
+		{ "47541", "player.runicpower >= 30", "target" }, -- Death Coil
 
-	-- Death Siphon
-	{ "Death Siphon", "player.health < 60" },
 	-- Blood Tap
 	  {{
-	    { "Blood Tap", "player.runes(unholy).count = 0" },
-	    { "Blood Tap", "player.runes(frost).count = 0" },
-	    { "Blood Tap", "player.runes(blood).count = 0" },
+	    { "45529", "player.runes(unholy).count = 0" }, --Blood Tap
+	    { "45529", "player.runes(frost).count = 0" }, -- Blood Tap
+	    { "45529", "player.runes(blood).count = 0" }, -- Blood Tap
 	  } , {
 	    "player.buff(Blood Charge).count >= 5",
 	    "player.runes(death).count = 0",
 	    "!modifier.last"
 	  }},
-	{ "47568", { "modifier.cooldowns", "player.runes(death).count < 1", "player.runes(frost).count < 1", "player.runes(unholy).count < 1", "player.runicpower < 30" }}, -- Empower Rune Weapon
 
 }
 
