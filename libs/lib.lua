@@ -41,7 +41,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mtsLib.ConfigAlertSound()
-		mtsAlert:message('MrTheSoulz Version: 0.0.11')
+		mtsAlert:message('MrTheSoulz Version: 0.0.12')
 	end
 	
 	if command == 'wisp' or command == 'wsp' or command == 'w' then

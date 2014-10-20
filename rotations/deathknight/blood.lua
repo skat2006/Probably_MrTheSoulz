@@ -104,14 +104,15 @@ local inCombat = {
 		{ "77575", "target.debuff(55078).duration < 2" }, -- Outbreak
 
 	-- Multi-target
-		{ "50842",	{"modifier.multitarget","target.range <= 10", function() return UnitsAroundUnit('target', 6) >= 3 end }}, -- Blood Boil
+		{ "50842",	{"modifier.multitarget","target.range <= 35", function() return UnitsAroundUnit('target', 6) >= 3 end }}, -- Blood Boil
 		{ "50842",	{"player.buff(Crimson Scourge)","target.range <= 10" }}, -- Blood Boil
 
 	-- Rotation
 		{ "47541", "player.runicpower >= 90", "target" }, -- Death Coil // Full runic
 		{ "49998", { "player.buff(77513).duration <= 1" }, "target" }, -- Death Strike
 		{ "114866", "target.health <= 35", "target" }, -- Soul Reaper
-		{ "50842",	{ "target.range <= 10", "!target.health <= 35" }}, -- Blood Boil
+		{ "50842",	{ "target.range <= 35", "!target.health <= 35" }}, -- Blood Boil
+		{ "50842",	{ "player.runes(blood).count = 1", "target.range <= 35", "target.health <= 35" }}, -- Blood Boil // at less then 35% health if SR is not available.
 		{ "45462", "target.debuff(55078).duration < 2", "target" }, -- Plague Strike
 		{ "45477", "target.debuff(55095).duration < 2", "target" }, -- Icy Touch
 		{ "47541", "player.runicpower >= 30", "target" }, -- Death Coil
