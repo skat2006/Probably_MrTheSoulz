@@ -5,7 +5,7 @@
 ## Interface: 60000
 ## Author: MrTheSoulz
 
-gui\main.lua
+gui\splash.lua
 gui\alert.lua
 libs\lib.lua
 libs\dotTracker.lua
