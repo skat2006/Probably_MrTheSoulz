@@ -25,8 +25,8 @@ local Shared = {
 		--{ "121536", {"tank.moving", "toggle.feather", "!tank.buff(121557)", "player.spell(121536).charges >= 1" }, "tank.ground" },
 	
 	--keybinds
-		{ "32375", "modifier.rcontrol", "ground" }, --Mass Dispel
-	 	{ "62618", "modifier.rshift", "ground" }, --Power Word: Barrier
+		{ "32375", "modifier.rcontrol", "player.ground" }, --Mass Dispel
+	 	{ "62618", "modifier.rshift", "tank.ground" }, --Power Word: Barrier
 	 	{ "48045", "modifier.ralt", "tank" }, -- Mind Sear
 	 	{ "121135", "modifier.lcontrol", "player" },  --Cascade
 		{ "120517", "modifier.lcontrol", "player" }, --Halo

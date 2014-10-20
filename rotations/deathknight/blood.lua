@@ -15,15 +15,17 @@ local exeOnLoad = function()
 
 end
 
-local Buffs = {
+local Shared = {
 
-	-- Presence
-		{"48263", "player.seal != 1", nil }, -- Blood
+		
 		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
+		{ "49222", "!player.buff(49222)" }, -- bone shield
 
 }
 
 local inCombat = {
+
+	{"48263", "player.seal != 1", nil }, -- Blood
 	
 	--Racials
         -- Dwarves
@@ -94,9 +96,6 @@ local inCombat = {
 		{ "77606", "@mtsLib.shoulDarkSimUnit('target')", "target" }, -- Dark Simulacrum
 		{ "77606", "@mtsLib.shoulDarkSimUnit('focus')", "focus" },  -- Dark Simulacrum
 
-	-- Buff
-		{ "49222", "!player.buff(49222)" }, -- bone shield
-
 	-- Diseases
 		{ "115989", "target.debuff(55095).duration < 2" }, -- Unholy Blight
 		{ "115989", "target.debuff(55078).duration < 2" }, -- Unholy Blight
@@ -104,7 +103,7 @@ local inCombat = {
 		{ "77575", "target.debuff(55078).duration < 2" }, -- Outbreak
 
 	-- Multi-target
-		{ "50842",	{"modifier.multitarget","target.range <= 35", function() return UnitsAroundUnit('target', 6) >= 3 end }}, -- Blood Boil
+		{ "50842",	{"modifier.multitarget","target.range <= 35", function() return UnitsAroundUnit('target', 35) >= 3 end }}, -- Blood Boil
 		{ "50842",	{"player.buff(Crimson Scourge)","target.range <= 10" }}, -- Blood Boil
 
 	-- Rotation
@@ -132,16 +131,13 @@ local inCombat = {
 
 local outCombat = {
 
-	-- Keybinds
-	{ "42650", "modifier.alt" }, -- Army of the Dead
-	{ "49576", "modifier.control" }, -- Death Grip
-	{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
+	{ "48265", "player.seal != 3" }, -- frost // moves faster out of combat...
 
 }
 
-for _, Buffs in pairs(Buffs) do
-  inCombat[#inCombat + 1] = Buffs
-  outCombat[#outCombat + 1] = Buffs
+for _, Shared in pairs(Shared) do
+  inCombat[#inCombat + 1] = Shared
+  outCombat[#outCombat + 1] = Shared
 end
 
 ProbablyEngine.rotation.register_custom(250, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-Blood|r]", inCombat, outCombat, exeOnLoad)

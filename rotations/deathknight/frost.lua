@@ -6,6 +6,14 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
+ProbablyEngine.condition.register('twohand', function(target)
+  return IsEquippedItemType("Two-Hand")
+end)
+
+ProbablyEngine.condition.register('onehand', function(target)
+  return IsEquippedItemType("One-Hand")
+end)
+
 local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
@@ -14,19 +22,24 @@ local exeOnLoad = function()
 
 end
 
-local Buffs = {
-
-	-- Presence
-		{"48263", "player.seal != 1", nil }, -- Blood
+local Shared = {
 
 	-- Buffs
-		{ "49222", "player.buff(49222).count < 6" }, -- Bone Shield
+		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
+
+	-- Keybinds
+		{ "42650", "modifier.alt" }, -- Army of the Dead
+		{ "49576", "modifier.control" }, -- Death Grip
+		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
   
 }
 
-local Shared = {
+local inCombat = {
+	
+	-- Presence
+		{ "48266", "player.seal != 2" }, -- frost
 
-    --Racials
+	--Racials
         -- Dwarves
 			{ "20594", "player.health <= 65" },
 		-- Humans
@@ -47,103 +60,145 @@ local Shared = {
 		-- Goblins
 			{ "69041", "player.moving" },
 
-	-- Auto Target
+	--Auto target
+		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
-    -- Interrumpts
-    	{ "47528", "modifier.interrupts" }, -- Mind freeze
-		{ "47476", "modifier.interrupts" }, -- Strangulate
+	-- Just Do it!
+		{ "50842",	{"modifier.multitarget", function() return UnitsAroundUnit('target', 6) >= 3 end, "modifier.last(77575)" }}, -- Blood Boil
 
-    -- Keybinds
-		{ "42650", "modifier.alt" }, -- Army of the Dead
-		{ "49576", "modifier.control" }, -- Death Grip
-		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
+	-- items
+		{ "#5512", "player.health < 70"}, --healthstone
+	
+	{{-- Blood Tap
 
-    {{-- Defensive
-		{ "48707", "player.health <= 70", "target.casting" }, -- Anti-Magic Shell
-		{ "48792", "player.health <= 50" },-- Icebound Fortitude
-	}, "toggle.defcd" },	
+	   	{ "Blood Tap", "player.runes(unholy).count = 0" },
+	    { "Blood Tap", "player.runes(frost).count = 0" },
+	   	{ "Blood Tap", "player.runes(death).count = 0" },
+
+	} , { "player.buff(Blood Charge).count >= 5", "player.runes(death).count = 0" }},
+
+	-- Def cooldowns // heals
+		{ "48792", { "toggle.defcd", "player.health <= 40" }, "player')" }, -- Icebound Fortitude
+		{ "48743", { "toggle.defcd", "player.health <= 50" }}, -- Death Pact
+		{ "49039", { "toggle.defcd", "player.state.fear", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //fear
+		{ "49039", { "toggle.defcd", "player.state.sleep", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //sleep
+		{ "49039", { "toggle.defcd", "player.state.charm", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //charm
+		{ "108196", { "toggle.defcd","player.health < 60" }},-- Death Siphon
+
+	-- Cooldowns
+		--{ "61999", { "modifier.cooldowns", "player.health <= 30" }, "mouseover" }, -- Raise Ally
+		{ "47568", { "modifier.cooldowns", "player.runes(death).count < 1", "player.runes(frost).count < 1", "player.runes(unholy).count < 1", "player.runicpower < 30" }}, -- Empower Rune Weapon
+		{ "51271", "modifier.cooldowns" }, -- Pilar of frost
+		{ "#gloves"},
+
+	-- Interrupts
+		{ "47528", { "target.interruptsAt(50)", "modifier.interrupts" }, "target" }, -- Mind freeze
+		{ "47476", { "target.interruptsAt(50)", "modifier.interrupts", "!player.modifier.last(47528)"}, "target" }, -- Strangulate
+		{ "108194", { "target.interruptsAt(50)", "!modifier.last(47528)" }, "target" }, -- Asphyxiate
+
+	-- Spell Steal
+		{ "77606", "@mtsLib.shoulDarkSimUnit('target')", "target" }, -- Dark Simulacrum
+		{ "77606", "@mtsLib.shoulDarkSimUnit('focus')", "focus" },  -- Dark Simulacrum
+
+	-- Disease's
+		{ "115989", "target.debuff(55095).duration < 2" }, -- Unholy Blight
+		{ "115989", "target.debuff(55078).duration < 2" }, -- Unholy Blight
+		{ "77575", "target.debuff(55095).duration < 2" }, -- Outbreak
+		{ "77575", "target.debuff(55078).duration < 2" }, -- Outbreak
+		{ "48721", { "player.runes(blood).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, nil }, -- Blood Boil
+		{ "48721", { "player.runes(death).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, nil }, -- Blood Boil
+		{ "45477", "target.debuff(55095).duration < 3" }, -- Icy Touch
+		{ "45462", "target.debuff(55078).duration < 3" }, -- Plague Strike
+
+	{{-- 1hand
+
+		{{ -- AoE
+
+	      	{ "50842", "modifier.last(Outbreak)" }, -- blood boil
+	      	{ "50842", "modifier.last(Plague Strike)" }, -- blood boil
+	      	{ "49184" }, -- Howling Blast
+	      	{ "49143", "player.runicpower >= 75" }, -- Frost Strike
+	      	{ "43265", "target.ground" }, -- Death and Decay
+	      	{ "45462", { "player.runes(unholy).count = 2", "player.spell(Death and Decay).cooldown" }}, -- Plague Strike
+      		{ "49143" },-- Frost Strike
+
+    }, "modifier.multitarget" },
+
+		{{ -- Single Target
+
+			{ "49143", "player.buff(Killing Machine)" },-- Frost Strike
+	      	{ "49143", "player.runicpower > 88" },-- Frost Strike
+	      	{ "49184", "player.runes(death).count > 1" },-- Howling Blast
+	      	{ "49184", "player.runes(frost).count > 1" },-- Howling Blast
+	      	{ "114866", "target.health < 35" },--Soul Reaper
+	      	{ "49184", "player.buff(Freezing Fog)" }, -- Howling Blast
+	      	{ "49143", "player.runicpower > 76" },-- Frost Strike
+	     	{ "49998", "player.buff(Dark Succor)" }, -- Death Strike
+	      	{ "49998", "player.health <= 65" }, -- Death Strike
+	      	{ "49020", { "player.runes(unholy).count > 0", "!player.buff(Killing Machine)" }, "target" }, -- Obliterate
+	      	{ "49184" },--Howling Blast
+	      	{ "49143", "player.runicpower >= 40" },-- Frost Strike
+
+	     }, "!modifier.multitarget" },
+	     
+	 }, "player.onehand" },
+
+	{{-- 2Hand
+
 		
-	{{-- Cooldowns
-		{ "47568", "player.runes(blood).count < 1" }, -- Empower Rune Weapon
-		{ "47568", "player.runes(death).count < 1" }, -- Empower Rune Weapon
-		{ "47568", "player.runes(frost).count < 1" }, -- Empower Rune Weapon
-		{ "51271" }, -- Pillar of Frost
-	}, "modifier.cooldowns" },
+	    {{ -- AoE
 
-	-- Buffs
-		{ "57330", "player.runicpower < 100)" }, -- Horn of Winter
+	      	{ "45529", { "player.buff(Blood Charge).count >= 5", "!player.runes(blood).count == 2", "!player.runes(frost).count == 2", "!player.runes(unholy).count == 2" }}, -- Blood Tap
+	      	{ "49184" }, -- Howling Blast
+	      	{ "49143", "player.runicpower >= 75" },-- Frost Strike
+	      	{ "45462", { "player.runes(unholy).count = 2", "player.spell(Death and Decay).cooldown" }}, -- Plague Strike
+	      	{ "49143" },-- Frost Strike
+    	
+    	}, "modifier.multitarget" },
 
-    -- Combat Ress
-		{ "Raise Ally", "!mouseover.alive", "mouseover" }, -- Raise Ally
-	
-	-- Heal
-		{ "#5512", "player.health <= 60" }, --Healthstone
-		{ "/cast 46584\n/cast 48743", { "player.health < 35", "player.spell(48743).cooldown", "player.spell(46584).cooldown", "player.spell(48743).usable" }, nil },-- Death Pact Macro, Last Resort
-		--{ "/cast Raise Dead\n/cast Death Pact", { "player.health < 35", "player.spell(Death Pact).cooldown", "player.spell(Raise Dead).cooldown", "player.spell(Death Pact).usable" }, nil },-- Death Pact Macro, Last Resort
+    
+	    {{ -- Single Target
+
+	      	{ "130735", "target.health < 35" }, -- Soul Reaper
+	      	{ "49184", "player.buff(Freezing Fog)" }, -- Howling Blast
+	      	
+	      	{{ -- If player less then 65% health
+
+	        	{ "49998", "player.buff(Killing Machine)" }, -- Death Strike
+	        	{ "49998", "player.runicpower <= 75" }, -- Death Strike
+
+	      	}, "player.health <= 65"},
+		    
+		    {{ -- If player more then 65% health
+
+		        { "49020", "player.buff(Killing Machine)" }, -- Obliterate
+		    	{ "49020", "player.runicpower <= 75" }, -- Obliterate
+
+		    }, "player.health > 65"},
+
+	      	{ "45529", "player.buff(Blood Charge).count >= 5" }, -- Blood Tap
+	      	{ "49143", "!player.buff(Killing Machine)" }, -- Frost Strike
+	      	{ "49143", "player.spell(Obliterate).cooldown >= 4" }, -- Frost Strike
+
+	    }, "!modifier.multitarget" },
+
+	}, "player.twohand" },
   
 }
-
-local inCombat_1h = {
-	
-		-- Disease's
-			{ "77575", { "target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, "target" }, -- Outbreak
-			{ "48721", { "player.runes(blood).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, nil }, -- Blood Boil
-			{ "48721", { "player.runes(death).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, nil }, -- Blood Boil
-			{ "45477", "target.debuff(55095).duration < 3" }, -- Icy Touch
-			{ "45462", "target.debuff(55078).duration < 3" }, -- Plague Strike
-
-		{ "45529", "player.buff(114851).count >= 5" }, -- Blood Tap
-		{ "49184", { "player.buff(59052)", "modifier.multitarget" }, "target" }, -- Howling Blast
-		{ "114866", "target.health < 35" }, -- Soul Reaper
-		{ "49184", "player.buff(59052)" }, -- Howling Blast if Freezing Fog
-	    { "49020", "player.buff(51124)" }, -- Obliterate if Killing Machine
-	    { "49020", { "player.runes(blood).count > 1", "player.runes(death).count > 1", "player.runes(frost).count >1" }, "target" }, -- Obliterate
-		{ "49143", "player.runicpower >= 70" }, -- Frost Strike
-  
-}
-
-local inCombat_2h = {
-	
-		-- Disease's
-			{ "77575", { "target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, "target" }, -- Outbreak
-			{ "48721", { "player.runes(blood).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, nil }, -- Blood Boil
-			{ "48721", { "player.runes(death).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, nil }, -- Blood Boil
-			{ "45477", "target.debuff(55095).duration < 3" }, -- Icy Touch
-			{ "45462", "target.debuff(55078).duration < 3" }, -- Plague Strike
-
-		{ "45529", "player.buff(114851).count >= 5", nil }, -- Blood Tap
-		{ "49184", { "player.buff(59052)", "modifier.multitarget" }, "target" }, -- Howling Blast
-		{ "114866", "target.health < 35" }, -- Soul Reaper
-		{ "49184", "player.buff(59052)" }, -- Howling Blast if Freezing Fog
-	    { "49143", "player.buff(51124)" }, -- Frost Strike if Killing Machine
-		{ "49143", "player.runicpower >= 70" }, -- Frost Strike
-		{ "49020" }, -- Obliterate
-  
-} 
-
 
 local outCombat = {
 
-		{ "42650", "modifier.alt" }, -- Army of the Dead
-		{ "49576", "modifier.control" }, -- Death Grip
-		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
-		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
+
+	{ "48265", "player.seal != 3" }, -- frost // moves faster out of combat...
+	{ "57330", "!player.buff(57330)" }, -- Horn of Winter
   
 }
 
-for _, Buffs in pairs(Buffs) do
-  inCombat_1h[#inCombat_1h + 1] = Buffs
-  inCombat_2h[#inCombat_2h + 1] = Buffs
-  outCombat[#outCombat + 1] = Buffs
-end
-
 for _, Shared in pairs(Shared) do
-  inCombat_1h[#inCombat_1h + 1] = Shared
-  inCombat_2h[#inCombat_2h + 1] = Shared
+  inCombat[#inCombat + 1] = Shared
   outCombat[#outCombat + 1] = Shared
 end
 
-ProbablyEngine.rotation.register_custom(251, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-1h-Frost|r]", inCombat_1h, outCombat, exeOnLoad)
-ProbablyEngine.rotation.register_custom(251, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-2h-Frost|r]", inCombat_2h, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(251, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-Frost|r]", inCombat, outCombat, exeOnLoad)
