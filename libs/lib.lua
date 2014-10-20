@@ -19,6 +19,34 @@ mtsLib.darkSimSpells = {
 "Hex","Mind Control","Cyclone","Polymorph","Pyroblast","Tranquility","Divine Hymn","Hymn of Hope","Ring of Frost","Entangling Roots"
 }
 
+function mtsLib.FHFriendlyCheck(unit, distance)
+    if FireHack then
+        local total = 0
+        local totalObjects = ObjectCount()
+        local onUnit = UnitExists(unit)
+        for i = 1, totalObjects do
+            local object = ObjectWithIndex(i)
+            if UnitIsPlayer(object) then
+            	if not UnitIsUnit(unit, object) then
+	                local reaction = UnitReaction("player", object)
+	                local combat = UnitAffectingCombat(object)
+	                if reaction and reaction > 4 then
+	                    if onUnit then
+	                        local objDistance = Distance(object, unit)
+	                        if objDistance <= distance then
+	                        	print(ObjectName(object), " distance:", objDistance)
+	                            total = total + 1
+	                        end
+	                    end
+	                end
+	            end
+            end
+        end
+        return total + 1
+    else
+        return 0
+    end
+end
 
 function mtsLib.GetWisp()
 	return mtsLib.wisp
@@ -42,7 +70,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mtsLib.ConfigAlertSound()
-		mtsAlert:message('MrTheSoulz Version: 0.0.9')
+		mtsAlert:message('MrTheSoulz Version: 0.0.10')
 	end
 	
 	if command == 'wisp' or command == 'wsp' or command == 'w' then
