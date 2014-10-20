@@ -81,13 +81,13 @@ local inCombat = {
    			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5"}, "lowest" }, --Prayer of Healing
 		-- Party
 			{ "596", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
-			{ "132157", { "@coreHealing.needsHealing(95, 3)", "!modifier.last", "@mtsLib.FHFriendlyCheck('player', 12) >= 2", "modifier.party" }, "lowest" }, -- Holy NOva
+			--{ "132157", { "@coreHealing.needsHealing(95, 3)", "!modifier.last", "@mtsLib.FHFriendlyCheck('player', 12) >= 2", "modifier.party" }, "lowest" }, -- Holy NOva
 		-- RAID
 			{ "596", { "@coreHealing.needsHealing(80, 5)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
-			{ "132157", { "@coreHealing.needsHealing(95, 5)", "!modifier.last", "@mtsLib.FHFriendlyCheck('player', 12) >= 2", "modifier.party" }, "lowest" }, -- Holy NOva
+			--{ "132157", { "@coreHealing.needsHealing(95, 5)", "!modifier.last", "@mtsLib.FHFriendlyCheck('player', 12) >= 2", "modifier.party" }, "lowest" }, -- Holy NOva
 		-- Raid 25
 			{ "596", { "@coreHealing.needsHealing(80, 8)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
-			{ "132157", { "@coreHealing.needsHealing(95, 8)", "!modifier.last", "@mtsLib.FHFriendlyCheck('player', 12) >= 2", "modifier.party" }, "lowest" }, -- Holy NOva
+			--{ "132157", { "@coreHealing.needsHealing(95, 8)", "!modifier.last", "@mtsLib.FHFriendlyCheck('player', 12) >= 2", "modifier.party" }, "lowest" }, -- Holy NOva
 
    -- MAIN ROTATION
 
