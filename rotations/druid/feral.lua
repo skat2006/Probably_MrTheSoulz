@@ -9,7 +9,7 @@ local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create('cat', 'Interface\\Icons\\Ability_druid_prowl.png', 'Defensive Cooldowns', 'Enable or Disable out of combat feral & prowl.')
-	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Feral \124cff9482C9Loaded*")
+	mtsStart:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Feral \124cff9482C9Loaded*")
 
 end
 

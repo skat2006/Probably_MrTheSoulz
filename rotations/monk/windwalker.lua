@@ -8,7 +8,7 @@ MTS
 
 local exeOnLoad = function()
 
-	mtsAlert:message("\124cff9482C9*MrTheSoulz - \124cffC41F3BDeathKnight/Blood \124cff9482C9Loaded*")
+	mtsStart:message("\124cff9482C9*MrTheSoulz - \124cffC41F3BDeathKnight/Blood \124cff9482C9Loaded*")
 
 end
 

@@ -6,46 +6,54 @@ MTS
 ]]
 
 local backdrop = {
-  -- path to the background texture
   bgFile = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.tga",  
-  -- path to the border texture
   edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Gold-Border",
-  -- true to repeat the background texture to fill the frame, false to scale it
   tile = false,
-  -- size (width or height) of the square repeating background tiles (in pixels)
   tileSize = 0,
-  -- thickness of edge segments and square size of edge corners (in pixels)
   edgeSize = 1,
-  -- distance from the edges of the frame to those of the background texture (in pixels)
-  insets = {
-    left = 11,
-    right = 12,
-    top = 12,
-    bottom = 11
-  }
-  }
+  insets = { left = 11, right = 12, top = 12, bottom = 11 }
+ }
 
-mtsSlpash = CreateFrame("Frame", nil,UIParent)
-mtsSlpash:SetPoint("CENTER",UIParent)
-mtsSlpash:SetWidth(512)
-mtsSlpash:SetHeight(256)
-mtsSlpash:SetBackdrop(backdrop)
-mtsSlpash:Hide()
-mtsSlpash.time = 0
 
-local function onUpdate(self,elapsed) 
-	if self.time < GetTime() - 2.0 then
-		if self:GetAlpha() == 0 then
-			self:Hide()
+
+local function onUpdate(mtsStart,elapsed) 
+	if mtsStart.time < GetTime() - 2.0 and mtsSplash.time < GetTime() - 2.0 then
+		if mtsStart:GetAlpha() == 0 and  mtsSplash:GetAlpha() then
+			mtsStart:Hide()
+			mtsSplash:Hide()
 		else 
-			self:SetAlpha(self:GetAlpha() - .05)
+			mtsStart:SetAlpha(mtsStart:GetAlpha() - .05)
+			mtsSplash:SetAlpha(mtsStart:GetAlpha() - .05)
 		end
 	end
 end
 
-function mtsSlpash()
-	self:SetAlpha(1)
-	self.time = GetTime() 
-	self:Show() 
-end
+mtsSplash = CreateFrame("Frame", nil,UIParent)
+mtsSplash:SetPoint("CENTER",UIParent)
+mtsSplash:SetWidth(512)
+mtsSplash:SetHeight(256)
+mtsSplash:SetBackdrop(backdrop)
+mtsSplash:SetScript("OnUpdate",onUpdate)
+mtsSplash:Hide()
+mtsSplash.time = 0
 
+	
+mtsStart = CreateFrame("Frame",nil,UIParent)
+mtsStart:SetWidth(400)
+mtsStart:SetHeight(30)
+mtsStart:Hide()
+mtsStart:SetScript("OnUpdate",onUpdate)
+mtsStart:SetPoint("TOP",0,0)
+mtsStart.text = mtsStart:CreateFontString(nil,"OVERLAY","MovieSubtitleFont")
+mtsStart.text:SetAllPoints()
+mtsStart.time = 0
+
+function mtsStart:message(message) 
+	mtsStart.text:SetText(message)
+	mtsStart:SetAlpha(1)
+	mtsSplash:SetAlpha(1)
+	mtsStart.time = GetTime()
+	mtsSplash.time = GetTime()
+	mtsStart:Show()
+	mtsSplash:Show()
+end

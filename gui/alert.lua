@@ -23,9 +23,6 @@ mtsAlert:SetScript("OnUpdate",onUpdate)
 mtsAlert:SetPoint("TOP",0,0)
 mtsAlert.text = mtsAlert:CreateFontString(nil,"OVERLAY","MovieSubtitleFont")
 mtsAlert.text:SetAllPoints()
-mtsAlert.texture = mtsAlert:CreateTexture()
-mtsAlert.texture:SetAllPoints()
-mtsAlert.texture:SetTexture(0,0,0,0.7)
 mtsAlert.time = 0
 
 function mtsAlert:message(message) 
