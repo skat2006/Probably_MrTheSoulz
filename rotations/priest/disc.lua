@@ -16,16 +16,13 @@ local exeOnLoad = function()
 
 end
 
-local Buffs = {
-	
-	{ "21562", {"!player.buff(21562).any","!player.buff(588)"}}, -- Fortitude
-	{ "81700", "player.buff(81661).count = 5" },--Archangel
-	{ "121536", {"player.moving", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
-	--{ "121536", {"tank.moving", "toggle.feather", "!tank.buff(121557)", "player.spell(121536).charges >= 1" }, "tank.ground" },
-
-}
-
 local Shared = {
+
+	-- buffs
+		{ "21562", {"!player.buff(21562).any","!player.buff(588)"}}, -- Fortitude
+		{ "81700", "player.buff(81661).count = 5" },--Archangel
+		{ "121536", {"player.moving", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		--{ "121536", {"tank.moving", "toggle.feather", "!tank.buff(121557)", "player.spell(121536).charges >= 1" }, "tank.ground" },
 	
 	--keybinds
 		{ "32375", "modifier.rcontrol", "ground" }, --Mass Dispel
@@ -113,38 +110,34 @@ local inCombat = {
 }
 
 local inCombatSolo = {
-	
-  -- Mana
-	{ "123040", {"player.mana < 75","target.spell(123040).range"}, "target" }, --Mindbender
-	{ "34433", {"player.mana < 75", "target.spell(34433).range" }, "target" }, --Shadowfiend
-	
-  --DPS
-    { "17", {"!player.debuff(6788).any","!player.buff(17).any","player.health <= 60"}}, --Power Word Shield
-	{ "2061", "player.health <= 35", "Player" }, --Flash Heal
-	{ "589", {"target.debuff(589).duration < 2","target.spell(589).range"}, "target" }, --Shadow Word:Pain
-	{ "129250", {"target.spell(129250).range"}, "target" }, -- Power Word: Solace
-	{ "14914", {"target.spell(14914).range"}, "target" }, --Holy Fire
-	{ "47540", "target.spell(47540).range", "target" }, --Penance 
-	{ "585", "target.spell(585).range", "target" },	--Smite
-	{ "32379", {"target.health < 20","target.spell(32379).range" }, "target" }, -- Shadow Word: Death
+
+  	-- Mana
+		{ "123040", { "player.mana < 75","target.spell(123040).range" }, "target" }, --Mindbender
+		{ "34433", { "player.mana < 75", "target.spell(34433).range" }, "target" }, --Shadowfiend
+
+	-- Heal
+		{ "17", { "!player.debuff(6788).any", "!player.buff(17).any", "player.health <= 60" }}, --Power Word Shield
+		{ "2061", "player.health <= 35", "Player" }, --Flash Heal
+
+  	--DPS
+		{ "589", { "target.debuff(589).duration < 2","target.spell(589).range"}, "target" }, --Shadow Word:Pain
+		{ "129250", { "target.spell(129250).range" }, "target" }, -- Power Word: Solace
+		{ "14914", { "target.spell(14914).range" }, "target" }, --Holy Fire
+		{ "47540", "target.spell(47540).range", "target" }, --Penance 
+		{ "585", "target.spell(585).range", "target" },	--Smite
+		{ "32379", {"target.health < 20","target.spell(32379).range" }, "target" }, -- Shadow Word: Death
 
 }
 
 local outCombat = {
 
-    { "21562", {"!player.buff(21562).any","!player.buff(588)"}}, -- Fortitude
-	{ "47540", {"lowest.health <= 85", "!player.moving" }, "lowest" }, --Penance
-	{ "2061", {"!player.moving","lowest.health <= 75" }, "lowest" }, --Flash Heal
-	{ "596", {"!player.moving","@coreHealing.needsHealing(90, 4)" }, "lowest" }, --Prayer of Healing
+	--Heal
+	    { "21562", { "!player.buff(21562).any","!player.buff(588)" }}, -- Fortitude
+		{ "47540", { "lowest.health <= 85", "!player.moving" }, "lowest" }, --Penance
+		{ "2061", { "!player.moving", "lowest.health <= 75" }, "lowest" }, --Flash Heal
+		{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 4)" }, "lowest" }, --Prayer of Healing
 
-{ "132157", "@mtsLib.FHFriendlyCheck('player', 2) >= 2", "lowest" }, -- Holy NOva
 }
-
-for _, Buffs in pairs(Buffs) do
-  inCombat[#inCombat + 1] = Buffs
-  inCombatSolo[#inCombatSolo + 1] = Buffs
-  outCombat[#outCombat + 1] = Buffs
-end
 
 for _, Shared in pairs(Shared) do
   inCombat[#inCombat + 1] = Shared
