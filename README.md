@@ -16,7 +16,7 @@ My profile requires the latest Version of PE from GITHUB
 Download link: https://github.com/ProbablyEngine/Probably  
   
 If you encounter any issues, report them at the forums.
-Forum: http://goo.gl/QEp17b  
+http://pe.phelps.io/forums/viewtopic.php?id=70&p=1
   
 Motivation:
 Own use and contributing to the PE comunity.
