@@ -105,6 +105,11 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
       	end
     end
 
+    if command == 'logo' then
+    	mtsStart:message("\124cff9482C9*Wanted To See Me?!*")
+    end
+
+
 	if command == 'help' or command == 'h' then
 		print("|cFF9482C9MTS Help:")
  	 	print("|cFFC41F3B/mts ver:|r Displays the version number.")
@@ -116,6 +121,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 		print('|cFFC41F3B/mts aoe:|r Enables/Disables aoe.')
 		print('|cFFC41F3B/mts kick:|r Enables/Disables interrupt.')
 		print("|cFFC41F3B/mts cds:|r Enables/Disables cooldowns.")
+		print("|cFFC41F3B/mts logo:|r Displays MTS Logo.")
 		print("|cFFC41F3BNeed more help?:|r http://adf.ly/t5PPj")
 	end
 
