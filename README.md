@@ -23,42 +23,47 @@ Having a fast and reliable rotation that does not use all your resources like ot
 
 <p align="center">
 Paladin - Protection:
-============================
 </p>
+```
 Control:  Fist of Justice OR Hammer of Justice
 Shift: Light´s Hammer
 Alt: Consecration IF glyphed
+```
 
 <p align="center">
 Paladin - Holy:
-============================
 </p>
+```
 Shift: Light´s Hammer
 Alt: Mouseover Focus
+```
 
 <p align="center">
 DeathKnight:
-============================
 </p>
+```
 Control: Death Grip
 Shift: Death and Decay
 Alt: Army of the Dead
+```
 
 <p align="center">
 Priest:
-============================
 </p>
+```
 Right Control: Mass Dispel
 Right Shift: Power Word: Barrier
 Right Alt: Mind Sear
 Left Control: Cascade / Halo / Divine Star
 Left Shift Spirit Shell
+```
 
 <p align="center">
 Warrior
-============================
 </p>
+```
 Alt: Charge
+```
 
   
 Donate Link: http://goo.gl/yrctPO  
