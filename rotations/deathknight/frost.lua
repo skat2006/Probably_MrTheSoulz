@@ -128,19 +128,17 @@ local inCombat = {
 
 	{{-- 1hand
 
-		{{ -- AoE
+		-- AoE
 
-	      	{ "50842", "modifier.last(Outbreak)" }, -- blood boil
-	      	{ "50842", "modifier.last(Plague Strike)" }, -- blood boil
-	      	{ "49184" }, -- Howling Blast
-	      	{ "49143", "player.runicpower >= 75" }, -- Frost Strike
-	      	{ "43265", "target.ground" }, -- Death and Decay
-	      	{ "45462", { "player.runes(unholy).count = 2", "player.spell(Death and Decay).cooldown" }}, -- Plague Strike
-      		{ "49143" },-- Frost Strike
+	      	{ "50842", { "modifier.last(Outbreak)", "modifier.multitarget" }}, -- blood boil
+	      	{ "50842", {"modifier.last(Plague Strike)", "modifier.multitarget" }}, -- blood boil
+	      	{ "49184", "modifier.multitarget", "target" }, -- Howling Blast
+	      	{ "49143", {"player.runicpower >= 75", "modifier.multitarget"}, "target" }, -- Frost Strike
+	      	{ "43265", "modifier.multitarget", "target.ground" }, -- Death and Decay
+	      	{ "45462", { "player.runes(unholy).count = 2", "player.spell(Death and Decay).cooldown", "modifier.multitarget" }}, -- Plague Strike
+      		{ "49143", "modifier.multitarget" },-- Frost Strike
 
-    }, "modifier.multitarget" },
-
-		{{ -- Single Target
+		 -- Single Target
 
 			{ "49143", "player.buff(Killing Machine)" },-- Frost Strike
 	      	{ "49143", "player.runicpower > 88" },-- Frost Strike
@@ -154,49 +152,39 @@ local inCombat = {
 	      	{ "49020", { "player.runes(unholy).count > 0", "!player.buff(Killing Machine)" }, "target" }, -- Obliterate
 	      	{ "49184" },--Howling Blast
 	      	{ "49143", "player.runicpower >= 40" },-- Frost Strike
-
-	     }, "!modifier.multitarget" },
 	     
 	 }, "player.onehand" },
 
 	{{-- 2Hand
 
 		
-	    {{ -- AoE
+	    -- AoE
 
-	      	{ "45529", { "player.buff(Blood Charge).count >= 5", "!player.runes(blood).count == 2", "!player.runes(frost).count == 2", "!player.runes(unholy).count == 2" }}, -- Blood Tap
-	      	{ "49184" }, -- Howling Blast
-	      	{ "49143", "player.runicpower >= 75" },-- Frost Strike
-	      	{ "45462", { "player.runes(unholy).count = 2", "player.spell(Death and Decay).cooldown" }}, -- Plague Strike
-	      	{ "49143" },-- Frost Strike
-    	
-    	}, "modifier.multitarget" },
+	      	{ "45529", { "player.buff(Blood Charge).count >= 5", "!player.runes(blood).count == 2", "!player.runes(frost).count == 2", "!player.runes(unholy).count == 2", "modifier.multitarget" }}, -- Blood Tap
+	      	{ "49184", "modifier.multitarget", "target" }, -- Howling Blast
+	      	{ "49143", {"player.runicpower >= 75", "modifier.multitarget" }, "target" },-- Frost Strike
+	      	{ "45462", { "player.runes(unholy).count = 2", "player.spell(Death and Decay).cooldown", "modifier.multitarget" }, "target" }, -- Plague Strike
+	      	{ "49143", "modifier.multitarget", "target" },-- Frost Strike
 
     
-	    {{ -- Single Target
+	    -- Single Target
 
 	      	{ "130735", "target.health < 35" }, -- Soul Reaper
 	      	{ "49184", "player.buff(Freezing Fog)" }, -- Howling Blast
 	      	
-	      	{{ -- If player less then 65% health
+	      	 -- If player less then 65% health
 
-	        	{ "49998", "player.buff(Killing Machine)" }, -- Death Strike
-	        	{ "49998", "player.runicpower <= 75" }, -- Death Strike
-
-	      	}, "player.health <= 65"},
+	        	{ "49998", {"player.buff(Killing Machine)", "player.health < 65"}, "target" }, -- Death Strike
+	        	{ "49998", {"player.runicpower <= 75", "player.health < 65"}, "target" }, -- Death Strike
 		    
-		    {{ -- If player more then 65% health
+		     -- If player more then 65% health
 
-		        { "49020", "player.buff(Killing Machine)" }, -- Obliterate
-		    	{ "49020", "player.runicpower <= 75" }, -- Obliterate
-
-		    }, "player.health > 65"},
+		        { "49020", {"player.buff(Killing Machine)", "player.health > 65"}, "target" }, -- Obliterate
+		    	{ "49020", {"player.runicpower <= 75", "player.health > 65"}, "target" }, -- Obliterate
 
 	      	{ "45529", "player.buff(Blood Charge).count >= 5" }, -- Blood Tap
 	      	{ "49143", "!player.buff(Killing Machine)" }, -- Frost Strike
 	      	{ "49143", "player.spell(Obliterate).cooldown >= 4" }, -- Frost Strike
-
-	    }, "!modifier.multitarget" },
 
 	}, "player.twohand" },
   
