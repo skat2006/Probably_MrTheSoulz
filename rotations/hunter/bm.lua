@@ -1,3 +1,9 @@
+ProbablyEngine.library.register('coreHunter', {
+    petInRange = function()
+        return (IsSpellInRange('Growl', 'target') == 1)
+    end,
+})
+
 local lib = function()
 	
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
@@ -42,14 +48,14 @@ local inCombat = {
 
 	-- aoe
 		{"Multi-Shot", "modifer.multitarget", "target" },
-		{"Explosive Trap", "modifer.multitarget", "target.ground"}
+		{"Explosive Trap", "modifer.multitarget", "target.ground"},
 
 	-- Rotation
-		{"Kill Command"}
+		{"Kill Command"},
 		{"Kill Shot", "target.health <= 20", "target"},
 		{"Focus Fire", "player.buff(Frenzy)", "target"},
 		{"Arcane Shot", "player.focus > 60", "target"},
-		{"Cobra Shot", "player.focus < 60". "target"},
+		{"Cobra Shot", "player.focus < 60", "target"},
   
 } 
 
