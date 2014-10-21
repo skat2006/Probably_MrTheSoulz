@@ -72,7 +72,7 @@ local inCombat = {
 
 	-- AOE Rotation
 		{ "31935", { "modifier.multitarget", "player.buff(Grand Crusader)" }, "target" }, -- Avenger's Shield
-		{ "53595", { "target.spell(Crusader Strike).range", "modifier.multitarget" } }, -- Hammer of the Righteou
+		{ "53595", { "target.spell(Crusader Strike).range", "modifier.multitarget" } }, -- Hammer of the Righteous
 		{ "20271", "modifier.multitarget" }, -- Judgment
 		{ "119072", { "modifier.multitarget", "target.spell(Crusader Strike).range", "talent(5, 2)", "!toggle.smartAOE" } }, -- Holy Wrath
 		{ "114165", { "modifier.multitarget", "target.spell(Crusader Strike).range", "talent(5, 1)" }, "player" }, -- Holy Prism

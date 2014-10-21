@@ -100,9 +100,6 @@ local inCombat = {
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
-	-- Just Do it!
-		{ "50842",	{"modifier.multitarget", "target.range < 35", "modifier.last(77575)" }}, -- Blood Boil
-
 	-- items
 		{ "#5512", "player.health < 70"}, --healthstone
 	

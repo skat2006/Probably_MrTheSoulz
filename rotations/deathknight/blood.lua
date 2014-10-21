@@ -118,8 +118,8 @@ local inCombat = {
 		{ "77575", "target.debuff(55078).duration < 2" }, -- Outbreak
 
 	-- Multi-target
-		{ "50842",	{"modifier.multitarget","target.range <= 35" }}, -- Blood Boil
-		{ "50842",	{"player.buff(Crimson Scourge)","target.range <= 10" }}, -- Blood Boil
+		{ "50842",	"UnitsAroundUnit(player, 35[, 5])"}, -- Blood Boil
+		{ "50842",	{"player.buff(Crimson Scourge)","target.range <= 35" }}, -- Blood Boil
 
 	-- Rotation
 		{ "47541", "player.runicpower >= 90", "target" }, -- Death Coil // Full runic
