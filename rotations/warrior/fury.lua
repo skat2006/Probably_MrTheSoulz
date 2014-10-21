@@ -41,10 +41,10 @@ local inCombat = {
 	-- Cooldowns
 		--{ "", "modifier.cooldowns" }, -- **
 	
-	-- Items
+	--[[ Items
 		{ "#5512" }, --Healthstone
-		{ "#76097", "player.health < 30", "@mtsLib.HealthPot" }, -- Master Health Potion
-		--{ "#86125", { "@mtsLib.getConfig('WarFuryItems')","@mtsLib.KafaPress" }}, -- Kafa Press
+		{ "#76097", "player.health < 30", "@mtsLib.checkItem(HealthPot)" }, -- Master Health Potion
+		{ "#86125", { "modifier.cooldowns","@mtsLib.checkItem(KafaPress)" }}, -- Kafa Press]]
 
     -- Auto Target
     	{ "/TargetNearestEnemy", "!target.exists" },
