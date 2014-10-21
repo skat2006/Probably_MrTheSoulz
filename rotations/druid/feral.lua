@@ -73,13 +73,12 @@ local inCombat = {
 	--{ "102355", { "!target.debuff(102355)", "player.spell(106707).exists" }, "target" }, -- Faerie swarm
 
 	-- Free Thrash
-  		{ "Thrash", "player.buff(Omen of Clarity)" },
+  		{ "Thrash", "player.buff(Omen of Clarity)", "target" },
 
-	{{-- AoE
+	-- AoE
 		{ "22568", "player.combopoints = 5" },
-		{ "106830", { "modifier.multitarget", "!target.debuff(Thrash).duration >= 1.5" }}, -- Tharsh
-		{ "106785", { "modifier.multitarget", "!target.debuff(Thrash).duration <= 1.5" }}, -- Swipe
-	}, "modifier.multitarget", function() return UnitsAroundUnit('target', 6) >= 2 end },	
+		{ "106830", { "modifier.multitarget", "!target.debuff(Thrash).duration >= 1.5", "modifier.multitarget" }, "target" }, -- Tharsh
+		{ "106785", { "modifier.multitarget", "!target.debuff(Thrash).duration <= 1.5", "modifier.multitarget" }}, -- Swipe	
 
  -- {{ -- dont use if AEO
   	-- Rake

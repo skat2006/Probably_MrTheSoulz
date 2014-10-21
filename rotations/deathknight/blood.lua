@@ -68,7 +68,7 @@ local inCombat = {
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
 	-- Just Do it!
-		{ "50842",	{"modifier.multitarget", function() return UnitsAroundUnit('target', 6) >= 3 end, "modifier.last(77575)" }}, -- Blood Boil
+		{ "50842",	{"modifier.multitarget", "target.range < 35", "modifier.last(77575)" }}, -- Blood Boil
 
 	-- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
@@ -117,7 +117,7 @@ local inCombat = {
 		{ "77575", "target.debuff(55078).duration < 2" }, -- Outbreak
 
 	-- Multi-target
-		{ "50842",	{"modifier.multitarget","target.range <= 35", function() return UnitsAroundUnit('target', 35) >= 3 end }}, -- Blood Boil
+		{ "50842",	{"modifier.multitarget","target.range <= 35" }, -- Blood Boil
 		{ "50842",	{"player.buff(Crimson Scourge)","target.range <= 10" }}, -- Blood Boil
 
 	-- Rotation

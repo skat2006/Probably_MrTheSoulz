@@ -80,7 +80,7 @@ local inCombat = {
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
 	-- Just Do it!
-		{ "50842",	{"modifier.multitarget", function() return UnitsAroundUnit('target', 6) >= 3 end, "modifier.last(77575)" }}, -- Blood Boil
+		{ "50842",	{"modifier.multitarget", "target.range < 35", "modifier.last(77575)" }}, -- Blood Boil
 
 	-- items
 		{ "#5512", "player.health < 70"}, --healthstone
