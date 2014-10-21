@@ -21,6 +21,9 @@ local Shared = {
 
 local inCombat = {
 		
+	-- Pause if fake death
+		{ "pause","player.buff(5384)" }, -- Pause for Feign Death
+
 	-- Cancel ceetah
 		{"/cancelaura Aspect of the cheetah", "player.buff(5118)"},
 
@@ -38,7 +41,10 @@ local inCombat = {
 	-- Pet
   		{ "!/cast [@pet,dead] Revive Pet; Call Pet 1", {"!pet.alive","toggle.resspet"} },
   		{ "!/cast [@pet,dead] Revive Pet; Call Pet 1", {"!pet.exists","toggle.resspet"} },
-  		{"53271", "pet.root"},
+  		{ "53271", "player.state.stun" }, -- Mastrer's Call
+   		{ "53271", "player.state.root" }, -- Mastrer's Call
+   		{ "53271", "player.state.snare" }, -- Mastrer's Call
+  		{ "136", { "pet.health <= 75", "pet.exists", "!pet.buff(Mend Pet)" }}, -- mend pet
 
 	-- Interrupts
   		{ "147362", { "modifier.interrupts", "player.spell(147362).cooldown = 0" }}, -- counter Shot
@@ -51,7 +57,6 @@ local inCombat = {
 	-- Survival
   		{ "19263", "player.health < 40" },--Deterrence
   		{ "109304", "player.health < 40" },--Exhilaration
-  		{ "136", { "pet.health <= 75", "pet.exists", "!pet.buff(Mend Pet)" }}, -- mend pet
 
 	-- Auto Target
 		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
