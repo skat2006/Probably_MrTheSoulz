@@ -65,4 +65,4 @@ for _, Shared in pairs(Shared) do
 end
 
 
-ProbablyEngine.rotation.register_custom(65, "|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Holy|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(253, "|r[|cff9482C9MTS|r][|cffF58CBAHunter-BM|r]", inCombat, outCombat, lib)
