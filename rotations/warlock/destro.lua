@@ -48,7 +48,7 @@ local inCombat = {
 	  	{"Shadowburn", "target health <=20", "target"},
 	  	{"Immolate", "target.debuff(Immolate).cooldown <=4.", "target"},
 	  	{"Conflagrate", "player.spell(Conflagrate).charges >= 2", "target"},
-	  	{"Chaos Bolt", "!modifier.last(Chaos Bolt)", "player.embers >= 35"}, "target"},
+	  	{"Chaos Bolt", {"!modifier.last(Chaos Bolt)", "player.embers >= 35"}, "target"},
 		{"Chaos Bolt", "player.buff(Dark Soul: Instability)", "target"},
 		{"Chaos Bolt", "player.buff(Skull Banner)", "target"},
 	  	{"Conflagrate" },
