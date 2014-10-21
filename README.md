@@ -1,8 +1,12 @@
 <p align="center">
   <img src="http://s27.postimg.org/8s85mljbn/splash.png"/>
-  If you would like to help out, code contributions, feedback, error reports are more then welcome :)
 </p>
 - - - -
+<p align="center">
+	If you would like to help out, code contributions, feedback, error reports are more then welcome :)
+</p>
+
+
 
 About:  
 ============================
@@ -22,7 +26,7 @@ Having a fast and reliable rotation that does not use all your resources like ot
 
 
 <p align="center">
-Paladin - Protection:
+	Paladin - Protection:
 </p>
 ```
 Control:  Fist of Justice OR Hammer of Justice
@@ -31,7 +35,7 @@ Alt: Consecration IF glyphed
 ```
 
 <p align="center">
-Paladin - Holy:
+	Paladin - Holy:
 </p>
 ```
 Shift: Light´s Hammer
@@ -39,7 +43,7 @@ Alt: Mouseover Focus
 ```
 
 <p align="center">
-DeathKnight:
+	DeathKnight:
 </p>
 ```
 Control: Death Grip
@@ -48,7 +52,7 @@ Alt: Army of the Dead
 ```
 
 <p align="center">
-Priest:
+	Priest:
 </p>
 ```
 Right Control: Mass Dispel
@@ -59,7 +63,7 @@ Left Shift Spirit Shell
 ```
 
 <p align="center">
-Warrior
+	Warrior
 </p>
 ```
 Alt: Charge
