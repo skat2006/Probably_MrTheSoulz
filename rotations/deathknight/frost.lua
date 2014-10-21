@@ -5,6 +5,19 @@ Thank You For Using My ProFiles
 I Hope Your Enjoy Them
 MTS
 ]]
+local _darkSimSpells = {
+-- siege of orgrimmar
+"Froststorm Bolt","Arcane Shock","Rage of the Empress","Chain Lightning",
+-- pvp
+"Hex","Mind Control","Cyclone","Polymorph","Pyroblast","Tranquility","Divine Hymn","Hymn of Hope","Ring of Frost","Entangling Roots"
+}
+
+function DarkSimUnit(unit)
+	for index,spellName in pairs(_darkSimSpells) do
+		if ProbablyEngine.condition["casting"](unit, spellName) then return true end
+	end
+		return false
+end
 
 ProbablyEngine.condition.register('twohand', function(target)
   return IsEquippedItemType("Two-Hand")
@@ -100,8 +113,8 @@ local inCombat = {
 		{ "108194", { "target.interruptsAt(50)", "!modifier.last(47528)" }, "target" }, -- Asphyxiate
 
 	-- Spell Steal
-		{ "77606", "@mtsLib.shoulDarkSimUnit('target')", "target" }, -- Dark Simulacrum
-		{ "77606", "@mtsLib.shoulDarkSimUnit('focus')", "focus" },  -- Dark Simulacrum
+		{ "77606", DarkSimUnit('target'), "target" }, -- Dark Simulacrum
+		{ "77606", DarkSimUnit('focus'), "focus" },  -- Dark Simulacrum
 
 	-- Disease's
 		{ "115989", "target.debuff(55095).duration < 2" }, -- Unholy Blight

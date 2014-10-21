@@ -9,11 +9,7 @@ gui\splash.lua
 gui\alert.lua
 libs\lib.lua
 libs\dotTracker.lua
-libs\tracker.lua
 libs\bossTaunts.lua
-classlibs\dk.lua
-classlibs\druid.lua
-classlibs\paladin.lua
 rotations\paladin\protection.lua
 rotations\paladin\holy.lua
 rotations\druid\resto.lua
