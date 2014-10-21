@@ -18,8 +18,12 @@ Motivation:
 Own use and contributing to the PE comunity.
 Having a fast and reliable rotation that does not use all your resources like other bots.
 
+
+
+
 <p align="center">
 Paladin - Protection:
+============================
 </p>
 Control:  Fist of Justice OR Hammer of Justice
 Shift: Light´s Hammer
@@ -27,12 +31,14 @@ Alt: Consecration IF glyphed
 
 <p align="center">
 Paladin - Holy:
+============================
 </p>
 Shift: Light´s Hammer
 Alt: Mouseover Focus
 
 <p align="center">
 DeathKnight:
+============================
 </p>
 Control: Death Grip
 Shift: Death and Decay
@@ -40,6 +46,7 @@ Alt: Army of the Dead
 
 <p align="center">
 Priest:
+============================
 </p>
 Right Control: Mass Dispel
 Right Shift: Power Word: Barrier
@@ -49,8 +56,10 @@ Left Shift Spirit Shell
 
 <p align="center">
 Warrior
-Alt: Charge
+============================
 </p>
+Alt: Charge
+
   
 Donate Link: http://goo.gl/yrctPO  
   
