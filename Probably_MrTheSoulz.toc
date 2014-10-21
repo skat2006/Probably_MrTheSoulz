@@ -20,3 +20,4 @@ rotations\deathknight\frost.lua
 rotations\monk\windwalker.lua
 rotations\warrior\fury.lua
 rotations\priest\disc.lua
+rotations\warlock\destro.lua
