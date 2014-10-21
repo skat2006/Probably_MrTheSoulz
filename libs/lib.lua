@@ -18,7 +18,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mtsLib.ConfigAlertSound()
-		mtsAlert:message('MrTheSoulz Version: 0.2.0')
+		mtsAlert:message('MrTheSoulz Version: 0.2.1')
 	end
 	
 	-- Enabled/Disable Whispers
@@ -51,6 +51,17 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 		end
 	end
 
+	-- -- Enabled/Disable PE
+	if command == 'toggle' then
+    	if ProbablyEngine.config.read('button_states', 'MasterToggle', false) then
+        	ProbablyEngine.buttons.toggle('MasterToggle')
+        	mtsAlert:message("|cFFB30000Rotation off")
+    	else
+        	ProbablyEngine.buttons.toggle('MasterToggle')
+        	mtsAlert:message("|cFF00B34ARotation on")
+    	end
+  	end
+
 	-- Enabled/Disable Taunts
 	if command == 'taunts' or command == 'taunt' or command == 't' then
 	mtsLib.taunt = not mtsLib.taunt
@@ -60,7 +71,54 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 			mtsAlert:message('*Taunts Disabled*.')
 		end
 	end
-			
+
+	-- Enabled/Disable Interrupts
+	if command == 'kick' or command == 'interrupt' then
+    	if ProbablyEngine.config.read('button_states', 'interrupt', false) then
+      		ProbablyEngine.buttons.toggle('interrupt')
+      		mtsAlert:message("|cFFB30000Interrupts off")
+    	else
+      		ProbablyEngine.buttons.toggle('interrupt')
+      		mtsAlert:message("|cFF00B34AInterrupts on")
+    	end
+  	end
+
+  	-- Enabled/Disable cooldowns
+  	if command == 'cds' or command == 'cooldowns' then
+    	if ProbablyEngine.config.read('button_states', 'cooldowns', false) then
+      		ProbablyEngine.buttons.toggle('cooldowns')
+      		mtsAlert:message("|cFFB30000Offensive Cooldowns off")
+    	else
+      		ProbablyEngine.buttons.toggle('cooldowns')
+      		mtsAlert:message("|cFF00B34AOffensive Cooldowns on")
+    	end
+  	end
+
+  	-- Enabled/Disable aoe
+	if command == 'aoe' then
+    	if ProbablyEngine.config.read('button_states', 'multitarget', false) then
+      		ProbablyEngine.buttons.toggle('multitarget')
+      		mtsAlert:message("|cFFB30000AoE off")
+    	else
+      		ProbablyEngine.buttons.toggle('multitarget')
+      		mtsAlert:message("|cFF00B34AAoE on")
+      	end
+    end
+
+	if command == 'help' or command == 'h' then
+		print("|cFF9482C9MTS Help:")
+ 	 	print("|cFFC41F3B/mts ver:|r Displays the version number.")
+  		print("|cFFC41F3B/mts wisps:|r Enables/Disables whispers after a cast.")
+  		print("|cFFC41F3B/mts alerts:|r Enables/Disables Alerts.")
+		print("|cFFC41F3B/mts sounds:|r Enables/Disables sounds.")
+		print('|cFFC41F3B/mts taunts:|r Enables/Disables "smart" Taunts.')
+		print('|cFFC41F3B/mts toggle:|r Enables/Disables PE.')
+		print('|cFFC41F3B/mts aoe:|r Enables/Disables aoe.')
+		print('|cFFC41F3B/mts kick:|r Enables/Disables interrupt.')
+		print("|cFFC41F3B/mts cds:|r Enables/Disables cooldowns.")
+		print("|cFFC41F3BNeed more help?:|r http://adf.ly/t5PPj")
+	end
+
 end)
 
 --[[   !!!Dispell function!!!   ]]
@@ -91,7 +149,7 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 		end
 	end
 		return false
-end
+end 
 
 --[[   !!!Check if should taunt!!!   ]]
 function mtsLib.ShouldTaunt()
