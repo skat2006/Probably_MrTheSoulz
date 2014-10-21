@@ -8,7 +8,7 @@ local lib = function()
 	
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create('resspet', 'Interface\\Icons\\Inv_misc_head_tiger_01.png', 'Auto Ress Pet', 'Automatically ress your pet when it dies.')
-	mtsStart:message("\124cff9482C9*MrTheSoulz - \124cffC41F3BDeathKnight/Blood \124cff9482C9Loaded*")
+	mtsStart:message("\124cff9482C9*MrTheSoulz - \124cffABD473Hunter/BM \124cff9482C9Loaded*")
 
 end
 
@@ -90,4 +90,4 @@ for _, Shared in pairs(Shared) do
 end
 
 
-ProbablyEngine.rotation.register_custom(253, "|r[|cff9482C9MTS|r][|cffF58CBAHunter-BM|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(253, "|r[|cff9482C9MTS|r][|cffABD473Hunter-BM|r]", inCombat, outCombat, lib)
