@@ -41,18 +41,18 @@ local inCombat = {
   		{ "Fel Flame", {"!player.spell(Kil'jaeden's Cunning).exists", "player.moving"} }, 	
 
 	-- AOE
-		{"Fire and Brimstone", {"modifier.multitarget","modifer.enemies > 4"}, "target"}
-		{"Havoc", {"modifier.multitarget","modifer.enemies < 4"}, "target"}
+		{"Fire and Brimstone", {"modifier.multitarget","modifer.enemies > 4"}, "target"},
+		{"Havoc", {"modifier.multitarget","modifer.enemies < 4"}, "target"},
 
   	-- Rotation
-	  	{"Shadowburn", "target health <=20", "target"}
-	  	{"Immolate", "target.debuff(Immolate).cooldown <=4.", "target"}
-	  	{"Conflagrate", "player.spell(Conflagrate).charges >= 2", "target"}
+	  	{"Shadowburn", "target health <=20", "target"},
+	  	{"Immolate", "target.debuff(Immolate).cooldown <=4.", "target"},
+	  	{"Conflagrate", "player.spell(Conflagrate).charges >= 2", "target"},
 	  	{"Chaos Bolt", "!modifier.last(Chaos Bolt)", "player.embers >= 35"}, "target"},
 		{"Chaos Bolt", "player.buff(Dark Soul: Instability)", "target"},
 		{"Chaos Bolt", "player.buff(Skull Banner)", "target"},
 	  	{"Conflagrate" },
-	  	{"Incinerate" }
+	  	{"Incinerate" },
 
 
 }
