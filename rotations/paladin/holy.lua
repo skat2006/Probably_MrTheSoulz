@@ -13,7 +13,7 @@ local lib = function()
 
 end
 
-local Buffs = {
+local Shared = {
 
 	-- Buffs
 		{ "19740", { "!player.buff(19740).any", "!player.buff(116956).any", "!player.buff(93435).any", "!player.buff(128997).any", "!toggle.buff" }}, -- Blessing of Might
@@ -22,9 +22,31 @@ local Buffs = {
 	-- Seals
 		{ "20165", "player.seal != 3" }, -- Seal of Insight
 
+
 }
 
 local inCombat = {
+	
+	--Racials
+        -- Dwarves
+			{ "20594", "player.health <= 65" },
+		-- Humans
+			{ "59752", "player.state.charm" },
+			{ "59752", "player.state.fear" },
+			{ "59752", "player.state.incapacitate" },
+			{ "59752", "player.state.sleep" },
+			{ "59752", "player.state.stun" },
+		-- Draenei
+			{ "28880", "player.health <= 70", "player" },
+		-- Gnomes
+			{ "20589", "player.state.root" },
+			{ "20589", "player.state.snare" },
+		-- Forsaken
+			{ "7744", "player.state.fear" },
+			{ "7744", "player.state.charm" },
+			{ "7744", "player.state.sleep" },
+		-- Goblins
+			{ "69041", "player.moving" },
 
 	-- keybinds
 		{ "114158", "modifier.shift", "target.ground"}, -- Light´s Hammer
@@ -35,13 +57,15 @@ local inCombat = {
 		{ "54428", "player.mana < 85", nil }, -- Divine Plea
 		{ "#trinket1", "player.mana < 85", nil }, -- Trinket 1
 		{ "#trinket2", "player.mana < 85", nil }, -- Trinket 2
-	
+
+	-- Tank
+		{ "53563", { "!tank.buff(53563)", "tank.spell(53563).range" }, "tank" }, -- Beacon of light
+
 	-- Interrupts
 		{ "96231", "modifier.interrupts", "target" }, -- Rebuke
 		
 	-- Hands
 		{ "6940", { "tank.spell(6940).range", "tank.health < 40" }, "tank" }, -- Hand of Sacrifice
-		{ "1044", "player.state.root" }, -- Hand of Freedom
 
 	-- Survival
 		{ "#5512", "player.health <= 45", nil }, -- Healthstone       
@@ -107,7 +131,6 @@ local inCombat = {
 		{ "35395", "target.spell(35395).range", "target" }, -- Crusader Strike
 		
 	-- Tank
-		{ "53563", { "!tank.buff(53563)", "tank.spell(53563).range" }, "tank" }, -- Beacon of light
 		{ "114157", "tank.health < 85", "tank" }, -- Execution Sentence
 		{ "114163", { "player.holypower >= 3", "!tank.buff(114163)", "tank.health <= 75" }, "tank" }, -- Eternal Flame
 		{ "20925", { "spell.charges(20925) >= 1", "tank.health < 95", "!tank.buff(148039)", "tank.spell(20925).range", "!modifier.last" }, "tank" }, -- Sacred Shield
@@ -121,31 +144,19 @@ local inCombat = {
 } 
 
 local outCombat = {
-
+	
 	-- keybinds
 		{ "114158", "modifier.shift", "target.ground"}, -- Light´s Hammer
 		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
 
-	-- Mana Regen
-		{ "28730", "player.mana < 90", nil }, -- Arcane torrent
-		{ "54428", "player.mana < 85", nil }, -- Divine Plea
-		{ "#trinket1", "player.mana < 85", nil }, -- Trinket 1
-		{ "#trinket2", "player.mana < 85", nil }, -- Trinket 2
-
-	-- Hands
+	-- hands
 		{ "1044", "player.state.root" }, -- Hand of Freedom
- 
-	-- Tank
-		{ "53563", { "!tank.buff(53563)", "tank.spell(53563).range" }, "tank" }, -- Beacon of light
 
-	-- Healing
-		{ "20473", "lowest.health < 100", "lowest" }, -- Holy Shock	
-  
 }
 
-for _, Buffs in pairs(Buffs) do
-  inCombat[#inCombat + 1] = Buffs
-  outCombat[#outCombat + 1] = Buffs
+for _, Shared in pairs(Shared) do
+  inCombat[#inCombat + 1] = Shared
+  outCombat[#outCombat + 1] = Shared
 end
 
 

@@ -12,7 +12,7 @@ local exeOnLoad = function()
 
 end
 
-local Buffs = {
+local Shared = {
 
 	--	Buffs
 		{ "1126", { -- Mark of the Wild
@@ -28,7 +28,28 @@ local Buffs = {
 }
 
 local inCombat = {
-  
+
+	--Racials
+        -- Dwarves
+			{ "20594", "player.health <= 65" },
+		-- Humans
+			{ "59752", "player.state.charm" },
+			{ "59752", "player.state.fear" },
+			{ "59752", "player.state.incapacitate" },
+			{ "59752", "player.state.sleep" },
+			{ "59752", "player.state.stun" },
+		-- Draenei
+			{ "28880", "player.health <= 70", "player" },
+		-- Gnomes
+			{ "20589", "player.state.root" },
+			{ "20589", "player.state.snare" },
+		-- Forsaken
+			{ "7744", "player.state.fear" },
+			{ "7744", "player.state.charm" },
+			{ "7744", "player.state.sleep" },
+		-- Goblins
+			{ "69041", "player.moving" },
+
 	--	keybinds
 		{ "77761", "modifier.rshift" }, -- Stampeding Roar
 		{ "5211", "modifier.lcontrol" }, -- Mighty Bash
@@ -53,10 +74,7 @@ local inCombat = {
 	-- Auto Target
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
-	
-	--	Buffs
-		{ "1126", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "player.form = 0" }, nil }, -- Mark of the Wild
-	
+
 	{{-- Interrupts
 		{ "80964" }, -- skull bash
 		{ "132469" }, -- typhoon
@@ -131,9 +149,9 @@ local outCombat = {
 
 }
 
-for _, Buffs in pairs(Buffs) do
-  inCombat[#inCombat + 1] = Buffs
-  outCombat[#outCombat + 1] = Buffs
+for _, Shared in pairs(Shared) do
+  inCombat[#inCombat + 1] = Shared
+  outCombat[#outCombat + 1] = Shared
 end
 
 ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Guardian|r]", inCombat, outCombat, exeOnLoad)

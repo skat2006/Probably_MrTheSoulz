@@ -13,64 +13,84 @@ local exeOnLoad = function()
 
 end
 
-local Buffs = {
+local Shared = {
 
 	--	Buffs
 		{ "1126", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "player.form = 0" }}, -- Mark of the Wild
+		{ "/cancelaura Cat Form", { "player.buff(Cat Form)", "!player.buff(Mark of the Wild)" }},
 
 }
 
 local inCombat = {
   
-  -- Survival
-	  { "Renewal", "player.health <= 30" },
-	  { "Cenarion Ward", "player.health <75" },
-	  { "Survival Instincts", "player.health <75" },
-	  { "Cenarion Ward", "player.health <75" },
-	  { "Might of Ursoc", "player.health <= 45" },
-  
-  -- Cat
+  	--Racials
+        -- Dwarves
+			{ "20594", "player.health <= 65" },
+		-- Humans
+			{ "59752", "player.state.charm" },
+			{ "59752", "player.state.fear" },
+			{ "59752", "player.state.incapacitate" },
+			{ "59752", "player.state.sleep" },
+			{ "59752", "player.state.stun" },
+		-- Draenei
+			{ "28880", "player.health <= 70", "player" },
+		-- Gnomes
+			{ "20589", "player.state.root" },
+			{ "20589", "player.state.snare" },
+		-- Forsaken
+			{ "7744", "player.state.fear" },
+			{ "7744", "player.state.charm" },
+			{ "7744", "player.state.sleep" },
+		-- Goblins
+			{ "69041", "player.moving" },
+
+  	--	keybinds
+	  	{ "Ursol's Vortex", "modifier.shift", "ground" },
+	  	{ "Disorienting Roar", "modifier.shift" },
+	  	{ "Mighty Bash", "modifier.shift" },
+	  	{ "Typhoon", "modifier.alt" },
+	  	{ "Mass Entanglement", "modifier.shift" },
+
+	--Run fast
+  		{ "1850", { "target.boss", "target.range >= 30" }},
+
+  	-- Cat
   		{ "Cat Form", "!player.buff(Cat Form)" },
 
-  -- Auto Target
+  	-- Auto Target
 		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
-  --Run fast
-  	{ "1850", { "target.boss", "target.range >= 30" }},
+  	-- Survival
+	  	{ "Renewal", "player.health <= 30" },
+	  	{ "Cenarion Ward", "player.health <75" },
+	  	{ "Survival Instincts", "player.health <75" },
+	  	{ "Cenarion Ward", "player.health <75" },
+	  	{ "Might of Ursoc", "player.health <= 45" },
+	  	{ "Healing Touch", { "player.buff(Predatory Swiftness)", "player.health <= 70" }},
+  		{ "Regrowth", { "player.buff(Predatory Swiftness)", "player.health <= 90" }},
 
-  --Cooldowns
-	  { "106737", { "player.spell(106737).charges > 2", "!modifier.last(106737)", "player.spell(106737).exists" }}, --Force of Nature
-	  { "106951", "modifier.cooldowns" }, -- Beserk
-	  { "124974", "modifier.cooldowns" }, -- Nature's Vigil
-	  { "102543", "modifier.cooldowns" }, -- incarnation
+  	--Cooldowns
+	  	{ "106737", { "player.spell(106737).charges > 2", "!modifier.last(106737)", "player.spell(106737).exists" }}, --Force of Nature
+	  	{ "106951", "modifier.cooldowns" }, -- Beserk
+	  	{ "124974", "modifier.cooldowns" }, -- Nature's Vigil
+	  	{ "102543", "modifier.cooldowns" }, -- incarnation
 
--- Tiger's Fury // Spend Combo
-  	{ "Tiger's Fury", "player.energy <= 35"},
+	-- Tiger's Fury // Spend Combo
+  		{ "Tiger's Fury", "player.energy <= 35"},
 
-  --Keybinds
-	  { "Ursol's Vortex", "modifier.shift", "ground" },
-	  { "Disorienting Roar", "modifier.shift" },
-	  { "Mighty Bash", "modifier.shift" },
-	  { "Typhoon", "modifier.alt" },
-	  { "Mass Entanglement", "modifier.shift" },
+  	--Interrupts
+	  	{ "Skull Bash", { "target.casting", "modifier.interrupt" }},	
+	  	{ "Disorienting Roar", "modifier.interrupt" },
+	  	{ "Mighty Bash", "modifier.interrupt" },
 
-  --Interrupts
-	  { "Skull Bash", { "target.casting", "modifier.interrupt" }},	
-	  { "Disorienting Roar", "modifier.interrupt" },
-	  { "Mighty Bash", "modifier.interrupt" },
-
-  -- Self Heals
-  	{ "Healing Touch", { "player.buff(Predatory Swiftness)", "player.health <= 70" }},
-  	{ "Regrowth", { "player.buff(Predatory Swiftness)", "player.health <= 90" }},
-
-  -- Buffs
-	{ "Savage Roar", { "!player.buff(Savage Roar)", "player.combopoints = 0", "!player.combat", "target.enemy" }},
-	{ "Savage Roar", { "player.buff(Savage Roar).duration < 5", "player.combopoints = 5" }},
-	{ "Savage Roar", { "player.buff(Savage Roar).duration < 3", "player.combopoints >= 2" }},
-	{ "Faerie Fire", { "!target.debuff(Faerie Fire)", "!player.spell(106707).exists" }, "target" }, -- Faerie Fire
-	--{ "102355", { "!target.debuff(102355)", "player.spell(106707).exists" }, "target" }, -- Faerie swarm
+  	-- Buffs
+		{ "Savage Roar", { "!player.buff(Savage Roar)", "player.combopoints = 0", "!player.combat", "target.enemy" }},
+		{ "Savage Roar", { "player.buff(Savage Roar).duration < 5", "player.combopoints = 5" }},
+		{ "Savage Roar", { "player.buff(Savage Roar).duration < 3", "player.combopoints >= 2" }},
+		{ "Faerie Fire", { "!target.debuff(Faerie Fire)", "!player.spell(106707).exists" }, "target" }, -- Faerie Fire
+		--{ "102355", { "!target.debuff(102355)", "player.spell(106707).exists" }, "target" }, -- Faerie swarm
 
 	-- Free Thrash
   		{ "Thrash", "player.buff(Omen of Clarity)", "target" },
@@ -105,24 +125,19 @@ local inCombat = {
 }
 
 local outCombat = {
-
+	
 	--	keybinds
-		{ "Ursol's Vortex", "modifier.shift", "ground" },
+	  	{ "Ursol's Vortex", "modifier.shift", "ground" },
 	  	{ "Disorienting Roar", "modifier.shift" },
-	 	{ "Mighty Bash", "modifier.shift" },
+	  	{ "Mighty Bash", "modifier.shift" },
 	  	{ "Typhoon", "modifier.alt" },
 	  	{ "Mass Entanglement", "modifier.shift" },
-	{{-- Go cat and grow
-		{ "Cat Form", { "player.buff(Mark of the Wild).any", "!player.buff(Cat Form)" }},
-		{ "Prowl", { "player.buff(Cat Form)", "target.enemy" }},
-	}, "toggle.cat" },
-	{ "/cancelaura Cat Form", { "player.buff(Cat Form)", "!player.buff(Mark of the Wild)" }},
 
 }
 
-for _, Buffs in pairs(Buffs) do
-  inCombat[#inCombat + 1] = Buffs
-  outCombat[#outCombat + 1] = Buffs
+for _, Shared in pairs(Shared) do
+  inCombat[#inCombat + 1] = Shared
+  outCombat[#outCombat + 1] = Shared
 end
 
 ProbablyEngine.rotation.register_custom(103, "|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Feral|r]", inCombat, outCombat, exeOnLoad)

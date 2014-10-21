@@ -14,34 +14,36 @@ local lib = function()
 end
 
 
-local Buffs = {
+local Shared = {
 
 	-- Buffs
 		{ "19740", { "!player.buff(19740).any", "!player.buff(116956).any", "!player.buff(93435).any", "!player.buff(128997).any", "!toggle.buff" }}, -- Blessing of Might
 		{ "20217", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "toggle.buff" }}, -- Blessing of Kings
 		{ "25780", "!player.buff(25780).any" }, -- Fury
-		{ "85499", {"player.moving", "toggle.run"} }, -- Speed of Light
+
+	-- Seals
+		{ "20165", "player.seal != 3", nil }, -- seal of Insigh
 		
 }
 
 local inCombat = {
 	
-	--[[ Items
-		{ "#5512" }, --Healthstone
-		{ "#76097", "player.health < 30", "@mtsLib.checkItem(HealthPot)" }, -- Master Health Potion]]
-		{ "/use Kafa Press", { "modifier.cooldowns","@mtsLib.checkItem('Kafa Press')" }}, -- Kafa Press
+	-- run fast
+		{ "85499", {"player.moving", "toggle.run"} }, -- Speed of Light
 
 	-- keybinds
 		{ "105593", "modifier.control", "target" }, -- Fist of Justice
 		{ "853", "modifier.control", "target" }, -- Hammer of Justice
+
+	--[[ Items
+		{ "#5512" }, --Healthstone
+		{ "#76097", "player.health < 30", "@mtsLib.checkItem(HealthPot)" }, -- Master Health Potion]]
+		{ "/use Kafa Press", { "modifier.cooldowns","@mtsLib.checkItem('Kafa Press')" }}, -- Kafa Press
 	
 	-- Auto Target
 		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
-
-	-- Seals
-		{ "20165", "player.seal != 3", nil }, -- seal of Insight
 
 	-- Hands
 		{ "6940", { "lowest.health <= 80", "!player.health <= 40" }, "lowest" }, -- Hand of Sacrifice
@@ -93,22 +95,22 @@ local inCombat = {
 }
 
 local outCombat = {
-
+	
 	-- keybinds
 		{ "105593", "modifier.control", "target" }, -- Fist of Justice
 		{ "853", "modifier.control", "target" }, -- Hammer of Justice
 
-	-- Seals
-		{ "20165", "player.seal != 3", nil }, -- seal of Insight
-
 	-- Hands
 		{ "1044", "player.state.root" }, -- Hand of Freedom
 
+	-- run fast
+		{ "85499", {"player.moving", "toggle.run"} }, -- Speed of Light
+
 }
 
-for _, Buffs in pairs(Buffs) do
-  inCombat[#inCombat + 1] = Buffs
-  outCombat[#outCombat + 1] = Buffs
+for _, Shared in pairs(Shared) do
+  inCombat[#inCombat + 1] = Shared
+  outCombat[#outCombat + 1] = Shared
 end
 
 ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Protection|r]", inCombat, outCombat, lib)

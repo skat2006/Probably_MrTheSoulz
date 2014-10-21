@@ -40,15 +40,36 @@ local Shared = {
 
 	-- Buffs
 		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
+  
+}
+
+local inCombat = {
+
+	--Racials
+        -- Dwarves
+			{ "20594", "player.health <= 65" },
+		-- Humans
+			{ "59752", "player.state.charm" },
+			{ "59752", "player.state.fear" },
+			{ "59752", "player.state.incapacitate" },
+			{ "59752", "player.state.sleep" },
+			{ "59752", "player.state.stun" },
+		-- Draenei
+			{ "28880", "player.health <= 70", "player" },
+		-- Gnomes
+			{ "20589", "player.state.root" },
+			{ "20589", "player.state.snare" },
+		-- Forsaken
+			{ "7744", "player.state.fear" },
+			{ "7744", "player.state.charm" },
+			{ "7744", "player.state.sleep" },
+		-- Goblins
+			{ "69041", "player.moving" },
 
 	-- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
 		{ "49576", "modifier.control" }, -- Death Grip
 		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
-  
-}
-
-local inCombat = {
 	
 	-- Presence
 		{ "48266", "player.seal != 2" }, -- frost
@@ -192,10 +213,15 @@ local inCombat = {
 
 local outCombat = {
 
+	-- Keybinds
+		{ "42650", "modifier.alt" }, -- Army of the Dead
+		{ "49576", "modifier.control" }, -- Death Grip
+		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 
-	{ "48266", { "player.seal != 2 ", "!toggle.run" }}, -- frost
-	{ "48265", { "player.seal != 3", "toggle.run" }}, -- unholy // moves faster out of combat...
-	{ "57330", "!player.buff(57330)" }, -- Horn of Winter
+	-- Buffs
+		{ "48266", { "player.seal != 2 ", "!toggle.run" }}, -- frost
+		{ "48265", { "player.seal != 3", "toggle.run" }}, -- unholy // moves faster out of combat...
+		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
   
 }
 

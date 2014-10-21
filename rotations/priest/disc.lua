@@ -24,8 +24,13 @@ local Shared = {
 		{ "81700", "player.buff(81661).count = 5" },--Archangel
 		{ "121536", {"player.moving", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 		--{ "121536", {"tank.moving", "toggle.feather", "!tank.buff(121557)", "player.spell(121536).charges >= 1" }, "tank.ground" },
+
+
+}
+
+local inCombat = {
 	
-	--keybinds
+  	--keybinds
 		{ "32375", "modifier.rcontrol", "player.ground" }, --Mass Dispel
 	 	{ "62618", "modifier.rshift", "tank.ground" }, --Power Word: Barrier
 	 	{ "48045", "modifier.ralt", "tank" }, -- Mind Sear
@@ -43,11 +48,6 @@ local Shared = {
 	    { "47540", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Penance
 		{ "2061", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Flash Heal
 
-
-}
-
-local inCombat = {
-	
   	-- Mana/Survival
 		{ "123040", {"player.mana < 75","target.spell(123040).range"}, "target" }, --Mindbender
 		{ "34433", {"player.mana < 75","target.spell(34433).range"}, "target" },	 --Shadowfiend
@@ -55,7 +55,7 @@ local inCombat = {
 		{ "64901", {"player.mana < 70"}, "player"}, --Hymn of hope
 
   	-- HEALTHSTONE 
-		--{ "#5512", "player.health <= 35" }, -- Its bugged
+		{ "#5512", "player.health <= 35" },
 
   	-- Aggro
 		{ "586", "target.threat >= 80" }, -- Fade
@@ -137,6 +137,10 @@ local outCombat = {
 		{ "47540", { "lowest.health <= 85", "!player.moving" }, "lowest" }, --Penance
 		{ "2061", { "!player.moving", "lowest.health <= 75" }, "lowest" }, --Flash Heal
 		{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 4)" }, "lowest" }, --Prayer of Healing
+
+	-- Mouse Over
+	    { "47540", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Penance
+		{ "2061", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Flash Heal
 
 }
 

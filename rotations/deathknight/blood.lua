@@ -31,7 +31,7 @@ end
 
 local Shared = {
 
-		
+	-- Buffs
 		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
 		{ "49222", "!player.buff(49222)" }, -- bone shield
 
@@ -39,8 +39,6 @@ local Shared = {
 
 local inCombat = {
 
-	{"48263", "player.seal != 1", nil }, -- Blood
-	
 	--Racials
         -- Dwarves
 			{ "20594", "player.health <= 65" },
@@ -61,6 +59,9 @@ local inCombat = {
 			{ "7744", "player.state.sleep" },
 		-- Goblins
 			{ "69041", "player.moving" },
+
+	-- Presence
+		{"48263", "player.seal != 1", nil }, -- Blood
 
 	--Auto target
 		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
@@ -145,8 +146,14 @@ local inCombat = {
 
 local outCombat = {
 
-	{ "48263", { "player.seal != 1 ", "!toggle.run" }}, -- blood
-	{ "48265", { "player.seal != 3", "toggle.run" }}, -- unholy // moves faster out of combat...
+	-- Keybinds
+		{ "42650", "modifier.alt" }, -- Army of the Dead
+		{ "49576", "modifier.control" }, -- Death Grip
+		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
+
+	-- Buffs
+		{ "48263", { "player.seal != 1 ", "!toggle.run" }}, -- blood
+		{ "48265", { "player.seal != 3", "toggle.run" }}, -- unholy // moves faster out of combat...
 
 }
 
