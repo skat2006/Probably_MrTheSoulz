@@ -66,7 +66,6 @@ local outCombat = {
 
 for _, Shared in pairs(Shared) do
   inCombat[#inCombat + 1] = Shared
-  inCombatSolo[#inCombatSolo + 1] = Shared
   outCombat[#outCombat + 1] = Shared
 end
 
