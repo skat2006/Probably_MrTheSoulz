@@ -67,4 +67,4 @@ local outCombat = {
 
 }
 
-ProbablyEngine.rotation.register_custom(253, "|r[|cff9482C9MTS|r][Testuing Mage-Arcade|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(62, "|r[|cff9482C9MTS|r][Testing Mage-Arcade|r]", inCombat, outCombat, lib)
