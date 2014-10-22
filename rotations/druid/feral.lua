@@ -13,14 +13,6 @@ local exeOnLoad = function()
 
 end
 
-local Shared = {
-
-	--	Buffs
-		{ "1126", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "player.form = 0" }}, -- Mark of the Wild
-		{ "/cancelaura Cat Form", { "player.buff(Cat Form)", "!player.buff(Mark of the Wild)" }},
-
-}
-
 local inCombat = {
   
   	--Racials
@@ -45,17 +37,19 @@ local inCombat = {
 			{ "69041", "player.moving" },
 
   	--	keybinds
-	  	{ "Ursol's Vortex", "modifier.shift", "ground" },
-	  	{ "Disorienting Roar", "modifier.shift" },
+  		{ "Ursol's Vortex", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- Ursol's Vortex // FH
+	  	{ "Ursol's Vortex", "modifier.shift", "mouseover.ground" }, -- Ursol's Vortex
 	  	{ "Mighty Bash", "modifier.shift" },
-	  	{ "Typhoon", "modifier.alt" },
+	  	{ "132469", "modifier.alt" }, -- Typhoon
 	  	{ "Mass Entanglement", "modifier.shift" },
 
 	--Run fast
-  		{ "1850", { "target.boss", "target.range >= 30" }},
+  		{ "1850", { "target.boss", "target.range >= 30" }}, -- dash
 
   	-- Cat
-  		{ "Cat Form", "!player.buff(Cat Form)" },
+  		{ "/cancelaura Cat Form", { "player.form = 2", "!player.buff(1126)", "!player.buff(5212)" }},
+		{ "1126", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "player.form = 0", "!player.buff(5212)" }}, -- Mark of the Wild
+  		{ "768", { "player.form != 2", "!modifier.lalt", "player.buff(1126)", "!player.buff(5212)" }}, -- catform
 
   	-- Auto Target
 		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
@@ -65,11 +59,8 @@ local inCombat = {
   	-- Survival
 	  	{ "Renewal", "player.health <= 30" },
 	  	{ "Cenarion Ward", "player.health <75" },
-	  	{ "Survival Instincts", "player.health <75" },
-	  	{ "Cenarion Ward", "player.health <75" },
-	  	{ "Might of Ursoc", "player.health <= 45" },
-	  	{ "Healing Touch", { "player.buff(Predatory Swiftness)", "player.health <= 70" }},
-  		{ "Regrowth", { "player.buff(Predatory Swiftness)", "player.health <= 90" }},
+	  	{ "61336", "player.health <75" }, -- Survival Instincts
+	  	{ "5185", { "player.buff(Predatory Swiftness)", "player.health <= 70" }}, -- Healing Touch
 
   	--Cooldowns
 	  	{ "106737", { "player.spell(106737).charges > 2", "!modifier.last(106737)", "player.spell(106737).exists" }}, --Force of Nature
@@ -77,68 +68,59 @@ local inCombat = {
 	  	{ "124974", "modifier.cooldowns" }, -- Nature's Vigil
 	  	{ "102543", "modifier.cooldowns" }, -- incarnation
 
-	-- Tiger's Fury // Spend Combo
-  		{ "Tiger's Fury", "player.energy <= 35"},
-
   	--Interrupts
-	  	{ "Skull Bash", { "target.casting", "modifier.interrupt" }},	
-	  	{ "Disorienting Roar", "modifier.interrupt" },
-	  	{ "Mighty Bash", "modifier.interrupt" },
+	  	{ "106839", { "target.casting", "modifier.interrupt" }, "target"},	-- Skull Bash
+	  	{ "5211", "modifier.interrupt", "target" }, -- Mighty Bash
 
   	-- Buffs
-		{ "Savage Roar", { "!player.buff(Savage Roar)", "player.combopoints = 0", "!player.combat", "target.enemy" }},
-		{ "Savage Roar", { "player.buff(Savage Roar).duration < 5", "player.combopoints = 5" }},
-		{ "Savage Roar", { "player.buff(Savage Roar).duration < 3", "player.combopoints >= 2" }},
-		{ "Faerie Fire", { "!target.debuff(Faerie Fire)", "!player.spell(106707).exists" }, "target" }, -- Faerie Fire
+		{ "52610", { "!player.buff(52610)", "player.combopoints = 0", "!player.combat", "target.enemy" }, "target"}, -- Savage Roar
+		{ "52610", { "player.buff(52610).duration < 5", "player.combopoints = 5" }, "target"}, -- Savage Roar
+		{ "52610", { "player.buff(52610).duration < 3", "player.combopoints >= 2" }, "target"}, -- Savage Roar
+		{ "770", { "!target.debuff(770)", "!player.spell(106707).exists" }, "target" }, -- Faerie Fire
 		--{ "102355", { "!target.debuff(102355)", "player.spell(106707).exists" }, "target" }, -- Faerie swarm
+		{ "5217", "player.energy <= 35"}, -- Tiger's Fury
 
-	-- Free Thrash
-  		{ "Thrash", "player.buff(Omen of Clarity)", "target" },
+	-- Proc's
+  		{ "106830", "player.buff(Omen of Clarity)", "target" }, -- Free Thrash
+
+	-- dots
+		{ "1822", "target.debuff(Rake).duration <= 4", "target" }, -- Rake
+		{ "1079", { "target.health < 25", "!target.debuff(1079)", "player.combopoints = 5" }, "target"},-- Rip // bellow 25% if target does not have debuff
 
 	-- AoE
-		{ "22568", "player.combopoints = 5" },
-		{ "106830", { "modifier.multitarget", "!target.debuff(Thrash).duration >= 1.5", "modifier.multitarget" }, "target" }, -- Tharsh
-		{ "106785", { "modifier.multitarget", "!target.debuff(Thrash).duration <= 1.5", "modifier.multitarget" }}, -- Swipe	
+		{ "106830", { "modifier.multitarget", "!target.debuff(106830).duration <= 1.5", "modifier.multitarget" }, "target" }, -- Tharsh
+		{ "106785", { "player.area(8).enemies > 11", "modifier.multitarget", "@mtsLib.CanFireHack()" }}, -- Swipe // FireHack
+		{ "106785", { "modifier.multitarget", "modifier.multitarget" }}, -- Swipe
 
- -- {{ -- dont use if AEO
-  	-- Rake
-      	{ "Rake", "target.debuff(Rake).duration <= 4" },
-    
-      -- Rip
-      	{ "Rip", { "!target.debuff(Rip)", "player.combopoints = 5" }},
-      	{ "Rip", { "target.health > 25", "target.debuff(Rip).duration < 5", "player.combopoints = 5" }},
-    
-      -- Ferocious Bite // Target Health is less then 25%
-      	{ "22568", { "target.debuff(Rip)", "target.health < 30", "player.combopoints = 5" }},
-    
-      -- Max Combo and Rip or Savage do not need refreshed
-      	{ "Ferocious Bite", { "player.combopoints = 5", "target.debuff(Rip).duration > 5", "player.buff(Savage Roar).duration > 5" }},
-      
-      -- Shred // Combo Point Building Rotation
-    	  {{
-    	  	{ "Shred", "player.buff(Clearcasting)" },
-    	  	{ "Shred", "player.buff(Berserk)" },
-    	  	{ "Shred", "player.combopoints < 5" },
-    	  }, "player.behind" },
-   	--}, "!modifier.multitarget" },
+	-- rotation
+	    { "1822", "target.debuff(Rake).duration <= 4", "target" }, -- Rake 
+	    { "22568", { "target.health < 25", "target.debuff(1079).duration < 5" }, "target"}, -- Ferocious Bite to refresh Rip when target at <= 25% health.
+	    { "1079", { "target.health > 25", "target.debuff(1079).duration < 5", "player.combopoints = 5" }, "target"},-- Rip
+	    { "22568", { "target.debuff(1079)", "target.health < 30", "player.combopoints = 5" }, "target"},-- Ferocious Bite // Target Health is less then 25%
+	    { "22568", { "player.combopoints = 5", "target.debuff(1079).duration > 5", "player.buff(Savage Roar).duration > 5" }, "target"}, -- Ferocious Bite // Max Combo and Rip or Savage do not need refreshed
+	      	
+	    -- Shred // Combo Point Building Rotation
+	    	{ "5221", {"player.buff(Clearcasting)"}, "target"  }, -- Shred
+	    	{ "5221", {"player.buff(Berserk)"}, "target"  }, -- Shred 
+	    	{ "5221", {"player.combopoints < 5","player.behind"}, "target" }, -- Shred
   
 }
 
 local outCombat = {
 	
 	--	keybinds
-	  	{ "Ursol's Vortex", "modifier.shift", "ground" },
+	  	{ "Ursol's Vortex", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- Ursol's Vortex // FH
+	  	{ "Ursol's Vortex", "modifier.shift", "mouseover.ground" }, -- Ursol's Vortex
 	  	{ "Disorienting Roar", "modifier.shift" },
 	  	{ "Mighty Bash", "modifier.shift" },
 	  	{ "Typhoon", "modifier.alt" },
 	  	{ "Mass Entanglement", "modifier.shift" },
 
-}
+	-- buff
+		{ "/cancelaura Cat Form", { "player.form = 2", "!player.buff(1126)" }},
+		{ "1126", { "!player.buff(20217).any", "!player.buff(115921).any", "!player.buff(1126).any", "!player.buff(90363).any", "!player.buff(69378).any", "player.form = 0" }}, -- Mark of the Wild
 
-for _, Shared in pairs(Shared) do
-  inCombat[#inCombat + 1] = Shared
-  outCombat[#outCombat + 1] = Shared
-end
+}
 
 ProbablyEngine.rotation.register_custom(103, "|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Feral|r]", inCombat, outCombat, exeOnLoad)
 

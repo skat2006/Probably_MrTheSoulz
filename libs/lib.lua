@@ -5,7 +5,7 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
-local mtsLib = { wisp = false, alert = true, sound = true, taunt = false }
+local mtsLib = { wisp = false, alert = true, sound = true, taunt = false, firehack = true }
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
 local _cc = {49203,6770,1776,51514,9484,118,28272,28271,61305,61025,61721,61780,3355,19386,20066,90337,2637,82676,115078,76780,9484,1513,115268}
@@ -18,7 +18,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mtsLib.ConfigAlertSound()
-		mtsAlert:message('MrTheSoulz Version: 0.4.1')
+		mtsAlert:message('MrTheSoulz Version: 0.5.1')
 	end
 	
 	-- Enabled/Disable Whispers
@@ -109,6 +109,14 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
     	mtsStart:message("\124cff9482C9*Wanted To See Me?!*")
     end
 
+    if command == 'firehack' or command == 'fh' then
+    	mtsLib.firehack = not mtsLib.firehack
+    	if mtsLib.firehack then
+			print("|cFF9482C9[MTS]:|r You have chosen to use FireHack's features.")
+		else
+			print("|cFF9482C9[MTS]:|r You have chosen to not use FireHack's features.")
+		end
+    end
 
 	if command == 'help' or command == 'h' then
 		print("|cFF9482C9MTS Help:")
@@ -122,10 +130,29 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 		print('|cFFC41F3B/mts kick:|r Enables/Disables interrupt.')
 		print("|cFFC41F3B/mts cds:|r Enables/Disables cooldowns.")
 		print("|cFFC41F3B/mts logo:|r Displays MTS Logo.")
+		print("|cFFC41F3B/mts logo:|r Enables/Disables the use of FireHack's features if it is detected.")
 		print("|cFFC41F3BNeed more help?:|r http://adf.ly/t5PPj")
 	end
 
 end)
+
+--[[   !!!Check If can FireHack!!!   ]]
+function mtsLib.CanFireHack()
+	if FireHack then
+	 	if mtsLib.firehack then
+			return true
+		else return false end
+	else  return false end
+end
+
+--[[   !!!Check If can feathers!!!   ]]
+function mtsLib.canUseFeather(txt)
+	if Distance(player, txt) >= 30 then
+		return true
+	else 
+		return false
+	end
+end
 
 --[[   !!!Dispell function!!!   ]]
 function mtsLib.Dispell(text)

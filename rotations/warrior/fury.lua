@@ -51,7 +51,8 @@ local inCombat = {
   		{ "Will of the Forsaken", "player.state.sleep" },
 		
 	-- keybinds
-		{ "6544", "modifier.shift", "ground" }, -- Heroic Leap
+		{ "6544", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- Heroic Leap // FH
+		{ "6544", "modifier.shift", "mouseover.ground" }, -- Heroic Leap // FH
   		{ "5246", "modifier.control" }, -- Intimidating Shout
 		{ "100", { "modifier.alt", "target.spell(100).range" }, "target"}, -- Charge
 
@@ -104,7 +105,8 @@ local inCombat = {
 local outCombat = {
 	
 	-- keybinds
-		{ "6544", "modifier.shift", "ground" }, -- Heroic Leap
+		{ "6544", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- Heroic Leap // FH
+		{ "6544", "modifier.shift", "mouseover.ground" }, -- Heroic Leap // FH
   		{ "5246", "modifier.control" }, -- Intimidating Shout
 		{ "100", { "modifier.alt", "target.spell(100).range" }, "target"}, -- Charge
 

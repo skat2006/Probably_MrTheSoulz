@@ -23,3 +23,4 @@ rotations\warrior\prot.lua
 rotations\priest\disc.lua
 rotations\warlock\destro.lua
 rotations\hunter\bm.lua
+rotations\mage\arcane.lua

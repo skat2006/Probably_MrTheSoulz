@@ -56,4 +56,5 @@ function mtsStart:message(message)
 	mtsSplash.time = GetTime()
 	mtsStart:Show()
 	mtsSplash:Show()
+	--UnlockerChecker()
 end

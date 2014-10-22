@@ -28,8 +28,10 @@ local inCombat = {
 		{"/cancelaura Aspect of the cheetah", "player.buff(5118)"},
 
 	-- keybinds
-  		{ "60192", "modifier.shift", "ground" }, -- Freezing Trap
-  		{ "82941", "modifier.shift", "ground" }, -- ice Trap
+		{ "60192", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- Freezing Trap
+  		{ "82941", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- ice Trap
+  		{ "60192", "modifier.shift", "mouseover.ground" }, -- Freezing Trap
+  		{ "82941", "modifier.shift", "mouseover.ground" }, -- ice Trap
 
   	-- aggro
   		{"5384","player.aggro >=100 "}, -- fake death
@@ -63,26 +65,33 @@ local inCombat = {
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
-	-- Proc's
-		{"Focus Fire", "player.buff(Frenzy)", "target"},
+		-- Proc's
+			{"Focus Fire", "player.buff(Frenzy)", "target"},
 
-	-- aoe
-		{"2643", "modifier.multitarget", "target" }, -- Multi-Shot
-		{"13813", nil, "target.ground"}, --Explosive Trap
+		{{-- aoe FH
+			{"2643","player.area(35).enemies > 4", "target"}, -- Multi-Shot
+			{"13813", nil, "target.mouseover.ground"}, --Explosive Trap
+		}, "@mtsLib.CanFireHack()" }, 
 
-	-- Rotation
-		{"34023"},--Kill Command
-		{"53351", "target.health <= 20", "target"},--Kill Shot
-		{"3044", {"player.focus > 60", "!modifer.multitarget"}, "target"},--Arcane Shot
-		{"77767", "player.focus < 60", "target"},--Cobra Shot
+		{{-- aoe fallback
+			{"2643"}, -- Multi-Shot
+		}, "modifier.multitarget" }, 
+
+		-- Rotation
+			{"34023"},--Kill Command
+			{"53351", "target.health <= 20", "target"},--Kill Shot
+			{"3044", {"player.focus > 60", "!modifer.multitarget"}, "target"},--Arcane Shot
+			{"77767", "player.focus < 60", "target"},--Cobra Shot
   
-} 
+}
 
 local outCombat = {
 
 	-- keybinds
-  		{ "60192", "modifier.shift", "ground" }, -- Freezing Trap
-  		{ "82941", "modifier.shift", "ground" }, -- ice Trap
+  		{ "60192", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- Freezing Trap
+  		{ "82941", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- ice Trap
+  		{ "60192", "modifier.shift", "mouseover.ground" }, -- Freezing Trap
+  		{ "82941", "modifier.shift", "mouseover.ground" }, -- ice Trapp
 
   	-- move faster
   		{ "5118", {"player.moving", "!player.buff(5118)"} },-- Aspect of the cheetah

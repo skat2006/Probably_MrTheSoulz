@@ -74,6 +74,7 @@ local inCombat = {
 	-- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
 		{ "49576", "modifier.control" }, -- Death Grip
+		{ "43265", {"modifier.shift", "@mtsLib.CanFireHack()"}, "target.ground" }, -- Death and Decay
 		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 
 	-- items
@@ -149,6 +150,7 @@ local outCombat = {
 	-- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
 		{ "49576", "modifier.control" }, -- Death Grip
+		{ "43265", {"modifier.shift", "@mtsLib.CanFireHack()"}, "target.ground" }, -- Death and Decay
 		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 
 	-- Buffs
