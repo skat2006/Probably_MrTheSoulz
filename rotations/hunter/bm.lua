@@ -55,6 +55,7 @@ local inCombat = {
 		{ "121818", "modifier.cooldowns" },--Stampede
   		{ "131894", "modifier.cooldowns" }, -- A Murder of Crows
   		{ "120679", "modifier.cooldowns" },--Dire Beast
+  		{ "Bestial Wrath", "modifier.cooldowns" },--Bestial Wrath
 
 	-- Survival
   		{ "19263", "player.health < 40" },--Deterrence
