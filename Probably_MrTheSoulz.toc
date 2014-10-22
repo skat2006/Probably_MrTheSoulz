@@ -21,6 +21,7 @@ rotations\monk\windwalker.lua
 rotations\warrior\fury.lua
 rotations\warrior\prot.lua
 rotations\priest\disc.lua
+rotations\priest\shadow.lua
 rotations\warlock\destro.lua
 rotations\hunter\bm.lua
 rotations\mage\arcane.lua
