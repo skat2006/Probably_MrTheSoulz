@@ -63,7 +63,6 @@ local outCombat = {
   { "1459", "!player.buff" }, -- Arcane Brilliance
   { "7302", {"!player.buff(30482)","!player.spell(30482).exists"}},-- Frost Armor
   { "30482", {"player.buff(30482)","!player.spell(6117).exists"}},-- Molten Armor
-  { "6117", "!player.buff(6117)" } -- Mage Armor
 
 }
 
