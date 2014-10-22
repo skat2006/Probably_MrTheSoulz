@@ -154,6 +154,9 @@ local outCombat = {
 	-- hands
 		{ "1044", "player.state.root" }, -- Hand of Freedom
 
+	-- Start
+		{ "20473", "lowest.health < 100", "lowest" }, -- Holy Shock
+
 }
 
 for _, Shared in pairs(Shared) do

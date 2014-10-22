@@ -8,6 +8,9 @@ end
 
 local inCombat = {
 
+  -- keybinds
+    { "113724", "modifier.alt", "target.ground" }, -- Ring of Frost
+
   -- Cooldowns
     { "45438", {"modifier.cooldowns","player.health <= 30" }}, -- Ice Block
     { "11958", {"modifier.cooldowns","player.health <= 25","player.spell(45438).cooldown" }}, -- Cold Snap
@@ -38,10 +41,13 @@ local inCombat = {
     { "116011", "modifier.shift", "ground" }, -- Rune of Power
     { "11426", "player.health <= 80" }, -- Ice Barrier
 
+  -- AoE FH
+    {"Cone of Cold ", {"player.area(10).enemies >= 3", "@mtsLib.CanFireHack()"}},
+    {"Arcane Explosion", {"player.area(10).enemies >= 3", "@mtsLib.CanFireHack()"}},
+
   -- AoE
-    --{ "Blizzard", "modifier.ctrl", "ground" }, -- Unimplemented
-    { "2120", "modifier.control", "ground" }, -- Flamestrike
-    { "113724", "modifier.alt", "ground" }, -- Ring of Frost
+    {"Cone of Cold ", "modifier.multitarget"},
+    {"Arcane Explosion", "modifier.multitarget"},
 
   -- Moving
     { "44425", "player.moving" }, -- Arcane Barrage
@@ -61,8 +67,6 @@ local inCombat = {
 local outCombat = {
 
   { "1459", "!player.buff" }, -- Arcane Brilliance
-  { "7302", {"!player.buff(30482)","!player.spell(30482).exists"}},-- Frost Armor
-  { "30482", {"player.buff(30482)","!player.spell(6117).exists"}},-- Molten Armor
 
 }
 

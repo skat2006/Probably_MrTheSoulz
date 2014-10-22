@@ -71,7 +71,7 @@ local inCombat = {
 
 		{{-- aoe FH
 			{"2643","player.area(35).enemies > 4", "target"}, -- Multi-Shot
-			{"13813", nil, "target.mouseover.ground"}, --Explosive Trap
+			{"13813", nil, "target.ground"}, --Explosive Trap
 		}, "@mtsLib.CanFireHack()" }, 
 
 		{{-- aoe fallback
