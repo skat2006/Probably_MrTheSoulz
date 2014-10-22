@@ -22,6 +22,9 @@ local inCombat = {
     { "11958", {"modifier.cooldowns","player.health <= 25","player.spell(45438).cooldown" }}, -- Cold Snap
     { "55342", "modifier.cooldowns" }, -- Mirror Image
     { "12043", "modifier.cooldowns" }, -- Presence of Mind
+    { "Amplify Magic", "modifier.cooldowns" }, -- Amplify Magic
+    { "Amplify Magic", "modifier.cooldowns" }, -- Amplify Magic
+
 
   -- Alter Time Logic
     { "108978", {"player.buff(12042)","!player.buff(108978)","toggle.alter" }}, -- Alter Time
