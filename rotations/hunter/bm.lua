@@ -24,9 +24,6 @@ local inCombat = {
 	-- Pause if fake death
 		{ "pause","player.buff(5384)" }, -- Pause for Feign Death
 
-	-- Cancel ceetah
-		{"/cancelaura Aspect of the cheetah", "player.buff(5118)"},
-
 	-- keybinds
 		{ "60192", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- Freezing Trap
   		{ "82941", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- ice Trap
@@ -81,6 +78,7 @@ local inCombat = {
 		-- Rotation
 			{"34023"},--Kill Command
 			{"53351", "target.health <= 20", "target"},--Kill Shot
+			{ "Glaive Toss" },--Glaive Toss
 			{"3044", {"player.focus > 60", "!modifer.multitarget"}, "target"},--Arcane Shot
 			{"77767", "player.focus < 60", "target"},--Cobra Shot
   
@@ -93,9 +91,6 @@ local outCombat = {
   		{ "82941", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- ice Trap
   		{ "60192", "modifier.shift", "mouseover.ground" }, -- Freezing Trap
   		{ "82941", "modifier.shift", "mouseover.ground" }, -- ice Trapp
-
-  	-- move faster
-  		{ "5118", {"player.moving", "!player.buff(5118)"} },-- Aspect of the cheetah
 
 }
 
