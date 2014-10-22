@@ -41,7 +41,8 @@ local inCombat = {
   		{ "Fel Flame", {"!player.spell(Kil'jaeden's Cunning).exists", "player.moving"} }, 	
 
 	-- AOE
-		{"Fire and Brimstone", {"modifier.multitarget","UnitsAroundUnit(player, 25[, 5])"}, "target"},
+		{"Fire and Brimstone", "player.area(10).enemies >= 3", "target"}, -- smarth
+		{"Fire and Brimstone", "modifier.multitarget", "target"},
 		{"Havoc", "modifier.multitarget", "target"},
 
   	-- Rotation
