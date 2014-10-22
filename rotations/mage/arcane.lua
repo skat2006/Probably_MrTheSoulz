@@ -1,7 +1,7 @@
 local lib = function()
 
   ProbablyEngine.toggle.create('alter', 'Interface\\ICONS\\spell_mage_altertime', 'Alter Time', 'Toggle the usage of Alter Time and Arcane Power.')
-  ProbablyEngine.toggle.create('run', 'Interface\\ICONS\\spell_mage_blink', 'Escape!', 'Toggle the usage of bink if the target is 3 or less yards way from you. \nAnd other escaping spells.')
+  ProbablyEngine.toggle.create('run', 'Interface\\ICONS\\Ability_mage_invisibility.png', 'Escape!', 'Toggle the usage of bink if the target is 3 or less yards way from you. \nAnd other escaping spells.')
 
 
 end
