@@ -88,7 +88,7 @@ local inCombat = {
 		{ "1079", { "target.health < 25", "!target.debuff(1079)", "player.combopoints = 5" }, "target"},-- Rip // bellow 25% if target does not have debuff
 
 	-- AoE
-		{ "106830", { "modifier.multitarget", "!target.debuff(106830).duration <= 1.5", "modifier.multitarget" }, "target" }, -- Tharsh
+		{ "106830", { "modifier.multitarget", "target.debuff(106830).duration <= 1.5", "modifier.multitarget" }, "target" }, -- Tharsh
 		{ "106785", { "player.area(8).enemies > 11", "modifier.multitarget", "@mtsLib.CanFireHack()" }}, -- Swipe // FireHack
 		{ "106785", { "modifier.multitarget", "modifier.multitarget" }}, -- Swipe
 
