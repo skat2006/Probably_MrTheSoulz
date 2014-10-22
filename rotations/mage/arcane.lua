@@ -1,7 +1,7 @@
 local lib = function()
 
   ProbablyEngine.toggle.create('alter', 'Interface\\ICONS\\spell_mage_altertime', 'Alter Time', 'Toggle the usage of Alter Time and Arcane Power.')
-  ProbablyEngine.toggle.create('blink', 'Interface\\ICONS\\spell_mage_blink', 'Blink!', 'Toggle the usage of bink if the target is 3 or less yards way from you.')
+  ProbablyEngine.toggle.create('run', 'Interface\\ICONS\\spell_mage_blink', 'Escape!', 'Toggle the usage of bink if the target is 3 or less yards way from you. \nAnd other escaping spells.')
 
 
 end
@@ -38,8 +38,8 @@ local inCombat = {
     { "112948", "player.spell(112948).cooldown = 0", "target" }, -- Frost Bomb
 
   -- Survivability
-    { "122", "target.range <= 9" }, -- Frost Nova
-    { "1953", "target.range <= 3" }, -- Blink
+    { "122", {"target.range <= 9","toggle.run"} }, -- Frost Nova
+    { "1953", {"target.range <= 3","toggle.run"} }, -- Blink
     { "116011", "modifier.shift", "player.ground" }, -- Rune of Power
     { "11426", "player.health <= 80" }, -- Ice Barrier
 
