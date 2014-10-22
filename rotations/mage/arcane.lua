@@ -12,13 +12,16 @@ local inCombat = {
 
   -- keybinds
     { "113724", "modifier.alt", "target.ground" }, -- Ring of Frost
+    { "116011", "modifier.shift", "player.ground" }, -- Rune of Power
+
+  -- Smart Fh Stuff
+    { "116011", "!player.buff(Rune of Power)", "player.ground" }, -- Rune of Power
 
   -- Cooldowns
     { "45438", {"modifier.cooldowns","player.health <= 30" }}, -- Ice Block
     { "11958", {"modifier.cooldowns","player.health <= 25","player.spell(45438).cooldown" }}, -- Cold Snap
     { "55342", "modifier.cooldowns" }, -- Mirror Image
     { "12043", "modifier.cooldowns" }, -- Presence of Mind
-    { "115610", {"modifier.cooldowns","player.health <= 80"}}, -- Temporal Shield
 
   -- Alter Time Logic
     { "108978", {"player.buff(12042)","!player.buff(108978)","toggle.alter" }}, -- Alter Time
@@ -27,20 +30,13 @@ local inCombat = {
     { "2139", "modifier.interrupts" }, -- Counterspell
     { "102051", "modifier.interrupts" }, -- Frostjaw
 
-  -- Gems
-    { "!/use Mana Gem", "player.mana <= 70" }, -- Mana Gem
-    { "!/use Brilliant Mana Gem", "player.mana <= 70" }, -- Brilliant Mana Gem
-
   -- Mage Bombs
     { "114923", "!target.debuff(114923)", "target" }, -- Nether Tempest
     { "114923", "target.debuff(114923).duration <= 2", "target" }, -- Nether Tempest
-    { "44457", "!target.debuff(44457)", "target" }, -- Living Bomb
-    { "112948", "player.spell(112948).cooldown = 0", "target" }, -- Frost Bomb
 
   -- Survivability
     { "122", {"target.range <= 9","toggle.run"} }, -- Frost Nova
     { "1953", {"target.range <= 3","toggle.run"} }, -- Blink
-    { "116011", "modifier.shift", "player.ground" }, -- Rune of Power
     { "11426", "player.health <= 80" }, -- Ice Barrier
 
   -- AoE FH
