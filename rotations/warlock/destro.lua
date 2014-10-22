@@ -34,19 +34,19 @@ local inCombat = {
 	-- Cooldowns
   		{"Dark Soul: Instability", {"modifier.shift", "modifier.cooldowns"}},
   		{"Summon Terrorguard", {"modifier.control", "modifier.cooldowns"}},
-  		{ "Summon Doomguard", {"modifier.control", "modifier.cooldowns"}},
+  		{"Summon Doomguard", {"modifier.control", "modifier.cooldowns"}},
 
 	-- Moving
 		{ "Incinerate", {"player.spell(Kil'jaeden's Cunning).exists", "player.moving"} },
   		{ "Fel Flame", {"!player.spell(Kil'jaeden's Cunning).exists", "player.moving"} }, 	
 
 	-- AOE
-		{"Fire and Brimstone", "player.area(10).enemies >= 3", "target"}, -- smarth
+		{"Fire and Brimstone", {"player.area(10).enemies >= 3", "@mtsLib.CanFireHack()"}, "target"}, -- smarth
 		{"Fire and Brimstone", "modifier.multitarget", "target"},
 		{"Havoc", "modifier.multitarget", "target"},
 
   	-- Rotation
-	  	{"Shadowburn", "target health <=20", "target"},
+	  	{"Shadowburn", "target.health <=20", "target"},
 	  	{"Immolate", "target.debuff(Immolate).duration <= 4", "target"},
 	  	{"Conflagrate", "player.spell(Conflagrate).charges >= 2", "target"},
 	  	{"Chaos Bolt", {"!modifier.last(Chaos Bolt)", "player.embers >= 35"}, "target"},
