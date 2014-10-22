@@ -1,6 +1,8 @@
 local lib = function()
 
   ProbablyEngine.toggle.create('alter', 'Interface\\ICONS\\spell_mage_altertime', 'Alter Time', 'Toggle the usage of Alter Time and Arcane Power.')
+  ProbablyEngine.toggle.create('blink', 'Interface\\ICONS\\spell_mage_blink', 'Blink!', 'Toggle the usage of bink if the target is 3 or less yards way from you.')
+
 
 end
 
@@ -38,7 +40,7 @@ local inCombat = {
   -- Survivability
     { "122", "target.range <= 9" }, -- Frost Nova
     { "1953", "target.range <= 3" }, -- Blink
-    { "116011", "modifier.shift", "ground" }, -- Rune of Power
+    { "116011", "modifier.shift", "player.ground" }, -- Rune of Power
     { "11426", "player.health <= 80" }, -- Ice Barrier
 
   -- AoE FH
@@ -49,15 +51,17 @@ local inCombat = {
     {"Cone of Cold ", "modifier.multitarget"},
     {"Arcane Explosion", "modifier.multitarget"},
 
+  -- procs
+    { "5143", "player.buff(Arcane Missiles!)"},-- Arcane Missiles
+
   -- Moving
+    { "108839", "player.moving" }, -- ice floes
     { "44425", "player.moving" }, -- Arcane Barrage
     { "2136", "player.moving" }, -- Fire Blast
     { "30455", {"player.moving","player.spell(2136).cooldown","player.spell(44425).cooldown" }},-- Ice Lance
 
-  -- Opener
-    { "12042", {"player.buff(79683).count >= 2", "toggle.alter" }},-- Arcane Power
-
   -- Rotation
+    { "12042", {"player.buff(79683).count >= 2", "toggle.alter" }},-- Arcane Power
     { "5143", { "player.buff(79683).count >= 1", "player.debuff(36032).count >= 4" }},-- Arcane Missiles
     { "44425", {"player.debuff(36032).count >= 4","!player.buff(5143)" }},-- Arcane Barrage
     { "30451" } -- Arcane Blast
