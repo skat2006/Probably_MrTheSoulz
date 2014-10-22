@@ -14,7 +14,7 @@ local inCombat = {
   -- auto targets
     { "/target [target=focustarget, harm, nodead]", "target.range > 40" },
     { "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
-    { "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }}
+    { "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
   -- keybinds
     { "113724", "modifier.alt", "target.ground" }, -- Ring of Frost
