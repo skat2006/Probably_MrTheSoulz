@@ -37,16 +37,16 @@ local inCombat = {
 			{ "69041", "player.moving" },
 
   	--	keybinds
-  		{ "Ursol's Vortex", {"modifier.shift", "@mtsLib.CanFireHack()"}, "target.ground" }, -- Ursol's Vortex // FH
-	  	{ "Ursol's Vortex", "modifier.shift", "mouseover.ground" }, -- Ursol's Vortex
-	  	{ "Mighty Bash", "modifier.shift" },
-	  	{ "132469", "modifier.alt" }, -- Typhoon
+  		{ "Ursol's Vortex", {"modifier.shift", "target.exists"}, "mouseover.ground" }, -- Ursol's Vortex
+	  	{ "Disorienting Roar", "modifier.shift" },
+	  	{ "Mighty Bash", {"modifier.shift", "target.exists"}, "target" },
+	  	{ "Typhoon", {"modifier.alt", "target.exists"}, "target" },
 	  	{ "Mass Entanglement", "modifier.shift" },
 
   	-- Auto Target
-		{ "/target [target=focustarget, harm, nodead]", "toggle.autotarget" },
-		{ "/targetenemy [noexists]", "toggle.autotarget" },
-   		{ "/targetenemy [dead]", "toggle.autotarget" },
+		{ "/target [target=focustarget, harm, nodead]", {"target.range > 40", "!target.exists","toggle.autotarget"} },
+		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
+   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
   	-- Survival
 	  	{ "Renewal", "player.health <= 30" },
@@ -102,9 +102,11 @@ local inCombat = {
 			"target.health > 25", 
 			"target.debuff(1079).duration <= 7", 
 			"player.combopoints = 5" }, "target"},
+		{ "106830", {  -- Tharsh
+			"target.debuff(106830).duration <= 1.5", 
+			"modifier.multitarget" }, "target" },
 
 	-- AoE
-		{ "106830", { "modifier.multitarget", "target.debuff(106830).duration <= 1.5", "modifier.multitarget" }, "target" }, -- Tharsh
 		{ "106785", { "player.area(8).enemies > 11", "modifier.multitarget", "@mtsLib.CanFireHack()" }}, -- Swipe // FireHack
 		{ "106785", { "modifier.multitarget", "modifier.multitarget" }}, -- Swipe
 
@@ -123,11 +125,10 @@ local inCombat = {
 local outCombat = {
 	
 	--	keybinds
-	  	{ "Ursol's Vortex", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- Ursol's Vortex // FH
-	  	{ "Ursol's Vortex", "modifier.shift", "mouseover.ground" }, -- Ursol's Vortex
+	  	{ "Ursol's Vortex", {"modifier.shift", "target.exists"}, "mouseover.ground" }, -- Ursol's Vortex
 	  	{ "Disorienting Roar", "modifier.shift" },
-	  	{ "Mighty Bash", "modifier.shift" },
-	  	{ "Typhoon", "modifier.alt" },
+	  	{ "Mighty Bash", {"modifier.shift", "target.exists"}, "target" },
+	  	{ "Typhoon", {"modifier.alt", "target.exists"}, "target" },
 	  	{ "Mass Entanglement", "modifier.shift" },
 
 	-- buff
