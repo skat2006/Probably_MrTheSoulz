@@ -78,6 +78,11 @@ local inCombat = {
   			"!player.buff(5215)"}}, -- Not in Stealth
   	},"toggle.cat"},
 
+  	-- buffs
+  		{ "52610", { "!player.buff(174544)", "player.combopoints = 5" }, "target"}, -- Savage Roar
+  		{ "770", { "!target.debuff(770)", "!player.spell(106707).exists" }, "target" }, -- Faerie Fire
+		{ "5217", "player.energy <= 35"}, -- Tiger's Fury
+
   	--Cooldowns
 	  	{ "106737", { "player.spell(106737).charges > 2", "!modifier.last(106737)", "player.spell(106737).exists" }}, --Force of Nature
 	  	{ "106951", "modifier.cooldowns" }, -- Beserk
