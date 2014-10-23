@@ -66,14 +66,12 @@ local inCombat = {
 		-- Proc's
 			{"Focus Fire", "player.buff(Frenzy)", "target"},
 
-		{{-- aoe FH
-			{"2643","player.area(35).enemies > 4", "target"}, -- Multi-Shot
-			{"13813", nil, "target.ground"}, --Explosive Trap
-		}, "@mtsLib.CanFireHack()" }, 
+		-- aoe FH
+			{"2643",{"player.area(35).enemies > 4", "@mtsLib.CanFireHack()"}, "target"}, -- Multi-Shot
+			{"13813", "@mtsLib.CanFireHack()", "target.ground"}, --Explosive Trap
 
-		{{-- aoe fallback
-			{"2643"}, -- Multi-Shot
-		}, "modifier.multitarget" }, 
+		-- aoe fallback
+			{"2643", "modifier.multitarget"}, -- Multi-Shot
 
 		-- Rotation
 			{"34023"},--Kill Command

@@ -102,13 +102,11 @@ local inCombat = {
 			"target.health > 25", 
 			"target.debuff(1079).duration <= 7", 
 			"player.combopoints = 5" }, "target"},
-		{ "106830", {  -- Tharsh
-			"target.debuff(106830).duration <= 1.5", 
-			"modifier.multitarget" }, "target" },
+		{ "106830", {"target.debuff(106830).duration <= 1.5", }, "target" }, -- Tharsh
 
 	-- AoE
-		{ "106785", { "player.area(8).enemies > 11", "modifier.multitarget", "@mtsLib.CanFireHack()" }}, -- Swipe // FireHack
-		{ "106785", { "modifier.multitarget", "modifier.multitarget" }}, -- Swipe
+		{ "106785", { "player.area(8).enemies > 11", "@mtsLib.CanFireHack()" }}, -- Swipe // FireHack
+		{ "106785", "modifier.multitarget"}, -- Swipe
 
 	-- rotation
 	    { "22568", { "target.health < 25", "target.debuff(1079).duration < 5" }, "target"}, -- Ferocious Bite to refresh Rip when target at <= 25% health.

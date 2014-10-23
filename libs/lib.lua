@@ -11,41 +11,6 @@ local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541
 local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
-mtsLib.sefUnits = {}
-mtsLib.lastSEFCount = 0
-mtsLib.lastSEFTarget = nil
-
-
-function mtsLib.SEF()
-  if (UnitGUID('target') ~= nil) then
-	  local count = DSL('buff.count')('player', '137639')
-	  if count > mtsLib.lastSEFCount and mtsLib.lastSEFTarget then
-		mtsLib.sefUnits[mtsLib.lastSEFTarget], mtsLib.lastSEFCount, mtsLib.lastSEFTarget = true, count, nil
-	  end
-	  if count < 2 and DSL('enemy')('mouseover') then
-		local mouseover, target = UnitGUID('mouseover'), UnitGUID('target')
-		if mouseover and target ~= mouseover and not mtsLib.sefUnits[mouseover] then
-		  mtsLib.lastSEFTarget = mouseover
-		  return true
-		end
-	  end
-	  if (count == 0) then
-		mtsLib.sefUnits, mtsLib.lastSEFCount, mtsLib.lastSEFTarget = {}, 0, nil
-	  end
-  end
-  return false
-end
-
-
-
-function mtsLib.cancelSEF()
-  if DSL('buff')('player', '137639') then
-     --and DSL('modifier.enemies')() < 2 then
-    mtsLib.sefUnits, mtsLib.lastSEFCount, mtsLib.lastSEFTarget = {}, 0, nil
-    return true
-  end
-  return
-end
 
 --[[   !!!Pack Commands!!!   ]]
 ProbablyEngine.command.register('mts', function(msg, box)
@@ -53,8 +18,8 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 		
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
-		mtsLib.ConfigAlertSound()
-		mtsAlert:message('MrTheSoulz Version: 0.5.11')
+		mtsLib.AlertSounds()
+		mtsAlert:message('MrTheSoulz Version: 0.5.12')
 	end
 	
 	-- Enabled/Disable Whispers
@@ -308,9 +273,9 @@ function mtsLib.ConfigWhisper(txt)
 end
 
 --[[   !!!Check if can use sounds!!!   ]]
-function mtsLib.ConfigAlertSound()
+function mtsLib.AlertSounds()
 	if mtsLib.wisp then
-		PlaySoundFile(_media .. "beep.mp3", "master")
+		PlaySoundFile(_media.. "beep.mp3", "master")
 	end
 end
 
@@ -401,85 +366,85 @@ if source ~= UnitGUID("player") then return false end
     -- Paladin
 
 		if spellId == 114158 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casted Light´s Hammer*")
 		end
 		if spellId == 633 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigWhisper(tname.." MSG: Casted Lay On Hands on you.")
 			mtsLib.ConfigAlert("*Casted Lay on Hands*")
 		end
 		if spellId == 1044 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigWhisper(tname.." MSG: Casted Hand of Freedom on you.")
 			mtsLib.ConfigAlert("*Casted Hand of Freedom*")
 		end
 		if spellId == 6940 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casted Hand of Sacrifice*")
 			mtsLib.ConfigWhisper("/w "..tname.." MSG: Casted Hand of Sacrifice on you.")
 		end
 		if spellId == 105593 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Stunned Target*")
 		end
 		if spellId == 853 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Stunned Target*")
 		end
 		if spellId == 31821 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casted Devotion Aura*")
 		end
 		if spellId == 31884 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casted Avenging Wrath*")
 		end
 		if spellId == 105809 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casted Guardian of Ancient Kings*")
 		end
 		if spellId == 31850 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casted Ardent Defender*")
 		end
 		if spellId == 86659 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casted Holy Avenger*")
 		end
 		if spellId == 86669 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casted Guardian of Ancient Kings*")
 		end
 		if spellId == 31842 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casted Divine Favor*")
 		end
 
     -- DeathKnight
 
 		if spellId == 43265 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casted Death and Decay*")
 		end
 		if spellId == 48707 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casted Anti-Magic Shell*")
 		end
 		if spellId == 49028 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casted Dancing Rune Weapon*")
 		end
 		if spellId == 55233 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casted Vampiric Blood*")
 		end
 		if spellId == 48792 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casted Icebound Fortitude*")
 		end
 		if spellId == 42650 then
-			mtsLib.ConfigAlertSound()
+			mtsLib.AlertSounds()
 			mtsLib.ConfigAlert("*Casting Army of the Dead*")
 		end
 
