@@ -8,7 +8,7 @@ MTS
 local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
-	mtsStart:message("\124cff9482C9*MrTheSoulz - Warlock-Destro - Loaded*")
+	mtsStart:message("\124cff9482C9*MTS-Warlock/Destro-Loaded*")
 
 
 end

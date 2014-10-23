@@ -1,7 +1,7 @@
 
 local lib = function()
 
-  mtsStart:message("\124cff9482C9*MrTheSoulz - \124cffABD473Priest/Shadow \124cff9482C9Loaded*")
+  mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Shadow-\124cff9482C9Loaded*")
 
 end
 
@@ -56,4 +56,4 @@ for _, Shared in pairs(Shared) do
   outCombat[#outCombat + 1] = Shared
 end
 
-ProbablyEngine.rotation.register_custom(258, "|r[|cff9482C9MTS|r][Testing Priest-Shadow|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(258, "|r[|cffFFFFFFMTS|r][Testing Priest-Shadow|r]", inCombat, outCombat, lib)

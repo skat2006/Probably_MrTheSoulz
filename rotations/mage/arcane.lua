@@ -3,7 +3,7 @@ local lib = function()
   ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
   ProbablyEngine.toggle.create('alter', 'Interface\\ICONS\\spell_mage_altertime', 'Alter Time', 'Toggle the usage of Alter Time and Arcane Power.')
   ProbablyEngine.toggle.create('run', 'Interface\\ICONS\\Ability_mage_invisibility.png', 'Escape!', 'Toggle the usage of bink if the target is 3 or less yards way from you. \nAnd other escaping spells.')
-  mtsStart:message("\124cff9482C9*MrTheSoulz - \124cff69CCF0Mage/Arcane \124cff9482C9Loaded*")
+  mtsStart:message("\124cff9482C9*MTS-\124cff69CCF0Mage/Arcane-\124cff9482C9Loaded*")
 
 end
 
