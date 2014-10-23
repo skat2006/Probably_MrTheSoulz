@@ -143,16 +143,14 @@ function mtsLib.CanFireHack()
 	 	if mtsLib.firehack then
 			return true
 		else return false end
-	else  return false end
+	else return false end
 end
 
 --[[   !!!Check If can feathers!!!   ]]
 function mtsLib.canUseFeather(txt)
 	if Distance(player, txt) >= 30 then
 		return true
-	else 
-		return false
-	end
+	else return false end
 end
 
 --[[   !!!Dispell function!!!   ]]
@@ -239,7 +237,7 @@ function mtsLib.immuneEvents(unit)
 		or UnitAura(unit,GetSpellInfo(106062))
 		or UnitAura(unit,GetSpellInfo(110945))
 		or UnitAura(unit,GetSpellInfo(143593)) -- General Nazgrim: Defensive Stance
-    or UnitAura(unit,GetSpellInfo(143574)) -- Heroic Immerseus: Swelling Corruption
+    	or UnitAura(unit,GetSpellInfo(143574)) -- Heroic Immerseus: Swelling Corruption
 		then return false end
   return true
 end
