@@ -7,40 +7,6 @@ MTS
 ]]
 
 -- [[ Needs Fixing ...]]
-local sefUnits = {}
-local lastSEFCount = 0
-local lastSEFTarget = nil
-
--- [[ Needs Fixing ...]]
-function SEF()
-  if (UnitGUID('target') ~= nil) then
-    local count = DSL('buff.count')('player', '137639')
-    if count > lastSEFCount and lastSEFTarget then
-    sefUnits[lastSEFTarget], lastSEFCount, lastSEFTarget = true, count, nil
-    end
-    if count < 2 and UnitReaction('mouseover') <= 4 then
-    local mouseover, target = UnitGUID('mouseover'), UnitGUID('target')
-    if mouseover and target ~= mouseover and not sefUnits[mouseover] then
-      lastSEFTarget = mouseover
-      return true
-    end
-    end
-    if (count == 0) then
-    sefUnits, lastSEFCount, lastSEFTarget = {}, 0, nil
-    end
-  end
-  return false
-end
--- [[ Needs Fixing ...]]
-function cancelSEF()
-  if DSL('buff')('player', '137639') then
-     --and DSL('modifier.enemies')() < 2 then
-    sefUnits, lastSEFCount, lastSEFTarget = {}, 0, nil
-    return true
-  end
-  return
-end
-
 local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
@@ -57,8 +23,8 @@ local inCombat = {
 		{ "Touch of Karma", "modifier.alt" }, -- Touch of Karma
 
 	-- SEF on mouseover // Needs Futher Logic...
-  		{ "Storm, Earth, and Fire",  {"toggle.autosef","!mouseover.debuff(138130)"} , "mouseover" },
-  		--{ "/cancelaura Storm, Earth, and Fire", { "target.debuff(Storm, Earth, and Fire)", "toggle.autosef" }, "mouseover"},
+  		{ "Storm, Earth, and Fire",  {"toggle.autosef","!mouseover.debuff(138130)","!player.buff(137639).count = 2", "@mtsLib.mouseEqualTarget()"} , "mouseover" },
+  		{ "/cancelaura Storm, Earth, and Fire", { "target.debuff(Storm, Earth, and Fire)", "toggle.autosef" }, "target"},
 
 	-- Auto Target
 		{ "/target [target=focustarget, harm, nodead]", {"target.range > 40", "!target.exists","toggle.autotarget"} },
