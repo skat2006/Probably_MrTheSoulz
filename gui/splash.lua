@@ -56,5 +56,5 @@ function mtsStart:message(message)
 	mtsSplash.time = GetTime()
 	mtsStart:Show()
 	mtsSplash:Show()
-	--UnlockerChecker()
+	PlaySoundFile("Sound\\Creature\\Xuen\\VO_54_Ti_Xuen_Kill.wav")
 end

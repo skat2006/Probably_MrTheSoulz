@@ -61,7 +61,11 @@ local inCombat = {
   	{{-- Cat && MotW
   		{ "/cancelaura Cat Form", { -- Cancel player form
   			"player.form > 0",  -- Is in any fom
-  			"!player.buff(1126)", -- DOes not have Mark of the Wild
+  			"!player.buff(20217).any", -- kings
+			"!player.buff(115921).any", -- Legacy of the Emperor
+			"!player.buff(1126).any",   -- Mark of the Wild
+			"!player.buff(90363).any",  -- embrace of the Shale Spider
+			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
   			"!player.buff(5215)" }},-- Not in Stealth
 		{ "1126", {  -- Mark of the Wild
 			"!player.buff(20217).any", -- kings
@@ -74,7 +78,6 @@ local inCombat = {
   		{ "768", { -- catform
   			"player.form != 2", -- Stop if cat
   			"!modifier.lalt", -- Stop if pressing left alt
-  			"player.buff(1126)", -- Player has Mark of the Wild 
   			"!player.buff(5215)"}}, -- Not in Stealth
   	},"toggle.cat"},
 
@@ -132,7 +135,11 @@ local outCombat = {
 	-- buff
 		{ "/cancelaura Cat Form", { -- Cancel player form
   			"player.form > 0",  -- Is in any fom
-  			"!player.buff(1126)", -- DOes not have Mark of the Wild
+  			"!player.buff(20217).any", -- kings
+			"!player.buff(115921).any", -- Legacy of the Emperor
+			"!player.buff(1126).any",   -- Mark of the Wild
+			"!player.buff(90363).any",  -- embrace of the Shale Spider
+			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
   			"!player.buff(5215)", -- Not in Stealth
   			"toggle.cat" }},
 		{ "1126", {  -- Mark of the Wild
@@ -147,7 +154,6 @@ local outCombat = {
 		{ "768", { -- catform
   			"player.form != 2", -- Stop if cat
   			"!modifier.lalt", -- Stop if pressing left alt
-  			"player.buff(1126)", -- Player has Mark of the Wild 
   			"!player.buff(5215)", -- Not in Stealth
   			"toggle.cat"}}, -- Toggle cat is active
   		{ "5215", { -- Stealth

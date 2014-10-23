@@ -5,7 +5,7 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
-local mtsLib = { wisp = false, alert = true, sound = true, taunt = false, firehack = true }
+local mtsLib = { wisp = false, alert = true, sound = false, taunt = false, firehack = true }
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
 local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
@@ -19,7 +19,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mtsLib.AlertSounds()
-		mtsAlert:message('MrTheSoulz Version: 0.5.12')
+		mtsAlert:message('MrTheSoulz Version: 0.5.13')
 	end
 	
 	-- Enabled/Disable Whispers
@@ -266,7 +266,7 @@ end
 
 --[[   !!!Check if can whisper!!!   ]]
 function mtsLib.ConfigWhisper(txt)
-	if mtsLib.GetWisp() then
+	if mtsLib.wisp then
 		return RunMacroText("/w "..txt)
 	end
 	return false
@@ -274,8 +274,8 @@ end
 
 --[[   !!!Check if can use sounds!!!   ]]
 function mtsLib.AlertSounds()
-	if mtsLib.wisp then
-		PlaySoundFile(_media.. "beep.mp3", "master")
+	if mtsLib.sound then
+		PlaySoundFile("Sound\\Character\\PlayerRoars\\CharacterRoarsUndeadMale.wav")
 	end
 end
 
