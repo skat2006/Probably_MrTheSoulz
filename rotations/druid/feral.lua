@@ -44,9 +44,9 @@ local inCombat = {
 	  	{ "Mass Entanglement", "modifier.shift" },
 
   	-- Auto Target
-		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
-		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
-   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
+		{ "/target [target=focustarget, harm, nodead]", "toggle.autotarget" },
+		{ "/targetenemy [noexists]", "toggle.autotarget" },
+   		{ "/targetenemy [dead]", "toggle.autotarget" },
 
   	-- Survival
 	  	{ "Renewal", "player.health <= 30" },
@@ -80,7 +80,7 @@ local inCombat = {
 
   	-- buffs
   		{ "52610", { "!player.buff(174544)", "player.combopoints = 5" }, "target"}, -- Savage Roar
-  		{ "770", { "!target.debuff(770)", "!player.spell(106707).exists" }, "target" }, -- Faerie Fire
+  		{ "770", { "!target.debuff(770)", "!player.spell(106707).exists" }, "target", "!player.buff(5215)" }, -- Faerie Fire
 		{ "5217", "player.energy <= 35"}, -- Tiger's Fury
 
   	--Cooldowns
