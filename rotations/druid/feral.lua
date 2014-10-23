@@ -135,7 +135,8 @@ local outCombat = {
 		{ "/cancelaura Cat Form", { -- Cancel player form
   			"player.form > 0",  -- Is in any fom
   			"!player.buff(1126)", -- DOes not have Mark of the Wild
-  			"!player.buff(5215)" }},-- Not in Stealth
+  			"!player.buff(5215)", -- Not in Stealth
+  			"toggle.cat" }},
 		{ "1126", {  -- Mark of the Wild
 			"!player.buff(20217).any", -- kings
 			"!player.buff(115921).any", -- Legacy of the Emperor
@@ -143,7 +144,8 @@ local outCombat = {
 			"!player.buff(90363).any",  -- embrace of the Shale Spider
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
 			"!player.buff(5215)",-- Not in Stealth
-			"player.form = 0" }}, -- Player not in form
+			"player.form = 0",  -- Player not in form
+			"toggle.cat"}},
 		{ "768", { -- catform
   			"player.form != 2", -- Stop if cat
   			"!modifier.lalt", -- Stop if pressing left alt
