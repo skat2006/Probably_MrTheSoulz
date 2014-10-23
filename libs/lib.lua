@@ -19,7 +19,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mtsLib.AlertSounds()
-		mtsAlert:message('MrTheSoulz Version: 0.5.18')
+		mtsAlert:message('MrTheSoulz Version: 0.5.19')
 	end
 	
 	-- Enabled/Disable Whispers
@@ -153,9 +153,16 @@ function mtsLib.canUseFeather(txt)
 	else return false end
 end
 
-function mtsLib.mouseEqualTarget()
+--[[   !!!Check Mouseover and target are not equal!!!   ]]
+function mtsLib.mouseNotEqualTarget()
 	if (UnitGUID('target')) ~= (UnitGUID('mouseover')) then return true end
  return false
+end
+
+--[[   !!!Check Mouseover and target are equal!!!   ]]
+function mtsLib.mouseEqualTarget()
+	if (UnitGUID('target')) ~= (UnitGUID('mouseover')) then return false end
+ return true
 end
 
 --[[   !!!Dispell function!!!   ]]

@@ -6,7 +6,8 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
--- [[ Needs Fixing ...]]
+local n,r = GetSpellInfo(137639)
+
 local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
@@ -23,8 +24,8 @@ local inCombat = {
 		{ "Touch of Karma", "modifier.alt" }, -- Touch of Karma
 
 	-- SEF on mouseover // Needs Futher Logic...
-  		{ "Storm, Earth, and Fire",  {"toggle.autosef","!mouseover.debuff(138130)","!player.buff(137639).count = 2", "@mtsLib.mouseEqualTarget()"} , "mouseover" },
-  		{ "/cancelaura Storm, Earth, and Fire", { "target.debuff(Storm, Earth, and Fire)", "toggle.autosef" }, "target"},
+  		{ "137639",  {"toggle.autosef","!mouseover.debuff(138130)","!player.buff(137639).count = 2", "@mtsLib.mouseNotEqualTarget()"} , "mouseover" },
+  		{ "/cancelaura "..n, { "target.debuff(Storm, Earth, and Fire)", "toggle.autosef" }, "target"},
 
 	-- Auto Target
 		{ "/target [target=focustarget, harm, nodead]", {"target.range > 40", "!target.exists","toggle.autotarget"} },
@@ -33,15 +34,15 @@ local inCombat = {
 
 	-- Survival
 		{ "Expel Harm", { "player.health <= 80", "player.chi < 4" }},
-		{ "Chi Wave", "player.health <= 75" },
-		{ "Fortifying Brew", { -- Forifying Brew at < 30% health and when DM & DH buff is not up
+		{ "115098", "player.health <= 75" }, -- Chi Wave
+		{ "115203", { -- Forifying Brew at < 30% health and when DM & DH buff is not up
 		  "player.health < 30",
 		  "!player.buff(Diffuse Magic)", --DM
 		  "!player.buff(Dampen Harm)"}}, --DH
 		{ "#5512", "player.health < 40" }, -- Healthstone
 
 	-- Interrupts
-	  	{ "Paralysis", { -- Paralysis when SHS, and Quaking Palm are all on CD
+	  	{ "115078", { -- Paralysis when SHS, and Quaking Palm are all on CD
 	     	"!target.debuff(Spear Hand Strike)",
 	     	"player.spell(Spear Hand Strike).cooldown > 0",
 	     	"player.spell(Quaking Palm).cooldown > 0",
@@ -75,8 +76,8 @@ local inCombat = {
 	  	{ "Spear Hand Strike", {"target.interruptsAt(50)", "modifier.interrupts"} }, -- Spear Hand Strike
 
 	-- Cooldowns
-		{ "Energizing Brew", {"player.energy <= 30","modifier.cooldowns"} }, -- Nimble Brew = Nimble Brew
-		{ "Invoke Xuen, the White Tiger", "modifier.cooldowns" }, -- Nimble Brew = Nimble Brew
+		{ "115288", {"player.energy <= 30","modifier.cooldowns"} }, -- Energizing Brew
+		{ "123904", "modifier.cooldowns" }, -- Invoke Xuen, the White Tiger
 
 	-- FREEDOOM!
 		{ "Nimble Brew", "player.state.disorient" }, -- Nimble Brew = Nimble Brew
@@ -93,37 +94,37 @@ local inCombat = {
 	-- Ranged
 		{ "Tiger's Lust", { "target.range >= 15", "player.moving" }},-- Tiger's Lust if the target is at least 15 yards away and we are moving
 		{ "Zen Sphere", {"!target.debuff(Zen Sphere)","target.range >= 15"} }, -- 40 yard range!
-		{ "Chi Wave", "target.range >= 15" }, -- Chi Wave (40yrd range!)
+		{ "115098", "target.range >= 15" }, -- Chi Wave (40yrd range!)
 		{ "Chi Burst", "target.range >= 15" }, -- Chi Burst (40yrd range!)
-		{ "Crackling Jade Lightning", { "target.range > 5", "target.range <= 40", "!player.moving" }},
+		{ "117952", { "target.range > 5", "target.range <= 40", "!player.moving" }}, -- Crackling Jade Lightning
 		{ "Expel Harm", {"player.chi < 4", "target.range >= 15"} }, -- Expel Harm
 		
 
 	-- buffs
-		{ "Touch of Death", "player.buff(Death Note)" },
+		{ "115080", "player.buff(Death Note)" }, -- Touch of Death
 		{ "116740", "player.buff(125195).count = 10" }, -- Tigereye Brew
 
 	-- Procs
-		{ "Blackout Kick", "player.buff(Combo Breaker: Blackout Kick)"},
-		{ "Tiger Palm", "player.buff(Combo Breaker: Tiger Palm)"},
+		{ "100784", "player.buff(116768)"},-- Blackout Kick w/tCombo Breaker: Blackout Kick
+		{ "100787", "player.buff(118864)"}, -- Tiger Palm w/t Combo Breaker: Tiger Palm
 
 	-- Rotation
-		{ "Rising Sun Kick", "target.debuff(Rising Sun Kick).duration < 3" },
-		{ "Fists of Fury", "!player.moving" },
+		{ "107428", "target.debuff(130320).duration < 3" }, -- Rising Sun Kick
+		{ "113656", "!player.moving" },-- Fists of Fury
 
 		-- AoE
-			{ "Spinning Crane Kick", { "player.area(8).enemies > 3", "@mtsLib.CanFireHack()" }}, -- Spinning Crane Kick // FH Smarth
-			{ "Spinning Crane Kick", "modifier.multitarget" }, -- Spinning Crane Kick
+			{ "101546", { "player.area(8).enemies > 3", "@mtsLib.CanFireHack()" }}, -- Spinning Crane Kick // FH Smarth
+			{ "101546", "modifier.multitarget" }, -- Spinning Crane Kick
 
-		{ "Blackout Kick", "player.chi >= 3" },
-		{ "Tiger Palm", "!player.buff(Tiger Power)"},
-		{ "Jab", "player.chi <= 3" },
+		{ "100784", "player.chi >= 3" }, -- Blackout Kick
+		{ "100787", "!player.buff(125359)"}, -- Tiger Palm if not w/t Tiger Power
+		{ "115698", "player.chi <= 3" }, -- Jab
 		  
 }
 
 local outCombat = {
 
- 	{ "Legacy of the White Tiger", {
+ 	{ "116781", { -- Legacy of the White Tiger
 	  	"!player.buff(Legacy of the White Tiger).any",
 	  	"!player.buff(Leader of the Pack).any",
 	  	"!player.buff(Arcane Brilliance).any",
