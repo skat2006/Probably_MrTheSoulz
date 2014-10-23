@@ -14,13 +14,13 @@ lastSEFTarget = nil
 function SEF()
   if (UnitGUID('target') ~= nil) then
     local count = DSL('buff.count')('player', '137639')
-    if count > mtsLib.lastSEFCount and mtsLib.lastSEFTarget then
-    mtsLib.sefUnits[mtsLib.lastSEFTarget], mtsLib.lastSEFCount, mtsLib.lastSEFTarget = true, count, nil
+    if count > lastSEFCount and lastSEFTarget then
+    sefUnits[lastSEFTarget], lastSEFCount, lastSEFTarget = true, count, nil
     end
-    if count < 2 and DSL('enemy')('mouseover') then
+    if count < 2 and UnitReaction('mouseover') <= 4 then
     local mouseover, target = UnitGUID('mouseover'), UnitGUID('target')
-    if mouseover and target ~= mouseover and not mtsLib.sefUnits[mouseover] then
-      mtsLib.lastSEFTarget = mouseover
+    if mouseover and target ~= mouseover and not sefUnits[mouseover] then
+      lastSEFTarget = mouseover
       return true
     end
     end
@@ -58,8 +58,8 @@ local inCombat = {
 		{ "Touch of Karma", "modifier.alt" }, -- Touch of Karma
 
 	-- SEF on mouseover // Broken?
-  		--{ "Storm, Earth, and Fire", { SEF(), "toggle.autosef" }, "mouseover.target" },
-  		--{ "/cancelaura Storm, Earth, and Fire", { "target.debuff(Storm, Earth, and Fire)", "toggle.autosef" }, "mouseover.target"},
+  		{ "Storm, Earth, and Fire", { SEF(), "toggle.autosef" }, "mouseover" },
+  		{ "/cancelaura Storm, Earth, and Fire", { "target.debuff(Storm, Earth, and Fire)", "toggle.autosef" }, "mouseover"},
 
 	-- Auto Target
 		{ "/target [target=focustarget, harm, nodead]", {"target.range > 40", "!target.exists","toggle.autotarget"} },
