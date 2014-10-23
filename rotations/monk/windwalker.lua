@@ -6,11 +6,12 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
+-- [[ Needs Fixing ...]]
+local sefUnits = {}
+local lastSEFCount = 0
+local lastSEFTarget = nil
 
-sefUnits = {}
-lastSEFCount = 0
-lastSEFTarget = nil
-
+-- [[ Needs Fixing ...]]
 function SEF()
   if (UnitGUID('target') ~= nil) then
     local count = DSL('buff.count')('player', '137639')
@@ -30,9 +31,7 @@ function SEF()
   end
   return false
 end
-
-
-
+-- [[ Needs Fixing ...]]
 function cancelSEF()
   if DSL('buff')('player', '137639') then
      --and DSL('modifier.enemies')() < 2 then
@@ -57,9 +56,9 @@ local inCombat = {
 		{ "Leg Sweep", "modifier.control" }, -- Leg Sweep
 		{ "Touch of Karma", "modifier.alt" }, -- Touch of Karma
 
-	-- SEF on mouseover // Broken?
-  		{ "Storm, Earth, and Fire", { SEF(), "toggle.autosef" }, "mouseover" },
-  		{ "/cancelaura Storm, Earth, and Fire", { "target.debuff(Storm, Earth, and Fire)", "toggle.autosef" }, "mouseover"},
+	-- SEF on mouseover // Needs Futher Logic...
+  		{ "Storm, Earth, and Fire",  {"toggle.autosef","!mouseover.debuff(138130)"} , "mouseover" },
+  		--{ "/cancelaura Storm, Earth, and Fire", { "target.debuff(Storm, Earth, and Fire)", "toggle.autosef" }, "mouseover"},
 
 	-- Auto Target
 		{ "/target [target=focustarget, harm, nodead]", {"target.range > 40", "!target.exists","toggle.autotarget"} },
@@ -80,27 +79,37 @@ local inCombat = {
 	     	"!target.debuff(Spear Hand Strike)",
 	     	"player.spell(Spear Hand Strike).cooldown > 0",
 	     	"player.spell(Quaking Palm).cooldown > 0",
-	     	"!modifier.last(Spear Hand Strike)"}},
+	     	"!modifier.last(Spear Hand Strike)",
+	     	"target.interruptsAt(50)", 
+	     	"modifier.interrupts"}},
 	  	{ "Ring of Peace", { -- Ring of Peace when SHS is on CD
 	     	"!target.debuff(Spear Hand Strike)",
 	     	"player.spell(Spear Hand Strike).cooldown > 0",
-	     	"!modifier.last(Spear Hand Strike)"}},
+	     	"!modifier.last(Spear Hand Strike)",
+	     	"target.interruptsAt(50)", 
+	     	"modifier.interrupts"}},
 	  	{ "Leg Sweep", { -- Leg Sweep when SHS is on CD
 	     	"player.spell(116705).cooldown > 0",
 	     	"target.range <= 5",
-	     	"!modifier.last(116705)"}},
+	     	"!modifier.last(116705)",
+	     	"target.interruptsAt(50)", 
+	     	"modifier.interrupts"}},
 	  	{ "Charging Ox Wave", { -- Charging Ox Wave when SHS is on CD
 	     	"player.spell(116705).cooldown > 0",
 	     	"target.range <= 30",
-	     	"!modifier.last(116705)"}},
+	     	"!modifier.last(116705)",
+	     	"target.interruptsAt(50)", 
+	     	"modifier.interrupts"}},
 	  	{ "Quaking Palm", { -- Quaking Palm when SHS is on CD
 	     	"!target.debuff(Spear Hand Strike)",
 	     	"player.spell(Spear Hand Strike).cooldown > 0",
-	     	"!modifier.last(Spear Hand Strike)"}},
-	  	{ "Spear Hand Strike" }, -- Spear Hand Strike
+	     	"!modifier.last(Spear Hand Strike)",
+	     	"target.interruptsAt(50)",
+	     	"modifier.interrupts"}},
+	  	{ "Spear Hand Strike", {"target.interruptsAt(50)", "modifier.interrupts"} }, -- Spear Hand Strike
 
 	-- Cooldowns
-		{ "Energizing Brew", "modifier.cooldowns" }, -- Nimble Brew = Nimble Brew
+		{ "Energizing Brew", {"player.energy <= 30","modifier.cooldowns"} }, -- Nimble Brew = Nimble Brew
 		{ "Invoke Xuen, the White Tiger", "modifier.cooldowns" }, -- Nimble Brew = Nimble Brew
 
 	-- FREEDOOM!
@@ -114,6 +123,15 @@ local inCombat = {
 		{ "Tiger's Lust", "player.state.stun" },
 		{ "Tiger's Lust", "player.state.root" },
 		{ "Tiger's Lust", "player.state.snare" },
+
+	-- Ranged
+		{ "Tiger's Lust", { "target.range >= 15", "player.moving" }},-- Tiger's Lust if the target is at least 15 yards away and we are moving
+		{ "Zen Sphere", {"!target.debuff(Zen Sphere)","target.range >= 15"} }, -- 40 yard range!
+		{ "Chi Wave", "target.range >= 15" }, -- Chi Wave (40yrd range!)
+		{ "Chi Burst", "target.range >= 15" }, -- Chi Burst (40yrd range!)
+		{ "Crackling Jade Lightning", { "target.range > 5", "target.range <= 40", "!player.moving" }},
+		{ "Expel Harm", {"player.chi < 4", "target.range >= 15"} }, -- Expel Harm
+		
 
 	-- buffs
 		{ "Touch of Death", "player.buff(Death Note)" },
@@ -134,15 +152,6 @@ local inCombat = {
 		{ "Blackout Kick", "player.chi >= 3" },
 		{ "Tiger Palm", "!player.buff(Tiger Power)"},
 		{ "Jab", "player.chi <= 3" },
-	
-	-- Ranged
-		{ "Tiger's Lust", { "target.range >= 15", "player.moving" }},-- Tiger's Lust if the target is at least 15 yards away and we are moving
-		{ "Zen Sphere", "!target.debuff(Zen Sphere)" }, -- 40 yard range!
-		{ "Chi Wave" }, -- Chi Wave (40yrd range!)
-		{ "Chi Burst" }, -- Chi Burst (40yrd range!)
-		{ "Crackling Jade Lightning", { "target.range > 5", "target.range <= 40", "!player.moving" }},
-		{ "Expel Harm", "player.chi < 4" } -- Expel Harm
-		
 		  
 }
 
