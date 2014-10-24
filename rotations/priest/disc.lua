@@ -12,7 +12,7 @@ local exeOnLoad = function()
 	ProbablyEngine.toggle.create( 'mouseOver', 'Interface\\Icons\\Priest_spell_leapoffaith_a', 'MouseOver Heal', 'Toggle Mouse-Over Healing')
 	ProbablyEngine.toggle.create( 'feather', 'Interface\\Icons\\Ability_priest_angelicfeather.png', "Use Feather's", "Toggle Enables The Use Of Feather's")
 	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
-	mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Dist-\124cff9482C9Loaded*")
+	mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Dist\124cff9482C9-Loaded*")
 
 
 end
@@ -34,7 +34,10 @@ local inCombat = {
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }}, -- target enemire if no target
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 
-   	-- Mouse Over
+   	-- buffs
+		{ "81700", "player.buff(81661).count = 5" },--Archangel
+	
+	-- Mouse Over
 	    { "47540", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Penance
 		{ "2061", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Flash Heal
 
@@ -61,48 +64,52 @@ local inCombat = {
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
-		{ "33206", { "toggle.painSup","lowest.health <= 25 " }, "lowest" }, --Pain Suppression
-	    { "596", { "!player.moving","modifier.lalt" }, "lowest" }, --Prayer of Healing
+		{ "33206", { "toggle.painSup", "lowest.health <= 25 " }, "lowest" }, --Pain Suppression
+	    { "596", { "!player.moving", "modifier.lalt" }, "lowest" }, --Prayer of Healing
 	
    -- AOE
    		--Shared
    			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5"}, "lowest" }, --Prayer of Healing
 		-- Party
 			{ "596", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
-			--{ "132157", { "@coreHealing.needsHealing(95, 3)", "!modifier.last", "@mtsLib.FHFriendlyCheck('player', 12) >= 2", "modifier.party" }, "lowest" }, -- Holy NOva
-		-- RAID
-			{ "596", { "@coreHealing.needsHealing(80, 5)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
-			--{ "132157", { "@coreHealing.needsHealing(95, 5)", "!modifier.last", "@mtsLib.FHFriendlyCheck('player', 12) >= 2", "modifier.party" }, "lowest" }, -- Holy NOva
-		-- Raid 25
-			{ "596", { "@coreHealing.needsHealing(80, 8)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
-			--{ "132157", { "@coreHealing.needsHealing(95, 8)", "!modifier.last", "@mtsLib.FHFriendlyCheck('player', 12) >= 2", "modifier.party" }, "lowest" }, -- Holy NOva
+			--{ "132157", { "@coreHealing.needsHealing(95, 3)", "!modifier.last", "player.area(10).friendly > 2", "@mtsLib.CanFireHack()", "modifier.party" }}, -- Holy Nova
 
-   -- MAIN ROTATION
+	-- Heal FAST BITCH
+		{ "17", "!tank.debuff(6788).any", "tank" }, --Power Word: Shield
+		{ "17", { "!lowest.debuff(6788).any", "lowest.health < 30" }, "lowest" }, --Power Word: Shield
+		{ "2061", "tank.health <= 50", "tank" }, --Flash Heal
+		{ "2061", "lowest.health <= 20", "lowest" }, --Flash Heal
+	
+	-- Tank
+		{ "2060", "lowest.health <= 70", "lowest" }, --Greater Healing
+		{ "33076", { "tank.health <= 95", "!player.moving" }, "tank" }, --Prayer of Mending
+		{ "2050", {"!tank.health <= 50", "tank.health < 85"}, "tank" }, -- Heal
 
-	   	-- Tank
-		    { "17", { "!tank.debuff(6788).any","!tank.buff(17).any","tank.spell(17).range"}, "tank" }, --Power Word: Shield
-		    { "108968", {"!tank.player","player.health >= 75","tank.health <= 30","tank.spell(108968).range"}, "tank" }, --Void Shift
-			{ "32546", {"!tank.player","tank.health <= 40","player.health <= 60","tank.spell(32546).range"}, "tank" }, --Binding Heal
-		    { "2061", {"!player.moving","tank.health <= 40","target.spell(2061).range"}, "tank" }, --Flash Heal
-			{ "33076", {"tank.health <= 95","tank.spell(33076).range"}, "tank" }, --Prayer of Mending
+	-- Singe Target
+		{ "17", { "!lowest.debuff(6788).any","!lowest.buff(17).any"," lowest.health <= 90" }, "lowest" }, --Power Word: Shield
+		{ "47540", "lowest.health <= 85", "lowest" }, --Penance
+		{ "2060", "lowest.health <= 50", "lowest" }, --Greater Healing
+		{ "2050", "lowest.health <= 85", "lowest" }, -- Heal
 
-	  	-- Singe Target
-	  		{ "17", { "!lowest.debuff(6788).any","!lowest.buff(17).any","lowest.health <= 30"}, "lowest" }, --Power Word: Shield
-			{ "2050", { "lowest.health <= 65","player.mana <= 20", "!player.moving" }, "lowest" }, -- Heal
-		    { "2061", { "!player.moving","lowest.health <= 20"}, "lowest" }, --Flash Heal
-			{ "2060", { "!player.moving","lowest.health <= 50" }, "lowest" }, --Greater Healing
-			{ "47540", { "lowest.health <= 75", "!player.moving" }, "lowest" }, --Penance
-
-	  	--Attonement    
-			{ "14914", {"!toggle.mouseOver","player.mana > 20","target.spell(14914).range" }, "target" }, --Holy Fire
-			{ "47540", {"player.mana > 20","target.spell(47540).range"}, "target", "!player.moving" }, --Penance
-		 	{ "585", {"player.mana > 20","!player.moving","target.spell(585).range"}, "target" }, --Smite
+	--Attonement    
+		{ "14914", { "!toggle.mouseOver", "player.mana > 20","target.spell(14914).range" }, "target" }, --Holy Fire
+		{ "47540", { "player.mana > 20", "target.spell(47540).range", "!player.moving" }, "target" }, --Penance
+		{ "585", { "player.mana > 20", "!player.moving", "target.spell(585).range" }, "target" }, --Smite
 
 }
 
 local inCombatSolo = {
 
-  	-- Mana
+  	-- Auto Target
+		{ "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40", "tank.combat" }}, -- Use Tank Target
+		{ "/targetenemy ", { "toggle.autotarget", "target.friendly", "tank.combat" }}, -- Target a enemie if target is friendly
+		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists", "tank.combat" }}, -- target enemire if no target
+		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead", "tank.combat" }}, -- target enemire if current is dead.
+		
+	-- Start ICC
+		{ "589", "tank.combat", "lowest" }, --dot
+	
+	-- Mana
 		{ "123040", { "player.mana < 75","target.spell(123040).range" }, "target" }, --Mindbender
 		{ "34433", { "player.mana < 75", "target.spell(34433).range" }, "target" }, --Shadowfiend
 
@@ -123,10 +130,11 @@ local inCombatSolo = {
 local outCombat = {
 
 	--Heal
-	    { "21562", { "!player.buff(21562).any","!player.buff(588)" }}, -- Fortitude
+		{ "17", { "!tank.debuff(6788).any", "!tank.buff(17).any" }, "tank" }, --Power Word: Shield
+	    { "21562", { "!player.buff(21562).any", "!player.buff(588)" }}, -- Fortitude
 		{ "47540", { "lowest.health <= 85", "!player.moving" }, "lowest" }, --Penance
 		{ "2061", { "!player.moving", "lowest.health <= 75" }, "lowest" }, --Flash Heal
-		{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 4)" }, "lowest" }, --Prayer of Healing
+		{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 3)" }, "lowest" }, --Prayer of Healing
 
 	-- Mouse Over
 	    { "47540", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Penance
@@ -134,11 +142,11 @@ local outCombat = {
 		
 	-- buffs
 		{ "21562", {"!player.buff(21562).any","!player.buff(588)"}}, -- Fortitude
-		{ "81700", "player.buff(81661).count = 5" },--Archangel
+		{ "81700", "player.buff(81661).count = 5", "player.buff(81661).duration < 5" },--Archangel
 		{ "121536", {"player.moving", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 		--{ "121536", {"tank.moving", "toggle.feather", "!tank.buff(121557)", "player.spell(121536).charges >= 1" }, "tank.ground" },
 
 }
 
-ProbablyEngine.rotation.register_custom(256, "|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Dist-Raid/Party|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(256, "|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Dist-Party|r]", inCombat, outCombat, exeOnLoad)
 ProbablyEngine.rotation.register_custom(256, "|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Dist-Solo|r]", inCombatSolo, outCombat, exeOnLoad)

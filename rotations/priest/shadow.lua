@@ -3,7 +3,7 @@ local lib = function()
 
   ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist,')
   ProbablyEngine.toggle.create('mouseoverdots', 'Interface\\Icons\\INV_Helmet_131.png', 'Mouseoverd Doting', 'Mouseover to to anything thats not doted.')
-  mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Shadow-\124cff9482C9Loaded*")
+  mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Shadow\124cff9482C9-Loaded*")
 
 end
 
@@ -29,8 +29,8 @@ local inCombat = {
 
   -- dots
    -- { "/run mtsLib.dots(589, 589)", {"player.area(30).enemies > 1", "player.spell(589).cooldown = 0", "@mtsLib.CanFireHack()"}},
-    { "589",  "!target.debuff(589)" , "target" },
-    { "589",  {"toggle.mouseoverdots","!mouseover.debuff(589)"} , "mouseover" },
+    { "589", "!target.debuff(589)", "target" },
+    { "589", {"toggle.mouseoverdots","!mouseover.debuff(589)"}, "mouseover" },
 
   -- If Moving
     { "Cascade", "player.moving" },
@@ -54,6 +54,15 @@ local inCombat = {
 
 local outCombat = {
 
+	-- Auto Target
+		{ "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40", "tank.combat" }}, -- Use Tank Target
+		{ "/targetenemy ", { "toggle.autotarget", "target.friendly", "tank.combat" }}, -- Target a enemie if target is friendly
+		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists", "tank.combat" }}, -- target enemire if no target
+		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead", "tank.combat" }}, -- target enemire if current is dead.
+
+	-- dot to start ICC if tank is in combat
+		{ "589", "tank.combat", "target" },
+	
 	--buffs
 		{ "Power Word: Fortitude", "!player.buff(Power Word: Fortitude)" },
 		{ "Inner Fire", "!player.buff(Inner Fire)" },
