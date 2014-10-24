@@ -76,8 +76,8 @@ local inCombat = {
 			--{ "132157", { "@coreHealing.needsHealing(95, 3)", "!modifier.last", "player.area(10).friendly > 2", "@mtsLib.CanFireHack()", "modifier.party" }}, -- Holy Nova
 
 	-- SHIELDZ ME BITCH
-		{ "17", "!tank.debuff(17).any", "tank" }, --Power Word: Shield
-		{ "17", { "!lowest.debuff(17).any", "lowest.health <= 40" }, "lowest" }, --Power Word: Shield
+		{ "17", "!tank.buff(17).any", "tank" }, --Power Word: Shield
+		{ "17", { "!lowest.buff(17).any", "lowest.health <= 40" }, "lowest" }, --Power Word: Shield
 	
 	-- Heal FAST BITCH
 		{ "2061", "tank.health <= 50", "tank" }, --Flash Heal
