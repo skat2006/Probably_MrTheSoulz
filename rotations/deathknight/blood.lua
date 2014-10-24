@@ -54,15 +54,12 @@ local inCombat = {
 
 	-- buffs
 		{ "48263", "player.seal != 1", nil }, -- Blood
-		{ "49222", "!player.buff(49222)", nil }, -- bone shield
+		{ "49222", "!player.buff(49222)" }, -- bone shield
 
 	--Auto target
 		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
-
-	-- Just Do it!
-		{ "50842",	{"modifier.multitarget", "target.range < 35", "modifier.last(77575)" }}, -- Blood Boil
 
 	-- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
@@ -110,17 +107,19 @@ local inCombat = {
 		{ "115989", "target.debuff(55078).duration < 2" }, -- Unholy Blight
 		{ "77575", "target.debuff(55095).duration < 2" }, -- Outbreak
 		{ "77575", "target.debuff(55078).duration < 2" }, -- Outbreak
+		{ "50842",	{"target.range <= 10", "modifier.last(77575)" }}, -- Blood Boil
 
 	-- Multi-target
-		{ "50842",	"UnitsAroundUnit(player, 35[, 5])"}, -- Blood Boil
-		{ "50842",	{"player.buff(Crimson Scourge)","target.range <= 35" }}, -- Blood Boil
+		{ "50842",	"UnitsAroundUnit(player, 10[, 5])"}, -- Blood Boil
+		{ "50842",	{"modifier.multitarget","target.range <= 10" }}, -- Blood Boil
 
 	-- Rotation
+		{ "50842",	{"player.buff(Crimson Scourge)","target.range <= 10" }}, -- Blood Boil
 		{ "47541", "player.runicpower >= 90", "target" }, -- Death Coil // Full runic
 		{ "49998", { "player.buff(77513).duration <= 1" }, "target" }, -- Death Strike
 		{ "114866", "target.health <= 35", "target" }, -- Soul Reaper
-		{ "50842",	{ "target.range <= 35", "!target.health <= 35" }}, -- Blood Boil
-		{ "50842",	{ "player.runes(blood).count = 1", "target.range <= 35", "target.health <= 35" }}, -- Blood Boil // at less then 35% health if SR is not available.
+		{ "50842",	{ "target.range <= 10", "!target.health <= 35" }}, -- Blood Boil
+		{ "50842",	{ "player.runes(blood).count = 1", "target.range <= 10", "target.health <= 35" }}, -- Blood Boil // at less then 35% health if SR is not available.
 		{ "45462", "target.debuff(55078).duration < 2", "target" }, -- Plague Strike
 		{ "45477", "target.debuff(55095).duration < 2", "target" }, -- Icy Touch
 		{ "47541", "player.runicpower >= 30", "target" }, -- Death Coil
@@ -149,7 +148,7 @@ local outCombat = {
 	-- Buffs
 		{ "48263", { "player.seal != 1 ", "!toggle.run" }}, -- blood
 		{ "48265", { "player.seal != 3", "toggle.run" }}, -- unholy // moves faster out of combat...
-		{ "49222", "!player.buff(49222)", nil }, -- bone shield
+		{ "49222", "!player.buff(49222)" }, -- bone shield
 		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
 
 }

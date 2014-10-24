@@ -17,17 +17,6 @@ local exeOnLoad = function()
 
 end
 
-local Shared = {
-
-	-- buffs
-		{ "21562", {"!player.buff(21562).any","!player.buff(588)"}}, -- Fortitude
-		{ "81700", "player.buff(81661).count = 5" },--Archangel
-		{ "121536", {"player.moving", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
-		--{ "121536", {"tank.moving", "toggle.feather", "!tank.buff(121557)", "player.spell(121536).charges >= 1" }, "tank.ground" },
-
-
-}
-
 local inCombat = {
 	
   	--keybinds
@@ -40,9 +29,10 @@ local inCombat = {
 		{ "109964", "modifier.lshift" }, --Spirit Shell
 
 	-- Auto Targets
-		{ "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40" }},
-		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
-   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
+		{ "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40" }}, -- Use Tank Target
+		{ "/targetenemy ", { "toggle.autotarget", "target.friendly" }}, -- Target a enemie if target is friendly
+		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }}, -- target enemire if no target
+   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 
    	-- Mouse Over
 	    { "47540", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Penance
@@ -141,14 +131,14 @@ local outCombat = {
 	-- Mouse Over
 	    { "47540", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Penance
 		{ "2061", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Flash Heal
+		
+	-- buffs
+		{ "21562", {"!player.buff(21562).any","!player.buff(588)"}}, -- Fortitude
+		{ "81700", "player.buff(81661).count = 5" },--Archangel
+		{ "121536", {"player.moving", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		--{ "121536", {"tank.moving", "toggle.feather", "!tank.buff(121557)", "player.spell(121536).charges >= 1" }, "tank.ground" },
 
 }
-
-for _, Shared in pairs(Shared) do
-  inCombat[#inCombat + 1] = Shared
-  inCombatSolo[#inCombatSolo + 1] = Shared
-  outCombat[#outCombat + 1] = Shared
-end
 
 ProbablyEngine.rotation.register_custom(256, "|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Dist-Raid/Party|r]", inCombat, outCombat, exeOnLoad)
 ProbablyEngine.rotation.register_custom(256, "|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Dist-Solo|r]", inCombatSolo, outCombat, exeOnLoad)
