@@ -12,14 +12,15 @@ local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
 
---[[   !!!Pack Commands!!!   ]]
+									--[[   !!!Pack Commands!!!   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 ProbablyEngine.command.register('mts', function(msg, box)
 local command, text = msg:match("^(%S*)%s*(.-)$")
 		
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mtsLib.AlertSounds()
-		mtsAlert:message('MrTheSoulz Version: 0.5.19')
+		mtsAlert:message('MrTheSoulz Version: 0.5.20')
 	end
 	
 	-- Enabled/Disable Whispers
@@ -137,7 +138,8 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 
 end)
 
---[[   !!!Check If can FireHack!!!   ]]
+								--[[    !!!Check If can use FireHack!!!  ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 function mtsLib.CanFireHack()
 	if FireHack then
 	 	if mtsLib.firehack then
@@ -146,19 +148,19 @@ function mtsLib.CanFireHack()
 	else return false end
 end
 
---[[   !!!Check If can feathers!!!   ]]
+							--[[   !!!Check If player to unit distance!!!   ]]
+								--[[   TXT = Unit, TXT2 = Distance   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 function mtsLib.canUseFeather(txt)
-	if Distance(player, txt) >= 30 then
+	if Distance(player, txt) >= 35 then
 		return true
 	else return false end
 end
 
---[[   !!!Check Mouseover and target are not equal!!!   ]]
-function mtsLib.mouseNotEqualTarget()
-	if (UnitGUID('target')) ~= (UnitGUID('mouseover')) then return true end
- return false
-end
 
+ 							--[[   !!!Check IF should dot units around!!!   ]]
+										--[[   Thanks biGGER!   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 
 local UnitDebuff = function(target, spell, owner)
     local debuff, count, caster, expires, spellID
@@ -179,6 +181,7 @@ local UnitDebuff = function(target, spell, owner)
     return debuff, count, expires, caster, power
 end
  
+
 function mtsLib.dots(spellId, debuffId)
   IterateObjects(function(object)
     if not (object == ObjectFromUnitId("target")) then
@@ -191,13 +194,24 @@ function mtsLib.dots(spellId, debuffId)
 return
 end
 
---[[   !!!Check Mouseover and target are equal!!!   ]]
+
+					--[[   !!!Check Mouseover and target are or not equal!!!   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
+
+
+function mtsLib.mouseNotEqualTarget()
+	if (UnitGUID('target')) ~= (UnitGUID('mouseover')) then return true end
+ return false
+end
+
 function mtsLib.mouseEqualTarget()
 	if (UnitGUID('target')) ~= (UnitGUID('mouseover')) then return false end
  return true
 end
 
---[[   !!!Dispell function!!!   ]]
+									--[[   !!!Dispell function!!!   ]]
+						--[[   Checks is member as debuff and can be dispeled.   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 function mtsLib.Dispell(text)
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
@@ -227,6 +241,9 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 		return false
 end 
 
+									--[[   !!!Check Queue!!!   ]]
+				--[[   !!!I Dont Remember who originaly build this, but thanks!!!!   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 mtsLib.checkQueue = function (spellId)
     if (GetTime() - mtsLib.queueTime) > 10 then
         mtsLib.queueTime = 0
@@ -246,6 +263,10 @@ mtsLib.checkQueue = function (spellId)
     return false
 end
 
+							--[[   !!!Check If Should Stop Dps!!!   ]]
+			--[[   !!!I Dont Remember who originaly build this, but thanks!!!!   ]]
+			-- [[   Used to Not break CC's or when it should not attack on special events.]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 function mtsLib.immuneEvents(unit)
   if not UnitAffectingCombat(unit) then return false end
   -- Crowd Control
@@ -295,7 +316,8 @@ function mtsLib.hasDebuffTable(target, spells)
   end
 end
 
---[[   !!!Check if should taunt!!!   ]]
+								--[[   !!!Check if should taunt!!!   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 function mtsLib.ShouldTaunt()
 	if UnitIsTappedByPlayer("target") 
 	and mtsLib.taunt
@@ -306,7 +328,8 @@ function mtsLib.ShouldTaunt()
 	end
 end
 
---[[   !!!Check if can whisper!!!   ]]
+								--[[   !!!Check if can whisper!!!   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 function mtsLib.ConfigWhisper(txt)
 	if mtsLib.wisp then
 		return RunMacroText("/w "..txt)
@@ -314,57 +337,25 @@ function mtsLib.ConfigWhisper(txt)
 	return false
 end
 
---[[   !!!Check if can use sounds!!!   ]]
+								--[[   !!!Check if can use sounds!!!   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 function mtsLib.AlertSounds()
 	if mtsLib.sound then
 		PlaySoundFile("Sound\\Character\\PlayerRoars\\CharacterRoarsUndeadMale.wav")
 	end
 end
 
---[[   !!!Check if can use Alerts!!!   ]]
+								--[[   !!!Check if can use Alerts!!!   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 function mtsLib.ConfigAlert(txt)
 	if mtsLib.alert then
 		return mtsAlert:message(txt)
 	end
 end
 
---[[   !!!Check should stop when a boss...!!!   ]]
-function mtsLib.StopIfBoss()
-if UnitExists("boss1") then
-local npcId = tonumber(UnitGUID("target"):sub(6,10), 16)
-	if npcId == 71543 -- Immersus
-	or npcId == 72276 -- Norushen
-	or npcId == 71734 -- Sha of Pride
-	or npcId == 72249 -- Galakras
-	or npcId == 71466 -- Iron Juggernaut
-	or npcId == 71859 -- Kor'kron Dark Shaman
-	or npcId == 71515 -- General Nazgrim
-	or npcId == 71454 -- Malkorok
-	or npcId == 71529 -- Thok the Bloodsthirsty
-	or npcId == 71504 -- Siegecrafter Blackfuse
-	or npcId == 71865 -- Garrosh Hellscream
-	then return false end
-end
-	return true 
-end
-
---[[   !!!Check should stop when a boss...!!!   ]]
-function mtsLib.shouldStop(unit)
-	if not UnitAffectingCombat(unit) then return false end
-	if mtsLib.hasDebuffTable(unit, _cc) then return false end
-	if UnitAura(unit,GetSpellInfo(116994))
-		or UnitAura(unit,GetSpellInfo(122540))
-		or UnitAura(unit,GetSpellInfo(123250))
-		or UnitAura(unit,GetSpellInfo(106062))
-		or UnitAura(unit,GetSpellInfo(110945))
-		or UnitAura(unit,GetSpellInfo(143593)) -- General Nazgrim: Defensive Stance
-		or UnitAura(unit,GetSpellInfo(143574)) -- Heroic Immerseus: Swelling Corruption
-		then return false 
-	end
-		return true
-end
-
---[[   !!!Check can use item!!!   ]]
+									--[[   !!!Check can use item!!!   ]]
+							-- [[   Check if item is ready and can use it   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 function mtsLib.checkItem(key)
 	if GetItemCount(key) > 1
 	and GetItemCooldown(key) == 0 then 
@@ -373,7 +364,9 @@ function mtsLib.checkItem(key)
 	return false
 end
 
---[[   !!!Check if it is a dummy!!!   ]]
+								--[[   !!!Check if it is a dummy!!!   ]]
+					--[[   Used to not Taunt Dummy's like a noob, and other situations.   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 function mtsLib.dummy()	
 	for i=1, #mts_Dummies do
 		if UnitExists("target") then
@@ -395,7 +388,9 @@ ProbablyEngine.library.register('mtsLib', mtsLib)
 
 
 
---[[   !!!Combat Alert Tracker!!!   ]]
+								--[[   !!!Combat Alert Tracker!!!   ]]
+						     --[[   Used For Spiting Alerts & sounds   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
 local event = select(2, ...)
 local source = select(4, ...)

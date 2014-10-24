@@ -53,8 +53,8 @@ local inCombat = {
 			{ "69041", "player.moving" },
 
 	-- buffs
-		{"48263", "player.seal != 1", nil }, -- Blood
-		{ "49222", "!player.buff(49222)" }, -- bone shield
+		{ "48263", "player.seal != 1", nil }, -- Blood
+		{ "49222", "!player.buff(49222)", nil }, -- bone shield
 
 	--Auto target
 		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
@@ -149,6 +149,7 @@ local outCombat = {
 	-- Buffs
 		{ "48263", { "player.seal != 1 ", "!toggle.run" }}, -- blood
 		{ "48265", { "player.seal != 3", "toggle.run" }}, -- unholy // moves faster out of combat...
+		{ "49222", "!player.buff(49222)", nil }, -- bone shield
 		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
 
 }
