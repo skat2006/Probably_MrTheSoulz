@@ -61,7 +61,7 @@ local inCombat = {
 	 	{ "527", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Torment')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-	 	{ "527", { "toggle.dispel", "@mtsLib.Dispell('Purify')", nil },
+	 	{ "527", { "toggle.dispel", "@mtsLib.Dispell('Purify')"}, nil },
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
