@@ -29,14 +29,6 @@ local exeOnLoad = function()
 
 end
 
-local Shared = {
-
-	-- Buffs
-		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
-		{ "49222", "!player.buff(49222)" }, -- bone shield
-
-}
-
 local inCombat = {
 
 	--Racials
@@ -60,8 +52,9 @@ local inCombat = {
 		-- Goblins
 			{ "69041", "player.moving" },
 
-	-- Presence
+	-- buffs
 		{"48263", "player.seal != 1", nil }, -- Blood
+		{ "49222", "!player.buff(49222)" }, -- bone shield
 
 	--Auto target
 		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
@@ -156,13 +149,9 @@ local outCombat = {
 	-- Buffs
 		{ "48263", { "player.seal != 1 ", "!toggle.run" }}, -- blood
 		{ "48265", { "player.seal != 3", "toggle.run" }}, -- unholy // moves faster out of combat...
+		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
 
 }
-
-for _, Shared in pairs(Shared) do
-  inCombat[#inCombat + 1] = Shared
-  outCombat[#outCombat + 1] = Shared
-end
 
 ProbablyEngine.rotation.register_custom(250, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-Blood|r]", inCombat, outCombat, exeOnLoad)
 

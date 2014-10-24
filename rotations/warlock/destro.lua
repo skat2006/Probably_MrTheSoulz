@@ -5,6 +5,7 @@ I Hope Your Enjoy Them
 MTS
 ]]--
 
+
 local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
@@ -43,7 +44,7 @@ local inCombat = {
 	-- AOE
 		{"Fire and Brimstone", {"player.area(10).enemies >= 3", "@mtsLib.CanFireHack()"}, "target"}, -- smarth
 		{"Fire and Brimstone", "modifier.multitarget", "target"},
-		{"Havoc", "modifier.multitarget", "target"},
+		{ "/run mtsLib.dots(80240, 80240)", {"player.area(30).enemies > 1", "player.spell(80240).cooldown = 0", "@mtsLib.CanFireHack()"}},
 
   	-- Rotation
 	  	{"Shadowburn", "target.health <=20", "target"},

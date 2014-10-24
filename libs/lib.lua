@@ -159,6 +159,38 @@ function mtsLib.mouseNotEqualTarget()
  return false
 end
 
+
+local UnitDebuff = function(target, spell, owner)
+    local debuff, count, caster, expires, spellID
+    if tonumber(spell) then
+    local i = 0; local go = true
+    while i <= 40 and go do
+        i = i + 1
+        debuff,_,_,count,_,_,expires,caster,_,_,spellID,_,_,_,power = _G['UnitDebuff'](target, i)
+        if not owner then
+        if spellID == tonumber(spell) and caster == "player" then go = false end
+        elseif owner == "any" then
+        if spellID == tonumber(spell) then go = false end
+        end
+    end
+    else
+    debuff,_,_,count,_,_,expires,caster = _G['UnitDebuff'](target, spell)
+    end
+    return debuff, count, expires, caster, power
+end
+ 
+function mtsLib.dots(spellId, debuffId)
+  IterateObjects(function(object)
+    if not (object == ObjectFromUnitId("target")) then
+      if not UnitBuff(object, debuffId, "player") then
+    	  CastSpellById("spellId", object)
+    	  return true
+    	end
+    end
+  end, ObjectTypes.Unit)
+return
+end
+
 --[[   !!!Check Mouseover and target are equal!!!   ]]
 function mtsLib.mouseEqualTarget()
 	if (UnitGUID('target')) ~= (UnitGUID('mouseover')) then return false end

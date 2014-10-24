@@ -1,6 +1,8 @@
 
 local lib = function()
 
+  ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist,')
+  ProbablyEngine.toggle.create('mouseoverdots', 'Interface\\Icons\\INV_Helmet_131.png', 'Mouseoverd Doting', 'Mouseover to to anything thats not doted.')
   mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Shadow-\124cff9482C9Loaded*")
 
 end
@@ -22,15 +24,24 @@ local inCombat = {
     
   -- Keybinds
     { "Mind Sear", "modifier.shift" },
-    
+
+  -- Auto Target
+    { "/target [target=focustarget, harm, nodead]", {"target.range > 40", "!target.exists","toggle.autotarget"} },
+    { "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
+    { "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
+
+
+  -- dots
+    { "/run mtsLib.dots(589, 589)", {"player.area(30).enemies > 1", "player.spell(589).cooldown = 0", "@mtsLib.CanFireHack()"}},
+    { "589",  "!target.debuff(589)" , "target" },
+    { "589",  {"toggle.mouseoverdots","!mouseover.debuff(589)"} , "mouseover" },
+
   -- If Moving
-    { "Shadow Word: Pain", "player.moving" },
     { "Cascade", "player.moving" },
     { "Halo", "player.moving" },
     { "Shadow Word: Death", "player.moving" },
-    
+
   -- Rotation
-    { "Shadow Word: Pain", "target.debuff(Shadow Word: Pain).duration <= 5" },
     { "Mind Blast", "player.buff(Divine Insight)" },
     { "Devouring Plague", "player.shadoworbs >= 3" },
     { "Mind Blast" }, 
@@ -56,4 +67,4 @@ for _, Shared in pairs(Shared) do
   outCombat[#outCombat + 1] = Shared
 end
 
-ProbablyEngine.rotation.register_custom(258, "|r[|cffFFFFFFMTS|r][Testing Priest-Shadow|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(258, "|r[|cff9482C9MTS|r][Testing Priest-Shadow|r]", inCombat, outCombat, lib)
