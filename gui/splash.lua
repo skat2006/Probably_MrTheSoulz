@@ -5,6 +5,9 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
+local currentSpec = GetSpecialization()
+local currentSpecName = currentSpec and select(2, GetSpecializationInfo(currentSpec)) or "None"
+
 local backdrop = {
   bgFile = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.tga",  
   edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Gold-Border",
@@ -13,8 +16,6 @@ local backdrop = {
   edgeSize = 1,
   insets = { left = 11, right = 12, top = 12, bottom = 11 }
  }
-
-
 
 local function onUpdate(mtsStart,elapsed) 
 	if mtsStart.time < GetTime() - 2.0 and mtsSplash.time < GetTime() - 2.0 then
@@ -57,4 +58,12 @@ function mtsStart:message(message)
 	mtsStart:Show()
 	mtsSplash:Show()
 	PlaySoundFile("Sound\\Creature\\Xuen\\VO_54_Ti_Xuen_Kill.wav")
+	--print("Your current spec:", currentSpecName)
 end
+
+--[[function mtsTestSplash()
+	if currentSpec == 256 then 
+		mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Dist\124cff9482C9-Loaded*") 
+	else 
+		mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFERROR!!!\124cff9482C9-Loaded*") end
+end]]-- ITs BROKEN!!!!! WOOT?!

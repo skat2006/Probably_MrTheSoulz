@@ -14,7 +14,6 @@ local exeOnLoad = function()
 	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
 	mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Dist\124cff9482C9-Loaded*")
 
-
 end
 
 local inCombat = {
@@ -37,6 +36,9 @@ local inCombat = {
    	-- buffs
 		{ "81700", "player.buff(81661).count = 5" },--Archangel
 	
+	-- LoOk aT It GOoZ!!! // Needs to add tank...
+		{ "121536", {"player.movingfor > 2", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+	
 	-- Mouse Over
 	    { "47540", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Penance
 		{ "2061", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Flash Heal
@@ -54,13 +56,12 @@ local inCombat = {
 		{ "586", "target.threat >= 80" }, -- Fade
  
   	-- Dispel's
-	    { "!527", {"!modifier.last","player.spell(527).casted < 1","@coreHealing.needsDispelled('Shadow Word: Bane')"}, nil },
-	    { "!527", {"!modifier.last","player.debuff(146595)","@coreHealing.needsDispelled('Mark of Arrogance')" }, nil },
-	    { "!527", {"!modifier.last","@coreHealing.needsDispelled('Corrosive Blood')"}, nil },
-	 	{ "!527", {"!modifier.last","@coreHealing.needsDispelled('Harden Flesh')"}, nil },
-	 	{ "!527", {"!modifier.last","@coreHealing.needsDispelled('Torment')"}, nil },
-	 	{ "!527", {"!modifier.last","@coreHealing.needsDispelled('Breath of Fire')"}, nil },
-	 	{ "527", { "toggle.dispel", "@mtsLib.Dispell('Cleanse')" }, nil },
+	    { "527", {"player.debuff(146595)","@coreHealing.needsDispelled('Mark of Arrogance')"}, nil },
+	    { "527", "@coreHealing.needsDispelled('Corrosive Blood')", nil },
+	 	{ "527", "@coreHealing.needsDispelled('Harden Flesh')", nil },
+	 	{ "527", "@coreHealing.needsDispelled('Torment')", nil },
+	 	{ "527", "@coreHealing.needsDispelled('Breath of Fire')", nil },
+	 	{ "527", { "toggle.dispel", "@mtsLib.Dispell('Purify')", nil },
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
@@ -74,9 +75,11 @@ local inCombat = {
 			{ "596", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
 			--{ "132157", { "@coreHealing.needsHealing(95, 3)", "!modifier.last", "player.area(10).friendly > 2", "@mtsLib.CanFireHack()", "modifier.party" }}, -- Holy Nova
 
+	-- SHIELDZ ME BITCH
+		{ "17", "!tank.debuff(17).any", "tank" }, --Power Word: Shield
+		{ "17", { "!lowest.debuff(17).any", "lowest.health <= 40" }, "lowest" }, --Power Word: Shield
+	
 	-- Heal FAST BITCH
-		{ "17", "!tank.debuff(6788).any", "tank" }, --Power Word: Shield
-		{ "17", { "!lowest.debuff(6788).any", "lowest.health < 30" }, "lowest" }, --Power Word: Shield
 		{ "2061", "tank.health <= 50", "tank" }, --Flash Heal
 		{ "2061", "lowest.health <= 20", "lowest" }, --Flash Heal
 	
@@ -84,9 +87,8 @@ local inCombat = {
 		{ "2060", "lowest.health <= 70", "lowest" }, --Greater Healing
 		{ "33076", { "tank.health <= 95", "!player.moving" }, "tank" }, --Prayer of Mending
 		{ "2050", {"!tank.health <= 50", "tank.health < 85"}, "tank" }, -- Heal
-
+	
 	-- Singe Target
-		{ "17", { "!lowest.debuff(6788).any","!lowest.buff(17).any"," lowest.health <= 90" }, "lowest" }, --Power Word: Shield
 		{ "47540", "lowest.health <= 85", "lowest" }, --Penance
 		{ "2060", "lowest.health <= 50", "lowest" }, --Greater Healing
 		{ "2050", "lowest.health <= 85", "lowest" }, -- Heal
@@ -143,8 +145,9 @@ local outCombat = {
 	-- buffs
 		{ "21562", {"!player.buff(21562).any","!player.buff(588)"}}, -- Fortitude
 		{ "81700", "player.buff(81661).count = 5", "player.buff(81661).duration < 5" },--Archangel
-		{ "121536", {"player.moving", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
-		--{ "121536", {"tank.moving", "toggle.feather", "!tank.buff(121557)", "player.spell(121536).charges >= 1" }, "tank.ground" },
+	
+	-- LoOk aT It GOoZ!!!
+		{ "121536", {"player.movingfor > 2", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 
 }
 
