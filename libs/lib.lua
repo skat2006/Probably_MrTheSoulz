@@ -8,7 +8,6 @@ MTS
 local mtsLib = { wisp = false, alert = true, sound = false, taunt = false, firehack = true }
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
-local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
 
@@ -20,7 +19,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mtsLib.AlertSounds()
-		mtsAlert:message('MrTheSoulz Version: 0.5.26')
+		mtsAlert:message('MrTheSoulz Version: 0.5.27')
 	end
 	
 	-- Enabled/Disable Whispers
@@ -157,7 +156,6 @@ function mtsLib.canUseFeather(txt)
 	else return false end
 end
 
-
  							--[[   !!!Check IF should dot units around!!!   ]]
 										--[[   Thanks biGGER!   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
@@ -208,38 +206,6 @@ function mtsLib.mouseEqualTarget()
 	if (UnitGUID('target')) ~= (UnitGUID('mouseover')) then return false end
  return true
 end
-
-									--[[   !!!Dispell function!!!   ]]
-						--[[   Checks is member as debuff and can be dispeled.   ]]
---[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-function mtsLib.Dispell(text)
-local prefix = (IsInRaid() and 'raid') or 'party'
-	for i = -1, GetNumGroupMembers() - 1 do
-	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
-		if IsSpellInRange(text, unit) then
-			for j = 1, 40 do
-			local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(unit, j)
-				if dispelType and dispelType == 'Magic' or dispelType == 'Poison' or dispelType == 'Disease' then
-				local ignore = false
-				for k = 1, #ignoreDebuffs do
-					if debuffName == ignoreDebuffs[k] then
-						ignore = true
-						break
-					end
-				end
-					if not ignore then
-						ProbablyEngine.dsl.parsedTarget = unit
-						return true
-					end
-				end
-				if not debuffName then
-					break
-				end
-			end
-		end
-	end
-		return false
-end 
 
 									--[[   !!!Check Queue!!!   ]]
 				--[[   !!!I Dont Remember who originaly build this, but thanks!!!!   ]]

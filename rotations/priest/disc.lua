@@ -5,6 +5,40 @@ I Hope Your Enjoy Them
 MTS
 ]]--
 
+local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
+
+								--[[   !!!Dispell function!!!   ]]
+						--[[   Checks is member as debuff and can be dispeled.   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
+function Dispell()
+local prefix = (IsInRaid() and 'raid') or 'party'
+	for i = -1, GetNumGroupMembers() - 1 do
+	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
+		if IsSpellInRange('Purify', unit) then
+			for j = 1, 40 do
+			local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(unit, j)
+				if dispelType and dispelType == 'Magic' or dispelType == 'Disease' then
+				local ignore = false
+				for k = 1, #ignoreDebuffs do
+					if debuffName == ignoreDebuffs[k] then
+						ignore = true
+						break
+					end
+				end
+					if not ignore then
+						ProbablyEngine.dsl.parsedTarget = unit
+						return true
+					end
+				end
+				if not debuffName then
+					break
+				end
+			end
+		end
+	end
+		return false
+end 
+
 local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
@@ -61,7 +95,7 @@ local inCombat = {
 	 	{ "527", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Torment')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-	 	{ "527", { "toggle.dispel", "@mtsLib.Dispell('Purify')"}, nil },
+	 	{ "527", { "toggle.dispel", Dispell()}, nil },
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
