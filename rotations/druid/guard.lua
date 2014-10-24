@@ -8,24 +8,9 @@ MTS
 local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
-	mtsStart:message("\124cff9482C9*MTS-\124cffFF7D0ADruid/Guardian-\124cff9482C9Loaded*")
+	mtsStart:message("\124cff9482C9*MTS-\124cffFF7D0ADruid/Guardian\124cff9482C9-Loaded*")
 
 end
-
-local Shared = {
-
-	--	Buffs
-		{ "1126", { -- Mark of the Wild
-			"!player.buff(20217).any",
-			"!player.buff(115921).any",
-			"!player.buff(1126).any",
-			"!player.buff(90363).any",
-			"!player.buff(69378).any",
-			--"@mtsLib.getConfig('DoodGuardBuffs')",
-			"player.form = 0" 
-		}, nil },
-  
-}
 
 local inCombat = {
 
@@ -49,7 +34,7 @@ local inCombat = {
 			{ "7744", "player.state.sleep" },
 		-- Goblins
 			{ "69041", "player.moving" },
-
+	
 	--	keybinds
 		{ "77761", "modifier.rshift" }, -- Stampeding Roar
 		{ "5211", "modifier.lcontrol" }, -- Mighty Bash
@@ -64,21 +49,37 @@ local inCombat = {
 			{ "740", { "modifier.lalt", "player.spell(740).cooldown < .001" }, nil }, -- Tranq
 			{ "!/cast Bear Form", { "!player.casting", "!player.form = 1", "modifier.lalt" }, nil }, -- bear form
 		}, "talent(16)" },
-
-	--Pause if
-		{ "pause", "player.form > 1" }, -- Any Player form but bear
-
-	-- If not in form
-		{ "/cast Bear Form", { "player.form != 1", "!modifier.lalt" }},
+		
+	--	Buffs
+		{ "/cancelaura Bear Form", { -- Cancel player form
+  			"player.form > 0",  -- Is in any fom
+  			"!player.buff(20217).any", -- kings
+			"!player.buff(115921).any", -- Legacy of the Emperor
+			"!player.buff(1126).any",   -- Mark of the Wild
+			"!player.buff(90363).any",  -- embrace of the Shale Spider
+			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
+  			"!player.buff(5215)" }},-- Not in Stealth
+		{ "1126", {  -- Mark of the Wild
+			"!player.buff(20217).any", -- kings
+			"!player.buff(115921).any", -- Legacy of the Emperor
+			"!player.buff(1126).any",   -- Mark of the Wild
+			"!player.buff(90363).any",  -- embrace of the Shale Spider
+			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
+			"!player.buff(5215)",-- Not in Stealth
+			"player.form = 0" }}, -- Player not in form
+  		{ "5784", { -- bearform
+  			"player.form != 1", -- Stop if bear
+  			"!modifier.lalt", -- Stop if pressing left alt
+  			"!player.buff(5215)"}}, -- Not in Stealth
 
 	-- Auto Target
+		{ "/target [target=focustarget, harm, nodead]", {"target.range > 40", "!target.exists","toggle.autotarget"} },
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
-	{{-- Interrupts
-		{ "80964" }, -- skull bash
-		{ "132469" }, -- typhoon
-	}, "target.interruptsAt(50)" },
+	-- Interrupts
+		{ "80964", "target.interruptsAt(50)" }, -- skull bash
+		{ "132469", "target.interruptsAt(50)" }, -- typhoon
 	
 	{{-- Aggro Control
 		{ "62124", "@mtsBossLib.bossTaunt", "target" }, -- Boss // Reckoning
@@ -87,9 +88,9 @@ local inCombat = {
 	},{ "@mtsLib.dummy()", "@mtsLib.ShouldTaunt('DoodGuardTaunts')" }},
 	
 	-- Items
-		--{ "#5512", "@mtsLib.ConfigUnitHp('DoodGuardHs', 'player')" }, --Healthstone
-		--{ "#76097", { "@mtsLib.getConfig('DoodGuardItems')", "player.health < 30", "@mtsLib.HealthPot" }}, -- Master Health Potion
-		--{ "#86125", { "@mtsLib.getConfig('DoodGuardItems')","@mtsLib.KafaPress" }}, -- Kafa Press
+		{ "#5512", "player.health < 50" }, --Healthstone
+		--{ "#76097", "player.health < 30" }, -- Master Health Potion
+		--{ "#86125"}, -- Kafa Press
 	
 	-- Cooldowns
 		{ "50334", "modifier.cooldowns" }, -- Berserk
@@ -98,35 +99,32 @@ local inCombat = {
 		{ "106731", "modifier.cooldowns" }, -- Incarnation
  
 	--Defensive
-		--{ "62606", { "!player.buff", "player.health <= 95", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Savage Defense
-		--{ "22842", { "!player.buff", "player.health <= 70", "player.rage >= 20", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Frenzied Regeneration
-		--{ "22812", { "player.health <= 70", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Barkskin
-		--{ "102351", { "player.health <= 60", "@mtsLib.getConfig('DoodGuardDefCd')" }, "player" }, -- Cenarion Ward
-		--{ "61336", { "player.health <= 40", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Survival Instincts
-		--{ "106922", { "player.health < 30", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Might of Ursoc
-		--{ "108238", { "player.health <= 40", "@mtsLib.getConfig('DoodGuardDefCd')" }, nil }, -- Renewal		
+		{ "62606", { "!player.buff", "player.health <= 95" } }, -- Savage Defense
+		{ "22842", { "!player.buff", "player.health <= 70", "player.rage >= 20" } }, -- Frenzied Regeneration
+		{ "22812",  "player.health <= 70" }, -- Barkskin
+		{ "102351",  "player.health <= 60", "player" }, -- Cenarion Ward
+		{ "61336",  "player.health <= 40" }, -- Survival Instincts
+		{ "106922", "player.health < 30", nil }, -- Might of Ursoc
+		{ "108238", "player.health <= 40" }, -- Renewal		
 
 	-- Dream of Cenarious
 		-- Needs a Rebirth here
 		{ "5185", { "lowest.health < 90", "!player.health < 90", "player.buff(145162)" }, "lowest" }, -- Healing touch /  RAID/PARTY
 		{ "5185", { "player.health < 90", "player.buff(145162)" }, "player" }, -- Healing touch / PLAYER
 
+	-- Procs
+		{ "6807", "player.buff(Tooth and Claw)" }, -- Maul
+
 	-- Rotation
-		{ "6807", { "player.buff(135286)", "target.spell(6807).range" }, "target" }, -- Maul / proc
-	
-		{{-- AOE
-			{ "77758", "!target.buff(77758)" }, -- Thrash
-			{ "33878" }, -- Mangle
-			{ "779" }, -- Swipe
-		}, "modifier.multitarget" },
+		{ "770", {"!target.debuff(770)", "target.boss"} }, -- Faerie Fire
+		{ "33917", "player.rage < 80" }, -- Mangle
 		
-		{{-- Single
-			{ "6807", "player.rage >= 80" }, -- Maul
-			{ "33878" }, -- Mangle
-			{ "77758", "!target.buff(77758)" }, -- Thrash
-			{ "770", "!target.debuff(770)" }, -- Faerie Fire
-			{ "33745" }, -- Lacerate
-		}, "!modifier.multitarget" },
+		-- AoE
+			{ "77758", "player.area(8).enemies >= 3", "@mtsLib.CanFireHack()" }, -- Thrash  // FH SMARTH AoE
+			{ "77758", "modifier.multitarget" }, -- Thrash
+			
+		{ "77758", "target.debuff(77758).duration <= 4" }, -- Thrash
+		{ "33745" }, -- Lacerate
   
 }
 
@@ -146,13 +144,30 @@ local outCombat = {
 			{ "740", { "modifier.lalt", "player.spell(740).cooldown < .001" }, nil }, -- Tranq
 			{ "!/cast Bear Form", { "!player.casting", "!player.form = 1", "modifier.lalt" }, nil }, -- bear form
 		}, "talent(16)" },
+		
+	-- Buffs
+  		{ "/cancelaura Bear Form", { -- Cancel player form
+  			"player.form > 0",  -- Is in any fom
+  			"!player.buff(20217).any", -- kings
+			"!player.buff(115921).any", -- Legacy of the Emperor
+			"!player.buff(1126).any",   -- Mark of the Wild
+			"!player.buff(90363).any",  -- embrace of the Shale Spider
+			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
+  			"!player.buff(5215)" }},-- Not in Stealth
+		{ "1126", {  -- Mark of the Wild
+			"!player.buff(20217).any", -- kings
+			"!player.buff(115921).any", -- Legacy of the Emperor
+			"!player.buff(1126).any",   -- Mark of the Wild
+			"!player.buff(90363).any",  -- embrace of the Shale Spider
+			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
+			"!player.buff(5215)",-- Not in Stealth
+			"player.form = 0" }}, -- Player not in form
+  		{ "5784", { -- bearform
+  			"player.form != 1", -- Stop if bear
+  			"!modifier.lalt", -- Stop if pressing left alt
+  			"!player.buff(5215)"}}, -- Not in Stealth
 
 }
-
-for _, Shared in pairs(Shared) do
-  inCombat[#inCombat + 1] = Shared
-  outCombat[#outCombat + 1] = Shared
-end
 
 ProbablyEngine.rotation.register_custom(104, "|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Guardian|r]", inCombat, outCombat, exeOnLoad)
 

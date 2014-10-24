@@ -19,7 +19,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mtsLib.AlertSounds()
-		mtsAlert:message('MrTheSoulz Version: 0.5.27')
+		mtsAlert:message('MrTheSoulz Version: 0.5.28')
 	end
 	
 	-- Enabled/Disable Whispers
