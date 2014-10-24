@@ -68,17 +68,19 @@ local inCombat = {
 		{ "33206", { "toggle.painSup", "lowest.health <= 25 " }, "lowest" }, --Pain Suppression
 	    { "596", { "!player.moving", "modifier.lalt" }, "lowest" }, --Prayer of Healing
 	
-   -- AOE
+	-- SHIELDZ ME BITCH
+		{ "17", { "!tank.debuff(6788).any", "!tank.buff(17).any" }, "tank" }, --Power Word: Shield
+		{ "17", { "!focus.debuff(6788).any", "!focus.buff(17).any" }, "focus" }, --Power Word: Shield
+		{ "17", { "!player.debuff(6788).any", "!player.buff(17).any", "player.health <= 70" }, "player" }, --Power Word: Shield
+		{ "17", { "!lowest.debuff(6788).any", "!lowest.buff(17).any", "lowest.health <= 40" }, "lowest" }, --Power Word: Shield
+	
+	-- AOE
    		--Shared
    			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5"}, "lowest" }, --Prayer of Healing
 		-- Party
 			{ "596", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
 			--{ "132157", { "@coreHealing.needsHealing(95, 3)", "!modifier.last", "player.area(10).friendly > 2", "@mtsLib.CanFireHack()", "modifier.party" }}, -- Holy Nova
 
-	-- SHIELDZ ME BITCH
-		{ "17", "!tank.debuff(6788).any", "tank" }, --Power Word: Shield
-		{ "17", { "!lowest.debuff(6788).any", "lowest.health <= 40" }, "lowest" }, --Power Word: Shield
-	
 	-- Heal FAST BITCH
 		{ "2061", "tank.health <= 50", "tank" }, --Flash Heal
 		{ "2061", "lowest.health <= 20", "lowest" }, --Flash Heal
