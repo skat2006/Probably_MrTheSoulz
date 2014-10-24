@@ -95,7 +95,7 @@ local inCombat = {
 	 	{ "527", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Torment')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-	 	{ "527", { "toggle.dispel", Dispell()}, nil },
+	 	{ "527", {"toggle.dispel", function() return Dispell() end}},
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
@@ -120,7 +120,7 @@ local inCombat = {
 		{ "2061", "lowest.health <= 20", "lowest" }, --Flash Heal
 	
 	-- Tank
-		{ "2060", "lowest.health <= 70", "lowest" }, --Greater Healing
+		{ "2060", "tank.health <= 60", "tank" }, --Greater Healing
 		{ "33076", { "tank.health <= 95", "!player.moving" }, "tank" }, --Prayer of Mending
 		{ "2050", {"!tank.health <= 50", "tank.health < 85"}, "tank" }, -- Heal
 	

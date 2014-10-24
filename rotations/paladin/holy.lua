@@ -122,7 +122,7 @@ local inCombat = {
 		{ "4987", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Torment')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{ "4987", { "toggle.dispel", Dispell() }, nil },
+		{ "4987", { "toggle.dispel", function() return Dispell() end }, nil },
 	
 	{{-- Divine Purpose
 		{ "85673", "lowest.health <= 80", "lowest"  }, -- Word of Glory
