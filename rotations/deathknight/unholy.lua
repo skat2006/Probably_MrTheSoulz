@@ -1,5 +1,8 @@
--- SPEC ID 252
-ProbablyEngine.rotation.register(252, {
+function exeOnLoad()
+
+end
+
+local inCombat = {
 
   { "Raise Dead", "!pet.exists" },
 
@@ -62,24 +65,20 @@ ProbablyEngine.rotation.register(252, {
     "player.runes(death).count = 0",
   }},
 
-},{
+}
 
-  ---------------
-  -- OOC Begin --
-  ---------------
+local outcombat = {
   
   -- Buffs
-  { "Horn of Winter", "!player.buff(Horn of Winter)" },
+	{ "Horn of Winter", "!player.buff(Horn of Winter)" },
   
   -- Keybinds
-  { "Army of the Dead", "modifier.alt" },
-  { "Death Grip", "modifier.control" },
+	{ "Army of the Dead", "modifier.alt" },
+	{ "Death Grip", "modifier.control" },
   
   -- Pet
-  { "Raise Dead", "!pet.exists" },
-  
-  -------------
-  -- OOC End --
-  -------------
-  }
-)
+	{ "Raise Dead", "!pet.exists" },
+
+}
+
+ProbablyEngine.rotation.register_custom(252, "|r[|cff9482C9MTS|r][Test Unholy|r]", inCombat, outCombat, exeOnLoad)

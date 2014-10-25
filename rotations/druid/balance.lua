@@ -1,7 +1,8 @@
--- SPEC ID 102 (Balance)
-ProbablyEngine.rotation.register(102, 
+function exeOnLoad()
 
-Local inCombat = {
+end
+
+local inCombat = {
   
   --Screw bear form
 	{ "/cancelform", "player.buff != 0" },
@@ -77,6 +78,10 @@ Local inCombat = {
 	  { "Wrath", "player.balance.moon" },
 	  { "Starfall" },
 
-  
-  }
-)
+}
+
+local outCombat = {
+
+}
+
+ProbablyEngine.rotation.register(102, "|r[|cff9482C9MTS|r][TEST Balance|r]", inCombat, outCombat, exeOnLoad)
