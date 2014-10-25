@@ -66,4 +66,8 @@ end
 		mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Dist\124cff9482C9-Loaded*") 
 	else 
 		mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFERROR!!!\124cff9482C9-Loaded*") end
-end]]-- ITs BROKEN!!!!! WOOT?!
+end
+
+"|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.tga:32:32|t -- Logo
+
+]]-- ITs BROKEN!!!!! WOOT?!

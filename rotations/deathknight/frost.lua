@@ -32,16 +32,9 @@ local exeOnLoad = function()
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_deathknight_iceboundfortitude.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
 	ProbablyEngine.toggle.create('run', 'Interface\\Icons\\Inv_boots_plate_dungeonplate_c_05.png', 'Enable Unholy Presence Outside of Combat', 'Enable/Disable Unholy Presence Outside of Combat \nMakes you run/fly faster when outside of combat.')
-	mtsStart:message("\124cff9482C9*MTS-\124cffC41F3BDeathKnight/Blood\124cff9482C9-Loaded*")
+	mtsStart:message("\124cff9482C9*MTS-\124cffC41F3BDeathKnight/Frost\124cff9482C9-Loaded*")
 
 end
-
-local Shared = {
-
-	-- Buffs
-		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
-  
-}
 
 local inCombat = {
 
@@ -74,6 +67,9 @@ local inCombat = {
 	
 	-- Presence
 		{ "48266", "player.seal != 2" }, -- frost
+
+	-- Buffs
+		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
 
 	--Racials
         -- Dwarves
@@ -223,10 +219,5 @@ local outCombat = {
 		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
   
 }
-
-for _, Shared in pairs(Shared) do
-  inCombat[#inCombat + 1] = Shared
-  outCombat[#outCombat + 1] = Shared
-end
 
 ProbablyEngine.rotation.register_custom(251, "|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-Frost|r]", inCombat, outCombat, exeOnLoad)
