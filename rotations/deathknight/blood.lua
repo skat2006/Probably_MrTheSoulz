@@ -99,8 +99,8 @@ local inCombat = {
 		{ "108194", { "target.interruptsAt(50)", "!modifier.last(47528)" }, "target" }, -- Asphyxiate
 
 	-- Spell Steal
-		{ "77606", DarkSimUnit('target'), "target" }, -- Dark Simulacrum
-		{ "77606", DarkSimUnit('focus'), "focus" },  -- Dark Simulacrum
+		{ "77606", function() return DarkSimUnit('target') end, "target" }, -- Dark Simulacrum
+		{ "77606",function() return DarkSimUnit('focus') end, "focus" },  -- Dark Simulacrum
 
 	-- Diseases
 		{ "115989", "target.debuff(55095).duration < 2" }, -- Unholy Blight

@@ -128,8 +128,8 @@ local inCombat = {
 		{ "108194", { "target.interruptsAt(50)", "!modifier.last(47528)" }, "target" }, -- Asphyxiate
 
 	-- Spell Steal
-		{ "77606", DarkSimUnit('target'), "target" }, -- Dark Simulacrum
-		{ "77606", DarkSimUnit('focus'), "focus" },  -- Dark Simulacrum
+		{ "77606", function() return DarkSimUnit('target') end, "target" }, -- Dark Simulacrum
+		{ "77606",function() return DarkSimUnit('focus') end, "focus" },  -- Dark Simulacrum
 
 	-- Disease's
 		{ "115989", "target.debuff(55095).duration < 2" }, -- Unholy Blight
@@ -144,7 +144,6 @@ local inCombat = {
 	{{-- 1hand
 
 		-- AoE
-
 	      	{ "50842", { "modifier.last(Outbreak)", "modifier.multitarget" }}, -- blood boil
 	      	{ "50842", {"modifier.last(Plague Strike)", "modifier.multitarget" }}, -- blood boil
 	      	{ "49184", "modifier.multitarget", "target" }, -- Howling Blast
@@ -154,7 +153,6 @@ local inCombat = {
       		{ "49143", "modifier.multitarget" },-- Frost Strike
 
 		 -- Single Target
-
 			{ "49143", "player.buff(Killing Machine)" },-- Frost Strike
 	      	{ "49143", "player.runicpower > 88" },-- Frost Strike
 	      	{ "49184", "player.runes(death).count > 1" },-- Howling Blast
@@ -174,7 +172,6 @@ local inCombat = {
 
 		
 	    -- AoE
-
 	      	{ "45529", { "player.buff(Blood Charge).count >= 5", "!player.runes(blood).count == 2", "!player.runes(frost).count == 2", "!player.runes(unholy).count == 2", "modifier.multitarget" }}, -- Blood Tap
 	      	{ "49184", "modifier.multitarget", "target" }, -- Howling Blast
 	      	{ "49143", {"player.runicpower >= 75", "modifier.multitarget" }, "target" },-- Frost Strike
@@ -183,17 +180,14 @@ local inCombat = {
 
     
 	    -- Single Target
-
 	      	{ "130735", "target.health < 35" }, -- Soul Reaper
 	      	{ "49184", "player.buff(Freezing Fog)" }, -- Howling Blast
 	      	
 	      	 -- If player less then 65% health
-
 	        	{ "49998", {"player.buff(Killing Machine)", "player.health < 65"}, "target" }, -- Death Strike
 	        	{ "49998", {"player.runicpower <= 75", "player.health < 65"}, "target" }, -- Death Strike
 		    
 		     -- If player more then 65% health
-
 		        { "49020", {"player.buff(Killing Machine)", "player.health > 65"}, "target" }, -- Obliterate
 		    	{ "49020", {"player.runicpower <= 75", "player.health > 65"}, "target" }, -- Obliterate
 
