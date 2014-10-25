@@ -82,7 +82,7 @@ local inCombat = {
   	},"toggle.cat"},
 
   	-- buffs
-  		{ "52610", { "!player.buff(174544)", "player.combopoints = 5" }, "target"}, -- Savage Roar
+  		{ "52610", { "!player.buff(52610)", "player.combopoints >= 2" }, "target"}, -- Savage Roar
   		{ "770", { "!target.debuff(770)", "!player.spell(106707).exists" }, "target", "!player.buff(5215)" }, -- Faerie Fire
 		{ "5217", "player.energy <= 35"}, -- Tiger's Fury
 
