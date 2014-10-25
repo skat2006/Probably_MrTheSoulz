@@ -102,7 +102,7 @@ local inCombat = {
 
 	-- buffs
 		{ "115080", "player.buff(Death Note)" }, -- Touch of Death
-		{ "116740", "player.buff(125195).count = 10" }, -- Tigereye Brew
+		{ "116740", {"player.buff(125195).count >= 10", "!player.buff(116740)"} }, -- Tigereye Brew
 
 	-- Procs
 		{ "100784", "player.buff(116768)"},-- Blackout Kick w/tCombo Breaker: Blackout Kick
