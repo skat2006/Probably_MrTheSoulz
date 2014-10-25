@@ -114,7 +114,7 @@ local inCombat = {
 	-- rotation
 	    { "22568", { "target.health < 25", "target.debuff(1079).duration < 5" }, "target"}, -- Ferocious Bite to refresh Rip when target at <= 25% health.
 	    { "22568", { "target.debuff(1079)", "target.health < 30", "player.combopoints = 5" }, "target"},-- Ferocious Bite // Target Health is less then 25%
-	    { "22568", { "player.combopoints = 5", "target.debuff(1079).duration > 5", "player.buff(174544).duration > 5" }, "target"}, -- Ferocious Bite // Max Combo and Rip or Savage do not need refreshed
+	    { "22568", { "player.combopoints = 5", "target.debuff(1079).duration > 5", "player.buff(52610).duration > 5" }, "target"}, -- Ferocious Bite // Max Combo and Rip or Savage do not need refreshed
 	      	
 	    -- Shred // Combo Point Building Rotation
 	    	{ "5221", "player.buff(Clearcasting)", "target"  }, -- Shred
