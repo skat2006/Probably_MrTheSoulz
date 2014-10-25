@@ -26,3 +26,4 @@ rotations\warlock\destro.lua
 rotations\hunter\bm.lua
 rotations\mage\arcane.lua
 rotations\shaman\resto.lua
+rotations\shaman\ele.lua
