@@ -51,6 +51,8 @@ local inCombat = {
 	-- Cooldowns
 		{ "121818", "modifier.cooldowns" },--Stampede
 		{ "131894", "modifier.cooldowns" },-- A Murder of Crows
+		{ "19574", { "player.focus > 60", "modifier.cooldowns" }}, -- Bestial Wrath
+		{ "120679", "modifier.cooldowns" }, -- Dire Beast
 
 	-- Survival
   		{ "19263", "player.health < 40" },--Deterrence
@@ -63,10 +65,6 @@ local inCombat = {
 
 		-- Proc's
 			{ "Focus Fire", "player.buff(Frenzy).count = 5" },
-			
-		-- shared
-			{ "120679" }, -- Dire Beast
-			{ "19574", { "player.focus > 60", "!player.buff(Bestial Wrath)" }}, -- Bestial Wrath
 
 		-- aoe FH
 			{"2643",{"player.area(35).enemies > 4", "@mtsLib.CanFireHack()"}, "target"}, -- Multi-Shot
