@@ -95,6 +95,13 @@ local inCombat = {
 	-- Proc's
   		{ "106830", "player.buff(Omen of Clarity)", "target" }, -- Free Thrash
 
+	-- AoE
+		{ "106785", { "player.area(8).enemies >= 4", "@mtsLib.CanFireHack()" }}, -- Swipe // FireHack
+		{ "106830", {"player.area(8).enemies >= 4", "@mtsLib.CanFireHack()" }, "target" }, -- Tharsh
+		{ "106785", "modifier.multitarget"}, -- Swipe
+		{ "106830", "modifier.multitarget", "target" }, -- Tharsh
+
+	{{ -- Dont use in aoe
 	-- dots
 		{ "1822", "target.debuff(155722).duration <= 4", "target" }, -- 
 		{ "1079", { -- Rip // bellow 25% if target does not have debuff
@@ -105,11 +112,7 @@ local inCombat = {
 			"target.health > 25", 
 			"target.debuff(1079).duration <= 7", 
 			"player.combopoints = 5" }, "target"},
-		{ "106830", {"target.debuff(106830).duration <= 1.5", }, "target" }, -- Tharsh
-
-	-- AoE
-		{ "106785", { "player.area(8).enemies > 11", "@mtsLib.CanFireHack()" }}, -- Swipe // FireHack
-		{ "106785", "modifier.multitarget"}, -- Swipe
+		{ "106830", "target.debuff(106830).duration <= 1.5", "target" }, -- Tharsh
 
 	-- rotation
 	    { "22568", { "target.health < 25", "target.debuff(1079).duration < 5" }, "target"}, -- Ferocious Bite to refresh Rip when target at <= 25% health.
@@ -120,6 +123,7 @@ local inCombat = {
 	    	{ "5221", "player.buff(Clearcasting)", "target"  }, -- Shred
 	    	{ "5221", "player.buff(Berserk)", "target"  }, -- Shred 
 	    	{ "5221", "player.combopoints < 5", "target" }, -- Shred
+	}, "!modifier.multitarget" },
   
 }
 
