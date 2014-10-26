@@ -20,6 +20,14 @@ function mtsLib.canUseFeather(txt)
 	else return false end
 end
 
+function mtsLib.CanFireHack()
+	if FireHack then
+	 	if mts_getSetting('getFirehack') then
+			return true
+		else return false end
+	else return false end
+end
+
  							--[[   !!!Check IF should dot units around!!!   ]]
 										--[[   Thanks biGGER!   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]

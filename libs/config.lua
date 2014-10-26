@@ -180,14 +180,6 @@ function mtsConfigAlert(txt)
 	end
 end
 
-function mts_CanFireHack()
-	if FireHack then
-	 	if mtsConfig:get('getFirehack') then
-			return true
-		else return false end
-	else return false end
-end
-
 function mtsConfigShouldUseSpell(key)
 	return mtsConfig:get(key)
 end

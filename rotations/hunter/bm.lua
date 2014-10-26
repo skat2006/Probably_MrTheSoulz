@@ -50,9 +50,7 @@ local inCombat = {
 
 	-- Cooldowns
 		{ "121818", "modifier.cooldowns" },--Stampede
-  		{ "131894", "modifier.cooldowns" }, -- A Murder of Crows
-  		{ "120679", "modifier.cooldowns" },--Dire Beast
-  		{ "Bestial Wrath", "modifier.cooldowns" },--Bestial Wrath
+		{ "131894", "modifier.cooldowns" },-- A Murder of Crows
 
 	-- Survival
   		{ "19263", "player.health < 40" },--Deterrence
@@ -64,7 +62,11 @@ local inCombat = {
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
 		-- Proc's
-			{"Focus Fire", "player.buff(Frenzy)", "target"},
+			{ "Focus Fire", "player.buff(Frenzy).count = 5" },
+			
+		-- shared
+			{ "120679" }, -- Dire Beast
+			{ "19574", { "player.focus > 60", "!player.buff(Bestial Wrath)" }}, -- Bestial Wrath
 
 		-- aoe FH
 			{"2643",{"player.area(35).enemies > 4", "@mtsLib.CanFireHack()"}, "target"}, -- Multi-Shot
@@ -74,11 +76,17 @@ local inCombat = {
 			{"2643", "modifier.multitarget"}, -- Multi-Shot
 
 		-- Rotation
-			{"34023"},--Kill Command
-			{"53351", "target.health <= 20", "target"},--Kill Shot
-			{ "Glaive Toss" },--Glaive Toss
-			{"3044", {"player.focus > 60", "!modifer.multitarget"}, "target"},--Arcane Shot
-			{"77767", "player.focus < 60", "target"},--Cobra Shot
+			{ "53351" },--Kill Shot
+			{ "34026" },--Kill Command
+			{ "Focusing Shot", "player.focus < 50" },
+			{ "77767", { "player.buff(Steady Focus).duration < 5", "player.focus < 50" }},--Cobra Shot
+			{ "Glaive Toss" },
+			{ "Barrage" }, -- Do we really want this in ST? May want to put on a toggle
+			{ "Powershot", "player.timetomax > 2.5" },
+			{ "3044", { "player.buff(Thrill of the Hunt)", "player.focus > 35" }},--Arcane Shot
+			{ "3044", "player.buff(Bestial Wrath)" },--Arcane Shot
+			{ "3044", "player.focus >= 64" },--Arcane Shot
+			{ "77767" },--Cobra Shot
   
 }
 
