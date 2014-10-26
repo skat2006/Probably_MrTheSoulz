@@ -34,6 +34,7 @@ local inCombat = {
 	-- keybinds
 		{ "105593", "modifier.control", "target" }, -- Fist of Justice
 		{ "853", "modifier.control", "target" }, -- Hammer of Justice
+		{ "114158", "modifier.shift", "target.ground" }, -- Light´s Hammer
 
 	--[[ Items
 		{ "#5512" }, --Healthstone
@@ -62,7 +63,7 @@ local inCombat = {
 	-- Cooldowns
 		{ "31884", "modifier.cooldowns" }, -- Avenging Wrath
 		{ "105809", "modifier.cooldowns" }, --Holy Avenger
-		{ "114158", {"modifier.cooldowns", "target.range <= 6"}, "target.ground" }, -- Light´s Hammer
+		{ "114158", {"modifier.cooldowns", "target.range <= 30"}, "target.ground" }, -- Light´s Hammer
 		
 	-- Self Heal
 		{ "#5512", "player.health <= 60" }, --Healthstone
@@ -99,6 +100,7 @@ local outCombat = {
 	-- keybinds
 		{ "105593", "modifier.control", "target" }, -- Fist of Justice
 		{ "853", "modifier.control", "target" }, -- Hammer of Justice
+		{ "114158", "modifier.shift", "target.ground" }, -- Light´s Hammer
 
 	-- Hands
 		{ "1044", "player.state.root" }, -- Hand of Freedom
