@@ -12,13 +12,6 @@ local lib = function()
 
 end
 
-local Shared = {
-
-	-- Buffs
-		{"77769", "!player.buff(77769)"}, -- trap launcher
-
-}
-
 local inCombat = {
 		
 	-- Pause if fake death
@@ -34,6 +27,9 @@ local inCombat = {
   		{"5384","player.aggro >=100 "}, -- fake death
   		--{"34477", "tank.exists", "target"}, -- misdirection
 
+	-- buffs
+		{"77769", "!player.buff(77769)"}, -- trap launcher
+	
 	-- moving
 		{ "172106", {"modifier.cooldowns","player.moving"} },-- Aspect of the fox
 
@@ -90,6 +86,9 @@ local inCombat = {
 
 local outCombat = {
 
+	-- buffs
+		{"77769", "!player.buff(77769)"}, -- trap launcher
+
 	-- keybinds
   		{ "60192", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- Freezing Trap
   		{ "82941", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- ice Trap
@@ -97,11 +96,5 @@ local outCombat = {
   		{ "82941", "modifier.shift", "mouseover.ground" }, -- ice Trapp
 
 }
-
-for _, Shared in pairs(Shared) do
-  inCombat[#inCombat + 1] = Shared
-  outCombat[#outCombat + 1] = Shared
-end
-
 
 ProbablyEngine.rotation.register_custom(253, "|r[|cff9482C9MTS|r][|cffABD473Hunter-BM|r]", inCombat, outCombat, lib)
