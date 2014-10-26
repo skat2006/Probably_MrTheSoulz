@@ -79,7 +79,7 @@ local inCombat = {
 			{ "Focusing Shot", "player.focus < 50" },
 			{ "77767", { "player.buff(Steady Focus).duration < 5", "player.focus < 50" }},--Cobra Shot
 			{ "Glaive Toss" },
-			{ "Barrage" }, -- Do we really want this in ST? May want to put on a toggle
+			{ "Barrage" },
 			{ "Powershot", "player.timetomax > 2.5" },
 			{ "3044", { "player.buff(Thrill of the Hunt)", "player.focus > 35" }},--Arcane Shot
 			{ "3044", "player.buff(Bestial Wrath)" },--Arcane Shot
