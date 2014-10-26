@@ -62,8 +62,8 @@ local inCombat = {
 		{ "109964", "modifier.lshift" }, --Spirit Shell
 
 	-- Auto Targets
+		{ "/cleartarget ", { "toggle.autotarget", "target.friendly" }}, -- Target a enemie if target is friendly
 		{ "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy ", { "toggle.autotarget", "target.friendly" }}, -- Target a enemie if target is friendly
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }}, -- target enemire if no target
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 
@@ -95,7 +95,7 @@ local inCombat = {
 	 	{ "527", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Torment')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-	 	{ "527", {"toggle.dispel", function() return Dispell() end}},
+	 	{ "527", {"toggle.dispel", (function() return Dispell() end)}},
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
@@ -113,6 +113,7 @@ local inCombat = {
    			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5"}, "lowest" }, --Prayer of Healing
 		-- Party
 			{ "596", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
+			{ "62618", { "@coreHealing.needsHealing(50, 3)", "modifier.party", "!player.moving", "modifier.cooldowns" }, "tank.ground" }, -- Power word Barrier // w/t CD's and on tank
 			--{ "132157", { "@coreHealing.needsHealing(95, 3)", "!modifier.last", "player.area(10).friendly > 2", "@mtsLib.CanFireHack()", "modifier.party" }}, -- Holy Nova
 
 	-- Heal FAST BITCH
