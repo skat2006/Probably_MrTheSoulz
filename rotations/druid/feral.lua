@@ -128,7 +128,7 @@ local outCombat = {
 	--	keybinds
 	  	{ "Ursol's Vortex", {"modifier.shift", "target.exists"}, "mouseover.ground" }, -- Ursol's Vortex
 	  	{ "Disorienting Roar", "modifier.shift" },
-	  	{ "Mighty Bash", {"modifier.shift", "target.exists"}, "target" },
+	  	{ "Mighty Bash", {"modifier.control", "target.exists"}, "target" },
 	  	{ "Typhoon", {"modifier.alt", "target.exists"}, "target" },
 	  	{ "Mass Entanglement", "modifier.shift" },
 
