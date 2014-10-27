@@ -74,14 +74,15 @@ local inCombat = {
 		{ "121536", {"player.movingfor > 2", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 	
 	-- Mouse Over
-	    { "47540", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Penance
-		{ "2061", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Flash Heal
+		{ "139", { "toggle.mouseOver", "!mouseover.buff" }, "mouseover" }, --renew
+		{ "47540", { "toggle.mouseOver", "mouseover.health <= 85", "!player.moving" }, "mouseover" }, --Penance
+		{ "2061", { "toggle.mouseOver", "mouseover.health <= 55", "!player.moving" }, "mouseover" },  --Flash Heal
+		{ "2050", { "toggle.mouseOver", "mouseover.health <= 95", "!player.moving" }, "mouseover" }, -- Heal
 
   	-- Mana/Survival
 		{ "123040", {"player.mana < 75","target.spell(123040).range"}, "target" }, --Mindbender
-		{ "34433", {"player.mana < 75","target.spell(34433).range"}, "target" },	 --Shadowfiend
+		{ "34433", {"player.mana < 75","target.spell(34433).range"}, "target" }, --Shadowfiend
 		{ "19236", {"player.health <= 20" }, "Player" }, --Desperate Prayer
-		{ "64901", {"player.mana < 70"}, "player"}, --Hymn of hope
 
   	-- HEALTHSTONE 
 		{ "#5512", "player.health <= 35" },
@@ -100,7 +101,6 @@ local inCombat = {
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
 		{ "33206", { "toggle.painSup", "lowest.health <= 25 " }, "lowest" }, --Pain Suppression
-	    { "596", { "!player.moving", "modifier.lalt" }, "lowest" }, --Prayer of Healing
 	
 	-- Heal FAST BITCH
 		-- focus
@@ -116,6 +116,7 @@ local inCombat = {
 	-- AOE
    		--Shared
    			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5"}, "lowest" }, --Prayer of Healing
+		
 		-- Party
 			{ "596", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
 			{ "62618", { "@coreHealing.needsHealing(50, 3)", "modifier.party", "!player.moving", "modifier.cooldowns" }, "tank.ground" }, -- Power word Barrier // w/t CD's and on tank
@@ -161,6 +162,9 @@ local inCombatSolo = {
 		{ "123040", { "player.mana < 75","target.spell(123040).range" }, "target" }, --Mindbender
 		{ "34433", { "player.mana < 75", "target.spell(34433).range" }, "target" }, --Shadowfiend
 
+	-- LoOk aT It GOoZ!!!
+		{ "121536", {"player.movingfor > 2", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+
 	-- Heal
 		{ "17", { "!player.debuff(6788).any", "!player.buff(17).any", "player.health <= 60" }}, --Power Word Shield
 		{ "2061", "player.health <= 35", "Player" }, --Flash Heal
@@ -177,24 +181,22 @@ local inCombatSolo = {
 
 local outCombat = {
 
-	-- Auto Target
-		{ "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40", "tank.combat" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists", "tank.combat" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead", "tank.combat" }}, -- target enemire if current is dead.
-		
-	-- Start ICC
-		{ "589", "tank.combat", "lowest" }, --dot
-
 	--Heal
-		{ "17", { "!tank.debuff(6788).any", "!tank.buff(17).any" }, "tank" }, --Power Word: Shield
-	    { "21562", { "!player.buff(21562).any", "!player.buff(588)" }}, -- Fortitude
-		{ "47540", { "lowest.health <= 85", "!player.moving" }, "lowest" }, --Penance
-		{ "2061", { "!player.moving", "lowest.health <= 75" }, "lowest" }, --Flash Heal
-		{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 3)" }, "lowest" }, --Prayer of Healing
+		-- AoE
+			{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 3)" }, "lowest" }, --Prayer of Healing
+		-- focus 
+			{ "17", "!focus.buff(17).any", "focus" }, --Power Word: Shield
+	    -- tank
+	    	{ "17", "!tank.buff(17).any", "tank" }, --Power Word: Shield
+	   	-- noobs
+			{ "47540", { "lowest.health <= 85", "!player.moving" }, "lowest" }, --Penance
+			{ "2061", { "!player.moving", "lowest.health <= 75" }, "lowest" }, --Flash Heal
 
 	-- Mouse Over
-	    { "47540", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Penance
-		{ "2061", { "toggle.mouseOver", "!player.moving" }, "mouseover" },  --Flash Heal
+		{ "139", { "toggle.mouseOver", "!mouseover.buff" }, "mouseover" }, --renew
+		{ "47540", { "toggle.mouseOver", "mouseover.health <= 85", "!player.moving" }, "mouseover" }, --Penance
+		{ "2061", { "toggle.mouseOver", "mouseover.health <= 55", "!player.moving" }, "mouseover" },  --Flash Heal
+		{ "2050", { "toggle.mouseOver", "mouseover.health <= 95", "!player.moving" }, "mouseover" }, -- Heal
 		
 	-- buffs
 		{ "21562", {"!player.buff(21562).any","!player.buff(588)"}}, -- Fortitude

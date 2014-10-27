@@ -10,45 +10,60 @@ end
 local inCombat = {
 
   -- Cooldowns
-    { "Power Infusion", "modifier.cooldowns" },
-    { "Shadowfiend", "modifier.cooldowns" },
+    { "10060", "modifier.cooldowns" }, -- Power Infusion
+    { "34433", "modifier.cooldowns" }, -- Shadowfiend
     
   --buffs
     { "Power Word: Fortitude", "!player.buff(Power Word: Fortitude)" },
     { "Inner Fire", "!player.buff(Inner Fire)" },
-    { "15473", "!player.buff(15473)" },--Shadow Form
+    { "15473", "!player.buff(15473)" }, -- Shadowform
   
   -- Keybinds
     { "Mind Sear", "modifier.shift" },
 
   -- Auto Target
-	{ "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40" }}, -- Use Tank Target
-	{ "/targetenemy ", { "toggle.autotarget", "target.friendly" }}, -- Target a enemie if target is friendly
-	{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }}, -- target enemire if no target
+    { "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40" }}, -- Use Tank Target
+    { "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }}, -- target enemire if no target
    	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 
   -- dots
-   -- { "/run mtsLib.dots(589, 589)", {"player.area(30).enemies > 1", "player.spell(589).cooldown = 0", "@mtsLib.CanFireHack()"}},
     { "589", "!target.debuff(589)", "target" },
     { "589", {"toggle.mouseoverdots","!mouseover.debuff(589)"}, "mouseover" },
 
   -- If Moving
-    { "Cascade", "player.moving" },
-    { "Halo", "player.moving" },
-    { "Shadow Word: Death", "player.moving" },
+    { "73510", { "player.moving", "player.buff(162448)" }}, --Mind Spike // Proc
+    { "127632", { "player.moving", "modifier.multitarget" }}, -- Cascade
+    { "120644", { "player.moving", "modifier.multitarget" }}, --Halo 
+    { "122121", { "player.moving", "modifier.multitarget" }}, --Divine Star 
+    { "589", { "player.moving", "target.debuff(589).duration <= 3" } }, -- SW:Pain
+    { "32379", { "player.moving", "target.health <= 20" }}, -- SW:D // 20 Percent
+
+  -- Procs
+    { "73510", "player.buff(162448)" }, -- Mind Spike // Proc
+    { "129197", "player.buff(132573)" }, --Insanity // Proc
+
+  -- AoE // Smart
+    { "48045", {"player.area(8).enemies > 3", "@mtsLib.CanFireHack()" }, "target" }, -- Mind Sear
+    { "127632", { "player.area(8).enemies > 3", "@mtsLib.CanFireHack()" } }, --Cascade 
+    { "12064", { "player.area(8).enemies > 3", "@mtsLib.CanFireHack()" } }, -- Halo
+    { "122121", { "player.area(8).enemies > 3", "@mtsLib.CanFireHack()" } }, --Divine Star
+
+  -- AoE
+    { "48045", "modifier.multitarget", "target" }, -- Mind Sear
+    { "127632", "modifier.multitarget" }, --Cascade 
+    { "12064", "modifier.multitarget" }, -- Halo
+    { "122121", "modifier.multitarget" }, --Divine Star
 
   -- Rotation
-    { "Mind Blast", "player.buff(Divine Insight)" },
-    { "Devouring Plague", "player.shadoworbs >= 3" },
-    { "Mind Blast" }, 
-    { "Shadow Word: Death", "target.debuff(Shadow Word: Death).duration < 1" },
-    { "Vampiric Touch", "target.debuff(Vampiric Touch).duration <= 4" },
-    { "Mind Flay", "target.debuff(Devouring Plague)" }, 
-    { "Cascade", },
-    { "Halo" },
-    { "Mind Spike", "player.buff(Surge of Darkness)" },
-    { "Mind Flay" },
-    { "Shadow Word: Death" },
+    { "8092" }, -- Mind Blast 
+    { "8092", "player.buff(162452)" }, --Mind Blast with Shadowy Insight
+    { "2944", "player.shadoworbs = 3" }, -- Devouring Plague // 3 Orbs
+    { "32379", "target.health <= 20" }, -- SW:D // 20%
+    { "589", "target.debuff(589).duration <= 3" }, -- SW:P
+    { "32379", "target.debuff(32379).duration <= 3" }, -- wat
+    { "34914", { "target.debuff(34914).duration <= 3", "!modifier.last", "!player.buff(132573)" }}, -- Vampiric Touch
+    { "15407" }, --Mind Flay as filler
+    { "15286", "player.health <= 75" }, -- Vampiric Embrace
   
 } 
 

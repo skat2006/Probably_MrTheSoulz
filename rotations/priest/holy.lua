@@ -64,7 +64,7 @@ local inCombat = {
 	-- Mouse Over
 		{ "139", { "toggle.mouseOver", "!mouseover.buff" }, "mouseover" }, --renew
 		{ "2061", { "toggle.mouseOver", "mouseover.health <= 55", "!player.moving" }, "mouseover" },  --Flash Heal
-		{ "2050", { "toggle.mouseOver", "mouseover.health <= 95", "!player.moving" }, "mouseover" }, -- Heal
+		{ "2060", { "toggle.mouseOver", "mouseover.health <= 95", "!player.moving" }, "mouseover" }, -- Heal
 
   	-- HEALTHSTONE 
 		{ "#5512", "player.health <= 35" },
@@ -106,8 +106,14 @@ local inCombat = {
    			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5"}, "lowest" }, --Prayer of Healing
 		
 		-- Party
-			{ "64843", { "@coreHealing.needsHealing(50, 3)", "modifier.party", "modifier.party" }}, -- Divine Hymn
+			{ "64843", { "@coreHealing.needsHealing(50, 3)", "modifier.party" }}, -- Divine Hymn
 			{ "596", { "@coreHealing.needsHealing(85, 3)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
+
+		-- raid 10
+			{ "64843", { "@coreHealing.needsHealing(60, 5)", "modifier.raid", "!modifier.members > 10" }}, -- Divine Hymn
+
+		-- raid 10+
+			{ "64843", { "@coreHealing.needsHealing(60, 8)", "modifier.raid", "modifier.members > 10" }}, -- Divine Hymn
 
 	-- Focus
 		{ "17", { "!focus.debuff(6788).any", "!focus.buff(17).any" }, "focus" }, --Power Word: Shield
@@ -146,41 +152,43 @@ local inCombatSolo = {
 
   	-- Auto Target
 		{ "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy ", { "toggle.autotarget", "target.friendly" }}, -- Target a enemie if target is friendly
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }}, -- target enemire if no target
 		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }}, -- target enemire if current is dead.
-		
-	-- Start ICC
-		{ "589", "tank.combat", "lowest" }, --dot
 	
 	-- Mana
 		{ "123040", { "player.mana < 75","target.spell(123040).range" }, "target" }, --Mindbender
 		{ "34433", { "player.mana < 75", "target.spell(34433).range" }, "target" }, --Shadowfiend
+
+	-- LoOk aT It GOoZ!!!
+		{ "121536", {"player.movingfor > 2", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 
 	-- Heal
 		{ "17", { "!player.debuff(6788).any", "!player.buff(17).any", "player.health <= 60" }}, --Power Word Shield
 		{ "2061", "player.health <= 35", "Player" }, --Flash Heal
 
   	--DPS
+  		{ "32379", {"target.health < 20","target.spell(32379).range" }, "target" }, -- Shadow Word: Death
 		{ "589", { "target.debuff(589).duration < 2","target.spell(589).range"}, "target" }, --Shadow Word:Pain
 		{ "129250", { "target.spell(129250).range" }, "target" }, -- Power Word: Solace
 		{ "14914", { "target.spell(14914).range" }, "target" }, --Holy Fire
-		{ "47540", "target.spell(47540).range", "target" }, --Penance 
 		{ "585", "target.spell(585).range", "target" },	--Smite
-		{ "32379", {"target.health < 20","target.spell(32379).range" }, "target" }, -- Shadow Word: Death
 
 }
 
 local outCombat = {
 
 	--Heal
-		{ "17", { "!tank.debuff(6788).any", "!tank.buff(17).any" }, "tank" }, --Power Word: Shield
-		{ "17", { "!focus.debuff(6788).any", "!focus.buff(17).any" }, "focus" }, --Power Word: Shield
-		{ "139", { "lowest.health < 99", "!lowest.buff(139)"}, "lowest" }, --renew
-		{ "2061", { "!player.moving", "lowest.health <= 75" }, "lowest" }, --Flash Heal
 		-- AoE
-			{ "34861", "@coreHealing.needsHealing(95, 3)"}, -- Circle of Healing
 			{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 3)" }, "lowest" }, --Prayer of Healing
+			{ "34861", "@coreHealing.needsHealing(90, 3)"}, -- Circle of Healing
+		-- focus 
+			{ "17", { "!focus.debuff(6788).any", "!focus.buff(17).any" }, "focus" }, --Power Word: Shield
+	    -- tank
+	    	{ "17", { "!tank.debuff(6788).any", "!tank.buff(17).any" }, "tank" }, --Power Word: Shield
+	   	-- noobs
+			{ "139", { "lowest.health < 99", "!lowest.buff(139)"}, "lowest" }, --renew			
+			{ "2061", { "!player.moving", "lowest.health <= 40" }, "lowest" }, --Flash Heal
+			{ "2060", "lowest.health <= 95", "tank" }, -- Heal
 
 	-- Mouse Over
 		{ "139", { "toggle.mouseOver", "!mouseover.buff" }, "mouseover" }, --renew
