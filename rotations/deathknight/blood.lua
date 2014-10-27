@@ -86,12 +86,12 @@ local inCombat = {
 		{ "47568", { "modifier.cooldowns", "player.runes(death).count < 1", "player.runes(frost).count < 1", "player.runes(unholy).count < 1", "player.runicpower < 30" }}, -- Empower Rune Weapon
 		{ "#gloves"},
 
-	-- Aggro Control
+	--[[ Aggro Control
 		{ "62124", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "@mtsBossLib.bossTaunt", "target.threat < 100" }, "target" }, -- Boss // Dark Command
 		{ "56222", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Dark Command / Mouse-Over
 		{ "56222", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Dark Command
 		{ "49576", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Death Grip / Mouse-Over
-		{ "49576", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Death Grip
+		{ "49576", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Death Grip ]]
 
 	-- Interrupts
 		{ "47528", { "target.interruptsAt(50)", "modifier.interrupts" }, "target" }, -- Mind freeze
@@ -99,8 +99,8 @@ local inCombat = {
 		{ "108194", { "target.interruptsAt(50)", "!modifier.last(47528)" }, "target" }, -- Asphyxiate
 
 	-- Spell Steal
-		{ "77606", function() return DarkSimUnit('target') end, "target" }, -- Dark Simulacrum
-		{ "77606",function() return DarkSimUnit('focus') end, "focus" },  -- Dark Simulacrum
+		{ "77606", (function() return DarkSimUnit('target') end), "target" }, -- Dark Simulacrum
+		{ "77606", (function() return DarkSimUnit('focus') end), "focus" },  -- Dark Simulacrum
 
 	-- Diseases
 		{ "115989", "target.debuff(55095).duration < 2" }, -- Unholy Blight
