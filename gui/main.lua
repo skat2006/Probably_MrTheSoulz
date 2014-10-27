@@ -11,7 +11,7 @@ mConfigData = {}
 mConfigAllConfigs = {}
 
 local media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
-local mts_VERSION = "\124cff9482C9*MrTheSoulz Version: 0.8.0"
+local mts_VERSION = "\124cff9482C9*MrTheSoulz Version: 0.8.1"
 
 local mConfigVersion = 1
 if M_CONFIG_VERSION == nil or MCONFIG_VERSION < mConfigVersion then

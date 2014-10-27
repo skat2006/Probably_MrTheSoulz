@@ -66,12 +66,6 @@ local inCombat = {
 		{ "2061", { "toggle.mouseOver", "mouseover.health <= 55", "!player.moving" }, "mouseover" },  --Flash Heal
 		{ "2050", { "toggle.mouseOver", "mouseover.health <= 95", "!player.moving" }, "mouseover" }, -- Heal
 
-  	-- Mana/Survival
-		{ "123040", {"player.mana < 75","target.spell(123040).range"}, "target" }, --Mindbender
-		{ "34433", {"player.mana < 75","target.spell(34433).range"}, "target" },	 --Shadowfiend
-		{ "19236", {"player.health <= 20" }, "Player" }, --Desperate Prayer
-		{ "64901", {"player.mana < 70"}, "player"}, --Hymn of hope
-
   	-- HEALTHSTONE 
 		{ "#5512", "player.health <= 35" },
 
@@ -88,10 +82,12 @@ local inCombat = {
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
+		{ "123040", {"player.mana < 75", "target.spell(123040).range", "modifier.cooldowns"}, "target" }, --Mindbender
 	
 	-- Heal Fast Bitch!!
 		-- AoE
 			{ "34861", "@coreHealing.needsHealing(95, 3)"}, -- Circle of Healing
+			{ "121135", "@coreHealing.needsHealing(80, 3)"}, -- cascade
 		
 		-- Focus
 			{ "88684", "focus.health <= 90", "focus" }, -- Holy Word Serenity
@@ -111,7 +107,6 @@ local inCombat = {
 		
 		-- Party
 			{ "64843", { "@coreHealing.needsHealing(50, 3)", "modifier.party", "modifier.party" }}, -- Divine Hymn
-			{ "121135", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "modifier.party" }}, -- cascade
 			{ "596", { "@coreHealing.needsHealing(85, 3)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
 
 	-- Focus
@@ -135,6 +130,7 @@ local inCombat = {
 		{ "17", { "!player.debuff(6788).any", "!player.buff(17).any", "player.health <= 70" }, "player" }, --Power Word: Shield
 		{ "139", {"player.health < 85", "!player.buff(139)"}, "player" }, --renew
 		{ "88684", "player.health <= 60", "player" }, -- Holy Word Serenity
+		{ "19236", {"player.health <= 20" }, "Player" }, --Desperate Prayer
 
 	-- Singe Target
 		{ "17", { "!lowest.debuff(6788).any", "!lowest.buff(17).any", "lowest.health <= 40" }, "lowest" }, --Power Word: Shield
@@ -183,7 +179,7 @@ local outCombat = {
 		{ "139", { "lowest.health < 99", "!lowest.buff(139)"}, "lowest" }, --renew
 		{ "2061", { "!player.moving", "lowest.health <= 75" }, "lowest" }, --Flash Heal
 		-- AoE
-			{ "34861", { "@coreHealing.needsHealing(95, 3)", "modifier.party" }}, -- Circle of Healing
+			{ "34861", "@coreHealing.needsHealing(95, 3)"}, -- Circle of Healing
 			{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 3)" }, "lowest" }, --Prayer of Healing
 
 	-- Mouse Over
