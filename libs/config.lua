@@ -161,7 +161,7 @@ function mts_getSetting(txt)
 	return mtsConfig:get(txt)
 end
 
-function mtsConfigWhisper(txt)
+function mts_ConfigWhisper(txt)
 	if mtsConfig:get('getWhispers') then
 		return RunMacroText("/w "..txt)
 	end
@@ -174,17 +174,17 @@ function mts_AlertSounds()
 	end
 end
 
-function mtsConfigAlert(txt)
+function mts_ConfigAlert(txt)
 	if mtsConfig:get('getAlerts') then
 		return mtsAlert:message(txt)
 	end
 end
 
-function mtsConfigShouldUseSpell(key)
+function mts_ConfigShouldUseSpell(key)
 	return mtsConfig:get(key)
 end
 
-function mtsConfigUnitHpBelowThreshold(key,unit)
+function mts_ConfigUnitHpBelowThreshold(key,unit)
 	return ProbablyEngine.condition["health"](unit) <= mtsConfig:get(key)
 end
 

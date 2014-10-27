@@ -62,7 +62,7 @@ local inCombat = {
 		{ "109964", "modifier.lshift" }, --Spirit Shell
 
 	-- Auto Targets
-		{ "/cleartarget ", { "toggle.autotarget", "target.friendly" }}, -- Target a enemie if target is friendly
+		--{ "/cleartarget ", { "toggle.autotarget", "target.exists", "!target.enemie" }}, -- Target a enemie if target is friendly
 		{ "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40" }}, -- Use Tank Target
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }}, -- target enemire if no target
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }}, -- target enemire if current is dead.
