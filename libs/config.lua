@@ -14,10 +14,10 @@ mtsConfig = mConfig:createConfig("\124cff9482C9MrTheSoulz Pack Settings","mtsCon
 		mtsConfig:addTitle("---> Pack Information: <---")
 		mtsConfig:addText2("Ive built this pack for my own personal use and to contribute back to the PE comunity. \nIf you find any issues while using it people report it on the forum's.")
 		mtsConfig:addText2("Created by: MrTheSoulz.")
+		mtsConfig:addText("\124cffC41F3BDO NOT TOUCH ANYTHING, IT WILL BREAK!")
 	
 	-- General
 		mtsConfig:addTitle("---> General Settings: <---")
-		mtsConfig:addText("\124cffC41F3BDO NOT TOUCH ANYTHING, IT WILL BREAK!")
 		mtsConfig:addText("Everything in here is shared across all of the profiles.")
 		mtsConfig:addCheckBox("getAlerts", "Show Notifications", "Shows notification on top when used certain spells.", true)
 		mtsConfig:addCheckBox("getAlertSounds", "Notifications Sounds", "Plays a sound when a notification is shown.", true)
@@ -77,9 +77,15 @@ mtsConfig = mConfig:createConfig("\124cff9482C9MrTheSoulz Pack Settings","mtsCon
 	-- Priest Discipline
 		mtsConfig:addTitle("\124cffFFFFFF---> Priest Discipline: <---")
 		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("Control: Death Grip \nShift: Death and Decay \nAlt: Army of the Dead")
+		mtsConfig:addText2("To Be Filled...")
 		mtsConfig:addText("SETTINGS TO COME...")
 		
+	-- Priest Holy
+		mtsConfig:addTitle("\124cffFFFFFF---> Priest Holy: <---")
+		mtsConfig:addText("Keybinds:")
+		mtsConfig:addText2("To Be Filled...")
+		mtsConfig:addText("SETTINGS TO COME...")
+
 	-- Priest Shadow
 		mtsConfig:addTitle("\124cffFFFFFF---> Priest Shadow: <---")
 		mtsConfig:addText("Keybinds:")
