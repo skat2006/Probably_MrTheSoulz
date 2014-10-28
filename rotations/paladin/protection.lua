@@ -38,8 +38,8 @@ local inCombat = {
 
 	--[[ Items
 		{ "#5512" }, --Healthstone
-		{ "#76097", "player.health < 30", "@mtsLib.checkItem(HealthPot)" }, -- Master Health Potion]]
-		{ "/use Kafa Press", { "modifier.cooldowns","@mtsLib.checkItem('Kafa Press')" }}, -- Kafa Press
+		{ "#76097", "player.health < 30", "@mtsLib.checkItem(HealthPot)" }, -- Master Health Potion
+		{ "/use Kafa Press", { "modifier.cooldowns","@mtsLib.checkItem('Kafa Press')" }}, -- Kafa Press]]
 	
 	-- Auto Target
 		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },

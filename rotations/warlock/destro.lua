@@ -14,14 +14,6 @@ local exeOnLoad = function()
 
 end
 
-local Shared = {
-
-	--Buffs
-		{ "Dark Intent", "!player.buff" },
-  		{ "Curse of the Elements", "!target.debuff" },
-
-}
-
 local inCombat = {
 	
 	-- Keybinds
@@ -31,6 +23,10 @@ local inCombat = {
 		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
+
+	--Buffs
+		{ "Dark Intent", "!player.buff" },
+  		{ "Curse of the Elements", "!target.debuff" },
 
 	-- Cooldowns
   		{"Dark Soul: Instability", {"modifier.shift", "modifier.cooldowns"}},
@@ -61,14 +57,13 @@ local inCombat = {
 
 local outCombat = {
 
+	--Buffs
+		{ "Dark Intent", "!player.buff" },
+  		{ "Curse of the Elements", "!target.debuff" },
+
 	-- Keybinds
 		{ "Rain of Fire", "modifier.alt", "ground" },
 
 }
-
-for _, Shared in pairs(Shared) do
-  inCombat[#inCombat + 1] = Shared
-  outCombat[#outCombat + 1] = Shared
-end
 
 ProbablyEngine.rotation.register_custom(267, "|r[|cff9482C9MTS|r][|cff9482C9Warlock-Destro|r]", inCombat, outCombat, exeOnLoad)

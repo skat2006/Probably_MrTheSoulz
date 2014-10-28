@@ -4,7 +4,7 @@
 ## Dependencies: Probably
 ## Interface: 60000
 ## Author: MrTheSoulz
-## Version: 0.7.10
+## Version: 0.8.6
 ## SavedVariables: mConfigData
 
 gui\splash.lua

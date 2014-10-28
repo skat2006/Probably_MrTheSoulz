@@ -4,7 +4,8 @@ Thank You For Using My ProFiles
 I Hope Your Enjoy Them
 MTS
 ]]
-
+local _playerClass, _englishClass, _idClass = UnitClass("player");
+local _playerSpec = GetSpecialization()
 mtsConfig = {}
 
 function mtsinitConfig()
@@ -26,131 +27,144 @@ mtsConfig = mConfig:createConfig("\124cff9482C9MrTheSoulz Pack Settings","mtsCon
 		mtsConfig:addCheckBox("getSplash", "Allow Splash", "Enable or disable MTS Splash when loading the pack.", true)
 		mtsConfig:addCheckBox("getFirehack", "Allow FireHack Features", "Enable or disable the usage of Firehack's features", true)
 	
-	-- Paladin Holy
-		mtsConfig:addTitle("\124cffF58CBA---> Paladin Holy: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("Shift: Light´s Hammer \nAlt: Mouseover Focus")
-		mtsConfig:addText("SETTINGS TO COME...")
+	if _idClass == 2 then -- Paladin
 
-	-- Paladin Protection
-		mtsConfig:addTitle("\124cffF58CBA---> Paladin Protection: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("Control:  Fist of Justice OR Hammer of Justice \nShift: Light´s Hammer \nAlt: Consecration IF glyphed")
-		mtsConfig:addText("SETTINGS TO COME...")
+		-- Holy
+			mtsConfig:addTitle("\124cffF58CBA---> Paladin Holy: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("Shift: Light´s Hammer \nAlt: Mouseover Focus")
 
-	-- Warrior Fury
-		mtsConfig:addTitle("\124cffC79C6E---> Warrior Fury: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("Alt: Charge")
-		mtsConfig:addText("SETTINGS TO COME...")
+		-- Protection
+			mtsConfig:addTitle("\124cffF58CBA---> Paladin Protection: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("Control:  Fist of Justice OR Hammer of Justice \nShift: Light´s Hammer \nAlt: Consecration IF glyphed")
 
-	-- Warrior Protection
-		mtsConfig:addTitle("\124cffC79C6E---> Warrior Protection: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("Alt: Charge")
-		mtsConfig:addText("SETTINGS TO COME...")
+	end
 
-    -- DeathKinght all
-        mtsConfig:addTitle("\124cffC41F3B---> DeathKinght All: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("Control: Death Grip \nShift: Death and Decay \nAlt: Army of the Dead")
-		mtsConfig:addText("SETTINGS TO COME...")
+	if _idClass == 1 then -- Warrior 
+		-- Fury
+			mtsConfig:addTitle("\124cffC79C6E---> Warrior Fury: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("Alt: Charge")
 
-	-- DeathKinght Blood
-		mtsConfig:addTitle("\124cffC41F3B---> DeathKinght Blood: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("Control: Death Grip \nShift: Death and Decay \nAlt: Army of the Dead")
-		mtsConfig:addText("SETTINGS TO COME...")
+		-- Warrior Protection
+			mtsConfig:addTitle("\124cffC79C6E---> Warrior Protection: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("Alt: Charge")
+	end
 
-	-- DeathKinght Frost
-		mtsConfig:addTitle("\124cffC41F3B---> DeathKinght Frost: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("Control: Death Grip \nShift: Death and Decay \nAlt: Army of the Dead")
-		mtsConfig:addText("SETTINGS TO COME...")
-		
-	-- DeathKinght unholy
-		mtsConfig:addTitle("\124cffC41F3B---> DeathKinght Unholy: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("Control: Death Grip \nShift: Death and Decay \nAlt: Army of the Dead")
-		mtsConfig:addText("SETTINGS TO COME...")
-		
-	-- Priest Discipline
-		mtsConfig:addTitle("\124cffFFFFFF---> Priest Discipline: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("To Be Filled...")
-		mtsConfig:addText("SETTINGS TO COME...")
-		
-	-- Priest Holy
-		mtsConfig:addTitle("\124cffFFFFFF---> Priest Holy: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("To Be Filled...")
-		mtsConfig:addText("SETTINGS TO COME...")
+    if _idClass == 6 then -- DeathKinght
 
-	-- Priest Shadow
-		mtsConfig:addTitle("\124cffFFFFFF---> Priest Shadow: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("To Be Filled...")
-		mtsConfig:addText("SETTINGS TO COME...")
+		-- DeathKinght Blood
+			mtsConfig:addTitle("\124cffC41F3B---> DeathKinght Blood: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("Control: Death Grip \nShift: Death and Decay \nAlt: Army of the Dead")
 
-	-- Druid Feral
-		mtsConfig:addTitle("\124cffFF7D0A---> Druid Feral: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("To Be Filled...")
-		mtsConfig:addText("SETTINGS TO COME...")
-		
-	-- Druid Balance
-		mtsConfig:addTitle("\124cffFF7D0A---> Druid Balance: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("To Be Filled...")
-		mtsConfig:addText("SETTINGS TO COME...")
+		-- DeathKinght Frost
+			mtsConfig:addTitle("\124cffC41F3B---> DeathKinght Frost: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("Control: Death Grip \nShift: Death and Decay \nAlt: Army of the Dead")
+			
+		-- DeathKinght unholy
+			mtsConfig:addTitle("\124cffC41F3B---> DeathKinght Unholy: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("Control: Death Grip \nShift: Death and Decay \nAlt: Army of the Dead")
+
+	end
 	
-	-- Druid Guardian
-		mtsConfig:addTitle("\124cffFF7D0A---> Druid Guardian: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("To Be Filled...")
-		mtsConfig:addText("SETTINGS TO COME...")
+	if _idClass == 5 then -- DeathKinght
 
-	-- Druid Restoration
-		mtsConfig:addTitle("\124cffFF7D0A---> Druid Restoration: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("To Be Filled...")
-		mtsConfig:addText("SETTINGS TO COME...")
+		-- Priest Discipline
+			mtsConfig:addTitle("\124cffFFFFFF---> Priest Discipline: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("To Be Filled...")
+
+		-- Priest Holy
+			mtsConfig:addTitle("\124cffFFFFFF---> Priest Holy: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("To Be Filled...")
+
+		-- Priest Shadow
+			mtsConfig:addTitle("\124cffFFFFFF---> Priest Shadow: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("To Be Filled...")
+
+	end
+
+	
+	if _idClass == 11 then -- Druid 
 		
-	-- Monk WindWalker
-		mtsConfig:addTitle("\124cff00FF96---> Monk WindWalker: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("Control: Leg Sweep \nAlt: Touch of Karma")
-		mtsConfig:addText("SETTINGS TO COME...")
+		-- Feral
+			mtsConfig:addTitle("\124cffFF7D0A---> Druid Feral: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("To Be Filled...")
 		
-	-- Warlock Destro
-		mtsConfig:addTitle("\124cff9482C9---> Warlock Destro: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("To Be Filled...")
-		mtsConfig:addText("SETTINGS TO COME...")
+		-- Druid Balance
+			mtsConfig:addTitle("\124cffFF7D0A---> Druid Balance: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("To Be Filled...")
 		
-	-- Hunter BeastMaster
-		mtsConfig:addTitle("\124cffABD473---> Hunter BeastMaster: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("To Be Filled...")
-		mtsConfig:addText("SETTINGS TO COME...")
+		-- Druid Guardian
+			mtsConfig:addTitle("\124cffFF7D0A---> Druid Guardian: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("To Be Filled...")
+
+		-- Druid Restoration
+			mtsConfig:addTitle("\124cffFF7D0A---> Druid Restoration: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("To Be Filled...")
+
+	end
 		
-	-- Mage Arcade
-		mtsConfig:addTitle("\124cff69CCF0---> Mage Arcade: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("To Be Filled...")
-		mtsConfig:addText("SETTINGS TO COME...")
+	if _idClass == 12 then -- Monk 
+
+		-- Monk WindWalker
+			mtsConfig:addTitle("\124cff00FF96---> Monk WindWalker: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("Control: Leg Sweep \nAlt: Touch of Karma")
+
+	end
 		
-	-- Shaman Elemental
-		mtsConfig:addTitle("\124cff0070DE---> Shaman Elemental: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("To Be Filled...")
-		mtsConfig:addText("SETTINGS TO COME...")
+	if _idClass == 9 then --Warlock
+
+		-- Warlock Destro
+			mtsConfig:addTitle("\124cff9482C9---> Warlock Destro: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("To Be Filled...")
+
+	end
 		
-	-- Shaman Restoration
-		mtsConfig:addTitle("\124cff0070DE---> Shaman Restoration: <---")
-		mtsConfig:addText("Keybinds:")
-		mtsConfig:addText2("To Be Filled...")
-		mtsConfig:addText("SETTINGS TO COME...")
+	if _idClass == 3 then -- Hunter 
+		
+		-- Hunter BeastMaster
+			mtsConfig:addTitle("\124cffABD473---> Hunter BeastMaster: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("To Be Filled...")
+
+	end
+		
+	if _idClass == 8 then -- Mage 
+
+		-- Mage Arcade
+			mtsConfig:addTitle("\124cff69CCF0---> Mage Arcade: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("To Be Filled...")
+
+	end
+		
+	if _idClass == 7 then -- Mage 
+
+		-- Shaman Elemental
+			mtsConfig:addTitle("\124cff0070DE---> Shaman Elemental: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("To Be Filled...")
+			
+		-- Shaman Restoration
+			mtsConfig:addTitle("\124cff0070DE---> Shaman Restoration: <---")
+			mtsConfig:addText("Keybinds:")
+			mtsConfig:addText2("To Be Filled...")
+
+	end
 		
 end
 

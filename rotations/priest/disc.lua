@@ -46,7 +46,7 @@ local exeOnLoad = function()
 	ProbablyEngine.toggle.create( 'mouseOver', 'Interface\\Icons\\Priest_spell_leapoffaith_a', 'MouseOver Heal', 'Toggle Mouse-Over Healing')
 	ProbablyEngine.toggle.create( 'feather', 'Interface\\Icons\\Ability_priest_angelicfeather.png', "Use Feather's", "Toggle Enables The Use Of Feather's")
 	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
-	mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Dist\124cff9482C9-Loaded*")
+	mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Disc\124cff9482C9-Loaded*")
 
 end
 
@@ -206,5 +206,5 @@ local outCombat = {
 
 }
 
-ProbablyEngine.rotation.register_custom(256, "|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Dist-Party|r]", inCombat, outCombat, exeOnLoad)
-ProbablyEngine.rotation.register_custom(256, "|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Dist-Solo|r]", inCombatSolo, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(256, "|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(256, "|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Solo|r]", inCombatSolo, outCombat, exeOnLoad)
