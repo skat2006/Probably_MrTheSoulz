@@ -140,7 +140,6 @@ local inCombat = {
 	-- Singe Target
 		{ "17", { "!lowest.debuff(6788).any", "!lowest.buff(17).any", "lowest.health <= 40" }, "lowest" }, --Power Word: Shield
 		{ "47540", "lowest.health <= 85", "lowest" }, --Penance
-		{ "2060", "lowest.health <= 50", "lowest" }, --Greater Healing
 		{ "2050", "lowest.health <= 85", "lowest" }, -- Heal
 
 	--Attonement 

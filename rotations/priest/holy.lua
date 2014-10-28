@@ -86,8 +86,8 @@ local inCombat = {
 	
 	-- Heal Fast Bitch!!
 		-- AoE
-			{ "34861", "@coreHealing.needsHealing(95, 3)"}, -- Circle of Healing
-			{ "121135", "@coreHealing.needsHealing(80, 3)"}, -- cascade
+			{ "34861", "@coreHealing.needsHealing(95, 3)", nil}, -- Circle of Healing
+			{ "121135", "@coreHealing.needsHealing(80, 3)", nil}, -- cascade
 		
 		-- Focus
 			{ "88684", "focus.health <= 90", "focus" }, -- Holy Word Serenity
@@ -118,7 +118,6 @@ local inCombat = {
 	-- Focus
 		{ "17", { "!focus.debuff(6788).any", "!focus.buff(17).any" }, "focus" }, --Power Word: Shield
 		{ "139", "!focus.buff(139)", "focus" }, --renew
-		{ "2060", "focus.health <= 70", "focus" }, --Greater Healing
 		{ "33076", "focus.health < 99", "focus" }, --Prayer of Mending
 		{ "32546", { "focus.health < 99", "player.health <= 60"}, "focus" }, --binding heal
 		{ "2060", "focus.health <= 95", "focus" }, -- Heal
@@ -127,7 +126,6 @@ local inCombat = {
 		{ "17", { "!tank.debuff(6788).any", "!tank.buff(17).any" }, "tank" }, --Power Word: Shield
 		{ "88684", "tank.health <= 90", "tank" }, -- Holy Word Serenity
 		{ "139", "!tank.buff(139)", "tank" }, --renew
-		{ "2060", "tank.health <= 70", "tank" }, --Greater Healing
 		{ "33076", "tank.health < 99", "tank" }, --Prayer of Mending
 		{ "32546", { "tank.health < 99", "player.health <= 60"}, "tank" }, --binding heal
 		{ "2060", "tank.health <= 95", "tank" }, -- Heal
@@ -142,7 +140,6 @@ local inCombat = {
 		{ "17", { "!lowest.debuff(6788).any", "!lowest.buff(17).any", "lowest.health <= 40" }, "lowest" }, --Power Word: Shield
 		{ "88684", "lowest.health <= 60", "lowest" }, -- Holy Word Serenity
 		{ "139", {"lowest.health < 85", "!lowest.buff(139)"}, "lowest" }, --renew
-		{ "2060", "lowest.health <= 60", "lowest" }, --Greater Healing
 		{ "32546", { "lowest.health < 99", "player.health < 60"}, "lowest" }, --binding heal
 		{ "2060", "lowest.health <= 95", "lowest" }, -- Heal
 
