@@ -43,12 +43,6 @@ local inCombat = {
 			{ "!/cancelform", { "player.form > 0", "player.spell(20484).cooldown < .001", "modifier.lshift" }, nil }, -- remove bear form
 			{ "20484", { "modifier.lshift", "!target.alive" }, "target" }, -- Rebirth
 			{ "!/cast Bear Form", { "!player.casting", "!player.form = 1", "modifier.last(20484)", "modifier.lshift" }, nil }, -- bear form
-		{{-- HotW + Tranq
-			{ "108288", { "modifier.lalt", "player.spell(108288).cooldown < .001", "player.spell(740).cooldown < .001" }, nil }, -- Hearth of the Wild
-			{ "!/cancelform", { "player.form > 0", "player.spell(740).cooldown < .001", "modifier.lalt" }, nil }, -- remove bear form
-			{ "740", { "modifier.lalt", "player.spell(740).cooldown < .001" }, nil }, -- Tranq
-			{ "!/cast Bear Form", { "!player.casting", "!player.form = 1", "modifier.lalt" }, nil }, -- bear form
-		}, "talent(16)" },
 		
 	--	Buffs
 		{ "/cancelaura Bear Form", { -- Cancel player form
@@ -67,7 +61,7 @@ local inCombat = {
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
 			"!player.buff(5215)",-- Not in Stealth
 			"player.form = 0" }}, -- Player not in form
-  		{ "5784", { -- bearform
+  		{ "5487", { -- bearform
   			"player.form != 1", -- Stop if bear
   			"!modifier.lalt", -- Stop if pressing left alt
   			"!player.buff(5215)"}}, -- Not in Stealth
@@ -80,12 +74,6 @@ local inCombat = {
 	-- Interrupts
 		{ "80964", "target.interruptsAt(50)" }, -- skull bash
 		{ "132469", "target.interruptsAt(50)" }, -- typhoon
-	
-	{{-- Aggro Control
-		{ "62124", "@mtsBossLib.bossTaunt", "target" }, -- Boss // Reckoning
-		{ "6795", { "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Growl / Mouse-Over
-		{ "6795", { "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Growl
-	},{ "@mtsLib.dummy()", "@mtsLib.ShouldTaunt('DoodGuardTaunts')" }},
 	
 	-- Items
 		{ "#5512", "player.health < 50" }, --Healthstone
@@ -138,12 +126,6 @@ local outCombat = {
 			{ "!/cancelform", { "player.form > 0", "player.spell(20484).cooldown < .001", "modifier.lshift" }, nil }, -- remove bear form
 			{ "20484", { "modifier.lshift", "!target.alive" }, "target" }, -- Rebirth
 			{ "!/cast Bear Form", { "!player.casting", "!player.form = 1", "modifier.last(20484)", "modifier.lshift" }, nil }, -- bear form
-		{{-- HotW + Tranq
-			{ "108288", { "modifier.lalt", "player.spell(108288).cooldown < .001", "player.spell(740).cooldown < .001" }, nil }, -- Hearth of the Wild
-			{ "!/cancelform", { "player.form > 0", "player.spell(740).cooldown < .001", "modifier.lalt" }, nil }, -- remove bear form
-			{ "740", { "modifier.lalt", "player.spell(740).cooldown < .001" }, nil }, -- Tranq
-			{ "!/cast Bear Form", { "!player.casting", "!player.form = 1", "modifier.lalt" }, nil }, -- bear form
-		}, "talent(16)" },
 		
 	-- Buffs
   		{ "/cancelaura Bear Form", { -- Cancel player form
@@ -162,10 +144,6 @@ local outCombat = {
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
 			"!player.buff(5215)",-- Not in Stealth
 			"player.form = 0" }}, -- Player not in form
-  		{ "5784", { -- bearform
-  			"player.form != 1", -- Stop if bear
-  			"!modifier.lalt", -- Stop if pressing left alt
-  			"!player.buff(5215)"}}, -- Not in Stealth
 
 }
 
