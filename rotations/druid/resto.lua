@@ -106,7 +106,7 @@ local inCombat = {
 		{ "18562", { "lowest.health < 80", "lowest.buff(774)" }, "lowest" }, -- Swiftmend
 		{ "145518", { "!player.spell(18562).cooldown = 0", "lowest.health < 40", "lowest.buff(774)" }, "lowest" }, -- Genesis
 		{ "774", { "lowest.health < 85", "!lowest.health < 60", "!lowest.buff" }, "lowest" }, -- Rejuvenation
-		{ "145205", { "lowest.health > 60", "lowest" }, -- Wild Mushroom
+		{ "145205", "lowest.health > 60", "lowest" }, -- Wild Mushroom
 		{ "102791", { "lowest.health > 60", "player.totem(145205).duration >= 1" }, "lowest" }, -- Wild Mushroom - Bloom
 		{ "50464", { "player.buff(100977).duration <= 2", "!lowest.health < 60", "lowest.health < 97", "!player.moving" }, "lowest" }, -- Nourish
 		{ "8936", { "lowest.health < 60", "!lowest.health < 40", "!lowest.buff(8936)", "!player.moving" }, "lowest" }, -- Regrowth
