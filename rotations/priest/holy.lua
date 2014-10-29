@@ -56,7 +56,6 @@ local inCombat = {
 	 	{ "121135", "modifier.lcontrol", "player" },  --Cascade
 		{ "120517", "modifier.lcontrol", "player" }, --Halo
 		{ "110744", "modifier.lcontrol", "player" }, --Divine Star
-		{ "596", { "!player.moving", "modifier.lalt" }, "lowest" }, --Prayer of Healing
 	
 	-- LoOk aT It GOoZ!!! // Needs to add tank...
 		{ "121536", {"player.movingfor > 2", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
@@ -103,7 +102,7 @@ local inCombat = {
 
 	-- AOE
    		--Shared
-   			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5"}, "lowest" }, --Prayer of Healing
+   			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5", "modifier.party"}, "lowest" }, --Prayer of Healing
 		
 		-- Party
 			{ "64843", { "@coreHealing.needsHealing(50, 3)", "modifier.party" }}, -- Divine Hymn
@@ -111,9 +110,11 @@ local inCombat = {
 
 		-- raid 10
 			{ "64843", { "@coreHealing.needsHealing(60, 5)", "modifier.raid", "!modifier.members > 10" }}, -- Divine Hymn
+			{ "596", { "modifier.shift", "modifier.raid", "!modifier.members > 10", "!player.moving" }, "mouseover" }, --Prayer of Healing
 
 		-- raid 10+
 			{ "64843", { "@coreHealing.needsHealing(60, 8)", "modifier.raid", "modifier.members > 10" }}, -- Divine Hymn
+			{ "596", { "modifier.shift", "modifier.raid", "modifier.members > 10", "!player.moving" }, "mouseover" }, --Prayer of Healing
 
 	-- Focus
 		{ "17", { "!focus.debuff(6788).any", "!focus.buff(17).any" }, "focus" }, --Power Word: Shield
