@@ -82,20 +82,36 @@ local inCombat = {
 			"player.runes(frost).count = 0", 
 			"player.runes(death).count = 0"}},
 		{ "Summon Gargoyle", "modifier.cooldowns" },
+		{ "115989", { "modifier.cooldowns","target.debuff(55095)" }}, -- Unholy Blight
+		{ "115989", { "modifier.cooldowns","target.debuff(55078)" }}, -- Unholy Blight
 
 	-- Spell Steal
 		{ "77606", function() return DarkSimUnit('target') end, "target" }, -- Dark Simulacrum
 		{ "77606", function() return DarkSimUnit('focus') end, "focus" },  -- Dark Simulacrum
 	
-	-- dots
-		{ "115989", "target.debuff(55095).duration < 2" }, -- Unholy Blight
-		{ "115989", "target.debuff(55078).duration < 2" }, -- Unholy Blight
+	-- Plague Leech
+		{ "123693", {
+			"target.debuff(55095)",-- Target With Frost Fever
+			"target.debuff(55078)",-- Target With Blood Plague
+			"player.runes(unholy).count = 0",-- With 0 Unholy Runes
+			"player.runes(frost).count = 0",-- With 0 Frost Runes
+			"player.runes(death).count = 0",-- With 0 Death Runes
+			"!modifier.last"}}, 
+
+	-- Diseases
 		{ "77575", "target.debuff(55095).duration < 2" }, -- Outbreak
 		{ "77575", "target.debuff(55078).duration < 2" }, -- Outbreak
-		{ "48721", { "player.runes(blood).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, nil }, -- Blood Boil
-		{ "48721", { "player.runes(death).count > 1","target.debuff(55095).duration < 3", "target.debuff(55078).duration <3" }, nil }, -- Blood Boil
-		{ "45477", "target.debuff(55095).duration < 3" }, -- Icy Touch
-		{ "45462", "target.debuff(55078).duration < 3" }, -- Plague Strike,
+		{ "45462", "target.debuff(55078).duration < 2", "target" }, -- Plague Strike
+		{ "45477", "target.debuff(55095).duration < 2", "target" }, -- Icy Touch
+		{ "48721", { -- Blood Boil // blod
+			"player.runes(blood).count > 1",
+			"target.debuff(55095).duration < 3", 
+			"target.debuff(55078).duration <3" }},
+		{ "48721", {  -- Blood Boil // death
+			"player.runes(death).count > 1",
+			"target.debuff(55095).duration < 3", 
+			"target.debuff(55078).duration <3" }},
+
 		
 	-- Rotation
 		{ "Soul Reaper", { "!target.debuff", "target.health < 35" } },

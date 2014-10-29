@@ -84,14 +84,9 @@ local inCombat = {
 		--{ "61999", { "modifier.cooldowns", "player.health <= 30" }, "mouseover" }, -- Raise Ally
 		{ "49028", { "modifier.cooldowns", "!toggle.DRW" }, "target" }, -- Dancing Rune Weapon
 		{ "47568", { "modifier.cooldowns", "player.runes(death).count < 1", "player.runes(frost).count < 1", "player.runes(unholy).count < 1", "player.runicpower < 30" }}, -- Empower Rune Weapon
+		{ "115989", { "modifier.cooldowns","target.debuff(55095)" }}, -- Unholy Blight
+		{ "115989", { "modifier.cooldowns","target.debuff(55078)" }}, -- Unholy Blight
 		{ "#gloves"},
-
-	--[[ Aggro Control
-		{ "62124", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "@mtsBossLib.bossTaunt", "target.threat < 100" }, "target" }, -- Boss // Dark Command
-		{ "56222", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Dark Command / Mouse-Over
-		{ "56222", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Dark Command
-		{ "49576", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "mouseover.threat < 100", "@mtsLib.StopIfBoss" }, "mouseover" }, -- Death Grip / Mouse-Over
-		{ "49576", { "@mtsLib.ShouldTaunt('DkBloodTaunts')", "target.threat < 100", "@mtsLib.StopIfBoss" }, "target" }, -- Death Grip ]]
 
 	-- Interrupts
 		{ "47528", { "target.interruptsAt(50)", "modifier.interrupts" }, "target" }, -- Mind freeze
@@ -102,12 +97,28 @@ local inCombat = {
 		{ "77606", (function() return DarkSimUnit('target') end), "target" }, -- Dark Simulacrum
 		{ "77606", (function() return DarkSimUnit('focus') end), "focus" },  -- Dark Simulacrum
 
+	-- Plague Leech
+		{ "123693", {
+			"target.debuff(55095)",-- Target With Frost Fever
+			"target.debuff(55078)",-- Target With Blood Plague
+			"player.runes(unholy).count = 0",-- With 0 Unholy Runes
+			"player.runes(frost).count = 0",-- With 0 Frost Runes
+			"player.runes(death).count = 0",-- With 0 Death Runes
+			"!modifier.last"}}, 
+
 	-- Diseases
-		{ "115989", "target.debuff(55095).duration < 2" }, -- Unholy Blight
-		{ "115989", "target.debuff(55078).duration < 2" }, -- Unholy Blight
 		{ "77575", "target.debuff(55095).duration < 2" }, -- Outbreak
 		{ "77575", "target.debuff(55078).duration < 2" }, -- Outbreak
-		{ "50842",	{"target.range <= 10", "modifier.last(77575)" }}, -- Blood Boil
+		{ "45462", "target.debuff(55078).duration < 2", "target" }, -- Plague Strike
+		{ "45477", "target.debuff(55095).duration < 2", "target" }, -- Icy Touch
+		{ "48721", { -- Blood Boil // blod
+			"player.runes(blood).count > 1",
+			"target.debuff(55095).duration < 3", 
+			"target.debuff(55078).duration <3" }},
+		{ "48721", {  -- Blood Boil // death
+			"player.runes(death).count > 1",
+			"target.debuff(55095).duration < 3", 
+			"target.debuff(55078).duration <3" }},
 
 	-- Multi-target
 		{ "50842",	"UnitsAroundUnit(player, 10[, 5])"}, -- Blood Boil
@@ -120,8 +131,6 @@ local inCombat = {
 		{ "114866", "target.health <= 35", "target" }, -- Soul Reaper
 		{ "50842",	{ "target.range <= 10", "!target.health <= 35" }}, -- Blood Boil
 		{ "50842",	{ "player.runes(blood).count = 1", "target.range <= 10", "target.health <= 35" }}, -- Blood Boil // at less then 35% health if SR is not available.
-		{ "45462", "target.debuff(55078).duration < 2", "target" }, -- Plague Strike
-		{ "45477", "target.debuff(55095).duration < 2", "target" }, -- Icy Touch
 		{ "47541", "player.runicpower >= 30", "target" }, -- Death Coil
 
 	-- Blood Tap
