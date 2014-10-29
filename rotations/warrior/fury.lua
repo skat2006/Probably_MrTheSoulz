@@ -84,6 +84,7 @@ local inCombat = {
   	-- Proc's
   		{ "5308", "player.buff(Sudden Death)", "target" }, -- Execute
   		{ "100130", "player.buff(Bloodsurge)", "target" }, -- Wild Strike
+  		{ "Victory Rush" },
 
 	-- AoE
 		{ "1680", "modifier.multitarget" }, -- Whirlwind
