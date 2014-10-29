@@ -200,24 +200,4 @@ function mts_ConfigAlert(txt)
 	end
 end
 
-function mts_ConfigShouldUseSpell(key)
-	return mtsConfig:get(key)
-end
-
-function mts_ConfigUnitHpBelowThreshold(key,unit)
-	return ProbablyEngine.condition["health"](unit) <= mtsConfig:get(key)
-end
-
-function mts_modifierActionForSpellIsAlt(name)
-	return IsAltKeyDown() and not GetCurrentKeyBoardFocus() and mtsConfig:get("altKeyAction")==name
-end
-
-function mts_modifierActionForSpellIsShift(name)
-	return IsShiftKeyDown() and not GetCurrentKeyBoardFocus() and mtsConfig:get("shiftKeyAction")==name
-end
-
-function mts_modifierActionForSpellIsControl(name)
-	return IsControlKeyDown() and not GetCurrentKeyBoardFocus() and mtsConfig:get("controlKeyAction")==name
-end
-
 mtsinitConfig()
