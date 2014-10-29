@@ -96,22 +96,36 @@ local inCombat = {
 		{ "8936", { "!lowest.buff(8936)", "lowest.health < 80", "!player.moving", "player.buff(16870)" }, "lowest" }, -- Regrowth
 		{ "5185", { "lowest.health < 80", "!player.moving", "player.buff(16870)" }, "lowest" }, -- Healing Touch
 
-	-- Tank
-		{ "33763", { "tank.buff(33763).duration < 2", "tank.spell(33763).range" }, "tank" }, -- Renew - Life Bloom
-		{ "774", { "!tank.buff", "tank.health < 95", "tank.spell(774).range" }, "tank" }, -- Rejuvenation
-		{ "33763", { "!tank.buff(33763)", "tank.spell(33763).range" }, "tank" }, -- Life Bloom
-	
-	-- Single target
-		{ "5185", { "player.buff(144871).count = 5", "lowest.health < 80", "!player.moving" }, "lowest" }, -- Healing Touch tier set - 2
-		{ "18562", { "lowest.health < 80", "lowest.buff(774)" }, "lowest" }, -- Swiftmend
-		{ "145518", { "!player.spell(18562).cooldown = 0", "lowest.health < 40", "lowest.buff(774)" }, "lowest" }, -- Genesis
-		{ "774", { "lowest.health < 85", "!lowest.health < 60", "!lowest.buff" }, "lowest" }, -- Rejuvenation
-		{ "145205", "lowest.health > 60", "lowest" }, -- Wild Mushroom
-		{ "102791", { "lowest.health > 60", "player.totem(145205).duration >= 1" }, "lowest" }, -- Wild Mushroom - Bloom
-		{ "50464", { "player.buff(100977).duration <= 2", "!lowest.health < 60", "lowest.health < 97", "!player.moving" }, "lowest" }, -- Nourish
-		{ "8936", { "lowest.health < 60", "!lowest.health < 40", "!lowest.buff(8936)", "!player.moving" }, "lowest" }, -- Regrowth
-		{ "5185", { "lowest.health < 40", "!player.moving" }, "lowest", } -- Healing Touch
-  
+	-- HoTs
+		-- Focus
+			{ "18562", { "focus.health < 80", "focus.buff(774)" }, "focus" }, -- Swiftmend
+			{ "33763", { "focus.buff(33763).duration < 2", "focus.spell(33763).range" }, "focus" }, -- Life Bloom
+			{ "774", { "!focus.buff", "focus.health < 95", "focus.spell(774).range" }, "focus" }, -- Rejuvenation
+
+		-- Tank
+			{ "18562", { "tank.health < 80", "tank.buff(774)" }, "tank" }, -- Swiftmend
+			{ "33763", { "tank.buff(33763).duration < 2", "tank.spell(33763).range" }, "tank" }, -- Life Bloom
+			{ "774", { "!tank.buff", "tank.health < 95", "tank.spell(774).range" }, "tank" }, -- Rejuvenation
+
+		-- Noobs
+			{ "18562", { "lowest.health < 30", "lowest.buff(774)" }, "focus" }, -- Swiftmend
+			{ "774", { "!lowest.buff", "lowest.health < 65" }, "lowest" }, -- Rejuvenation
+
+	-- Heals
+		-- Focus
+			{ "5185", { "focus.health < 96", "!player.moving" }, "focus" }, -- Healing Touch
+
+		-- Tank
+			{ "5185", { "tank.health < 96", "!player.moving" }, "tank" }, -- Healing Touch
+		
+		-- noobs
+			{ "8936", { "lowest.health < 50", "!lowest.buff(8936)", "!player.moving" }, "lowest" }, -- Regrowth
+			{ "145518", { "!player.spell(18562).cooldown = 0", "lowest.health < 40", "lowest.buff(774)" }, "lowest" }, -- Genesis
+			{ "5185", { "lowest.health < 96", "!player.moving" }, "lowest" }, -- Healing Touch
+			
+			--{ "145205", "lowest.health > 60", "lowest" }, -- Wild Mushroom
+			--{ "102791", { "lowest.health > 60", "player.totem(145205).duration >= 1" }, "lowest" }, -- Wild Mushroom - Bloom
+
 }
 
 local outCombat = {
@@ -122,7 +136,7 @@ local outCombat = {
 		{ "20484", "modifier.control", "mouseover" }, -- Rebirth
 
 	-- Healing
-		{ "774", { "lowest.health < 99", "!lowest.buff", "player.form = 0" }, "lowest" }, -- Rejuvenation
+		{ "774", { "tank.health < 99", "!tank.buff", "player.form = 0" }, "tank" }, -- Rejuvenation
 
 }
 
