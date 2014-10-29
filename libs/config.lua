@@ -190,7 +190,7 @@ end
 
 function mts_AlertSounds()
 	if mtsConfig:get('getAlertSounds') then
-		PlaySoundFile("Sound\\Character\\PlayerRoars\\CharacterRoarsUndeadMale.wav")
+		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3", "master")
 	end
 end
 
