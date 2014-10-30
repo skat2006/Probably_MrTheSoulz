@@ -4,7 +4,7 @@ local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 								--[[   !!!Dispell function!!!   ]]
 						--[[   Checks is member as debuff and can be dispeled.   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-function Dispell()
+Dispell = function ()
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
 	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
@@ -61,7 +61,7 @@ local inCombat = {
 	 	{ "77130", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 	 	{ "77130", "@coreHealing.needsDispelled('Torment')", nil },
 	 	{ "77130", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-	 	{ "77130", {"toggle.dispel", (function() return Dispell() end)}},
+	 	{ "77130", {"toggle.dispel", Dispell }},
 
   	-- Heal Fast Bitch
    		{ "Ascendance", { "@coreHealing.needsHealing(45,10)", "!player.buff(Ascendance)", "modifier.cooldowns"}},

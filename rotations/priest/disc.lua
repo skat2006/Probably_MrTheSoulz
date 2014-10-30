@@ -10,7 +10,7 @@ local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 								--[[   !!!Dispell function!!!   ]]
 						--[[   Checks is member as debuff and can be dispeled.   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-function Dispell()
+Dispell = function ()
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
 	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
@@ -37,7 +37,26 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 		end
 	end
 		return false
-end 
+end
+
+-- Thx woe!
+holyNova = function ()
+    local minHeal = GetSpellBonusDamage(2) * 1.125
+ 
+    local inRange = 0
+    local prefix = (IsInRaid() and 'raid') or 'party'
+    for i = -1, GetNumGroupMembers() - 1 do
+      local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
+      if IsItemInRange(33278, unit) or unit == 'player' then
+        local diff = getHealth(unit)
+        if diff > minHeal then
+          inRange = inRange + 1
+        end
+      end
+    end
+    
+    return inRange > inRange > 3
+end
 
 local exeOnLoad = function()
 
@@ -96,7 +115,7 @@ local inCombat = {
 	 	{ "527", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Torment')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-	 	{ "527", {"toggle.dispel", (function() return Dispell() end)}},
+	 	{ "527", {"toggle.dispel", Dispell}},
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
@@ -116,11 +135,12 @@ local inCombat = {
 	-- AOE
    		--Shared
    			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5"}, "lowest" }, --Prayer of Healing
+   			{ "596", { "modifier.lshift", "!player.moving" }, "mouseover" }, --Prayer of Healing // Raid WorkAround.
 		
 		-- Party
 			{ "596", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
 			{ "62618", { "@coreHealing.needsHealing(50, 3)", "modifier.party", "!player.moving", "modifier.cooldowns" }, "tank.ground" }, -- Power word Barrier // w/t CD's and on tank
-			--{ "132157", { "@coreHealing.needsHealing(95, 3)", "!modifier.last", "player.area(10).friendly > 2", "@mtsLib.CanFireHack()", "modifier.party" }}, -- Holy Nova
+			{ "132157", holyNova }, -- Holy Nova
 	
 	-- Focus
 		{ "17", { "!focus.debuff(6788).any", "!focus.buff(17).any" }, "focus" }, --Power Word: Shield

@@ -11,7 +11,7 @@ local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 								--[[   !!!Dispell function!!!   ]]
 						--[[   Checks is member as debuff and can be dispeled.   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-function Dispell()
+Dispell = function ()
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
 	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
@@ -69,7 +69,7 @@ local inCombat = {
 		{ "Tremor Totem", { "!player.buff", "player.state.fear" }, "player" }, 
  
 	-- Dispell
-		{ "Cleanse Spirit", { "modifier.lshift", "!modifier.last(Cleanse Spirit)", function() return Dispell() end } },
+		{ "Cleanse Spirit", { "modifier.lshift", "!modifier.last(Cleanse Spirit)", Dispell } },
 	
 	-- Control Toggles
 		{ "Flame Shock", { "!modifier.multitarget", "mouseover.enemy", "mouseover.alive", "mouseover.debuff(Flame Shock).duration <= 3", "toggle.mouseovers" }, "mouseover" },
