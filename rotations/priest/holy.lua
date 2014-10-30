@@ -107,7 +107,7 @@ local inCombat = {
 		
 		-- Party
 			{ "64843", { "@coreHealing.needsHealing(50, 3)", "modifier.party" }}, -- Divine Hymn
-			{ "596", { "@coreHealing.needsHealing(85, 3)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
+			{ "596", { "@coreHealing.needsHealing(85, 3)", "modifier.party", "!modifier.raid", "!player.moving" }, "lowest" }, --Prayer of Healing
 
 		-- raid 10
 			{ "64843", { "@coreHealing.needsHealing(60, 5)", "modifier.raid", "!modifier.members > 10" }}, -- Divine Hymn
