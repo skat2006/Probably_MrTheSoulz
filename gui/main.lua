@@ -7,7 +7,7 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
-local mts_VERSION = "\124cff9482C9*[MTS] \124cffFFFFFFVersion: 0.9.0\124cff9482C9*"
+local mts_VERSION = "\124cff9482C9*[MTS] \124cffFFFFFFVersion: 0.10.0\124cff9482C9*"
 local mConfigVersion = 1
 if M_CONFIG_VERSION == nil or MCONFIG_VERSION < mConfigVersion then
 local DISPLAYED_OPTIONS = 10
