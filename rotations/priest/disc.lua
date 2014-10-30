@@ -138,7 +138,7 @@ local inCombat = {
    			{ "596", { "modifier.lshift", "!player.moving" }, "mouseover" }, --Prayer of Healing // Raid WorkAround.
 		
 		-- Party
-			{ "596", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "!player.moving" }, "lowest" }, --Prayer of Healing
+			{ "596", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "!modifier.raid", "!player.moving" }, "lowest" }, --Prayer of Healing
 			{ "62618", { "@coreHealing.needsHealing(50, 3)", "modifier.party", "!player.moving", "modifier.cooldowns" }, "tank.ground" }, -- Power word Barrier // w/t CD's and on tank
 			{ "132157", holyNova }, -- Holy Nova
 	
