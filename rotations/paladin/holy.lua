@@ -94,7 +94,7 @@ local inCombat = {
 
 	-- keybinds
 		{ "114158", {"modifier.shift", "@mtsLib.CanFireHack()"}, "target.ground"}, -- Light´s Hammer // FH
-		{ "114158", "modifier.shift", "mouseover.ground"}, -- Light´s Hammer // FH
+		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer // FH
 		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
 
 	-- Mana Regen
@@ -169,7 +169,7 @@ local inCombat = {
 		{ "633", "lowest.health < 15", "lowest" }, -- Lay on Hands
 		{ "85673", { "player.holypower >= 3", "lowest.health <= 80" }, "lowest"  }, -- Word of Glory
 		{ "114163", { "player.holypower >= 1", "!lowest.buff(114163)", "lowest.health <= 93" }, "lowest" }, -- Eternal Flame
-		{ "20925", { "spell.charges(20925) >= 2", "lowest.health < 90", "!lowest.buff(148039)", "lowest.spell(20925).range", "!modifier.last" }, "lowest" }, -- Sacred Shield
+		{ "Sacred Shield", { "player.spell(Sacred Shield).charges >= 2", "lowest.health < 100", "!lowest.buff(Sacred Shield)" }, "lowest" }, -- Sacred Shield
 		{ "19750", { "lowest.health < 30", "!player.moving" }, "lowest" }, -- Flash of light
 
 	-- Dps
@@ -178,7 +178,7 @@ local inCombat = {
 	-- Tank
 		{ "114157", "tank.health < 85", "tank" }, -- Execution Sentence
 		{ "114163", { "player.holypower >= 3", "!tank.buff(114163)", "tank.health <= 75" }, "tank" }, -- Eternal Flame
-		{ "20925", { "spell.charges(20925) >= 1", "tank.health < 95", "!tank.buff(148039)", "tank.spell(20925).range", "!modifier.last" }, "tank" }, -- Sacred Shield
+		{ "Sacred Shield", { "player.spell(Sacred Shield).charges >= 2", "tank.health < 100", "!tank.buff(Sacred Shield)", "tank.spell(Sacred Shield).range" }, "tank" }, -- Sacred Shield
 		{ "82326", { "tank.health < 65", "tank.spell(82326).range", "!player.moving" }, "tank" }, -- Divine Light
 		
 	-- Single target
