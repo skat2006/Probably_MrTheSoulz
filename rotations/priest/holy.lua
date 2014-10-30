@@ -110,11 +110,11 @@ local inCombat = {
 
 		-- raid 10
 			{ "64843", { "@coreHealing.needsHealing(60, 5)", "modifier.raid", "!modifier.members > 10" }}, -- Divine Hymn
-			{ "596", { "modifier.shift", "modifier.raid", "!modifier.members > 10", "!player.moving" }, "mouseover" }, --Prayer of Healing
+			--{ "596", { "modifier.shift", "modifier.raid", "!modifier.members > 10", "!player.moving" }, "mouseover" }, --Prayer of Healing
 
 		-- raid 10+
 			{ "64843", { "@coreHealing.needsHealing(60, 8)", "modifier.raid", "modifier.members > 10" }}, -- Divine Hymn
-			{ "596", { "modifier.shift", "modifier.raid", "modifier.members > 10", "!player.moving" }, "mouseover" }, --Prayer of Healing
+			--{ "596", { "modifier.shift", "modifier.raid", "modifier.members > 10", "!player.moving" }, "mouseover" }, --Prayer of Healing
 
 	-- Focus
 		{ "17", { "!focus.debuff(6788).any", "!focus.buff(17).any" }, "focus" }, --Power Word: Shield
