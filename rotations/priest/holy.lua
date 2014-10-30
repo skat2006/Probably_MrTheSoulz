@@ -10,7 +10,7 @@ local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 								--[[   !!!Dispell function!!!   ]]
 						--[[   Checks is member as debuff and can be dispeled.   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-function Dispell()
+Dispell = function ()
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
 	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
@@ -77,7 +77,7 @@ local inCombat = {
 	 	{ "527", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Torment')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-	 	{ "527", {"toggle.dispel", (function() return Dispell() end)}},
+	 	{ "527", {"toggle.dispel", Dispell }},
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
@@ -103,6 +103,7 @@ local inCombat = {
 	-- AOE
    		--Shared
    			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5", "modifier.party"}, "lowest" }, --Prayer of Healing
+   			{ "596", { "modifier.lshift", "!player.moving" }, "mouseover" }, --Prayer of Healing // Raid WorkAround.
 		
 		-- Party
 			{ "64843", { "@coreHealing.needsHealing(50, 3)", "modifier.party" }}, -- Divine Hymn
@@ -110,11 +111,9 @@ local inCombat = {
 
 		-- raid 10
 			{ "64843", { "@coreHealing.needsHealing(60, 5)", "modifier.raid", "!modifier.members > 10" }}, -- Divine Hymn
-			--{ "596", { "modifier.shift", "modifier.raid", "!modifier.members > 10", "!player.moving" }, "mouseover" }, --Prayer of Healing
 
 		-- raid 10+
 			{ "64843", { "@coreHealing.needsHealing(60, 8)", "modifier.raid", "modifier.members > 10" }}, -- Divine Hymn
-			--{ "596", { "modifier.shift", "modifier.raid", "modifier.members > 10", "!player.moving" }, "mouseover" }, --Prayer of Healing
 
 	-- Focus
 		{ "17", { "!focus.debuff(6788).any", "!focus.buff(17).any" }, "focus" }, --Power Word: Shield
@@ -177,7 +176,7 @@ local outCombat = {
 
 	--Heal
 		-- AoE
-			{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 3)" }, "lowest" }, --Prayer of Healing
+			{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 3)", "modifier.party" }, "lowest" }, --Prayer of Healing
 			{ "34861", "@coreHealing.needsHealing(90, 3)"}, -- Circle of Healing
 		-- focus 
 			{ "17", { "!focus.debuff(6788).any", "!focus.buff(17).any" }, "focus" }, --Power Word: Shield
