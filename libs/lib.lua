@@ -157,7 +157,7 @@ function mts_ConfigWhisper(txt)
 end
 
 function mts_AlertSounds()
-	if mtsLib.sounds then
+	if mtsLib.sound then
 		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3", "master")
 	end
 end
