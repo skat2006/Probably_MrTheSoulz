@@ -2,7 +2,7 @@ local lib = function()
 
   ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
   ProbablyEngine.toggle.create('alter', 'Interface\\ICONS\\spell_mage_altertime', 'Alter Time', 'Toggle the usage of Alter Time and Arcane Power.')
-  ProbablyEngine.toggle.create('run', 'Interface\\ICONS\\Ability_mage_invisibility.png', 'Escape!', 'Toggle the usage of bink if the target is 3 or less yards way from you. \nAnd other escaping spells.')
+  ProbablyEngine.toggle.create('def', 'Interface\\ICONS\\creatureportrait_creature_iceblock', 'Survival', 'Ice Block when Shit gets serious')
   mtsStart:message("\124cff9482C9*MTS-\124cff69CCF0Mage/Arcane-\124cff9482C9Loaded*")
 
 end
@@ -18,64 +18,48 @@ local inCombat = {
 
   -- keybinds
     { "113724", "modifier.alt", "target.ground" }, -- Ring of Frost
-    { "116011", "modifier.shift", "player.ground" }, -- Rune of Power
+    { "116011", {"modifier.shift","!player.buff(116014)"}, "player.ground" }, -- Rune of Power
 
-  -- Smart Fh Stuff
-    { "116011", "!player.buff(Rune of Power)", "player.ground" }, -- Rune of Power
+  -- Survival
+    { "45438", {"toggle.def","player.health <= 30"}}, --Ice Block
+    { "11958", {"toggle.def","player.health <= 25","player.spell(45438).cooldown"}}, --Cold Snap for Reset 
+    { "#5512", "player.health < 35"},--Healthstone
 
   -- Cooldowns
-    { "45438", {"modifier.cooldowns","player.health <= 30" }}, -- Ice Block
-    { "11958", {"modifier.cooldowns","player.health <= 25","player.spell(45438).cooldown" }}, -- Cold Snap
-    { "55342", "modifier.cooldowns" }, -- Mirror Image
-    { "12043", "modifier.cooldowns" }, -- Presence of Mind
-    { "Amplify Magic", "modifier.cooldowns" }, -- Amplify Magic
-    { "Amplify Magic", "modifier.cooldowns" }, -- Amplify Magic
-
-
-  -- Alter Time Logic
-    { "108978", {"player.buff(12042)","!player.buff(108978)","toggle.alter" }}, -- Alter Time
+    { "12042", "modifier.cooldowns"},--Arcane Power
+    { "12043", "modifier.cooldowns"},--Presence of Mind
+    { "108978", {"player.buff(12042)","!player.buff(108978)","toggle.alter" }},--Alter Time
+    { "159916", "modifier.cooldowns"}, -- AMagic
 
   -- Interrupts
-    { "2139", "modifier.interrupts" }, -- Counterspell
     { "102051", "modifier.interrupts" }, -- Frostjaw
+    { "2139", "modifier.interrupts" }, -- Counterspell
 
-  -- Mage Bombs
-    { "114923", "!target.debuff(114923)", "target" }, -- Nether Tempest
-    { "114923", "target.debuff(114923).duration <= 2", "target" }, -- Nether Tempest
-
-  -- Survivability
-    { "122", {"target.range <= 9","toggle.run"} }, -- Frost Nova
-    { "1953", {"target.range <= 3","toggle.run"} }, -- Blink
-    { "11426", "player.health <= 80" }, -- Ice Barrier
-
-  -- AoE FH
-    {"Cone of Cold ", {"player.area(10).enemies >= 3", "@mtsLib.CanFireHack()"}},
-    {"Arcane Explosion", {"player.area(10).enemies >= 3", "@mtsLib.CanFireHack()"}},
+  -- AoE // FH
+    { "1449", {"modifier.multitarget", "target.area(10).enemies >= 5", "@mtsLib.CanFireHack()"}},--Arcane Explosion
+    { "120", {"modifier.multitarget", "target.area(10).enemies >= 5" , "@mtsLib.CanFireHack()"}},--Cone of Cold
 
   -- AoE
-    {"Cone of Cold ", "modifier.multitarget"},
-    {"Arcane Explosion", "modifier.multitarget"},
-
-  -- procs
-    { "5143", "player.buff(Arcane Missiles!)"},-- Arcane Missiles
+    { "1449", {"modifier.multitarget", "target.area(10).enemies >= 5", "@mtsLib.CanFireHack()"}},--Arcane Explosion
+    { "120", {"modifier.multitarget", "target.area(10).enemies >= 5" , "@mtsLib.CanFireHack()"}},--Cone of Cold
 
   -- Moving
-    { "108839", "player.moving" }, -- ice floes
-    { "44425", "player.moving" }, -- Arcane Barrage
-    { "2136", "player.moving" }, -- Fire Blast
-    { "30455", {"player.moving","player.spell(2136).cooldown","player.spell(44425).cooldown" }},-- Ice Lance
+    { "108839", "player.moving" },--Ice Floes
+    { "108843", {"player.moving", "player.spell.exists(108843)" }}, --Blazing Speed
 
   -- Rotation
-    { "12042", {"player.buff(79683).count >= 2", "toggle.alter" }},-- Arcane Power
-    { "5143", { "player.buff(79683).count >= 1", "player.debuff(36032).count >= 4" }},-- Arcane Missiles
-    { "44425", {"player.debuff(36032).count >= 4","!player.buff(5143)" }},-- Arcane Barrage
-    { "30451" } -- Arcane Blast
+    { "114923", {"player.debuff(36032).count >= 4", "target.debuff(114923).duration <= 3.6"}},--Nether Tempest
+    { "157980", {"modifier.cooldowns","player.spell.exists(157980)"}},--Supernova
+    { "5143", { "player.debuff(36032).count >= 4", "player.buff(79683).count >= 3" }},--Arcane Missiles with 3x Procc
+    { "44425", "player.debuff(36032).count >= 4" },--Arcane Barrage 
+    { "30451" },--Arcane Blast
 
 }
 
 local outCombat = {
 
   { "1459", "!player.buff" }, -- Arcane Brilliance
+  { "30455", "tank.combat", "target" }, -- ty to MRTSZ, didn't know about "tank.combat" Ice Lance
 
 }
 
