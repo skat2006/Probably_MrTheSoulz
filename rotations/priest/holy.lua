@@ -83,6 +83,13 @@ local inCombat = {
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
 		{ "123040", {"player.mana < 75", "target.spell(123040).range", "modifier.cooldowns"}, "target" }, --Mindbender
 	
+	-- Player dead (Spirit)
+		{ "88684", {"lowest.health <= 80", "player.buff(27827)"}, "lowest" }, -- Holy Word Serenity
+		{ "2061", {"lowest.health < 100", "player.buff(27827)"}, "lowest" }, --Flash Heal
+		{ "34861", {"@coreHealing.needsHealing(95, 3)", "player.buff(27827)"}, "lowest"}, -- Circle of Healing
+		{ "121135", {"@coreHealing.needsHealing(95, 3)", "player.buff(27827)"}}, -- cascade
+		{ "596", { "@coreHealing.needsHealing(95, 3)", "!player.moving", "player.buff(27827)" }, "lowest" }, --Prayer of Healing
+
 	-- Heal Fast Bitch!!
 		-- Desperate Prayer
 			{ "19236", "player.health <= 20", "Player" }, --Desperate Prayer
@@ -101,8 +108,8 @@ local inCombat = {
 
 	-- AOE
 		-- Shared
-			{ "34861", "@coreHealing.needsHealing(95, 3)", nil}, -- Circle of Healing
-			{ "121135", "@coreHealing.needsHealing(80, 3)", nil}, -- cascade
+			{ "34861", "@coreHealing.needsHealing(95, 3)", "lowest"}, -- Circle of Healing
+			{ "121135", "@coreHealing.needsHealing(95, 3)"}, -- cascade
    		
    		-- Prayer of Healing
    			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5", "modifier.party"}, "lowest" }, --Prayer of Healing
@@ -174,7 +181,7 @@ local outCombat = {
 	--Heal
 		-- AoE
 			{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 3)", "modifier.party" }, "lowest" }, --Prayer of Healing
-			{ "34861", "@coreHealing.needsHealing(90, 3)"}, -- Circle of Healing
+			{ "34861", "@coreHealing.needsHealing(90, 3)", "lowest"}, -- Circle of Healing
 		
 		-- shields 
 			{ "17", { "!focus.debuff(6788).any", "focus.spell(17).range" }, "focus" }, --Power Word: Shield
