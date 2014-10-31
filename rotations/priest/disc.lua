@@ -10,7 +10,7 @@ local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 								--[[   !!!Dispell function!!!   ]]
 						--[[   Checks is member as debuff and can be dispeled.   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-Dispell = function ()
+Dispell = function()
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
 	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
@@ -39,25 +39,6 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 		return false
 end
 
---[[ Thx woe!
-holyNova = function ()
-    local minHeal = GetSpellBonusDamage(2) * 1.125
- 
-    local inRange = 0
-    local prefix = (IsInRaid() and 'raid') or 'party'
-    for i = -1, GetNumGroupMembers() - 1 do
-      local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
-      if IsItemInRange(33278, unit) or unit == 'player' then
-        local diff = getHealth(unit)
-        if diff > minHeal then
-          inRange = inRange + 1
-        end
-      end
-    end
-    
-    return inRange > inRange > 3
-end]]
-
 local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
@@ -81,7 +62,7 @@ local inCombat = {
 		{ "109964", "modifier.lshift" }, --Spirit Shell
 
 	-- Auto Targets
-		--{ "/cleartarget ", { "toggle.autotarget", "target.exists", "!target.enemie" }}, -- Target a enemie if target is friendly
+		--{ "/cleartarget ", { "toggle.autotarget", "target.exists", "target.friend" }}, -- Target a enemie if target is friendly
 		{ "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40" }}, -- Use Tank Target
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }}, -- target enemire if no target
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }}, -- target enemire if current is dead.
@@ -121,51 +102,43 @@ local inCombat = {
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
 		{ "33206", { "toggle.painSup", "lowest.health <= 25 " }, "lowest" }, --Pain Suppression
 	
-	-- Heal FAST BITCH
-		-- focus
-			{ "2061", "focus.health <= 50", "focus" }, --Flash Heal
-		
-		-- Tank
-			{ "2061", "tank.health <= 50", "tank" }, --Flash Heal
-		
-		-- Noobs
+	-- Flash Heal
+			{ "2061", {"focus.health <= 50", "focus.spell(2061).range"}, "focus" }, --Flash Heal
+			{ "2061", {"tank.health <= 50", "tank.spell(2061).range"}, "tank" }, --Flash Heal
 			{ "2061", "player.health <= 40", "player" }, --Flash Heal
 			{ "2061", "lowest.health <= 20", "lowest" }, --Flash Heal
 
 	-- AOE
-   		--Shared
+   		-- Prayer of Healing
    			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5"}, "lowest" }, --Prayer of Healing
+   			{ "596", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "!modifier.raid", "!player.moving" }, "lowest" }, --Prayer of Healing
    			{ "596", { "modifier.lshift", "!player.moving" }, "mouseover" }, --Prayer of Healing // Raid WorkAround.
-		
-		-- Party
-			{ "596", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "!modifier.raid", "!player.moving" }, "lowest" }, --Prayer of Healing
+
+   		-- Power word Barrier
 			{ "62618", { "@coreHealing.needsHealing(50, 3)", "modifier.party", "!player.moving", "modifier.cooldowns" }, "tank.ground" }, -- Power word Barrier // w/t CD's and on tank
-			--{ "132157", holyNova }, -- Holy Nova
 	
-	-- Focus
-		{ "17", { "!focus.debuff(6788).any", "!focus.buff(17).any" }, "focus" }, --Power Word: Shield
-		{ "2060", "focus.health <= 60", "focus" }, --Greater Healing
-		{ "33076", { "focus.health <= 95", "!player.moving" }, "focus" }, --Prayer of Mending
-		{ "2050", {"!focus.health <= 50", "focus.health < 85"}, "focus" }, -- Heal
-
-	-- Tank
-		{ "17", { "!tank.debuff(6788).any", "!tank.buff(17).any" }, "tank" }, --Power Word: Shield
-		{ "2060", "tank.health <= 60", "tank" }, --Greater Healing
-		{ "33076", { "tank.health <= 95", "!player.moving" }, "tank" }, --Prayer of Mending
-		{ "2050", {"!tank.health <= 50", "tank.health < 85"}, "tank" }, -- Heal
-	
-	-- Player
+	-- shields
+		{ "17", { "!focus.debuff(6788).any", "focus.spell(17).range" }, "focus" }, --Power Word: Shield
+		{ "17", { "!tank.debuff(6788).any", "tank.spell(17).range" }, "tank" }, --Power Word: Shield
 		{ "17", { "!player.debuff(6788).any", "!player.buff(17).any", "player.health <= 70" }, "player" }, --Power Word: Shield
-
-	-- Singe Target
 		{ "17", { "!lowest.debuff(6788).any", "!lowest.buff(17).any", "lowest.health <= 40" }, "lowest" }, --Power Word: Shield
+
+	-- Prayer of Mending
+		{ "33076", { "focus.health <= 95", "!player.moving", "focus.spell(17).range" }, "focus" }, --Prayer of Mending
+		{ "33076", { "tank.health <= 95", "!player.moving", "tank.spell(17).range" }, "tank" }, --Prayer of Mending
+
+	 --Penance	
 		{ "47540", "lowest.health <= 85", "lowest" }, --Penance
-		{ "2050", "lowest.health <= 85", "lowest" }, -- Heal
+
+	-- heal
+		{ "2060", { "!focus.health <= 50", "focus.health < 90", "focus.spell(17).range" }, "focus" }, -- Heal
+		{ "2060", {"!tank.health <= 50", "tank.health < 90", "tank.spell(17).range" }, "tank" }, -- Heal
+		{ "2060", "lowest.health <= 85", "lowest" }, -- Heal
 
 	--Attonement 
-		{ "14914", { "!toggle.mouseOver", "player.mana > 20","target.spell(14914).range" }, "target" }, --Holy Fire
-		{ "47540", { "player.mana > 20", "target.spell(47540).range", "!player.moving" }, "target" }, --Penance
-		{ "585", { "player.mana > 20", "!player.moving", "target.spell(585).range" }, "target" }, --Smite
+		{ "14914", { "!toggle.mouseOver", "player.mana > 20","target.spell(14914).range", "target.infront" }, "target" }, --Holy Fire
+		{ "47540", { "player.mana > 20", "target.spell(47540).range", "!player.moving", "target.infront" }, "target" }, --Penance
+		{ "585", { "player.mana > 20", "!player.moving", "target.spell(585).range", "target.infront" }, "target" }, --Smite
 
 }
 
@@ -173,7 +146,6 @@ local inCombatSolo = {
 
   	-- Auto Target
 		{ "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy ", { "toggle.autotarget", "target.friendly" }}, -- Target a enemie if target is friendly
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }}, -- target enemire if no target
 		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 	
@@ -203,11 +175,12 @@ local outCombat = {
 	--Heal
 		-- AoE
 			{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 3)" }, "lowest" }, --Prayer of Healing
-		-- focus 
-			{ "17", "!focus.buff(17).any", "focus" }, --Power Word: Shield
-	    -- tank
-	    	{ "17", "!tank.buff(17).any", "tank" }, --Power Word: Shield
-	   	-- noobs
+		
+		-- Shields
+			{ "17", { "!focus.debuff(6788).any", "focus.spell(17).range" }, "focus" }, --Power Word: Shield
+	    	{ "17", { "!tank.debuff(6788).any", "tank.spell(17).range", "modifier.party" }, "tank" }, --Power Word: Shield
+	   
+	   	-- Heals
 			{ "47540", { "lowest.health <= 85", "!player.moving" }, "lowest" }, --Penance
 			{ "2061", { "!player.moving", "lowest.health <= 75" }, "lowest" }, --Flash Heal
 

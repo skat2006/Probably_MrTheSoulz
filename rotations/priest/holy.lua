@@ -84,64 +84,61 @@ local inCombat = {
 		{ "123040", {"player.mana < 75", "target.spell(123040).range", "modifier.cooldowns"}, "target" }, --Mindbender
 	
 	-- Heal Fast Bitch!!
-		-- AoE
-			{ "34861", "@coreHealing.needsHealing(95, 3)", nil}, -- Circle of Healing
-			{ "121135", "@coreHealing.needsHealing(80, 3)", nil}, -- cascade
-		
-		-- Focus
-			{ "88684", "focus.health <= 90", "focus" }, -- Holy Word Serenity
-			{ "2061", "focus.health <= 40", "focus" }, --Flash Heal
+		-- Desperate Prayer
+			{ "19236", "player.health <= 20", "Player" }, --Desperate Prayer
 
-		-- Tank
-			{ "88684", "tank.health <= 90", "tank" }, -- Holy Word Serenity
-			{ "2061", "tank.health <= 40", "tank" }, --Flash Heal
+		-- Holy Word Serenity
+			{ "88684", {"focus.health <= 90", "focus.spell(88684).range"}, "focus" }, -- Holy Word Serenity
+			{ "88684", {"tank.health <= 90", "tank.spell(88684).range"}, "tank" }, -- Holy Word Serenity
+			{ "88684", "player.health <= 60", "player" }, -- Holy Word Serenity
+			{ "88684", "lowest.health <= 60", "lowest" }, -- Holy Word Serenity
 
-		-- Noobs
+		-- Flash Heal
+			{ "2061", {"focus.health <= 40", "focus.spell(2061).range"}, "focus" }, --Flash Heal
+			{ "2061", {"tank.health <= 40", "tank.spell(2061).range"}, "tank" }, --Flash Heal
 			{ "2061", "player.health <= 40", "player" }, --Flash Heal
 			{ "2061", "lowest.health <= 20", "lowest" }, --Flash Heal
 
 	-- AOE
-   		--Shared
+		-- Shared
+			{ "34861", "@coreHealing.needsHealing(95, 3)", nil}, -- Circle of Healing
+			{ "121135", "@coreHealing.needsHealing(80, 3)", nil}, -- cascade
+   		
+   		-- Prayer of Healing
    			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5", "modifier.party"}, "lowest" }, --Prayer of Healing
    			{ "596", { "modifier.lshift", "!player.moving" }, "mouseover" }, --Prayer of Healing // Raid WorkAround.
+   			{ "596", { "@coreHealing.needsHealing(85, 3)", "modifier.party", "!modifier.raid", "!player.moving" }, "lowest" }, --Prayer of Healing
 		
-		-- Party
+		-- Divine Hymn
 			{ "64843", { "@coreHealing.needsHealing(50, 3)", "modifier.party" }}, -- Divine Hymn
-			{ "596", { "@coreHealing.needsHealing(85, 3)", "modifier.party", "!modifier.raid", "!player.moving" }, "lowest" }, --Prayer of Healing
-
-		-- raid 10
 			{ "64843", { "@coreHealing.needsHealing(60, 5)", "modifier.raid", "!modifier.members > 10" }}, -- Divine Hymn
-
-		-- raid 10+
 			{ "64843", { "@coreHealing.needsHealing(60, 8)", "modifier.raid", "modifier.members > 10" }}, -- Divine Hymn
 
-	-- Focus
-		{ "17", { "!focus.debuff(6788).any", "!focus.buff(17).any" }, "focus" }, --Power Word: Shield
-		{ "139", "!focus.buff(139)", "focus" }, --renew
-		{ "33076", "focus.health < 99", "focus" }, --Prayer of Mending
-		{ "32546", { "focus.health < 99", "player.health <= 60"}, "focus" }, --binding heal
-		{ "2060", "focus.health <= 95", "focus" }, -- Heal
-
-	-- Tank
-		{ "17", { "!tank.debuff(6788).any", "!tank.buff(17).any" }, "tank" }, --Power Word: Shield
-		{ "88684", "tank.health <= 90", "tank" }, -- Holy Word Serenity
-		{ "139", "!tank.buff(139)", "tank" }, --renew
-		{ "33076", "tank.health < 99", "tank" }, --Prayer of Mending
-		{ "32546", { "tank.health < 99", "player.health <= 60"}, "tank" }, --binding heal
-		{ "2060", "tank.health <= 95", "tank" }, -- Heal
-	
-	-- Player
+	-- shields
+		{ "17", { "!focus.debuff(6788).any", "focus.spell(17).range", "focus.spell(17).range" }, "focus" }, --Power Word: Shield
+		{ "17", { "!tank.debuff(6788).any", "tank.spell(17).range", "tank.spell(17).range" }, "tank" }, --Power Word: Shield
 		{ "17", { "!player.debuff(6788).any", "!player.buff(17).any", "player.health <= 70" }, "player" }, --Power Word: Shield
-		{ "139", {"player.health < 85", "!player.buff(139)"}, "player" }, --renew
-		{ "88684", "player.health <= 60", "player" }, -- Holy Word Serenity
-		{ "19236", {"player.health <= 20" }, "Player" }, --Desperate Prayer
-
-	-- Singe Target
 		{ "17", { "!lowest.debuff(6788).any", "!lowest.buff(17).any", "lowest.health <= 40" }, "lowest" }, --Power Word: Shield
-		{ "88684", "lowest.health <= 60", "lowest" }, -- Holy Word Serenity
+
+	-- renew
+		{ "139", {"!focus.buff(139)", "focus.spell(139).range"}, "focus" }, --renew
+		{ "139", {"!tank.buff(139)", "tank.spell(139).range"}, "tank" }, --renew
+		{ "139", {"player.health < 85", "!player.buff(139)"}, "player" }, --renew
 		{ "139", {"lowest.health < 85", "!lowest.buff(139)"}, "lowest" }, --renew
+
+	-- Prayer of Mending
+		{ "33076", {"focus.health < 99", "focus.spell(33076).range"}, "focus" }, --Prayer of Mending
+		{ "33076", {"tank.health < 99", "tank.spell(33076).range"}, "tank" }, --Prayer of Mending
+
+	-- binding heal
+		{ "32546", { "focus.health < 99", "player.health <= 60", "focus.spell(32546).range"}, "focus" }, --binding heal
+		{ "32546", { "tank.health < 99", "player.health <= 60", "tank.spell(32546).range"}, "tank" }, --binding heal
 		{ "32546", { "lowest.health < 99", "player.health < 60"}, "lowest" }, --binding heal
-		{ "2060", "lowest.health <= 95", "lowest" }, -- Heal
+
+	-- heal
+		{ "2060", {"focus.health <= 95", "focus.spell(2060).range"}, "focus" }, -- Heal
+		{ "2060", {"tank.health <= 95", "tank.spell(2060).range"}, "tank" }, -- Heal
+		{ "2060", "lowest.health <= 95", "lowest" }, -- Heal	
 
 }
 
@@ -178,11 +175,12 @@ local outCombat = {
 		-- AoE
 			{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 3)", "modifier.party" }, "lowest" }, --Prayer of Healing
 			{ "34861", "@coreHealing.needsHealing(90, 3)"}, -- Circle of Healing
-		-- focus 
-			{ "17", { "!focus.debuff(6788).any", "!focus.buff(17).any" }, "focus" }, --Power Word: Shield
-	    -- tank
-	    	{ "17", { "!tank.debuff(6788).any", "!tank.buff(17).any" }, "tank" }, --Power Word: Shield
-	   	-- noobs
+		
+		-- shields 
+			{ "17", { "!focus.debuff(6788).any", "focus.spell(17).range" }, "focus" }, --Power Word: Shield
+			{ "17", { "!tank.debuff(6788).any", "tank.spell(17).range", "modifier.party" }, "tank" }, --Power Word: Shield
+	   	
+	   	-- heals
 			{ "139", { "lowest.health < 99", "!lowest.buff(139)"}, "lowest" }, --renew			
 			{ "2061", { "!player.moving", "lowest.health <= 40" }, "lowest" }, --Flash Heal
 			{ "2060", "lowest.health <= 95", "tank" }, -- Heal
