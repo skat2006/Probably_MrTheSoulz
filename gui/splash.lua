@@ -24,7 +24,7 @@ mtsSplash = CreateFrame("Frame", nil,UIParent)
 mtsSplash:SetPoint("CENTER",UIParent)
 mtsSplash:SetWidth(512)
 mtsSplash:SetHeight(256)
-mtsSplash:SetBackdrop({ bgFile = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.tga" })
+mtsSplash:SetBackdrop({ bgFile = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp" })
 mtsSplash:SetScript("OnUpdate",onUpdate)
 mtsSplash:Hide()
 mtsSplash.time = 0
