@@ -92,7 +92,7 @@ local inCombatSerpente = {
   		{ "116849", "lowest.health <= 25" },-- Life Coccon
 
 	-- Give me Mana
-		{ "123761", { "player.mana < 95", "player.buff(123761).count >= 2" }},
+		{ "115294", { "player.mana < 95", "player.buff(115867).count >= 2" }}, -- mana tea
 
 	-- AoE
 		{ "115310", "@coreHealing.needsHealing(50, 9)", nil }, -- Revival
@@ -108,11 +108,11 @@ local inCombatSerpente = {
 			{ "116694", { "player.casting(Soothing Mist)", "tank.health <= 99" }, "tank" }, -- Surging Mist
 
 		-- Player
-			{"Expel Harm", "player.health < 70"},
+			{"115072", "player.health < 70", "player"},--Expel Harm
 
 		-- Noobs
+			{ "124682", { "player.casting(115175)", "player.chi >= 3", "lowest.health < 90" }, "lowest" }, -- Enveloping Mist
 			{ "115151", { "lowest.buff(119611).duration <= 2", "lowest.health < 100"}, "lowest"}, -- Renewing Mist
-			{ "124682", { "player.casting(Soothing Mist)", "player.chi >= 3", "player.casting(Soothing Mist)", "lowest.health < 90" }, "lowest" }, -- Enveloping Mist
 			{ "116694", { "player.casting(Soothing Mist)", "lowest.health <= 95", "!lowest.buff(119611)"}, "lowest" }, -- Surging Mist 
 
 	-- Soothing Mist
