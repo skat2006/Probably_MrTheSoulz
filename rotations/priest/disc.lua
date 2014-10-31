@@ -39,7 +39,7 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 		return false
 end
 
--- Thx woe!
+--[[ Thx woe!
 holyNova = function ()
     local minHeal = GetSpellBonusDamage(2) * 1.125
  
@@ -56,7 +56,7 @@ holyNova = function ()
     end
     
     return inRange > inRange > 3
-end
+end]]
 
 local exeOnLoad = function()
 
