@@ -39,15 +39,13 @@ mtsStart.text = mtsStart:CreateFontString(nil,"OVERLAY","MovieSubtitleFont")
 mtsStart.text:SetAllPoints()
 mtsStart.time = 0
 
-function mtsStart:message(message) 
-	if mts_getSetting('getSplash') then
-		mtsStart.text:SetText(message)
-		mtsStart:SetAlpha(1)
-		mtsSplash:SetAlpha(1)
-		mtsStart.time = GetTime()
-		mtsSplash.time = GetTime()
-		mtsStart:Show()
-		mtsSplash:Show()
-		PlaySoundFile("Sound\\Interface\\Levelup.Wav")
-	end
+function mtsStart:message(message)
+	mtsStart.text:SetText(message)
+	mtsStart:SetAlpha(1)
+	mtsSplash:SetAlpha(1)
+	mtsStart.time = GetTime()
+	mtsSplash.time = GetTime()
+	mtsStart:Show()
+	mtsSplash:Show()
+	PlaySoundFile("Sound\\Interface\\Levelup.Wav")
 end

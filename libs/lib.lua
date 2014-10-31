@@ -5,11 +5,178 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
-local mtsLib = {}
+local mtsLib = { wisp = false, alert = true, sound = false, taunt = false, firehack = true }
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
+
+							
+									--[[   !!!Pack Commands!!!   ]]
+--[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
+ProbablyEngine.command.register('mts', function(msg, box)
+local command, text = msg:match("^(%S*)%s*(.-)$")
+		
+	-- Dispaly Version
+	if command == 'ver' or command == 'version' then
+		mts_AlertSounds()
+		mtsAlert:message('MrTheSoulz Version: 0.11.6')
+	end
+	
+	-- Enabled/Disable Whispers
+	if command == 'wisp' or command == 'wsp' or command == 'w' then
+	mtsLib.wisp = not mtsLib.wisp
+		if mtsLib.wisp then
+			mtsAlert:message('*Whispers Enabled.*')
+		else
+			mtsAlert:message('*Whispers Disabled*.')
+		end
+	end
+	
+	-- Enable/Disable Alerts
+	if command == 'alerts' or command == 'notifications' or command == 'a' then
+	mtsLib.alert = not mtsLib.alert
+		if mtsLib.alert then
+			mtsAlert:message('*Alerts Enabled.*')
+		else
+			mtsAlert:message('*Alerts Disabled*.')
+		end
+	end
+	
+	-- Enabled/Disable Sounds
+	if command == 'sounds' or command == 'sound' or command == 's' then
+	mtsLib.sound = not mtsLib.sound
+		if mtsLib.sound then
+			mtsAlert:message('*Sounds Enabled.*')
+		else
+			mtsAlert:message('*Sounds Disabled*.')
+		end
+	end
+
+	-- -- Enabled/Disable PE
+	if command == 'toggle' then
+    	if ProbablyEngine.config.read('button_states', 'MasterToggle', false) then
+        	ProbablyEngine.buttons.toggle('MasterToggle')
+        	mtsAlert:message("|cFFB30000Rotation off")
+    	else
+        	ProbablyEngine.buttons.toggle('MasterToggle')
+        	mtsAlert:message("|cFF00B34ARotation on")
+    	end
+  	end
+
+	-- Enabled/Disable Taunts
+	if command == 'taunts' or command == 'taunt' or command == 't' then
+	mtsLib.taunt = not mtsLib.taunt
+		if mtsLib.taunt then
+			mtsAlert:message('*Taunts Enabled.*')
+		else
+			mtsAlert:message('*Taunts Disabled*.')
+		end
+	end
+
+	-- Enabled/Disable Interrupts
+	if command == 'kick' or command == 'interrupt' then
+    	if ProbablyEngine.config.read('button_states', 'interrupt', false) then
+      		ProbablyEngine.buttons.toggle('interrupt')
+      		mtsAlert:message("|cFFB30000Interrupts off")
+    	else
+      		ProbablyEngine.buttons.toggle('interrupt')
+      		mtsAlert:message("|cFF00B34AInterrupts on")
+    	end
+  	end
+
+  	-- Enabled/Disable cooldowns
+  	if command == 'cds' or command == 'cooldowns' then
+    	if ProbablyEngine.config.read('button_states', 'cooldowns', false) then
+      		ProbablyEngine.buttons.toggle('cooldowns')
+      		mtsAlert:message("|cFFB30000Offensive Cooldowns off")
+    	else
+      		ProbablyEngine.buttons.toggle('cooldowns')
+      		mtsAlert:message("|cFF00B34AOffensive Cooldowns on")
+    	end
+  	end
+
+  	-- Enabled/Disable aoe
+	if command == 'aoe' then
+    	if ProbablyEngine.config.read('button_states', 'multitarget', false) then
+      		ProbablyEngine.buttons.toggle('multitarget')
+      		mtsAlert:message("|cFFB30000AoE off")
+    	else
+      		ProbablyEngine.buttons.toggle('multitarget')
+      		mtsAlert:message("|cFF00B34AAoE on")
+      	end
+    end
+
+    if command == 'logo' then
+    	mtsStart:message("\124cff9482C9*Wanted To See Me?!*")
+    end
+
+    if command == 'firehack' or command == 'fh' then
+    	mtsLib.firehack = not mtsLib.firehack
+    	if mtsLib.firehack then
+			print("|cFF9482C9[MTS]:|r You have chosen to use FireHack's features.")
+		else
+			print("|cFF9482C9[MTS]:|r You have chosen to not use FireHack's features.")
+		end
+    end
+
+	if command == 'help' or command == 'h' then
+		print("|cFF9482C9MTS Help:")
+ 	 	print("|cFFC41F3B/mts ver:|r Displays the version number.")
+  		print("|cFFC41F3B/mts wisps:|r Enables/Disables whispers after a cast.")
+  		print("|cFFC41F3B/mts alerts:|r Enables/Disables Alerts.")
+		print("|cFFC41F3B/mts sounds:|r Enables/Disables sounds.")
+		print('|cFFC41F3B/mts taunts:|r Enables/Disables "smart" Taunts.')
+		print('|cFFC41F3B/mts toggle:|r Enables/Disables PE.')
+		print('|cFFC41F3B/mts aoe:|r Enables/Disables aoe.')
+		print('|cFFC41F3B/mts kick:|r Enables/Disables interrupt.')
+		print("|cFFC41F3B/mts cds:|r Enables/Disables cooldowns.")
+		print("|cFFC41F3B/mts logo:|r Displays MTS Logo.")
+		print("|cFFC41F3B/mts logo:|r Enables/Disables the use of FireHack's features if it is detected.")
+		print("|cFFC41F3BNeed more help?:|r http://adf.ly/t5PPj")
+	end
+
+end)
+
+
+
+function mts_ShouldTaunt()
+	if UnitIsTappedByPlayer("target") 
+	and mtsLib.taunt then
+		return true
+	else
+		return false
+	end
+end
+
+function mts_ConfigWhisper(txt)
+	if mtsLib.wisp then
+		return RunMacroText("/w "..txt)
+	end
+	return false
+end
+
+function mts_AlertSounds()
+	if mtsLib.sounds then
+		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3", "master")
+	end
+end
+
+function mts_ConfigAlert(txt)
+	if mtsLib.alert then
+		return mtsAlert:message(txt)
+	end
+end
+
+function mtsLib.CanFireHack()
+	if FireHack then
+	 	if mtsLib.firehack then
+			return true
+		else return false end
+	else return false end
+end
+
+
 
 							--[[   !!!Check If player to unit distance!!!   ]]
 								--[[   TXT = Unit, TXT2 = Distance   ]]
@@ -20,13 +187,6 @@ function mtsLib.canUseFeather(txt)
 	else return false end
 end
 
-function mtsLib.CanFireHack()
-	if FireHack then
-	 	if mts_getSetting('getFirehack') then
-			return true
-		else return false end
-	else return false end
-end
 
  							--[[   !!!Check IF should dot units around!!!   ]]
 										--[[   Thanks biGGER!   ]]
