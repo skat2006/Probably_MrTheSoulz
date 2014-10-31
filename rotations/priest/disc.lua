@@ -103,14 +103,14 @@ local inCombat = {
 		{ "33206", { "toggle.painSup", "lowest.health <= 25 " }, "lowest" }, --Pain Suppression
 	
 	-- Flash Heal
-			{ "2061", {"focus.health <= 50", "focus.spell(2061).range"}, "focus" }, --Flash Heal
-			{ "2061", {"tank.health <= 50", "tank.spell(2061).range"}, "tank" }, --Flash Heal
-			{ "2061", "player.health <= 40", "player" }, --Flash Heal
-			{ "2061", "lowest.health <= 20", "lowest" }, --Flash Heal
+			{ "2061", {"focus.health <= 50", "focus.spell(2061).range","!player.moving"}, "focus" }, --Flash Heal
+			{ "2061", {"tank.health <= 50", "tank.spell(2061).range","!player.moving"}, "tank" }, --Flash Heal
+			{ "2061", {"player.health <= 40","!player.moving"}, "player" }, --Flash Heal
+			{ "2061", {"lowest.health <= 20","!player.moving"}, "lowest" }, --Flash Heal
 
 	-- AOE
    		-- Prayer of Healing
-   			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5"}, "lowest" }, --Prayer of Healing
+   			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5","!player.moving"}, "lowest" }, --Prayer of Healing
    			{ "596", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "!modifier.raid", "!player.moving" }, "lowest" }, --Prayer of Healing
    			{ "596", { "modifier.lshift", "!player.moving" }, "mouseover" }, --Prayer of Healing // Raid WorkAround.
 
@@ -128,12 +128,12 @@ local inCombat = {
 		{ "33076", { "tank.health <= 95", "!player.moving", "tank.spell(17).range" }, "tank" }, --Prayer of Mending
 
 	 --Penance	
-		{ "47540", "lowest.health <= 85", "lowest" }, --Penance
+		{ "47540", {"lowest.health <= 85","!player.moving"}, "lowest" }, --Penance
 
 	-- heal
-		{ "2060", { "!focus.health <= 50", "focus.health < 90", "focus.spell(17).range" }, "focus" }, -- Heal
-		{ "2060", {"!tank.health <= 50", "tank.health < 90", "tank.spell(17).range" }, "tank" }, -- Heal
-		{ "2060", "lowest.health <= 85", "lowest" }, -- Heal
+		{ "2060", { "!focus.health <= 50", "focus.health < 90", "focus.spell(17).range","!player.moving" }, "focus" }, -- Heal
+		{ "2060", {"!tank.health <= 50", "tank.health < 90", "tank.spell(17).range","!player.moving" }, "tank" }, -- Heal
+		{ "2060", {"lowest.health <= 85","!player.moving"}, "lowest" }, -- Heal
 
 	--Attonement 
 		{ "14914", { "!toggle.mouseOver", "player.mana > 20","target.spell(14914).range", "target.infront" }, "target" }, --Holy Fire
