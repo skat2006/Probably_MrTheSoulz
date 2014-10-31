@@ -101,10 +101,10 @@ local inCombat = {
 			{ "88684", "lowest.health <= 60", "lowest" }, -- Holy Word Serenity
 
 		-- Flash Heal
-			{ "2061", {"focus.health <= 40", "focus.spell(2061).range"}, "focus" }, --Flash Heal
-			{ "2061", {"tank.health <= 40", "tank.spell(2061).range"}, "tank" }, --Flash Heal
-			{ "2061", "player.health <= 40", "player" }, --Flash Heal
-			{ "2061", "lowest.health <= 20", "lowest" }, --Flash Heal
+			{ "2061", {"focus.health <= 40", "focus.spell(2061).range","!player.moving"}, "focus" }, --Flash Heal
+			{ "2061", {"tank.health <= 40", "tank.spell(2061).range","!player.moving"}, "tank" }, --Flash Heal
+			{ "2061", {"player.health <= 40","!player.moving"}, "player" }, --Flash Heal
+			{ "2061", {"lowest.health <= 20","!player.moving"}, "lowest" }, --Flash Heal
 
 	-- AOE
 		-- Shared
@@ -112,7 +112,7 @@ local inCombat = {
 			{ "121135", "@coreHealing.needsHealing(95, 3)"}, -- cascade
    		
    		-- Prayer of Healing
-   			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5", "modifier.party"}, "lowest" }, --Prayer of Healing
+   			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5","!player.moving", "modifier.party"}, "lowest" }, --Prayer of Healing
    			{ "596", { "modifier.lshift", "!player.moving" }, "mouseover" }, --Prayer of Healing // Raid WorkAround.
    			{ "596", { "@coreHealing.needsHealing(85, 3)", "modifier.party", "!modifier.raid", "!player.moving" }, "lowest" }, --Prayer of Healing
 		
@@ -134,18 +134,18 @@ local inCombat = {
 		{ "139", {"lowest.health < 85", "!lowest.buff(139)"}, "lowest" }, --renew
 
 	-- Prayer of Mending
-		{ "33076", {"focus.health < 99", "focus.spell(33076).range"}, "focus" }, --Prayer of Mending
-		{ "33076", {"tank.health < 99", "tank.spell(33076).range"}, "tank" }, --Prayer of Mending
+		{ "33076", {"focus.health < 99", "focus.spell(33076).range","!player.moving"}, "focus" }, --Prayer of Mending
+		{ "33076", {"tank.health < 99", "tank.spell(33076).range","!player.moving"}, "tank" }, --Prayer of Mending
 
 	-- binding heal
-		{ "32546", { "focus.health < 99", "player.health <= 60", "focus.spell(32546).range"}, "focus" }, --binding heal
-		{ "32546", { "tank.health < 99", "player.health <= 60", "tank.spell(32546).range"}, "tank" }, --binding heal
-		{ "32546", { "lowest.health < 99", "player.health < 60"}, "lowest" }, --binding heal
+		{ "32546", { "focus.health < 99", "player.health <= 60", "focus.spell(32546).range","!player.moving"}, "focus" }, --binding heal
+		{ "32546", { "tank.health < 99", "player.health <= 60", "tank.spell(32546).range","!player.moving"}, "tank" }, --binding heal
+		{ "32546", { "lowest.health < 99", "player.health < 60","!player.moving"}, "lowest" }, --binding heal
 
 	-- heal
-		{ "2060", {"focus.health <= 95", "focus.spell(2060).range"}, "focus" }, -- Heal
-		{ "2060", {"tank.health <= 95", "tank.spell(2060).range"}, "tank" }, -- Heal
-		{ "2060", "lowest.health <= 95", "lowest" }, -- Heal	
+		{ "2060", {"focus.health <= 95", "focus.spell(2060).range","!player.moving"}, "focus" }, -- Heal
+		{ "2060", {"tank.health <= 95", "tank.spell(2060).range","!player.moving"}, "tank" }, -- Heal
+		{ "2060", {"lowest.health <= 95","!player.moving"}, "lowest" }, -- Heal	
 
 }
 
