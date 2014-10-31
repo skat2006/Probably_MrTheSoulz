@@ -73,7 +73,6 @@ local inCombat = {
 
 	-- Interrupts
 		{ "80964", "target.interruptsAt(50)" }, -- skull bash
-		{ "132469", "target.interruptsAt(50)" }, -- typhoon
 	
 	-- Items
 		{ "#5512", "player.health < 50" }, --Healthstone
