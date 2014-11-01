@@ -20,37 +20,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mts_AlertSounds()
-		mtsAlert:message('MrTheSoulz Version: 0.11.6')
-	end
-	
-	-- Enabled/Disable Whispers
-	if command == 'wisp' or command == 'wsp' or command == 'w' then
-	mtsLib.wisp = not mtsLib.wisp
-		if mtsLib.wisp then
-			mtsAlert:message('*Whispers Enabled.*')
-		else
-			mtsAlert:message('*Whispers Disabled*.')
-		end
-	end
-	
-	-- Enable/Disable Alerts
-	if command == 'alerts' or command == 'notifications' or command == 'a' then
-	mtsLib.alert = not mtsLib.alert
-		if mtsLib.alert then
-			mtsAlert:message('*Alerts Enabled.*')
-		else
-			mtsAlert:message('*Alerts Disabled*.')
-		end
-	end
-	
-	-- Enabled/Disable Sounds
-	if command == 'sounds' or command == 'sound' or command == 's' then
-	mtsLib.sound = not mtsLib.sound
-		if mtsLib.sound then
-			mtsAlert:message('*Sounds Enabled.*')
-		else
-			mtsAlert:message('*Sounds Disabled*.')
-		end
+		mtsAlert:message('MrTheSoulz Version: 0.11.7')
 	end
 
 	-- -- Enabled/Disable PE
@@ -63,16 +33,6 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
         	mtsAlert:message("|cFF00B34ARotation on")
     	end
   	end
-
-	-- Enabled/Disable Taunts
-	if command == 'taunts' or command == 'taunt' or command == 't' then
-	mtsLib.taunt = not mtsLib.taunt
-		if mtsLib.taunt then
-			mtsAlert:message('*Taunts Enabled.*')
-		else
-			mtsAlert:message('*Taunts Disabled*.')
-		end
-	end
 
 	-- Enabled/Disable Interrupts
 	if command == 'kick' or command == 'interrupt' then
@@ -111,38 +71,30 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
     	mtsStart:message("\124cff9482C9*Wanted To See Me?!*")
     end
 
-    if command == 'firehack' or command == 'fh' then
-    	mtsLib.firehack = not mtsLib.firehack
-    	if mtsLib.firehack then
-			print("|cFF9482C9[MTS]:|r You have chosen to use FireHack's features.")
-		else
-			print("|cFF9482C9[MTS]:|r You have chosen to not use FireHack's features.")
-		end
+    if command == 'config' then
+    	ProbablyEngine.interface.buildGUI(mts_config)
     end
 
 	if command == 'help' or command == 'h' then
 		print("|cFF9482C9MTS Help:")
  	 	print("|cFFC41F3B/mts ver:|r Displays the version number.")
-  		print("|cFFC41F3B/mts wisps:|r Enables/Disables whispers after a cast.")
-  		print("|cFFC41F3B/mts alerts:|r Enables/Disables Alerts.")
-		print("|cFFC41F3B/mts sounds:|r Enables/Disables sounds.")
-		print('|cFFC41F3B/mts taunts:|r Enables/Disables "smart" Taunts.')
 		print('|cFFC41F3B/mts toggle:|r Enables/Disables PE.')
 		print('|cFFC41F3B/mts aoe:|r Enables/Disables aoe.')
 		print('|cFFC41F3B/mts kick:|r Enables/Disables interrupt.')
 		print("|cFFC41F3B/mts cds:|r Enables/Disables cooldowns.")
 		print("|cFFC41F3B/mts logo:|r Displays MTS Logo.")
-		print("|cFFC41F3B/mts logo:|r Enables/Disables the use of FireHack's features if it is detected.")
 		print("|cFFC41F3BNeed more help?:|r http://adf.ly/t5PPj")
 	end
 
 end)
 
-
+function mts_getConfig(key)
+	return ProbablyEngine.config.read(key)
+end
 
 function mts_ShouldTaunt()
 	if UnitIsTappedByPlayer("target") 
-	and mtsLib.taunt then
+	and mts_getConfig('mtsconf_Taunts') then
 		return true
 	else
 		return false
@@ -150,27 +102,27 @@ function mts_ShouldTaunt()
 end
 
 function mts_ConfigWhisper(txt)
-	if mtsLib.wisp then
+	if mts_getConfig('mtsconf_Whispers') then
 		return RunMacroText("/w "..txt)
 	end
 	return false
 end
 
 function mts_AlertSounds()
-	if mtsLib.sound then
+	if mts_getConfig('mtsconf_Sounds') then
 		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3", "master")
 	end
 end
 
 function mts_ConfigAlert(txt)
-	if mtsLib.alert then
+	if mts_getConfig('mtsconf_Alerts') then
 		return mtsAlert:message(txt)
 	end
 end
 
 function mtsLib.CanFireHack()
 	if FireHack then
-	 	if mtsLib.firehack then
+	 	if mts_getConfig('mtsconf_Firehack') then
 			return true
 		else return false end
 	else return false end
