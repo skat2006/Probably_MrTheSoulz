@@ -49,9 +49,17 @@ function mts_LastCastState()
 end
 
 function mts_AoEState()
-	if ProbablyEngine.config.read('button_states', 'multitarget', false) then
-		return ("\124cff0070DEON")
-	else return ("\124cffC41F3BOFF") end
+
+	if FireHack and mts_getConfig('mtsconf_Firehack') then
+		if ProbablyEngine.config.read('button_states', 'multitarget', false) then
+			return ("\124cff0070DEForced")
+		end
+	  return ("\124cff0070DESmart AoE")
+	elseif ProbablyEngine.config.read('button_states', 'multitarget', false) then
+			return ("\124cff0070DEON")
+	else
+		return ("\124cffC41F3BOFF") 
+	end
 end
 
 function mts_KickState()

@@ -13,6 +13,8 @@ local _playerSpec = GetSpecialization()
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
 
+-- To Implement // FH Keybinds
+-- if GetKeyState(90) then print("Z HAS BEEN PRESSED!") end
 							
 									--[[   !!!Pack Commands!!!   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
@@ -22,7 +24,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mts_AlertSounds()
-		mtsAlert:message('MrTheSoulz Version: 0.11.9')
+		mtsAlert:message('MrTheSoulz Version: 0.11.10')
 	end
 
 	-- -- Enabled/Disable PE
