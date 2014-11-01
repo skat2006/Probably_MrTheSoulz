@@ -8,6 +8,8 @@ MTS
 local mtsLib = { wisp = false, alert = true, sound = false, taunt = false, firehack = true }
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
+local _playerClass, _englishClass, _idClass = UnitClass("player");
+local _playerSpec = GetSpecialization()
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
 
@@ -20,7 +22,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mts_AlertSounds()
-		mtsAlert:message('MrTheSoulz Version: 0.11.7')
+		mtsAlert:message('MrTheSoulz Version: 0.11.8')
 	end
 
 	-- -- Enabled/Disable PE
@@ -75,21 +77,77 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
     	ProbablyEngine.interface.buildGUI(mts_config)
     end
 
-	if command == 'help' or command == 'h' then
-		print("|cFF9482C9MTS Help:")
- 	 	print("|cFFC41F3B/mts ver:|r Displays the version number.")
-		print('|cFFC41F3B/mts toggle:|r Enables/Disables PE.')
-		print('|cFFC41F3B/mts aoe:|r Enables/Disables aoe.')
-		print('|cFFC41F3B/mts kick:|r Enables/Disables interrupt.')
-		print("|cFFC41F3B/mts cds:|r Enables/Disables cooldowns.")
-		print("|cFFC41F3B/mts logo:|r Displays MTS Logo.")
-		print("|cFFC41F3BNeed more help?:|r http://adf.ly/t5PPj")
+    if command == 'class' then
+
+		if _idClass == 1 then -- Warrior
+			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
+		end
+
+		if _idClass == 2 then -- Paladin
+			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
+		end
+
+	    if _idClass == 3 then -- Hunter
+			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
+		end
+		
+		if _idClass == 5 then -- Priest
+			ProbablyEngine.interface.buildGUI(mts_configPriestHoly)
+			ProbablyEngine.interface.buildGUI(mts_configPriestDisc)
+		end
+
+		if _idClass == 6 then -- DeathKinght
+	    	print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
+		end
+			
+		if _idClass == 7 then -- Shaman
+			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
+		end
+		
+		if _idClass == 8 then -- Mage
+			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
+		end
+
+		if _idClass == 9 then --Warlock
+			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
+		end
+		
+		if _idClass == 11 then -- Druid 
+			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
+		end
+			
+		if _idClass == 12 then -- Monk
+			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
+		end
+
+    end
+
+	if command == 'help' or command == 'info' or command == '?' then
+		ProbablyEngine.interface.buildGUI(mts_info)
 	end
 
 end)
 
 function mts_getConfig(key)
 	return ProbablyEngine.config.read(key)
+end
+
+function mtsLib.getConfig(key)
+	return ProbablyEngine.config.read(key)
+end
+
+function mtsLib.getHp(key,unit)
+	return ProbablyEngine.condition["health"](unit) < mtsLib.getConfig(key)
+end
+
+function mtsLib.cancelTarget()
+	if UnitIsEnemy("player", "target") == 1 then
+		print("enemie")
+		return false 
+	else 
+		print("friend")
+		return true 
+	end
 end
 
 function mts_ShouldTaunt()
@@ -126,6 +184,16 @@ function mtsLib.CanFireHack()
 			return true
 		else return false end
 	else return false end
+end
+
+function mtsLib.checkItem(key)
+	if mts_getConfig('mtsconf_Items') then
+		if GetItemCount(key) > 1
+		and GetItemCooldown(key) == 0 then 
+			return true
+		end
+	end
+	return false
 end
 
 
@@ -266,18 +334,7 @@ function mtsLib.hasDebuffTable(target, spells)
   end
 end
 
-									--[[   !!!Check can use item!!!   ]]
-							-- [[   Check if item is ready and can use it   ]]
---[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-function mtsLib.checkItem(key)
-	if GetItemCount(key) > 1
-	and GetItemCooldown(key) == 0 then 
-		return true
-	end
-	return false
-end
-
-								--[[   !!!Check if it is a dummy!!!   ]]
+							--[[   !!!Check if it is a dummy!!!   ]]
 					--[[   Used to not Taunt Dummy's like a noob, and other situations.   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 function mtsLib.dummy()	

@@ -41,11 +41,8 @@ end
 
 local exeOnLoad = function()
 
-	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create( 'painSup', 'Interface\\Icons\\Spell_holy_painsupression.png', 'Pain Suppression', 'Toggle Enables Pain Suppression')
 	ProbablyEngine.toggle.create( 'mouseOver', 'Interface\\Icons\\Priest_spell_leapoffaith_a', 'MouseOver Heal', 'Toggle Mouse-Over Healing')
-	ProbablyEngine.toggle.create( 'feather', 'Interface\\Icons\\Ability_priest_angelicfeather.png', "Use Feather's", "Toggle Enables The Use Of Feather's")
-	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
 	mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Disc\124cff9482C9-Loaded*")
 
 end
@@ -62,16 +59,15 @@ local inCombat = {
 		{ "109964", "modifier.lshift" }, --Spirit Shell
 
 	-- Auto Targets
-		--{ "/cleartarget ", { "toggle.autotarget", "target.exists", "target.friend" }}, -- Target a enemie if target is friendly
-		{ "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }}, -- target enemire if no target
-   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfPriestDisc_AutoTargets')", "target.range > 40" }}, -- Use Tank Target
+		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfPriestDisc_AutoTargets')", "!target.exists" }}, -- target enemire if no target
+		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfPriestDisc_AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 
    	-- buffs
 		{ "81700", "player.buff(81661).count = 5" },--Archangel
 	
 	-- LoOk aT It GOoZ!!! // Needs to add tank...
-		{ "121536", {"player.movingfor > 2", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestDisc_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 	
 	-- Mouse Over
 		{ "139", { "toggle.mouseOver", "!mouseover.buff" }, "mouseover" }, --renew
@@ -96,16 +92,16 @@ local inCombat = {
 	 	{ "527", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Torment')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-	 	{ "527", {"toggle.dispel", Dispell}},
+	 	{ "527", {"@mtsLib.getConfig('mtsconfPriestDisc_Dispels')", Dispell}},
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
 		{ "33206", { "toggle.painSup", "lowest.health <= 25 " }, "lowest" }, --Pain Suppression
 	
 	-- Flash Heal
-			{ "2061", {"focus.health <= 50", "focus.spell(2061).range","!player.moving"}, "focus" }, --Flash Heal
-			{ "2061", {"tank.health <= 50", "tank.spell(2061).range","!player.moving"}, "tank" }, --Flash Heal
-			{ "2061", {"player.health <= 40","!player.moving"}, "player" }, --Flash Heal
+			{ "2061", {"@mtsLib.getHp('mtsconfPriestHoly_FlashHealTank','focus')", "focus.spell(2061).range","!player.moving"}, "focus" }, --Flash Heal
+			{ "2061", {"tank.health <= 40", "tank.spell(2061).range","!player.moving"}, "tank" }, --Flash Heal
+			{ "2061", {"@mtsLib.getHp('mtsconfPriestHoly_FlashHealPlayer','player')","!player.moving"}, "player" }, --Flash Heal
 			{ "2061", {"lowest.health <= 20","!player.moving"}, "lowest" }, --Flash Heal
 
 	-- AOE
@@ -118,22 +114,23 @@ local inCombat = {
 			{ "62618", { "@coreHealing.needsHealing(50, 3)", "modifier.party", "!player.moving", "modifier.cooldowns" }, "tank.ground" }, -- Power word Barrier // w/t CD's and on tank
 	
 	-- shields
-		{ "17", { "!focus.debuff(6788).any", "focus.spell(17).range" }, "focus" }, --Power Word: Shield
-		{ "17", { "!tank.debuff(6788).any", "tank.spell(17).range" }, "tank" }, --Power Word: Shield
-		{ "17", { "!player.debuff(6788).any", "!player.buff(17).any", "player.health <= 70" }, "player" }, --Power Word: Shield
+		{ "17", { "@mtsLib.getHp('mtsconfPriestHoly_ShieldTank','focus')", "!focus.debuff(6788).any", "focus.spell(17).range", "focus.spell(17).range" }, "focus" }, --Power Word: Shield
+		{ "17", { "!tank.debuff(6788).any", "tank.spell(17).range", "tank.spell(17).range" }, "tank" }, --Power Word: Shield
+		{ "17", { "@mtsLib.getHp('mtsconfPriestHoly_ShieldPlayer','player')", "!player.debuff(6788).any", "!player.buff(17).any" }, "player" }, --Power Word: Shield
 		{ "17", { "!lowest.debuff(6788).any", "!lowest.buff(17).any", "lowest.health <= 40" }, "lowest" }, --Power Word: Shield
-
+	
 	-- Prayer of Mending
-		{ "33076", { "focus.health <= 95", "!player.moving", "focus.spell(17).range" }, "focus" }, --Prayer of Mending
+		{ "33076", {"@mtsLib.getHp('mtsconfPriestHoly_PrayerofMendingTank','focus')", "focus.spell(33076).range","!player.moving"}, "focus" }, --Prayer of Mending
 		{ "33076", { "tank.health <= 95", "!player.moving", "tank.spell(17).range" }, "tank" }, --Prayer of Mending
 
 	 --Penance	
 		{ "47540", {"lowest.health <= 85","!player.moving"}, "lowest" }, --Penance
 
 	-- heal
-		{ "2060", { "!focus.health <= 50", "focus.health < 90", "focus.spell(17).range","!player.moving" }, "focus" }, -- Heal
-		{ "2060", {"!tank.health <= 50", "tank.health < 90", "tank.spell(17).range","!player.moving" }, "tank" }, -- Heal
-		{ "2060", {"lowest.health <= 85","!player.moving"}, "lowest" }, -- Heal
+		{ "2060", {"@mtsLib.getHp('mtsconfPriestHoly_HealTank','focus')", "focus.spell(2060).range","!player.moving"}, "focus" }, -- Heal
+		{ "2060", {"tank.health <= 90", "tank.spell(2060).range","!player.moving"}, "tank" }, -- Heal
+		{ "2060", {"@mtsLib.getHp('mtsconfPriestHoly_HealPlayer','player')","!player.moving"}, "player" }, -- Heal	
+		{ "2060", {"lowest.health <= 90","!player.moving"}, "lowest" }, -- Heal	
 
 	--Attonement 
 		{ "14914", { "!toggle.mouseOver", "player.mana > 20","target.spell(14914).range", "target.infront" }, "target" }, --Holy Fire
@@ -144,17 +141,17 @@ local inCombat = {
 
 local inCombatSolo = {
 
-  	-- Auto Target
-		{ "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+  	-- Auto Targets
+		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfPriestDisc_AutoTargets')", "target.range > 40" }}, -- Use Tank Target
+		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfPriestDisc_AutoTargets')", "!target.exists" }}, -- target enemire if no target
+		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfPriestDisc_AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 	
 	-- Mana
 		{ "123040", { "player.mana < 75","target.spell(123040).range" }, "target" }, --Mindbender
 		{ "34433", { "player.mana < 75", "target.spell(34433).range" }, "target" }, --Shadowfiend
 
 	-- LoOk aT It GOoZ!!!
-		{ "121536", {"player.movingfor > 2", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestDisc_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 
 	-- Heal
 		{ "17", { "!player.debuff(6788).any", "!player.buff(17).any", "player.health <= 60" }}, --Power Word Shield
@@ -195,7 +192,7 @@ local outCombat = {
 		{ "81700", "player.buff(81661).count = 5", "player.buff(81661).duration < 5" },--Archangel
 	
 	-- LoOk aT It GOoZ!!!
-		{ "121536", {"player.movingfor > 2", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestDisc_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 
 }
 
