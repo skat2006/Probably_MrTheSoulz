@@ -82,7 +82,7 @@ local mts_LiveUpdating = false
 
 function mts_showLive()
 
-	if not mts_ShowingLive then
+	if not mts_ShowingLive and ProbablyEngine.config.read('mtsconf_LiveGUI') then
 
 		windowRef = ProbablyEngine.interface.buildGUI(mts_live)
 
@@ -164,6 +164,10 @@ mts_config = {
 		-- Firehack
 		{ type = "checkbox", text = "Firehack", key = "Firehack", default = true },
 		{ type = 'text', text = "This checkbox enables or disables MrTheSoulz Pack using Firehacks features like smarth aoe and other fancy stuff."},
+
+		-- LiveGUI
+		{ type = "checkbox", text = "LiveGUI", key = "LiveGUI", default = true },
+		{ type = 'text', text = "This checkbox enables or disables MrTheSoulz Pack Displaying LiveGUI at Start."},
 
 }}
 

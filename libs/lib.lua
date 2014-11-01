@@ -5,11 +5,9 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
-local mtsLib = { wisp = false, alert = true, sound = false, taunt = false, firehack = true }
+local mtsLib = {}
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
-local _playerClass, _englishClass, _idClass = UnitClass("player");
-local _playerSpec = GetSpecialization()
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
 
@@ -24,7 +22,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mts_AlertSounds()
-		mtsAlert:message('MrTheSoulz Version: 0.11.11')
+		mtsAlert:message('MrTheSoulz Version: 0.11.12')
 	end
 
 	-- -- Enabled/Disable PE
