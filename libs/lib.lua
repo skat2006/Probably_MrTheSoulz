@@ -148,10 +148,8 @@ function mts_ConfigAlert(txt)
 end
 
 function mtsLib.CanFireHack()
-	if FireHack then
-	 	if mts_getConfig('mtsconf_Firehack') then
-			return true
-		else return false end
+	if FireHack and mts_getConfig('mtsconf_Firehack') then
+		return true
 	else return false end
 end
 
