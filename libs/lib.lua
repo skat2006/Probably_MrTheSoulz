@@ -81,6 +81,10 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 
     if command == 'class' then
 		
+		if GetSpecializationInfo(GetSpecialization()) == 105 then -- Druid Resto
+			ProbablyEngine.interface.buildGUI(mts_configDruidResto)
+		end
+
 		if GetSpecializationInfo(GetSpecialization()) == 257 then -- Priest holy
 			ProbablyEngine.interface.buildGUI(mts_configPriestHoly)
 		end

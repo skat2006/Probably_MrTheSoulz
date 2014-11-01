@@ -309,3 +309,44 @@ mts_configPriestDisc = {
 			{ type = "spinner", text = "Heal", key = "Heal", default = 90},
 
 }}
+
+mts_configDruidResto = {
+	key = "mtsconfDruidResto",
+	title = "MrTheSoulz Config",
+	subtitle = "Druid Restoration Settings",
+	color = "FF7D0A",
+	width = 250,
+	height = 500,
+	config = {
+		{ type = 'header',text = 'MrTheSoulz Pack'},
+		{ type = 'rule' },
+		{ type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",width = 200, height = 100, offset = 110, y = 50, center = true },
+		
+		-- General
+		{ type = 'rule' },
+		{ type = 'header', text = "General settings:"},
+
+			-- Dispels
+			{ type = "checkbox", text = "Dispels", key = "Dispels", default = true },
+			{ type = 'text', text = "This checkbox enables or disables the use of automatic dispels of everything it can dispel."},
+
+		-- Focus
+		{ type = 'rule' },
+		{ type = 'header', text = 'Focus settings:'},
+
+			-- Life Bloom
+			{ type = "spinner", text = "Life Bloom", key = "LifeBloomTank", default = 100},
+
+			-- Swiftmend
+			{ type = "spinner", text = "Swiftmend", key = "SwiftmendTank", default = 80},
+
+			-- Rejuvenation
+			{ type = "spinner", text = "Rejuvenation", key = "RejuvenationTank", default = 95},
+
+			-- Wild Mushroom
+			{ type = "spinner", text = "Wild Mushroom", key = "WildMushroomTank", default = 100},
+
+			-- Healing Touch
+			{ type = "spinner", text = "Healing Touch", key = "HealingTouchTank", default = 96},
+
+}}
