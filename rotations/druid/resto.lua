@@ -44,7 +44,8 @@ local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
 	mtsStart:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Restoration \124cff9482C9Loaded*")
-
+	mts_showLive()
+	
 end	
 
 local Buffs = {

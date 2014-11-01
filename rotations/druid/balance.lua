@@ -1,5 +1,5 @@
 function exeOnLoad()
-
+	mts_showLive()
 end
 
 local inCombat = {

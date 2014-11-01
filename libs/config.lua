@@ -32,9 +32,7 @@ local mts_live = {
 	}
 }
  
-
-
-local windowRef = ProbablyEngine.interface.buildGUI(mts_live)
+local windowRef
 
 function mts_QueueState()
 	if ProbablyEngine.current_spell == false then
@@ -71,15 +69,37 @@ function mts_CdState()
 	else return ("\124cffC41F3BOFF") end
 end
 
-function updateLiveGUI()
-		windowRef.elements.current_Queue:SetText(mts_QueueState())
-		windowRef.elements.current_spell:SetText(mts_LastCastState())
-		windowRef.elements.current_AoE:SetText(mts_AoEState())
-		windowRef.elements.current_Interrupts:SetText(mts_KickState())
-		windowRef.elements.current_Cooldowns:SetText(mts_CdState())
+function mts_updateLiveGUI()
+	windowRef.elements.current_Queue:SetText(mts_QueueState())
+	windowRef.elements.current_spell:SetText(mts_LastCastState())
+	windowRef.elements.current_AoE:SetText(mts_AoEState())
+	windowRef.elements.current_Interrupts:SetText(mts_KickState())
+	windowRef.elements.current_Cooldowns:SetText(mts_CdState())
 end
 
-C_Timer.NewTicker(0.01, updateLiveGUI, nil)
+local mts_ShowingLive = false
+local mts_LiveUpdating = false
+
+function mts_showLive()
+
+	if not mts_ShowingLive then
+
+		windowRef = ProbablyEngine.interface.buildGUI(mts_live)
+
+		-- This is so the window isn't opened twice :D
+		mts_ShowingLive = true
+		windowRef.parent:SetEventListener('OnClose', function()
+			mts_ShowingLive = false
+		end)
+
+		if not mts_LiveUpdating then
+			mts_LiveUpdating = true
+			C_Timer.NewTicker(0.01, mts_updateLiveGUI, nil)
+		end
+
+	end
+	
+end
 
 
 								--[[   !!!INfo!!!   ]]
