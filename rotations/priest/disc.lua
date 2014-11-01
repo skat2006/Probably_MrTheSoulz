@@ -98,6 +98,9 @@ local inCombat = {
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
 		{ "33206", { "toggle.painSup", "lowest.health <= 25 " }, "lowest" }, --Pain Suppression
 	
+	-- Surge of light
+		{ "2061", {"lowest.health < 100","player.buff(114255)","!player.moving"}, "lowest" }, -- Flash Heal
+
 	-- Flash Heal
 			{ "2061", {"@mtsLib.getHp('mtsconfPriestDisc_FlashHealTank','focus')", "focus.spell(2061).range","!player.moving"}, "focus" }, --Flash Heal
 			{ "2061", {"tank.health <= 40", "tank.spell(2061).range","!player.moving"}, "tank" }, --Flash Heal

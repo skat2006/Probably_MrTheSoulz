@@ -80,6 +80,9 @@ local inCombat = {
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
 		{ "123040", {"player.mana < 75", "target.spell(123040).range", "modifier.cooldowns"}, "target" }, --Mindbender
 	
+	-- Surge of light
+		{ "2061", {"lowest.health < 100","player.buff(114255)","!player.moving"}, "lowest" }, --Flash Heal
+
 	-- Player dead (Spirit)
 		{ "88684", {"lowest.health <= 80", "player.buff(27827)"}, "lowest" }, -- Holy Word Serenity
 		{ "2061", {"lowest.health < 100", "player.buff(27827)"}, "lowest" }, --Flash Heal

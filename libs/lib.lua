@@ -24,7 +24,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mts_AlertSounds()
-		mtsAlert:message('MrTheSoulz Version: 0.11.10')
+		mtsAlert:message('MrTheSoulz Version: 0.11.11')
 	end
 
 	-- -- Enabled/Disable PE
