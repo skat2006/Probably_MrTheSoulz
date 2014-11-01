@@ -43,7 +43,8 @@ local lib = function()
 	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
 	ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
 	mtsStart:message("\124cff9482C9*MTS-\124cffF58CBAPaladin/Holy-\124cff9482C9Loaded*")
-
+	mts_showLive()
+	
 end
 
 local Shared = {
