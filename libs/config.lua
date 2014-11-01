@@ -43,7 +43,7 @@ function mts_QueueState()
 end
 
 function mts_LastCastState()
-	if ProbablyEngine.parser.lastCast == nil then
+	if ProbablyEngine.parser.lastCast == "" then
 		return ("\124cff0070DENone...")
 	else return ProbablyEngine.parser.lastCast end
 end
