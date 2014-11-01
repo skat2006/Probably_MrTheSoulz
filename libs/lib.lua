@@ -78,46 +78,13 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
     end
 
     if command == 'class' then
-
-		if _idClass == 1 then -- Warrior
-			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
-		end
-
-		if _idClass == 2 then -- Paladin
-			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
-		end
-
-	    if _idClass == 3 then -- Hunter
-			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
-		end
 		
-		if _idClass == 5 then -- Priest
+		if GetSpecializationInfo(GetSpecialization()) == 257 then -- Priest holy
 			ProbablyEngine.interface.buildGUI(mts_configPriestHoly)
+		end
+
+		if GetSpecializationInfo(GetSpecialization()) == 256 then -- Priest Disc
 			ProbablyEngine.interface.buildGUI(mts_configPriestDisc)
-		end
-
-		if _idClass == 6 then -- DeathKinght
-	    	print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
-		end
-			
-		if _idClass == 7 then -- Shaman
-			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
-		end
-		
-		if _idClass == 8 then -- Mage
-			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
-		end
-
-		if _idClass == 9 then --Warlock
-			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
-		end
-		
-		if _idClass == 11 then -- Druid 
-			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
-		end
-			
-		if _idClass == 12 then -- Monk
-			print("|cFF9482C9[MTS]|r: No Settings fore this class yet...")
 		end
 
     end
