@@ -1,3 +1,82 @@
+								--[[   !!!Live window!!!   ]]
+--[[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]]
+local mts_live = {
+	key = "mtslive",
+	title = "MrTheSoulz Live GUI",
+	color = "9482C9",
+	width = 200,
+	height = 100,
+	resize = false,
+	config = {
+
+		-- Current Spell
+		{ type = "text", text = "Queded: ", size = 10, offset = -10 },
+		{ key = 'current_Queue', type = "text", text = "Random", size = 10, align = "right", offset = 5 },
+
+		-- Current Spell
+		{ type = "text", text = "Last Used: ", size = 10, offset = -10 },
+		{ key = 'current_spell', type = "text", text = "Random", size = 10, align = "right", offset = 5 },
+
+		-- AoE
+		{ type = "text", text = "AoE: ", size = 10, offset = -10 },
+		{ key = 'current_AoE', type = "text", text = "Random", size = 10, align = "right", offset = 5 },
+
+		-- Interrupts
+		{ type = "text", text = "Interrupts: ", size = 10, offset = -10 },
+		{ key = 'current_Interrupts', type = "text", text = "Random", size = 10, align = "right", offset = 5 },
+
+		-- Cooldowns
+		{ type = "text", text = "Cooldowns: ", size = 10, offset = -10 },
+		{ key = 'current_Cooldowns', type = "text", text = "Random", size = 10, align = "right", offset = 5 },
+
+	}
+}
+ 
+
+
+local windowRef = ProbablyEngine.interface.buildGUI(mts_live)
+
+function mts_QueueState()
+	if ProbablyEngine.current_spell == false then
+		return ("\124cff0070DEWaiting...")
+	else return ProbablyEngine.current_spell end
+end
+
+function mts_LastCastState()
+	if ProbablyEngine.parser.lastCast == nil then
+		return ("\124cff0070DENone...")
+	else return ProbablyEngine.parser.lastCast end
+end
+
+function mts_AoEState()
+	if ProbablyEngine.config.read('button_states', 'multitarget', false) then
+		return ("\124cff0070DEON")
+	else return ("\124cffC41F3BOFF") end
+end
+
+function mts_KickState()
+	if ProbablyEngine.config.read('button_states', 'interrupt', false) then
+		return ("\124cff0070DEON")
+	else return ("\124cffC41F3BOFF") end
+end
+
+function mts_CdState()
+	if ProbablyEngine.config.read('button_states', 'cooldowns', false) then
+		return ("\124cff0070DEON")
+	else return ("\124cffC41F3BOFF") end
+end
+
+function updateLiveGUI()
+		windowRef.elements.current_Queue:SetText(mts_QueueState())
+		windowRef.elements.current_spell:SetText(mts_LastCastState())
+		windowRef.elements.current_AoE:SetText(mts_AoEState())
+		windowRef.elements.current_Interrupts:SetText(mts_KickState())
+		windowRef.elements.current_Cooldowns:SetText(mts_CdState())
+end
+
+C_Timer.NewTicker(0.01, updateLiveGUI, nil)
+
+
 								--[[   !!!INfo!!!   ]]
 --[[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]]
 mts_info = {
@@ -60,6 +139,7 @@ mts_config = {
 		-- Firehack
 		{ type = "checkbox", text = "Firehack", key = "Firehack", default = true },
 		{ type = 'text', text = "This checkbox enables or disables MrTheSoulz Pack using Firehacks features like smarth aoe and other fancy stuff."},
+
 }}
 
 
