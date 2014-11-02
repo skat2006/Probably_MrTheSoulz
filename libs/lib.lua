@@ -9,6 +9,7 @@ local mtsLib = {}
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
 mts_Version = "0.11.14"
+mts_getConfig = ProbablyEngine.config.read
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
 
@@ -110,10 +111,6 @@ function mts_ClassGUI()
 	if GetSpecializationInfo(GetSpecialization()) == 256 then -- Priest Disc
 		return ProbablyEngine.interface.buildGUI(mts_configPriestDisc)
 	end
-end
-
-function mts_getConfig(key)
-	return ProbablyEngine.config.read(key)
 end
 
 function mtsLib.getConfig(key)
