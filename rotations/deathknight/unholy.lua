@@ -17,7 +17,6 @@ function exeOnLoad()
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_deathknight_iceboundfortitude.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
 	mtsStart:message("\124cff9482C9*MTS-\124cffC41F3BDeathKnight/Unholy\124cff9482C9-Loaded*")
-	mts_showLive()
 
 end
 

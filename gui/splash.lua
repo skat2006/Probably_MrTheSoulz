@@ -49,5 +49,6 @@ function mtsStart:message(message)
 		mtsStart:Show()
 		mtsSplash:Show()
 		PlaySoundFile("Sound\\Interface\\Levelup.Wav")
+		mts_showLive()
 	end
 end

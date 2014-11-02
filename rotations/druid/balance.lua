@@ -1,5 +1,7 @@
 function exeOnLoad()
-	mts_showLive()
+
+	mtsStart:message("\124cff9482C9*MTS-\124cffFF7D0ADruid/Balance-\124cff9482C9Loaded*")
+
 end
 
 local inCombat = {

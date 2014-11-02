@@ -4,7 +4,6 @@ local lib = function()
   ProbablyEngine.toggle.create('alter', 'Interface\\ICONS\\spell_mage_altertime', 'Alter Time', 'Toggle the usage of Alter Time and Arcane Power.')
   ProbablyEngine.toggle.create('def', 'Interface\\ICONS\\creatureportrait_creature_iceblock', 'Survival', 'Ice Block when Shit gets serious')
   mtsStart:message("\124cff9482C9*MTS-\124cff69CCF0Mage/Arcane-\124cff9482C9Loaded*")
-  mts_showLive()
   
 end
 

@@ -45,7 +45,6 @@ local exeOnLoad = function()
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
 	mtsStart:message("\124cff9482C9*MTS-\124cff00FF96Monk/WW\124cff9482C9-Loaded*")
-	mts_showLive()
 	
 end
 

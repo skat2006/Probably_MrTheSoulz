@@ -10,7 +10,6 @@ local exeOnLoad = function()
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create('cat', 'Interface\\Icons\\Ability_druid_prowl.png', 'Cat & Hide & Buff', 'Enable or Disable out of combat feral & prowl.\nIf Disabled also disables incombat buffing.')
 	mtsStart:message("\124cff9482C9*MTS-\124cffFF7D0ADruid/Feral-\124cff9482C9Loaded*")
-	mts_showLive()
 	
 end
 
