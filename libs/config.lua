@@ -1,4 +1,5 @@
 local logo = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:15:15|t"
+local _Header = { type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",width = 200, height = 100, offset = 90, y = 42, center = true }
 
 								--[[   !!!Live window!!!   ]]
 --[[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]]
@@ -134,7 +135,8 @@ mts_info = {
 	config = {
 		{ type = 'header',text = 'MrTheSoulz Pack'},
 		{ type = 'rule' },
-		{ type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",width = 200, height = 100, offset = 110, y = 50, center = true },
+		_Header,
+		
 		{ type = 'rule' },
 		{ type = 'header', text = "MrTheSoulzs Pack information:"},
 
@@ -157,7 +159,8 @@ mts_config = {
 	config = {
 		{ type = 'header',text = 'MrTheSoulz Pack'},
 		{ type = 'rule' },
-		{ type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",width = 200, height = 100, offset = 110, y = 50, center = true },
+		_Header,
+		
 		{ type = 'rule' },
 		{ type = 'header', text = "MrTheSoulzs Pack General settings:"},
 
@@ -205,8 +208,8 @@ mts_configPriestHoly = {
 	config = {
 		{ type = 'header',text = 'MrTheSoulz Pack'},
 		{ type = 'rule' },
-		{ type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",width = 200, height = 100, offset = 110, y = 50, center = true },
-		
+			_Header,
+
 		-- General
 		{ type = 'rule' },
 		{ type = 'header', text = "General settings:"},
@@ -284,7 +287,7 @@ mts_configPriestDisc = {
 	config = {
 		{ type = 'header',text = 'MrTheSoulz Pack'},
 		{ type = 'rule' },
-		{ type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",width = 200, height = 100, offset = 110, y = 50, center = true },
+		_Header,
 		
 		-- General
 		{ type = 'rule' },
@@ -344,7 +347,7 @@ mts_configDruidResto = {
 	config = {
 		{ type = 'header',text = 'MrTheSoulz Pack'},
 		{ type = 'rule' },
-		{ type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",width = 200, height = 100, offset = 110, y = 50, center = true },
+		_Header,
 		
 		-- General
 		{ type = 'rule' },
@@ -385,7 +388,7 @@ mts_configDruidFeral = {
 	config = {
 		{ type = 'header',text = 'MrTheSoulz Pack'},
 		{ type = 'rule' },
-		{ type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",width = 200, height = 100, offset = 110, y = 50, center = true },
+		_Header,
 		
 		-- General
 		{ type = 'rule' },
@@ -435,7 +438,7 @@ mts_configDkBlood = {
 	config = {
 		{ type = 'header',text = 'MrTheSoulz Pack'},
 		{ type = 'rule' },
-		{ type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",width = 200, height = 100, offset = 110, y = 50, center = true },
+		_Header,
 		
 		-- General
 		{ type = 'rule' },
