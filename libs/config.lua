@@ -4,32 +4,32 @@ local logo = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:15:15|t"
 --[[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]]
 local mts_live = {
 	key = "mtslive",
-	title = logo.."MrTheSoulz Live GUI",
+	title = logo.."MrTheSoulz Live GUI \124cffC41F3Bv:"..mts_Version,
 	color = "9482C9",
 	width = 200,
-	height = 100,
+	height = 84,
 	resize = false,
 	config = {
 
 		-- Current Spell
-		{ type = "text", text = "Queded: ", size = 10, offset = -10 },
-		{ key = 'current_Queue', type = "text", text = "Random", size = 10, align = "right", offset = 5 },
+		{ type = "text", text = "Queded: ", size = 11, offset = -13 },
+		{ key = 'current_Queue', type = "text", text = "Random", size = 12, align = "right", offset = 1 },
 
 		-- Current Spell
-		{ type = "text", text = "Last Used: ", size = 10, offset = -10 },
-		{ key = 'current_spell', type = "text", text = "Random", size = 10, align = "right", offset = 5 },
+		{ type = "text", text = "Last Used: ", size = 11, offset = -13 },
+		{ key = 'current_spell', type = "text", text = "Random", size = 12, align = "right", offset = 1 },
 
 		-- AoE
-		{ type = "text", text = "AoE: ", size = 10, offset = -10 },
-		{ key = 'current_AoE', type = "text", text = "Random", size = 10, align = "right", offset = 5 },
+		{ type = "text", text = "AoE: ", size = 11, offset = -13 },
+		{ key = 'current_AoE', type = "text", text = "Random", size = 12, align = "right", offset = 1 },
 
 		-- Interrupts
-		{ type = "text", text = "Interrupts: ", size = 10, offset = -10 },
-		{ key = 'current_Interrupts', type = "text", text = "Random", size = 10, align = "right", offset = 5 },
+		{ type = "text", text = "Interrupts: ", size = 11, offset = -13 },
+		{ key = 'current_Interrupts', type = "text", text = "Random", size = 12, align = "right", offset = 1 },
 
 		-- Cooldowns
-		{ type = "text", text = "Cooldowns: ", size = 10, offset = -10 },
-		{ key = 'current_Cooldowns', type = "text", text = "Random", size = 10, align = "right", offset = 5 },
+		{ type = "text", text = "Cooldowns: ", size = 11, offset = -13 },
+		{ key = 'current_Cooldowns', type = "text", text = "Random", size = 12, align = "right", offset = 1 },
 
 		-- Class GUI
 		{ type = "button", text = "Class Settings", width = 180, height = 20,
@@ -44,7 +44,7 @@ local mts_live = {
 			end},
 
 		-- Info GUI
-		{ type = "button", text = "information", width = 180, height = 20,
+		{ type = "button", text = "Information", width = 180, height = 20,
 			callback = function()
 				ProbablyEngine.interface.buildGUI(mts_info)
 			end},

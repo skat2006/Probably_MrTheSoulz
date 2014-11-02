@@ -8,6 +8,7 @@ MTS
 local mtsLib = {}
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
+mts_Version = "0.11.14"
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
 
@@ -22,7 +23,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mts_AlertSounds()
-		mtsAlert:message('MrTheSoulz Version: 0.11.13')
+		mtsAlert:message('MrTheSoulz Version: '..mts_Version)
 	end
 
 	-- -- Enabled/Disable PE
