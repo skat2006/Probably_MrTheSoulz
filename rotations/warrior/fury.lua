@@ -87,6 +87,7 @@ local inCombat = {
   		{ "Victory Rush" },
 
 	-- AoE
+		{ "1680", {"!modifier.multitarget","player.area(8).enemies > 3", "@mtsLib.CanFireHack()" } }, -- Whirlwind
 		{ "1680", "modifier.multitarget" }, -- Whirlwind
 
 	-- Rotaion Execute (Target as less then 20% health)

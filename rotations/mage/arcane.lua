@@ -36,12 +36,12 @@ local inCombat = {
     { "2139", "modifier.interrupts" }, -- Counterspell
 
   -- AoE // FH
-    { "1449", {"modifier.multitarget", "target.area(10).enemies >= 5", "@mtsLib.CanFireHack()"}},--Arcane Explosion
-    { "120", {"modifier.multitarget", "target.area(10).enemies >= 5" , "@mtsLib.CanFireHack()"}},--Cone of Cold
+    { "1449", {"!modifier.multitarget", "target.area(10).enemies >= 5", "@mtsLib.CanFireHack()"}},--Arcane Explosion
+    { "120", {"!modifier.multitarget", "target.area(10).enemies >= 5" , "@mtsLib.CanFireHack()"}},--Cone of Cold
 
   -- AoE
-    { "1449", {"modifier.multitarget", "target.area(10).enemies >= 5", "@mtsLib.CanFireHack()"}},--Arcane Explosion
-    { "120", {"modifier.multitarget", "target.area(10).enemies >= 5" , "@mtsLib.CanFireHack()"}},--Cone of Cold
+    { "1449", "modifier.multitarget"},--Arcane Explosion
+    { "120", "modifier.multitarget"},--Cone of Cold
 
   -- Moving
     { "108839", "player.moving" },--Ice Floes

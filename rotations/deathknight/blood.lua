@@ -117,7 +117,7 @@ local inCombat = {
 			"target.debuff(55078).duration <3" }},
 
 	-- Multi-target
-		{ "50842",	{"player.area(10).enemies > 4", "@mtsLib.CanFireHack()"}}, -- Blood Boil
+		{ "50842",	{"!modifier.multitarget","player.area(10).enemies > 4", "@mtsLib.CanFireHack()"}}, -- Blood Boil
 		{ "50842",	{"modifier.multitarget","target.range <= 10" }}, -- Blood Boil
 
 	-- Rotation

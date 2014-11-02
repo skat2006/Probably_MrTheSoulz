@@ -63,7 +63,7 @@ local inCombat = {
 			{ "Focus Fire", "player.buff(Frenzy).count = 5" },
 
 		-- aoe FH
-			{"2643",{"player.area(35).enemies > 4", "@mtsLib.CanFireHack()"}, "target"}, -- Multi-Shot
+			{"2643",{"!modifier.multitarget","player.area(35).enemies > 4", "@mtsLib.CanFireHack()"}, "target"}, -- Multi-Shot
 			{"13813", "@mtsLib.CanFireHack()", "target.ground"}, --Explosive Trap
 
 		-- aoe fallback

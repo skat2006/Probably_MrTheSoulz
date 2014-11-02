@@ -107,7 +107,7 @@ local inCombat = {
 		{ "33917", "player.rage < 80" }, -- Mangle
 		
 		-- AoE
-			{ "77758", "player.area(8).enemies >= 3", "@mtsLib.CanFireHack()" }, -- Thrash  // FH SMARTH AoE
+			{ "77758", {"!modifier.multitarget","player.area(8).enemies >= 3", "@mtsLib.CanFireHack()"}, "target" }, -- Thrash  // FH SMARTH AoE
 			{ "77758", "modifier.multitarget" }, -- Thrash
 			
 		{ "77758", "target.debuff(77758).duration <= 4" }, -- Thrash

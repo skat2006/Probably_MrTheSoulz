@@ -105,16 +105,19 @@ local inCombat = {
 	
 	-- AoE // FH
 		{ "Lava Beam", { -- Does it even still exist? // To Review.
+			"!modifier.multitarget",
 			"player.buff(Ascendance)", 
 			"player.area(12).enemies > 3", 
 			"@mtsLib.CanFireHack()" } },
 		{ "61882", { "player.area(12).enemies > 3", "@mtsLib.CanFireHack()" }, "target.ground" }, -- Earthquake
 		{ "8042", { --Earth Shock
+			"!modifier.multitarget",
 			"player.buff(Lightning Shield)", 
 			"player.buff(Lightning Shield).count >= 12", 
 			"player.area(12).enemies > 3", 
 			"@mtsLib.CanFireHack()" } },
 		{ "3599", { -- Searing Totem
+			"!modifier.multitarget",
 			"!player.totem(Fire Elemental Totem)", 
 			"!player.totem(Searing Totem)", 
 			"player.area(12).enemies > 3", 

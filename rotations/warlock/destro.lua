@@ -36,10 +36,11 @@ local inCombat = {
 		{ "Incinerate", {"player.spell(Kil'jaeden's Cunning).exists", "player.moving"} },
   		{ "Fel Flame", {"!player.spell(Kil'jaeden's Cunning).exists", "player.moving"} }, 	
 
-	-- AOE
-		{"Fire and Brimstone", {"player.area(10).enemies >= 3", "@mtsLib.CanFireHack()"}, "target"}, -- smarth
+	-- AoE // Smart
+		{"Fire and Brimstone", {"!modifier.multitarget","player.area(10).enemies >= 3", "@mtsLib.CanFireHack()"}, "target"}, -- smarth
+		
+	-- AoE
 		{"Fire and Brimstone", "modifier.multitarget", "target"},
-		{ "/run mtsLib.dots(80240, 80240)", {"player.area(30).enemies > 1", "player.spell(80240).cooldown = 0", "@mtsLib.CanFireHack()"}},
 
   	-- Rotation
 	  	{"Shadowburn", "target.health <=20", "target"},
