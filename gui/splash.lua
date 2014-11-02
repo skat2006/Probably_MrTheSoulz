@@ -1,6 +1,6 @@
 --[[ ///---INFO---////
-// Alerts GUI //
-Thank Your For Your My ProFiles
+// Splash GUI //
+Thank Your For Using My ProFiles
 I Hope Your Enjoy Them
 MTS
 ]]

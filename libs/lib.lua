@@ -79,25 +79,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 
     if command == 'class' then
 		
-    	if GetSpecializationInfo(GetSpecialization()) == 250 then -- DK Blood
-			ProbablyEngine.interface.buildGUI(mts_configDkBlood)
-		end
-
-		if GetSpecializationInfo(GetSpecialization()) == 103 then -- Druid Feral
-			ProbablyEngine.interface.buildGUI(mts_configDruidFeral)
-		end
-
-		if GetSpecializationInfo(GetSpecialization()) == 105 then -- Druid Resto
-			ProbablyEngine.interface.buildGUI(mts_configDruidResto)
-		end
-
-		if GetSpecializationInfo(GetSpecialization()) == 257 then -- Priest holy
-			ProbablyEngine.interface.buildGUI(mts_configPriestHoly)
-		end
-
-		if GetSpecializationInfo(GetSpecialization()) == 256 then -- Priest Disc
-			ProbablyEngine.interface.buildGUI(mts_configPriestDisc)
-		end
+    	mts_ClassGUI()
 
     end
 
@@ -106,6 +88,28 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	end
 
 end)
+
+function mts_ClassGUI()
+	if GetSpecializationInfo(GetSpecialization()) == 250 then -- DK Blood
+		return ProbablyEngine.interface.buildGUI(mts_configDkBlood)
+	end
+
+	if GetSpecializationInfo(GetSpecialization()) == 103 then -- Druid Feral
+		return ProbablyEngine.interface.buildGUI(mts_configDruidFeral)
+	end
+
+	if GetSpecializationInfo(GetSpecialization()) == 105 then -- Druid Resto
+		return ProbablyEngine.interface.buildGUI(mts_configDruidResto)
+	end
+
+	if GetSpecializationInfo(GetSpecialization()) == 257 then -- Priest holy
+		return ProbablyEngine.interface.buildGUI(mts_configPriestHoly)
+	end
+
+	if GetSpecializationInfo(GetSpecialization()) == 256 then -- Priest Disc
+		return ProbablyEngine.interface.buildGUI(mts_configPriestDisc)
+	end
+end
 
 function mts_getConfig(key)
 	return ProbablyEngine.config.read(key)

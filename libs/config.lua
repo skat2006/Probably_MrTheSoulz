@@ -1,8 +1,10 @@
+local logo = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:15:15|t"
+
 								--[[   !!!Live window!!!   ]]
 --[[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]]
 local mts_live = {
 	key = "mtslive",
-	title = "MrTheSoulz Live GUI",
+	title = logo.."MrTheSoulz Live GUI",
 	color = "9482C9",
 	width = 200,
 	height = 100,
@@ -28,6 +30,24 @@ local mts_live = {
 		-- Cooldowns
 		{ type = "text", text = "Cooldowns: ", size = 10, offset = -10 },
 		{ key = 'current_Cooldowns', type = "text", text = "Random", size = 10, align = "right", offset = 5 },
+
+		-- Class GUI
+		{ type = "button", text = "Class Settings", width = 180, height = 20,
+			callback = function()
+				mts_ClassGUI()
+			end},
+
+		-- General GUI
+		{ type = "button", text = "General Settings", width = 180, height = 20,
+			callback = function()
+				ProbablyEngine.interface.buildGUI(mts_config)
+			end},
+
+		-- Info GUI
+		{ type = "button", text = "information", width = 180, height = 20,
+			callback = function()
+				ProbablyEngine.interface.buildGUI(mts_info)
+			end},
 
 	}
 }
@@ -106,7 +126,7 @@ end
 --[[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]]
 mts_info = {
 	key = "mtsinfo",
-	title = "MrTheSoulz Config",
+	title = logo.."MrTheSoulz Config",
 	subtitle = "General Settings",
 	color = "9482C9",
 	width = 500,
@@ -129,7 +149,7 @@ mts_info = {
 --[[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]]
 mts_config = {
 	key = "mtsconf",
-	title = "MrTheSoulz Config",
+	title = logo.."MrTheSoulz Config",
 	subtitle = "General Settings",
 	color = "9482C9",
 	width = 250,
@@ -177,7 +197,7 @@ mts_config = {
 
 mts_configPriestHoly = {
 	key = "mtsconfPriestHoly",
-	title = "MrTheSoulz Config",
+	title = logo.."MrTheSoulz Config",
 	subtitle = "Priest Holy Settings",
 	color = "9482C9",
 	width = 250,
@@ -256,7 +276,7 @@ mts_configPriestHoly = {
 
 mts_configPriestDisc = {
 	key = "mtsconfPriestDisc",
-	title = "MrTheSoulz Config",
+	title = logo.."MrTheSoulz Config",
 	subtitle = "Priest Discipline Settings",
 	color = "9482C9",
 	width = 250,
@@ -316,7 +336,7 @@ mts_configPriestDisc = {
 
 mts_configDruidResto = {
 	key = "mtsconfDruidResto",
-	title = "MrTheSoulz Config",
+	title = logo.."MrTheSoulz Config",
 	subtitle = "Druid Restoration Settings",
 	color = "FF7D0A",
 	width = 250,
@@ -357,7 +377,7 @@ mts_configDruidResto = {
 
 mts_configDruidFeral = {
 	key = "mtsconfDruidFeral",
-	title = "MrTheSoulz Config",
+	title = logo.."MrTheSoulz Config",
 	subtitle = "Druid Feral Settings",
 	color = "FF7D0A",
 	width = 250,
@@ -388,7 +408,7 @@ mts_configDruidFeral = {
 		{ type = 'header', text = "Player settings:"},
 
 			-- Tiger's Fury
-			{ type = "spinner", text = "Tiger's Fury", key = "TigersFury", default = 35},
+			{ type = "spinner", text = "Tigers Fury", key = "TigersFury", default = 35},
 
 			-- Renewal
 			{ type = "spinner", text = "Renewal", key = "Renewal", default = 30},
@@ -407,7 +427,7 @@ mts_configDruidFeral = {
 
 mts_configDkBlood = {
 	key = "mtsconfDkBlood",
-	title = "MrTheSoulz Config",
+	title = logo.."MrTheSoulz Config",
 	subtitle = "Deathknight Blood Settings",
 	color = "C41F3B",
 	width = 250,

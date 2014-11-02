@@ -7,7 +7,7 @@ MTS
 
 local exeOnLoad = function()
 
-	mtsStart:message("\124cff9482C9*MTS-\124cffFF7D0ADruid/Feral-\124cff9482C9Loaded*")
+	mtsStart:message("|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:17:17|t\124cff9482C9*MTS-\124cffFF7D0ADruid/Feral-\124cff9482C9Loaded*")
 	
 end
 
@@ -166,6 +166,6 @@ local outCombat = {
 
 }
 
-ProbablyEngine.rotation.register_custom(103, "|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Feral|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(103, "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Feral|r]", inCombat, outCombat, exeOnLoad)
 
 
