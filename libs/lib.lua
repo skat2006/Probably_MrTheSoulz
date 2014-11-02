@@ -8,8 +8,9 @@ MTS
 local mtsLib = {}
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
-mts_Version = "0.11.14"
+mts_Version = "0.11.15"
 mts_getConfig = ProbablyEngine.config.read
+mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
 

@@ -152,4 +152,4 @@ local outcombat = {
 
 }
 
-ProbablyEngine.rotation.register_custom(252, "|r[|cff9482C9MTS|r][\124cffC41F3BDeathKnight-Unholy|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(252, mts_Icon.."|r[|cff9482C9MTS|r][\124cffC41F3BDeathKnight-Unholy|r]", inCombat, outCombat, exeOnLoad)

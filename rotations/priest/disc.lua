@@ -199,5 +199,5 @@ local outCombat = {
 
 }
 
-ProbablyEngine.rotation.register_custom(256, "|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", inCombat, outCombat, exeOnLoad)
-ProbablyEngine.rotation.register_custom(256, "|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Solo|r]", inCombatSolo, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(256, mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(256, mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Solo|r]", inCombatSolo, outCombat, exeOnLoad)

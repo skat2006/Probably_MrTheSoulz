@@ -152,7 +152,7 @@ for _, Buffs in pairs(Buffs) do
   outCombat[#outCombat + 1] = Buffs
 end
 
-ProbablyEngine.rotation.register_custom(270, "|r[|cff9482C9MTS|r][|cff00FF96Monk-WindWalker|r]", {
+ProbablyEngine.rotation.register_custom(270, mts_Icon.."|r[|cff9482C9MTS|r][|cff00FF96Monk-WindWalker|r]", {
 	{ inCombatSerpente, "player.stance = 1" },
 	{ inCombatCrane, "player.stance = 2" },
 },  outCombat, exeOnLoad)

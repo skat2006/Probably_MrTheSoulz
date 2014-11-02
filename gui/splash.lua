@@ -41,7 +41,7 @@ mtsStart.time = 0
 
 function mtsStart:message(message)
 	if mts_getConfig('mtsconf_Splash') then
-		mtsStart.text:SetText(message)
+		mtsStart.text:SetText("|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:17:17|t"..message)
 		mtsStart:SetAlpha(1)
 		mtsSplash:SetAlpha(1)
 		mtsStart.time = GetTime()

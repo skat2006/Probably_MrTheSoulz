@@ -116,4 +116,4 @@ for _, Shared in pairs(Shared) do
   outCombat[#outCombat + 1] = Shared
 end
 
-ProbablyEngine.rotation.register_custom(66, "|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Protection|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(66, mts_Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Protection|r]", inCombat, outCombat, lib)

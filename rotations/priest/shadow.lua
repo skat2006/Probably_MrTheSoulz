@@ -85,4 +85,4 @@ local outCombat = {
   
 }
 
-ProbablyEngine.rotation.register_custom(258, "|r[|cff9482C9MTS|r][Testing Priest-Shadow|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(258, mts_Icon.."|r[|cff9482C9MTS|r][Testing Priest-Shadow|r]", inCombat, outCombat, lib)

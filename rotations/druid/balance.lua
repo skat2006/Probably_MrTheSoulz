@@ -86,4 +86,4 @@ local outCombat = {
 
 }
 
-ProbablyEngine.rotation.register(102, "|r[|cff9482C9MTS|r][TEST Balance|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register(102, mts_Icon.."|r[|cff9482C9MTS|r][TEST Balance|r]", inCombat, outCombat, exeOnLoad)
