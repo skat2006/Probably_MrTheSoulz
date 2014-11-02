@@ -331,7 +331,7 @@ mts_configDruidResto = {
 		{ type = 'header', text = "General settings:"},
 
 			-- Dispels
-			{ type = "checkbox", text = "Dispels", key = "Dispels", default = true , desc =
+			{ type = "checkbox", text = "Dispels", key = "Dispels", default = true, desc =
 			 "This checkbox enables or disables the use of automatic dispels of everything it can dispel."},
 
 		-- Focus
@@ -352,6 +352,56 @@ mts_configDruidResto = {
 
 			-- Healing Touch
 			{ type = "spinner", text = "Healing Touch", key = "HealingTouchTank", default = 96},
+
+}}
+
+mts_configDruidFeral = {
+	key = "mtsconfDruidFeral",
+	title = "MrTheSoulz Config",
+	subtitle = "Druid Feral Settings",
+	color = "FF7D0A",
+	width = 250,
+	height = 500,
+	config = {
+		{ type = 'header',text = 'MrTheSoulz Pack'},
+		{ type = 'rule' },
+		{ type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",width = 200, height = 100, offset = 110, y = 50, center = true },
+		
+		-- General
+		{ type = 'rule' },
+		{ type = 'header', text = "General settings:"},
+
+			-- Cat
+			{ type = "checkbox", text = "Buffs", key = "Buffs", default = true, desc =
+			 "This checkbox enables or disables the use of automatic Cat form & Mark of the Wild."},
+
+			-- Prowl
+			{ type = "checkbox", text = "Prowl", key = "Prowl", default = false, desc =
+			 "This checkbox enables or disables the use of automatic Prowl when out of combat."},
+
+			 -- Auto Target
+			{ type = "checkbox", text = "Auto Target", key = "AutoTarget", default = true, desc =
+			 "This checkbox enables or disables the use of automatic Targets."},
+
+		-- Player
+		{ type = 'rule' },
+		{ type = 'header', text = "Player settings:"},
+
+			-- Tiger's Fury
+			{ type = "spinner", text = "Tiger's Fury", key = "TigersFury", default = 35},
+
+			-- Renewal
+			{ type = "spinner", text = "Renewal", key = "Renewal", default = 30},
+
+			-- Cenarion Ward
+			{ type = "spinner", text = "Cenarion Ward", key = "CenarionWard", default = 75},
+
+			-- Survival Instincts
+			{ type = "spinner", text = "Survival Instincts", key = "SurvivalInstincts", default = 75},
+
+			-- Healing Touch
+			{ type = "spinner", text = "Healing Touch", key = "HealingTouch", default = 70, Desc=
+			"When player as buff (Predatory Swiftness)."},		
 
 }}
 

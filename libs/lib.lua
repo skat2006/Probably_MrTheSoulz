@@ -22,7 +22,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
 		mts_AlertSounds()
-		mtsAlert:message('MrTheSoulz Version: 0.11.12')
+		mtsAlert:message('MrTheSoulz Version: 0.11.13')
 	end
 
 	-- -- Enabled/Disable PE
@@ -83,6 +83,10 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 			ProbablyEngine.interface.buildGUI(mts_configDkBlood)
 		end
 
+		if GetSpecializationInfo(GetSpecialization()) == 103 then -- Druid Feral
+			ProbablyEngine.interface.buildGUI(mts_configDruidFeral)
+		end
+
 		if GetSpecializationInfo(GetSpecialization()) == 105 then -- Druid Resto
 			ProbablyEngine.interface.buildGUI(mts_configDruidResto)
 		end
@@ -113,6 +117,14 @@ end
 
 function mtsLib.getHp(key,unit)
 	return ProbablyEngine.condition["health"](unit) < mtsLib.getConfig(key)
+end
+
+function mtsLib.getEnergy(key,unit)
+	return ProbablyEngine.condition["energy"](unit) < mtsLib.getConfig(key)
+end
+
+function mtsLib.getMana(key,unit)
+	return ProbablyEngine.condition["mana"](unit) < mtsLib.getConfig(key)
 end
 
 function mtsLib.cancelTarget()
