@@ -79,6 +79,10 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 
     if command == 'class' then
 		
+    	if GetSpecializationInfo(GetSpecialization()) == 250 then -- DK Blood
+			ProbablyEngine.interface.buildGUI(mts_configDkBlood)
+		end
+
 		if GetSpecializationInfo(GetSpecialization()) == 105 then -- Druid Resto
 			ProbablyEngine.interface.buildGUI(mts_configDruidResto)
 		end

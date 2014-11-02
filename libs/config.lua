@@ -142,32 +142,32 @@ mts_config = {
 		{ type = 'header', text = "MrTheSoulzs Pack General settings:"},
 
 		-- Splash
-		{ type = "checkbox", text = "Splash", key = "Splash", default = true },
-		{ type = 'text', text = "This checkbox enables or disables MrTheSoulz splash when you choose the profile."},
+		{ type = "checkbox", text = "Splash", key = "Splash", default = true, desc = 
+		"This checkbox enables or disables MrTheSoulz splash when you choose the profile."},
 
 		-- Taunts
-		{ type = "checkbox", text = "Taunts", key = "Taunts", default = false },
-		{ type = 'text', text = "This checkbox enables or disables MrTheSoulz Pack using smarth auto taunts."},
+		{ type = "checkbox", text = "Taunts", key = "Taunts", default = false, desc =
+		"This checkbox enables or disables MrTheSoulz Pack using smarth auto taunts."},
 
 		-- Whispers
-		{ type = "checkbox", text = "Whispers", key = "Whispers", default = false },
-		{ type = 'text', text = "This checkbox enables or disables MrTheSoulz Pack using Whispers when a special event occurs."},
+		{ type = "checkbox", text = "Whispers", key = "Whispers", default = false, desc =
+		"This checkbox enables or disables MrTheSoulz Pack using Whispers when a special event occurs."},
 
 		-- Alerts
-		{ type = "checkbox", text = "Alerts", key = "Alerts", default = true },
-		{ type = 'text', text = "This checkbox enables or disables MrTheSoulz Pack using Alerts when a special event occurs."},
+		{ type = "checkbox", text = "Alerts", key = "Alerts", default = true, desc =
+		"This checkbox enables or disables MrTheSoulz Pack using Alerts when a special event occurs."},
 
 		-- Sounds
-		{ type = "checkbox", text = "Sounds", key = "Sounds", default = true },
-		{ type = 'text', text = "This checkbox enables or disables MrTheSoulz Pack using sounds."},
+		{ type = "checkbox", text = "Sounds", key = "Sounds", default = true, desc =
+		"This checkbox enables or disables MrTheSoulz Pack using sounds."},
 
 		-- Firehack
-		{ type = "checkbox", text = "Firehack", key = "Firehack", default = true },
-		{ type = 'text', text = "This checkbox enables or disables MrTheSoulz Pack using Firehacks features like smarth aoe and other fancy stuff."},
+		{ type = "checkbox", text = "Firehack", key = "Firehack", default = true, desc =
+		"This checkbox enables or disables MrTheSoulz Pack using Firehacks features like smarth aoe and other fancy stuff."},
 
 		-- LiveGUI
-		{ type = "checkbox", text = "LiveGUI", key = "LiveGUI", default = true },
-		{ type = 'text', text = "This checkbox enables or disables MrTheSoulz Pack Displaying LiveGUI at Start."},
+		{ type = "checkbox", text = "LiveGUI", key = "LiveGUI", default = true, desc =
+		"This checkbox enables or disables MrTheSoulz Pack Displaying LiveGUI at Start."},
 
 }}
 
@@ -192,16 +192,16 @@ mts_configPriestHoly = {
 		{ type = 'header', text = "General settings:"},
 
 			-- AutoTargets
-			{ type = "checkbox", text = "AutoTargets", key = "AutoTargets", default = true },
-			{ type = 'text', text = "This checkbox enables or disables the use of automatic targets."},
+			{ type = "checkbox", text = "AutoTargets", key = "AutoTargets", default = true, desc =
+			 "This checkbox enables or disables the use of automatic targets."},
 
 			-- Dispels
-			{ type = "checkbox", text = "Dispels", key = "Dispels", default = true },
-			{ type = 'text', text = "This checkbox enables or disables the use of automatic dispels of everything it can dispel."},
+			{ type = "checkbox", text = "Dispels", key = "Dispels", default = true, desc =
+			 "This checkbox enables or disables the use of automatic dispels of everything it can dispel."},
 			
 			-- Feathers
-			{ type = "checkbox", text = "Feathers", key = "Feathers", default = true },
-			{ type = 'text', text = "This checkbox enables or disables the use of automatic feathers to move faster."},
+			{ type = "checkbox", text = "Feathers", key = "Feathers", default = true, desc =
+			 "This checkbox enables or disables the use of automatic feathers to move faster."},
 
 		-- Focus
 		{ type = 'rule' },
@@ -271,16 +271,16 @@ mts_configPriestDisc = {
 		{ type = 'header', text = "General settings:"},
 
 			-- AutoTargets
-			{ type = "checkbox", text = "AutoTargets", key = "AutoTargets", default = true },
-			{ type = 'text', text = "This checkbox enables or disables the use of automatic targets."},
+			{ type = "checkbox", text = "AutoTargets", key = "AutoTargets", default = true, desc =
+			 "This checkbox enables or disables the use of automatic targets."},
 
 			-- Dispels
-			{ type = "checkbox", text = "Dispels", key = "Dispels", default = true },
-			{ type = 'text', text = "This checkbox enables or disables the use of automatic dispels of everything it can dispel."},
+			{ type = "checkbox", text = "Dispels", key = "Dispels", default = true, desc =
+			 "This checkbox enables or disables the use of automatic dispels of everything it can dispel."},
 			
 			-- Feathers
-			{ type = "checkbox", text = "Feathers", key = "Feathers", default = true },
-			{ type = 'text', text = "This checkbox enables or disables the use of automatic feathers to move faster."},
+			{ type = "checkbox", text = "Feathers", key = "Feathers", default = true, desc =
+			 "This checkbox enables or disables the use of automatic feathers to move faster."},
 
 		-- Focus
 		{ type = 'rule' },
@@ -331,8 +331,8 @@ mts_configDruidResto = {
 		{ type = 'header', text = "General settings:"},
 
 			-- Dispels
-			{ type = "checkbox", text = "Dispels", key = "Dispels", default = true },
-			{ type = 'text', text = "This checkbox enables or disables the use of automatic dispels of everything it can dispel."},
+			{ type = "checkbox", text = "Dispels", key = "Dispels", default = true , desc =
+			 "This checkbox enables or disables the use of automatic dispels of everything it can dispel."},
 
 		-- Focus
 		{ type = 'rule' },
@@ -352,5 +352,50 @@ mts_configDruidResto = {
 
 			-- Healing Touch
 			{ type = "spinner", text = "Healing Touch", key = "HealingTouchTank", default = 96},
+
+}}
+
+mts_configDkBlood = {
+	key = "mtsconfDkBlood",
+	title = "MrTheSoulz Config",
+	subtitle = "Deathknight Blood Settings",
+	color = "C41F3B",
+	width = 250,
+	height = 500,
+	config = {
+		{ type = 'header',text = 'MrTheSoulz Pack'},
+		{ type = 'rule' },
+		{ type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",width = 200, height = 100, offset = 110, y = 50, center = true },
+		
+		-- General
+		{ type = 'rule' },
+		{ type = 'header', text = "General settings:"},
+
+			-- Run Faster
+			{ type = "checkbox", text = "Run Faster", key = "RunFaster", default = false , desc =
+			 "This checkbox enables or disables the use of Unholy presence while out of combat to move faster."},
+
+			 -- Auto Target
+			{ type = "checkbox", text = "Auto Target", key = "AutoTarget", default = true , desc =
+			 "This checkbox enables or disables the use of Unholy presence while out of combat to move faster."},
+
+		-- Focus
+		{ type = 'rule' },
+		{ type = 'header', text = 'Player settings:'},
+
+			-- Icebound Fortitude
+			{ type = "spinner", text = "Icebound Fortitude", key = "IceboundFortitude", default = 40},
+
+			-- Vampiric Blood
+			{ type = "spinner", text = "Vampiric Blood", key = "VampiricBlood", default = 40},
+
+			-- Death Pact
+			{ type = "spinner", text = "Death Pact", key = "DeathPact", default = 50},
+
+			-- Rune Tap
+			{ type = "spinner", text = "Rune Tap", key = "RuneTap", default = 60},
+
+			-- Death Siphon
+			{ type = "spinner", text = "Death Siphon", key = "DeathSiphon", default = 60},
 
 }}
