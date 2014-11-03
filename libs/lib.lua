@@ -17,6 +17,7 @@ mtsLib.queueTime = 0
 
 -- To Implement // FH Keybinds
 -- if GetKeyState(90) then print("Z HAS BEEN PRESSED!") end
+
 							
 									--[[   !!!Pack Commands!!!   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
@@ -73,22 +74,27 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
       	end
     end
 
+    -- Displays MTS splash
     if command == 'logo' then
     	mtsStart:message("\124cff9482C9*Wanted To See Me?!*")
     end
 
+    -- Displays General GUI
     if command == 'config' then
     	_BuildGUI(mts_config)
     end
 
+   -- Displays LiveGUI
     if command == 'gui' then
     	_BuildGUI(mts_live)
     end
 
+    -- Displays Class GUI
     if command == 'class' then
     	mts_ClassGUI()
     end
 
+	-- Displays Help GUI
 	if command == 'help' or command == 'info' or command == '?' then
 		_BuildGUI(mts_info)
 	end
@@ -147,31 +153,38 @@ end
 -- Generic Check Function
 function mtsLib.canUse(txt, txt2, txt3)
 
+	-- Check it can Taunt
 	if txt == 'taunt' 
 		and UnitIsTappedByPlayer("target") 
 		and mtsLib.getConfig('mtsconf_Taunts') then
 			return true
 
+	-- Check if can whisper
 	elseif txt == 'whisper' 
 		and mtsLib.getConfig('mtsconf_Whispers') then
 			return RunMacroText("/w "..txt2)
 	
+	~-- Check if can use sounds
 	elseif txt == 'sound' 
 		and mtsLib.getConfig('mtsconf_Sounds') then
 			PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3", "master")
 
+	-- Check if can use alerts
 	elseif txt == 'alert' 
 		and mtsLib.getConfig('mtsconf_Alerts') then
 			return mtsAlert:message(txt2)
 
+	-- Checks if Can use Priest Feathers
 	elseif txt == 'feather' 
 		and Distance(txt2, txt3) >= 35 then
 			return true
-
+	
+	-- Check if monk can SEF on mouseover
 	elseif txt == 'sef' 
 		and (UnitGUID('target')) ~= (UnitGUID('mouseover')) then
  			return true
 
+	-- check if can use item
 	elseif txt == 'item'
 	 	and mtsLib.getConfig('mtsconf_Items') 
 	 	and GetItemCount(key) > 1 
