@@ -51,7 +51,6 @@ local inCombat = {
   		{ "Will of the Forsaken", "player.state.sleep" },
 		
 	-- keybinds
-		{ "6544", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- Heroic Leap // FH
 		{ "6544", "modifier.shift", "mouseover.ground" }, -- Heroic Leap // FH
   		{ "5246", "modifier.control" }, -- Intimidating Shout
 		{ "100", { "modifier.alt", "target.spell(100).range" }, "target"}, -- Charge
@@ -86,8 +85,15 @@ local inCombat = {
   		{ "100130", "player.buff(Bloodsurge)", "target" }, -- Wild Strike
   		{ "Victory Rush" },
 
+		{{-- can use FH
+
+	    	-- AoE smart
+	     	{ "1680", "player.area(8).enemies > 3" }, -- Whirlwind
+
+	  	}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+
+
 	-- AoE
-		{ "1680", {"!modifier.multitarget","player.area(8).enemies > 3", "@mtsLib.CanFireHack()" } }, -- Whirlwind
 		{ "1680", "modifier.multitarget" }, -- Whirlwind
 
 	-- Rotaion Execute (Target as less then 20% health)
@@ -107,7 +113,6 @@ local inCombat = {
 local outCombat = {
 	
 	-- keybinds
-		{ "6544", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- Heroic Leap // FH
 		{ "6544", "modifier.shift", "mouseover.ground" }, -- Heroic Leap // FH
   		{ "5246", "modifier.control" }, -- Intimidating Shout
 		{ "100", { "modifier.alt", "target.spell(100).range" }, "target"}, -- Charge

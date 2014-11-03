@@ -112,8 +112,14 @@ local inCombat = {
 		{ "107428", "target.debuff(130320).duration < 3" }, -- Rising Sun Kick
 		{ "113656", "!player.moving" },-- Fists of Fury
 
+		{{-- can use FH
+
+			-- AoE smart
+				{ "101546","player.area(8).enemies >= 3"}, -- Spinning Crane Kick // FH Smarth
+
+		}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+			
 		-- AoE
-			{ "101546", { "!modifier.multitarget","player.area(8).enemies > 3", "@mtsLib.CanFireHack()" }}, -- Spinning Crane Kick // FH Smarth
 			{ "101546", "modifier.multitarget" }, -- Spinning Crane Kick
 
 		{ "100784", "player.chi >= 3" }, -- Blackout Kick

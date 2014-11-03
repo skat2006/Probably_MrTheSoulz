@@ -39,11 +39,16 @@ local inCombat = {
 	-- Frost Bomb
 		{ "Frost Bomb", {  "target.debuff(Frost Bomb).duration <= 3", "talent(5, 1)" } },
 
-	-- Smart AoE
-		{ "84714", { "!modifier.multitarget","@mtsLib.CanFireHack()", "target.area(10).enemies >= 5" } },--Frozen Orb
-		{ "Ice Nova", { "!modifier.multitarget","@mtsLib.CanFireHack()", "target.area(10).enemies >= 5", "talent(5, 3)" } },
-		{ "120", { "!modifier.multitarget","@mtsLib.CanFireHack()", "target.area(10).enemies >= 5" } },--Cone of Cold
-		{ "10", { "!modifier.multitarget","@mtsLib.CanFireHack()", "target.area(10).enemies >= 5" }, "target.ground" },--Blizzard
+	{{-- can use FH
+
+		-- AoE smart
+			{ "84714", "target.area(10).enemies >= 5" },--Frozen Orb
+			{ "Ice Nova", {"target.area(10).enemies >= 5", "talent(5, 3)" } },
+			{ "120", "target.area(10).enemies >= 5" },--Cone of Cold
+			{ "10", "target.area(10).enemies >= 5", "target.ground" },--Blizzard
+
+	}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+
 	
 	-- AoE // FallBack
 		{ "84714", "modifier.multitarget" },--Frozen Orb

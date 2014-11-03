@@ -61,7 +61,6 @@ local inCombat = {
 	-- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
 		{ "49576", "modifier.control" }, -- Death Grip
-		{ "43265", {"modifier.shift", "@mtsLib.CanFireHack()"}, "target.ground" }, -- Death and Decay
 		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 
 	-- items
@@ -116,8 +115,14 @@ local inCombat = {
 			"target.debuff(55095).duration < 3", 
 			"target.debuff(55078).duration <3" }},
 
-	-- Multi-target
-		{ "50842",	{"!modifier.multitarget","player.area(10).enemies > 4", "@mtsLib.CanFireHack()"}}, -- Blood Boil
+	{{-- can use FH
+
+		-- AoE smart
+			{ "50842","player.area(10).enemies > 4"}, -- Blood Boil
+
+	}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+
+	-- AoE
 		{ "50842",	{"modifier.multitarget","target.range <= 10" }}, -- Blood Boil
 
 	-- Rotation
@@ -147,7 +152,6 @@ local outCombat = {
 	-- Keybinds
 		{ "42650", {"modifier.alt", "target.exits"} }, -- Army of the Dead
 		{ "49576", "modifier.control" }, -- Death Grip
-		{ "43265", {"modifier.shift", "@mtsLib.CanFireHack()"}, "target.ground" }, -- Death and Decay
 		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 
 	-- Buffs

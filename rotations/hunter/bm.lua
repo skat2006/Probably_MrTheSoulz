@@ -18,10 +18,9 @@ local inCombat = {
 		{ "pause","player.buff(5384)" }, -- Pause for Feign Death
 
 	-- keybinds
-		{ "60192", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- Freezing Trap
-  		{ "82941", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- ice Trap
-  		{ "60192", "modifier.shift", "mouseover.ground" }, -- Freezing Trap
+		{ "60192", "modifier.shift", "mouseover.ground" }, -- Freezing Trap
   		{ "82941", "modifier.shift", "mouseover.ground" }, -- ice Trap
+  		{ "60192", "modifier.shift", "mouseover.ground" }, -- Freezing Trap
 
   	-- aggro
   		{"5384","player.aggro >=100 "}, -- fake death
@@ -62,9 +61,14 @@ local inCombat = {
 		-- Proc's
 			{ "Focus Fire", "player.buff(Frenzy).count = 5" },
 
-		-- aoe FH
-			{"2643",{"!modifier.multitarget","player.area(35).enemies > 4", "@mtsLib.CanFireHack()"}, "target"}, -- Multi-Shot
-			{"13813", "@mtsLib.CanFireHack()", "target.ground"}, --Explosive Trap
+		{{-- can use FH
+
+			-- AoE smart
+				{"2643","player.area(35).enemies > 4", "target"}, -- Multi-Shot
+				{"13813", nil, "target.ground"}, --Explosive Trap
+
+		}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+
 
 		-- aoe fallback
 			{"2643", "modifier.multitarget"}, -- Multi-Shot
@@ -90,10 +94,9 @@ local outCombat = {
 		{"77769", "!player.buff(77769)"}, -- trap launcher
 
 	-- keybinds
-  		{ "60192", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- Freezing Trap
-  		{ "82941", {"modifier.shift", "@mtsLib.CanFireHack()"}, "mouseover.ground" }, -- ice Trap
   		{ "60192", "modifier.shift", "mouseover.ground" }, -- Freezing Trap
-  		{ "82941", "modifier.shift", "mouseover.ground" }, -- ice Trapp
+  		{ "82941", "modifier.shift", "mouseover.ground" }, -- ice Trap
+  		{ "60192", "modifier.shift", "mouseover.ground" }, -- Freezing Trap
 
 }
 

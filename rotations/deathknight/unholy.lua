@@ -112,7 +112,6 @@ local inCombat = {
 			"target.debuff(55095).duration < 3", 
 			"target.debuff(55078).duration <3" }},
 
-		
 	-- Rotation
 		{ "Soul Reaper", { "!target.debuff", "target.health < 35" } },
 		{ "Death Coil", "player.runicpower > 90" },

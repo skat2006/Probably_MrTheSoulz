@@ -35,9 +35,13 @@ local inCombat = {
     { "102051", "modifier.interrupts" }, -- Frostjaw
     { "2139", "modifier.interrupts" }, -- Counterspell
 
-  -- AoE // FH
-    { "1449", {"!modifier.multitarget", "target.area(10).enemies >= 5", "@mtsLib.CanFireHack()"}},--Arcane Explosion
-    { "120", {"!modifier.multitarget", "target.area(10).enemies >= 5" , "@mtsLib.CanFireHack()"}},--Cone of Cold
+  {{-- can use FH
+
+    -- AoE smart
+      { "1449", "target.area(10).enemies >= 5" },--Arcane Explosion
+      { "120", "target.area(10).enemies >= 5" },--Cone of Cold
+
+  }, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
 
   -- AoE
     { "1449", "modifier.multitarget"},--Arcane Explosion

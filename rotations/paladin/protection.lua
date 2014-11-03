@@ -10,7 +10,6 @@ local lib = function()
 	ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\Spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
 	ProbablyEngine.toggle.create('run', 'Interface\\Icons\\Inv_boots_plate_dungeonplate_c_05.png', 'Enable Unholy Presence Outside of Combat', 'Enable/Disable Unholy Presence Outside of Combat \nMakes you run/fly faster when outside of combat.')
 	mtsStart:message("\124cff9482C9*MTS-\124cffF58CBAPaladin/Protection-\124cff9482C9Loaded*")
-	mts_showLive()
 	
 end
 

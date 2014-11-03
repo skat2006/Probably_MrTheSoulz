@@ -42,11 +42,15 @@ local inCombat = {
     { "73510", "player.buff(162448)" }, -- Mind Spike // Proc
     { "129197", "player.buff(132573)" }, --Insanity // Proc
 
-  -- AoE // Smart
-    { "48045", {"!modifier.multitarget","player.area(8).enemies > 3", "@mtsLib.CanFireHack()" }, "target" }, -- Mind Sear
-    { "127632", { "!modifier.multitarget","player.area(8).enemies > 3", "@mtsLib.CanFireHack()" } }, --Cascade 
-    { "12064", { "!modifier.multitarget","player.area(8).enemies > 3", "@mtsLib.CanFireHack()" } }, -- Halo
-    { "122121", { "!modifier.multitarget","player.area(8).enemies > 3", "@mtsLib.CanFireHack()" } }, --Divine Star
+    {{-- can use FH
+
+      -- AoE smart
+        { "48045", "player.area(8).enemies > 3", "target" }, -- Mind Sear
+        { "127632", "player.area(8).enemies > 3" }, --Cascade 
+        { "12064", "player.area(8).enemies > 3" }, -- Halo
+        { "122121", "player.area(8).enemies > 3" }, --Divine Star
+
+    }, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
 
   -- AoE
     { "48045", "modifier.multitarget", "target" }, -- Mind Sear

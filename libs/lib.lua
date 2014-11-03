@@ -8,7 +8,7 @@ MTS
 local mtsLib = {}
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
-mts_Version = "0.11.15"
+mts_Version = "0.11.16"
 mts_getConfig = ProbablyEngine.config.read
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mtsLib.queueSpell = nil
@@ -126,10 +126,12 @@ function mtsLib.getEnergy(key,unit)
 	return ProbablyEngine.condition["energy"](unit) < mtsLib.getConfig(key)
 end
 
+-- Compare key with mana
 function mtsLib.getMana(key,unit)
 	return ProbablyEngine.condition["mana"](unit) < mtsLib.getConfig(key)
 end
 
+-- Testing to cancel targets
 function mtsLib.cancelTarget()
 	if UnitIsEnemy("player", "target") == 1 then
 		print("enemie")
@@ -168,12 +170,6 @@ function mts_ConfigAlert(txt)
 	end
 end
 
-function mtsLib.CanFireHack()
-	if FireHack and mts_getConfig('mtsconf_Firehack') then
-		return true
-	else return false end
-end
-
 function mtsLib.checkItem(key)
 	if mts_getConfig('mtsconf_Items') then
 		if GetItemCount(key) > 1
@@ -183,8 +179,6 @@ function mtsLib.checkItem(key)
 	end
 	return false
 end
-
-
 
 							--[[   !!!Check If player to unit distance!!!   ]]
 								--[[   TXT = Unit, TXT2 = Distance   ]]

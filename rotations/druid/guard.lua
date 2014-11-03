@@ -106,8 +106,14 @@ local inCombat = {
 		{ "770", {"!target.debuff(770)", "target.boss"} }, -- Faerie Fire
 		{ "33917", "player.rage < 80" }, -- Mangle
 		
+		{{-- can use FH
+
+			-- AoE smart
+				{ "77758", "player.area(8).enemies >= 3", "target" }, -- Thrash  // FH SMARTH AoE
+
+		}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+
 		-- AoE
-			{ "77758", {"!modifier.multitarget","player.area(8).enemies >= 3", "@mtsLib.CanFireHack()"}, "target" }, -- Thrash  // FH SMARTH AoE
 			{ "77758", "modifier.multitarget" }, -- Thrash
 			
 		{ "77758", "target.debuff(77758).duration <= 4" }, -- Thrash

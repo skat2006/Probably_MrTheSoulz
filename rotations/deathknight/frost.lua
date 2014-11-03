@@ -63,7 +63,6 @@ local inCombat = {
 	-- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
 		{ "49576", "modifier.control" }, -- Death Grip
-		{ "43265", {"modifier.shift", "@mtsLib.CanFireHack()"}, "target.ground" }, -- Death and Decay
 		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 	
 	-- Presence
@@ -165,7 +164,6 @@ local inCombat = {
 	      	{ "50842", {"modifier.last(Plague Strike)", "modifier.multitarget" }}, -- blood boil
 	      	{ "49184", "modifier.multitarget", "target" }, -- Howling Blast
 	      	{ "49143", {"player.runicpower >= 75", "modifier.multitarget"}, "target" }, -- Frost Strike
-	      	{ "43265", {"modifier.multitarget", "@mtsLib.CanFireHack()"}, "target.ground" }, -- Death and Decay
 	      	{ "45462", { "player.runes(unholy).count = 2", "player.spell(Death and Decay).cooldown", "modifier.multitarget" }}, -- Plague Strike
       		{ "49143", "modifier.multitarget" },-- Frost Strike
 
@@ -221,7 +219,6 @@ local outCombat = {
 	-- Keybinds
 		{ "42650", {"modifier.alt", "target.exits"} }, -- Army of the Dead
 		{ "49576", "modifier.control" }, -- Death Grip
-		{ "43265", {"modifier.shift", "@mtsLib.CanFireHack()"}, "target.ground" }, -- Death and Decay
 		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 
 	-- Buffs

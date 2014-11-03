@@ -93,8 +93,7 @@ local inCombat = {
 			{ "69041", "player.moving" },
 
 	-- keybinds
-		{ "114158", {"modifier.shift", "@mtsLib.CanFireHack()"}, "target.ground"}, -- Light´s Hammer // FH
-		{ "114158", "modifier.shift", "ground"}, -- Light´s Hammer // FH
+		{ "114158", "modifier.shift", "target.ground"}, -- Light´s Hammer
 		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
 
 	-- Mana Regen
@@ -191,8 +190,7 @@ local inCombat = {
 local outCombat = {
 	
 	-- keybinds
-		{ "114158", {"modifier.shift", "@mtsLib.CanFireHack()"}, "target.ground"}, -- Light´s Hammer // FH
-		{ "114158", "modifier.shift", "mouseover.ground"}, -- Light´s Hammer // FH
+		{ "114158", "modifier.shift", "mouseover.ground"}, -- Light´s Hammer
 		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
 
 	-- hands

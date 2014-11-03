@@ -103,27 +103,24 @@ local inCombat = {
 		{ "Berserking", "modifier.cooldowns" }, -- EXISTS??? // TO CHECK
 		{ "165339", { "modifier.cooldowns", "!player.buff(Ascendance)" } }, -- Ascendance
 	
-	-- AoE // FH
-		{ "Lava Beam", { -- Does it even still exist? // To Review.
-			"!modifier.multitarget",
+	{{-- can use FH
+
+   	 	{ "Lava Beam", { -- Does it even still exist? // To Review.
 			"player.buff(Ascendance)", 
-			"player.area(12).enemies > 3", 
-			"@mtsLib.CanFireHack()" } },
-		{ "61882", { "player.area(12).enemies > 3", "@mtsLib.CanFireHack()" }, "target.ground" }, -- Earthquake
+			"player.area(12).enemies > 3" } },
+		{ "61882", "player.area(12).enemies > 3", "target.ground" }, -- Earthquake
 		{ "8042", { --Earth Shock
-			"!modifier.multitarget",
 			"player.buff(Lightning Shield)", 
 			"player.buff(Lightning Shield).count >= 12", 
-			"player.area(12).enemies > 3", 
-			"@mtsLib.CanFireHack()" } },
+			"player.area(12).enemies > 3",} },
 		{ "3599", { -- Searing Totem
-			"!modifier.multitarget",
 			"!player.totem(Fire Elemental Totem)", 
 			"!player.totem(Searing Totem)", 
-			"player.area(12).enemies > 3", 
-			"@mtsLib.CanFireHack()" } },
-		{ "403", { "player.area(12).enemies > 3", "@mtsLib.CanFireHack()" } },--Chain Lightning
-		
+			"player.area(12).enemies > 3" } },
+		{ "403", "player.area(12).enemies > 3" },--Chain Lightning
+
+  }, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+
 	-- AoE Fallback
 		{ "Lava Beam", { -- Does it even still exist? // To Review.
 			"modifier.multitarget", 
@@ -144,7 +141,13 @@ local inCombat = {
 		{ "8042", { "player.buff(Lightning Shield)", "player.buff(Lightning Shield).count >= 12" } },
 		{ "117014" }, -- Elemental Blast
 		{ "61882", { "!toggle.cleavemode", "player.ilevel >= 560" }, "target.ground" }, -- Earthquake
-		{ "403", { "player.area(8).enemies > 1", "@mtsLib.CanFireHack()", "!toggle.cleavemode" } }, -- Chain Lightning
+		
+		{{-- can use FH
+
+   	 		{ "403", {"player.area(8).enemies > 1", "!toggle.cleavemode" } }, -- Chain Lightning
+
+  		}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+
 		{ "3599", { "!player.totem(Fire Elemental Totem)", "!player.totem(Searing Totem)" } }, -- Searing Totem
 		{ "403" }, -- Lightning Bolt
 

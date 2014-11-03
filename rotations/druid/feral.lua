@@ -93,10 +93,15 @@ local inCombat = {
 	-- Proc's
   		{ "106830", "player.buff(Omen of Clarity)", "target" }, -- Free Thrash
 
-	-- AoE // Smart
-		{ "106785", { "!modifier.multitarget","player.area(8).enemies >= 4", "@mtsLib.CanFireHack()" }}, -- Swipe // FireHack
-		{ "106830", {"!modifier.multitarget","player.area(8).enemies >= 4", "@mtsLib.CanFireHack()" }, "target" }, -- Tharsh
-		
+	{{-- can use FH
+
+		-- AoE smart
+			{ "106785", "player.area(8).enemies >= 4" }, -- Swipe // FireHack
+			{ "106830", "player.area(8).enemies >= 4", "target" }, -- Tharsh
+
+	}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+
+
 	-- AoE
 		{ "106785", "modifier.multitarget"}, -- Swipe
 		{ "106830", "modifier.multitarget", "target" }, -- Tharsh
