@@ -8,8 +8,8 @@ MTS
 local mtsLib = {}
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
+local _BuildGUI = ProbablyEngine.interface.buildGUI
 mts_Version = "0.11.17"
-mts_getConfig = ProbablyEngine.config.read
 mtsLib.getConfig = ProbablyEngine.config.read
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mtsLib.queueSpell = nil
@@ -25,13 +25,13 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 		
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
-		mts_AlertSounds()
+		mtsLib.canUse('sound')
 		mtsAlert:message('MrTheSoulz Version: '..mts_Version)
 	end
 
 	-- -- Enabled/Disable PE
 	if command == 'toggle' then
-    	if ProbablyEngine.config.read('button_states', 'MasterToggle', false) then
+    	if mtsLib.getConfig('button_states', 'MasterToggle', false) then
         	ProbablyEngine.buttons.toggle('MasterToggle')
         	mtsAlert:message("|cFFB30000Rotation off")
     	else
@@ -42,7 +42,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 
 	-- Enabled/Disable Interrupts
 	if command == 'kick' or command == 'interrupt' then
-    	if ProbablyEngine.config.read('button_states', 'interrupt', false) then
+    	if mtsLib.getConfig('button_states', 'interrupt', false) then
       		ProbablyEngine.buttons.toggle('interrupt')
       		mtsAlert:message("|cFFB30000Interrupts off")
     	else
@@ -53,7 +53,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 
   	-- Enabled/Disable cooldowns
   	if command == 'cds' or command == 'cooldowns' then
-    	if ProbablyEngine.config.read('button_states', 'cooldowns', false) then
+    	if mtsLib.getConfig('button_states', 'cooldowns', false) then
       		ProbablyEngine.buttons.toggle('cooldowns')
       		mtsAlert:message("|cFFB30000Offensive Cooldowns off")
     	else
@@ -64,7 +64,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 
   	-- Enabled/Disable aoe
 	if command == 'aoe' then
-    	if ProbablyEngine.config.read('button_states', 'multitarget', false) then
+    	if mtsLib.getConfig('button_states', 'multitarget', false) then
       		ProbablyEngine.buttons.toggle('multitarget')
       		mtsAlert:message("|cFFB30000AoE off")
     	else
@@ -78,11 +78,11 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
     end
 
     if command == 'config' then
-    	ProbablyEngine.interface.buildGUI(mts_config)
+    	_BuildGUI(mts_config)
     end
 
     if command == 'gui' then
-    	ProbablyEngine.interface.buildGUI(mts_live)
+    	_BuildGUI(mts_live)
     end
 
     if command == 'class' then
@@ -90,30 +90,33 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
     end
 
 	if command == 'help' or command == 'info' or command == '?' then
-		ProbablyEngine.interface.buildGUI(mts_info)
+		_BuildGUI(mts_info)
 	end
 
 end)
 
+-- Checks what GUI to call for what class
 function mts_ClassGUI()
-	if GetSpecializationInfo(GetSpecialization()) == 250 then -- DK Blood
-		return ProbablyEngine.interface.buildGUI(mts_configDkBlood)
+local _SpecID =  GetSpecializationInfo(GetSpecialization())
+	
+	if _SpecID == 250 then -- DK Blood
+		return _BuildGUI(mts_configDkBlood)
 	end
 
-	if GetSpecializationInfo(GetSpecialization()) == 103 then -- Druid Feral
-		return ProbablyEngine.interface.buildGUI(mts_configDruidFeral)
+	if _SpecID == 103 then -- Druid Feral
+		return _BuildGUI(mts_configDruidFeral)
 	end
 
-	if GetSpecializationInfo(GetSpecialization()) == 105 then -- Druid Resto
-		return ProbablyEngine.interface.buildGUI(mts_configDruidResto)
+	if _SpecID == 105 then -- Druid Resto
+		return _BuildGUI(mts_configDruidResto)
 	end
 
-	if GetSpecializationInfo(GetSpecialization()) == 257 then -- Priest holy
-		return ProbablyEngine.interface.buildGUI(mts_configPriestHoly)
+	if _SpecID == 257 then -- Priest holy
+		return _BuildGUI(mts_configPriestHoly)
 	end
 
-	if GetSpecializationInfo(GetSpecialization()) == 256 then -- Priest Disc
-		return ProbablyEngine.interface.buildGUI(mts_configPriestDisc)
+	if _SpecID == 256 then -- Priest Disc
+		return _BuildGUI(mts_configPriestDisc)
 	end
 end
 
@@ -123,13 +126,14 @@ function mtsLib.Compare(txt, key, unit)
 	-- This forces it to create a GUI to save the keys so they can be compared..
 	if ProbablyEngine.condition[txt](unit) <= mtsLib.getConfig(key) == nil then
 		mts_ClassGUI()
-		ProbablyEngine.interface.buildGUI(mts_config)
+		_BuildGUI(mts_config)
 	else 
 		return ProbablyEngine.condition[txt](unit) <= mtsLib.getConfig(key) end
 
 end
 
--- Testing to cancel targets
+-- !Testing! to cancel targets
+-- Usefull for autotargets
 function mtsLib.cancelTarget()
 	if UnitIsEnemy("player", "target") == 1 then
 		print("enemie")
@@ -140,142 +144,42 @@ function mtsLib.cancelTarget()
 	end
 end
 
---[[ Generic Check Function
-function mtsLib.canUse(txt)
+-- Generic Check Function
+function mtsLib.canUse(txt, txt2, txt3)
 
-	if txt = 'taunt' 
-		and UnitIsTappedByPlayer("target")
-		and ProbablyEngine.config.read('mtsconf_Taunts') then
-		return true
-	else
-		return false
-	end
-
-	if txt = 'whisper' and ProbablyEngine.config.read('mtsconf_Whispers') then
-		return RunMacroText("/w "..txt)
-	end
-	
-	if txt = 'sounds' and ProbablyEngine.config.read('mtsconf_Sounds') then
-		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3", "master")
-	end
-
-	if txt = 'alert' and ProbablyEngine.config.read('mtsconf_Alerts') then
-		return mtsAlert:message(txt)
-	end
-
-	if txt = 'item' ProbablyEngine.config.read('mtsconf_Items') then
-		if GetItemCount(key) > 1
-		and GetItemCooldown(key) == 0 then 
+	if txt == 'taunt' 
+		and UnitIsTappedByPlayer("target") 
+		and mtsLib.getConfig('mtsconf_Taunts') then
 			return true
-		end
-	end
+
+	elseif txt == 'whisper' 
+		and mtsLib.getConfig('mtsconf_Whispers') then
+			return RunMacroText("/w "..txt2)
 	
-	return false
+	elseif txt == 'sound' 
+		and mtsLib.getConfig('mtsconf_Sounds') then
+			PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3", "master")
 
-end ]]
+	elseif txt == 'alert' 
+		and mtsLib.getConfig('mtsconf_Alerts') then
+			return mtsAlert:message(txt2)
 
--- Checks if its save to taunt
-function mts_ShouldTaunt()
-	if UnitIsTappedByPlayer("target") 
-	and ProbablyEngine.config.read('mtsconf_Taunts') then
-		return true
-	else
-		return false
-	end
-end
-
--- Checks if its save to whisper
-function mts_ConfigWhisper(txt)
-	if ProbablyEngine.config.read('mtsconf_Whispers') then
-		return RunMacroText("/w "..txt)
-	end
-	return false
-end
-
--- Checks if its save to play sounds
-function mts_AlertSounds()
-	if ProbablyEngine.config.read('mtsconf_Sounds') then
-		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3", "master")
-	end
-end
-
--- Checks if its save to display alerts
-function mts_ConfigAlert(txt)
-	if ProbablyEngine.config.read('mtsconf_Alerts') then
-		return mtsAlert:message(txt)
-	end
-end
-
--- Checks if its save to use item
-function mtsLib.checkItem(key)
-	if ProbablyEngine.config.read('mtsconf_Items') then
-		if GetItemCount(key) > 1
-		and GetItemCooldown(key) == 0 then 
+	elseif txt == 'feather' 
+		and Distance(txt2, txt3) >= 35 then
 			return true
-		end
-	end
-	return false
-end
 
-							--[[   !!!Check If player to unit distance!!!   ]]
-								--[[   TXT = Unit, TXT2 = Distance   ]]
---[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-function mtsLib.canUseFeather(txt)
-	if Distance(player, txt) >= 35 then
-		return true
+	elseif txt == 'sef' 
+		and (UnitGUID('target')) ~= (UnitGUID('mouseover')) then
+ 			return true
+
+	elseif txt == 'item'
+	 	and mtsLib.getConfig('mtsconf_Items') 
+	 	and GetItemCount(key) > 1 
+	 	and GetItemCooldown(key) == 0 then 
+			return true
+
 	else return false end
-end
 
-
- 							--[[   !!!Check IF should dot units around!!!   ]]
-										--[[   Thanks biGGER!   ]]
---[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-
-local UnitDebuff = function(target, spell, owner)
-    local debuff, count, caster, expires, spellID
-    if tonumber(spell) then
-    local i = 0; local go = true
-    while i <= 40 and go do
-        i = i + 1
-        debuff,_,_,count,_,_,expires,caster,_,_,spellID,_,_,_,power = _G['UnitDebuff'](target, i)
-        if not owner then
-        if spellID == tonumber(spell) and caster == "player" then go = false end
-        elseif owner == "any" then
-        if spellID == tonumber(spell) then go = false end
-        end
-    end
-    else
-    debuff,_,_,count,_,_,expires,caster = _G['UnitDebuff'](target, spell)
-    end
-    return debuff, count, expires, caster, power
-end
- 
-
-function mtsLib.dots(spellId, debuffId)
-  IterateObjects(function(object)
-    if not (object == ObjectFromUnitId("target")) then
-      if not UnitBuff(object, debuffId, "player") then
-    	  CastSpellById("spellId", object)
-    	  return true
-    	end
-    end
-  end, ObjectTypes.Unit)
-return
-end
-
-
-					--[[   !!!Check Mouseover and target are or not equal!!!   ]]
---[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-
-
-function mtsLib.mouseNotEqualTarget()
-	if (UnitGUID('target')) ~= (UnitGUID('mouseover')) then return true end
- return false
-end
-
-function mtsLib.mouseEqualTarget()
-	if (UnitGUID('target')) ~= (UnitGUID('mouseover')) then return false end
- return true
 end
 
 									--[[   !!!Check Queue!!!   ]]
@@ -391,86 +295,86 @@ if source ~= UnitGUID("player") then return false end
     -- Paladin
 
 		if spellId == 114158 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casted Light´s Hammer*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casted Light´s Hammer*")
 		end
 		if spellId == 633 then
-			mts_AlertSounds()
-			mts_ConfigWhisper(tname.." MSG: Casted Lay On Hands on you.")
-			mts_ConfigAlert("*Casted Lay on Hands*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('whisper', tname.." MSG: Casted Lay On Hands on you.")
+			mtsLib.canUse('alert', "*Casted Lay on Hands*")
 		end
 		if spellId == 1044 then
-			mts_AlertSounds()
-			mts_ConfigWhisper(tname.." MSG: Casted Hand of Freedom on you.")
-			mts_ConfigAlert("*Casted Hand of Freedom*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('whisper', tname.." MSG: Casted Hand of Freedom on you.")
+			mtsLib.canUse('alert', "*Casted Hand of Freedom*")
 		end
 		if spellId == 6940 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casted Hand of Sacrifice*")
-			mts_ConfigWhisper("/w "..tname.." MSG: Casted Hand of Sacrifice on you.")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casted Hand of Sacrifice*")
+			mtsLib.canUse('whisper', "/w "..tname.." MSG: Casted Hand of Sacrifice on you.")
 		end
 		if spellId == 105593 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Stunned Target*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Stunned Target*")
 		end
 		if spellId == 853 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Stunned Target*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Stunned Target*")
 		end
 		if spellId == 31821 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casted Devotion Aura*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casted Devotion Aura*")
 		end
 		if spellId == 31884 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casted Avenging Wrath*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casted Avenging Wrath*")
 		end
 		if spellId == 105809 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casted Guardian of Ancient Kings*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casted Guardian of Ancient Kings*")
 		end
 		if spellId == 31850 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casted Ardent Defender*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casted Ardent Defender*")
 		end
 		if spellId == 86659 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casted Holy Avenger*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casted Holy Avenger*")
 		end
 		if spellId == 86669 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casted Guardian of Ancient Kings*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casted Guardian of Ancient Kings*")
 		end
 		if spellId == 31842 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casted Divine Favor*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casted Divine Favor*")
 		end
 
     -- DeathKnight
 
 		if spellId == 43265 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casted Death and Decay*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casted Death and Decay*")
 		end
 		if spellId == 48707 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casted Anti-Magic Shell*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casted Anti-Magic Shell*")
 		end
 		if spellId == 49028 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casted Dancing Rune Weapon*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casted Dancing Rune Weapon*")
 		end
 		if spellId == 55233 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casted Vampiric Blood*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casted Vampiric Blood*")
 		end
 		if spellId == 48792 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casted Icebound Fortitude*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casted Icebound Fortitude*")
 		end
 		if spellId == 42650 then
-			mts_AlertSounds()
-			mts_ConfigAlert("*Casting Army of the Dead*")
+			mtsLib.canUse('sound')
+			mtsLib.canUse('alert', "*Casting Army of the Dead*")
 		end
 
 	end

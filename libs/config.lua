@@ -66,7 +66,7 @@ function mts_LastCastState()
 end
 
 function mts_AoEState()
-	if FireHack and mts_getConfig('mtsconf_Firehack') then
+	if FireHack and ProbablyEngine.config.read('mtsconf_Firehack') then
 		if ProbablyEngine.config.read('button_states', 'multitarget', false) then
 			return ("\124cff0070DEForced")
 		end
