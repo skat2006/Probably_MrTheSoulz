@@ -8,8 +8,8 @@ MTS
 local mtsLib = {}
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
-local _BuildGUI = ProbablyEngine.interface.buildGUI
-mts_Version = "0.11.18"
+local mts_BuildGUI = ProbablyEngine.interface.buildGUI
+mts_Version = "0.11.19"
 mtsLib.getConfig = ProbablyEngine.config.read
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mtsLib.queueSpell = nil
@@ -81,12 +81,12 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 
     -- Displays General GUI
     if command == 'config' then
-    	_BuildGUI(mts_config)
+    	mts_BuildGUI(mts_config)
     end
 
    -- Displays LiveGUI
     if command == 'gui' then
-    	_BuildGUI(mts_live)
+    	mts_BuildGUI(mts_live)
     end
 
     -- Displays Class GUI
@@ -96,7 +96,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 
 	-- Displays Help GUI
 	if command == 'help' or command == 'info' or command == '?' then
-		_BuildGUI(mts_info)
+		mts_BuildGUI(mts_info)
 	end
 
 end)
@@ -106,23 +106,23 @@ function mts_ClassGUI()
 local _SpecID =  GetSpecializationInfo(GetSpecialization())
 	
 	if _SpecID == 250 then -- DK Blood
-		return _BuildGUI(mts_configDkBlood)
+		return mts_BuildGUI(mts_configDkBlood)
 	end
 
 	if _SpecID == 103 then -- Druid Feral
-		return _BuildGUI(mts_configDruidFeral)
+		return mts_BuildGUI(mts_configDruidFeral)
 	end
 
 	if _SpecID == 105 then -- Druid Resto
-		return _BuildGUI(mts_configDruidResto)
+		return mts_BuildGUI(mts_configDruidResto)
 	end
 
 	if _SpecID == 257 then -- Priest holy
-		return _BuildGUI(mts_configPriestHoly)
+		return mts_BuildGUI(mts_configPriestHoly)
 	end
 
 	if _SpecID == 256 then -- Priest Disc
-		return _BuildGUI(mts_configPriestDisc)
+		return mts_BuildGUI(mts_configPriestDisc)
 	end
 end
 
@@ -132,7 +132,7 @@ function mtsLib.Compare(txt, key, unit)
 	-- This forces it to create a GUI to save the keys so they can be compared..
 	if ProbablyEngine.condition[txt](unit) <= mtsLib.getConfig(key) == nil then
 		mts_ClassGUI()
-		_BuildGUI(mts_config)
+		mts_BuildGUI(mts_config)
 	else 
 		return ProbablyEngine.condition[txt](unit) <= mtsLib.getConfig(key) end
 
