@@ -243,7 +243,7 @@ mts_configPriestHoly = {
 			{ type = "spinner", text = "Heal", key = "HealTank", default = 95},
 
 			-- Renew
-			{ type = "spinner", text = "Heal", key = "RenewTank", default = 100},
+			{ type = "spinner", text = "Renew", key = "RenewTank", default = 100},
 
 			-- Binding Heal
 			{ type = "spinner", text = "Binding Heal", key = "BindingHealTank", default = 100},

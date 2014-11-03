@@ -136,9 +136,9 @@ local inCombat = {
 		{ "2060", {"lowest.health <= 90","!player.moving"}, "lowest" }, -- Heal	
 
 	--Attonement 
-		{ "14914", { "!toggle.mouseOver", "player.mana > 20","target.spell(14914).range", "target.infront" }, "target" }, --Holy Fire
-		{ "47540", { "player.mana > 20", "target.spell(47540).range", "!player.moving", "target.infront" }, "target" }, --Penance
-		{ "585", { "player.mana > 20", "!player.moving", "target.spell(585).range", "target.infront" }, "target" }, --Smite
+		{ "14914", { "!toggle.mouseOver", "player.mana > 20","target.spell(14914).range" }, "target" }, --Holy Fire
+		{ "47540", { "player.mana > 20", "target.spell(47540).range", "!player.moving" }, "target" }, --Penance
+		{ "585", { "player.mana > 20", "!player.moving", "target.spell(585).range" }, "target" }, --Smite
 
 }
 
