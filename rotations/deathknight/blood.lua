@@ -67,14 +67,14 @@ local inCombat = {
 		{ "#5512", "player.health < 70"}, --healthstone
 
 	-- Def cooldowns // heals
-		{ "48792", "@mtsLib.getHp('mtsconfDkBlood_IceboundFortitude','player')", "player')" }, -- Icebound Fortitude
-		{ "55233", "@mtsLib.getHp('mtsconfDkBlood_VampiricBlood','player')" }, -- Vampiric Blood
-		{ "48743", "@mtsLib.getHp('mtsconfDkBlood_DeathPact','player')" }, -- Death Pact
+		{ "48792", "@mtsLib.Compare('health',mtsconfDkBlood_IceboundFortitude','player')", "player')" }, -- Icebound Fortitude
+		{ "55233", "@mtsLib.Compare('health','mtsconfDkBlood_VampiricBlood','player')" }, -- Vampiric Blood
+		{ "48743", "@mtsLib.Compare('health','mtsconfDkBlood_DeathPact','player')" }, -- Death Pact
 		{ "49039", { "player.state.fear", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //fear
 		{ "49039", { "player.state.sleep", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //sleep
 		{ "49039", { "player.state.charm", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //charm
-		{ "48982", "@mtsLib.getHp('mtsconfDkBlood_RuneTap','player')" }, -- rune tap
-		{ "108196", "@mtsLib.getHp('mtsconfDkBlood_DeathSiphon','player')" },-- Death Siphon
+		{ "48982", "@mtsLib.Compare('health','mtsconfDkBlood_RuneTap','player')" }, -- rune tap
+		{ "108196", "@mtsLib.Compare('health','mtsconfDkBlood_DeathSiphon','player')" },-- Death Siphon
 
 	-- Cooldowns
 		{ "49028", { "modifier.cooldowns", "!toggle.DRW" }, "target" }, -- Dancing Rune Weapon

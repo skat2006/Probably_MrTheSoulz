@@ -8,8 +8,9 @@ MTS
 local mtsLib = {}
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
-mts_Version = "0.11.16"
+mts_Version = "0.11.17"
 mts_getConfig = ProbablyEngine.config.read
+mtsLib.getConfig = ProbablyEngine.config.read
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
@@ -80,10 +81,12 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
     	ProbablyEngine.interface.buildGUI(mts_config)
     end
 
-    if command == 'class' then
-		
-    	mts_ClassGUI()
+    if command == 'gui' then
+    	ProbablyEngine.interface.buildGUI(mts_live)
+    end
 
+    if command == 'class' then
+    	mts_ClassGUI()
     end
 
 	if command == 'help' or command == 'info' or command == '?' then
@@ -114,21 +117,16 @@ function mts_ClassGUI()
 	end
 end
 
-function mtsLib.getConfig(key)
-	return ProbablyEngine.config.read(key)
-end
+-- Compare stuff with GUIs
+function mtsLib.Compare(txt, key, unit)
+	
+	-- This forces it to create a GUI to save the keys so they can be compared..
+	if ProbablyEngine.condition[txt](unit) <= mtsLib.getConfig(key) == nil then
+		mts_ClassGUI()
+		ProbablyEngine.interface.buildGUI(mts_config)
+	else 
+		return ProbablyEngine.condition[txt](unit) <= mtsLib.getConfig(key) end
 
-function mtsLib.getHp(key,unit)
-	return ProbablyEngine.condition["health"](unit) < mtsLib.getConfig(key)
-end
-
-function mtsLib.getEnergy(key,unit)
-	return ProbablyEngine.condition["energy"](unit) < mtsLib.getConfig(key)
-end
-
--- Compare key with mana
-function mtsLib.getMana(key,unit)
-	return ProbablyEngine.condition["mana"](unit) < mtsLib.getConfig(key)
 end
 
 -- Testing to cancel targets
@@ -142,36 +140,75 @@ function mtsLib.cancelTarget()
 	end
 end
 
+--[[ Generic Check Function
+function mtsLib.canUse(txt)
+
+	if txt = 'taunt' 
+		and UnitIsTappedByPlayer("target")
+		and ProbablyEngine.config.read('mtsconf_Taunts') then
+		return true
+	else
+		return false
+	end
+
+	if txt = 'whisper' and ProbablyEngine.config.read('mtsconf_Whispers') then
+		return RunMacroText("/w "..txt)
+	end
+	
+	if txt = 'sounds' and ProbablyEngine.config.read('mtsconf_Sounds') then
+		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3", "master")
+	end
+
+	if txt = 'alert' and ProbablyEngine.config.read('mtsconf_Alerts') then
+		return mtsAlert:message(txt)
+	end
+
+	if txt = 'item' ProbablyEngine.config.read('mtsconf_Items') then
+		if GetItemCount(key) > 1
+		and GetItemCooldown(key) == 0 then 
+			return true
+		end
+	end
+	
+	return false
+
+end ]]
+
+-- Checks if its save to taunt
 function mts_ShouldTaunt()
 	if UnitIsTappedByPlayer("target") 
-	and mts_getConfig('mtsconf_Taunts') then
+	and ProbablyEngine.config.read('mtsconf_Taunts') then
 		return true
 	else
 		return false
 	end
 end
 
+-- Checks if its save to whisper
 function mts_ConfigWhisper(txt)
-	if mts_getConfig('mtsconf_Whispers') then
+	if ProbablyEngine.config.read('mtsconf_Whispers') then
 		return RunMacroText("/w "..txt)
 	end
 	return false
 end
 
+-- Checks if its save to play sounds
 function mts_AlertSounds()
-	if mts_getConfig('mtsconf_Sounds') then
+	if ProbablyEngine.config.read('mtsconf_Sounds') then
 		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3", "master")
 	end
 end
 
+-- Checks if its save to display alerts
 function mts_ConfigAlert(txt)
-	if mts_getConfig('mtsconf_Alerts') then
+	if ProbablyEngine.config.read('mtsconf_Alerts') then
 		return mtsAlert:message(txt)
 	end
 end
 
+-- Checks if its save to use item
 function mtsLib.checkItem(key)
-	if mts_getConfig('mtsconf_Items') then
+	if ProbablyEngine.config.read('mtsconf_Items') then
 		if GetItemCount(key) > 1
 		and GetItemCooldown(key) == 0 then 
 			return true

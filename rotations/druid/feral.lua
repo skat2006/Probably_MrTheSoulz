@@ -47,10 +47,10 @@ local inCombat = {
 		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfDruidFeral_AutoTarget')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 
   	-- Survival
-	  	{ "Renewal", "@mtsLib.getHp('mtsconfDruidFeral_Renewal','player')" }, -- Renewal
-	  	{ "Cenarion Ward", "@mtsLib.getHp('mtsconfDruidFeral_CenarionWard','player')" }, -- Cenarion Ward
-	  	{ "61336", "@mtsLib.getHp('mtsconfDruidFeral_SurvivalInstincts','player')" }, -- Survival Instincts
-	  	{ "5185", { "@mtsLib.getHp('mtsconfDruidFeral_HealingTouch','player')", "player.buff(Predatory Swiftness)" }}, -- Healing Touch
+	  	{ "Renewal", "@mtsLib.Compare('health','mtsconfDruidFeral_Renewal','player')" }, -- Renewal
+	  	{ "Cenarion Ward", "@mtsLib.Compare('health','mtsconfDruidFeral_CenarionWard','player')" }, -- Cenarion Ward
+	  	{ "61336", "@mtsLib.Compare('health','mtsconfDruidFeral_SurvivalInstincts','player')" }, -- Survival Instincts
+	  	{ "5185", { "@mtsLib.Compare('health','mtsconfDruidFeral_HealingTouch','player')", "player.buff(Predatory Swiftness)" }}, -- Healing Touch
 
   	--Interrupts
 	  	{ "106839", { "target.casting", "modifier.interrupt" }, "target"},	-- Skull Bash
@@ -82,7 +82,7 @@ local inCombat = {
   	-- buffs
   		{ "52610", { "!player.buff(52610)", "!player.buff(174544)", "player.combopoints <= 2" }, "target"}, -- Savage Roar
   		{ "770", { "!target.debuff(770)", "!player.spell(106707).exists" }, "target", "!player.buff(5215)" }, -- Faerie Fire
-		{ "5217", "@mtsLib.getEnergy('mtsconfDruidFeral_TigersFury','player')"}, -- Tiger's Fury
+		{ "5217", "@mtsLib.Compare('energy','mtsconfDruidFeral_TigersFury','player')"}, -- Tiger's Fury
 
   	--Cooldowns
 	  	{ "106737", { "player.spell(106737).charges > 2", "!modifier.last(106737)", "player.spell(106737).exists" }}, --Force of Nature

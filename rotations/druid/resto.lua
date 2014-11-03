@@ -97,21 +97,21 @@ local inCombat = {
 		{ "5185", { "lowest.health < 80", "!player.moving", "player.buff(16870)" }, "lowest" }, -- Healing Touch
 
 	-- Life Bloom
-		{ "33763", { "@mtsLib.getHp('mtsconfDruidResto_LifeBloomTank','focus')", "!focus.buff(33763)", "focus.spell(33763).range" }, "focus" }, -- Life Bloom
+		{ "33763", { "@mtsLib.Compare('health','mtsconfDruidResto_LifeBloomTank','focus')", "!focus.buff(33763)", "focus.spell(33763).range" }, "focus" }, -- Life Bloom
 		{ "33763", { "!tank.buff(33763)", "tank.spell(33763).range" }, "tank" }, -- Life Bloom
 
 	-- Swiftmend
-		{ "18562", { "@mtsLib.getHp('mtsconfDruidResto_SwiftmendTank','focus')", "focus.buff(774)" }, "focus" }, -- Swiftmend
+		{ "18562", { "@mtsLib.Compare('health','mtsconfDruidResto_SwiftmendTank','focus')", "focus.buff(774)" }, "focus" }, -- Swiftmend
 		{ "18562", { "tank.health < 80", "tank.buff(774)" }, "tank" }, -- Swiftmend
 		{ "18562", { "lowest.health < 30", "lowest.buff(774)" }, "focus" }, -- Swiftmend
 
 	-- Rejuvenation
-		{ "774", { "@mtsLib.getHp('mtsconfDruidResto_RejuvenationTank','focus')", "!focus.buff", "focus.spell(774).range" }, "focus" }, -- Rejuvenation
+		{ "774", { "@mtsLib.Compare('health','mtsconfDruidResto_RejuvenationTank','focus')", "!focus.buff", "focus.spell(774).range" }, "focus" }, -- Rejuvenation
 		{ "774", { "!tank.buff", "tank.health < 95", "tank.spell(774).range" }, "tank" }, -- Rejuvenation
 		{ "774", { "!lowest.buff", "lowest.health < 65" }, "lowest" }, -- Rejuvenation
 
 	-- Wild Mushroom	
-		{ "145205", {"@mtsLib.getHp('mtsconfDruidResto_WildMushroomTank','focus')","!player.totem(145205)"}, "focus" }, -- Wild Mushroom	
+		{ "145205", {"@mtsLib.Compare('health','mtsconfDruidResto_WildMushroomTank','focus')","!player.totem(145205)"}, "focus" }, -- Wild Mushroom	
 		{ "145205", {"tank.health < 100","!player.totem(145205)"}, "tank" }, -- Wild Mushroom
 	
 	-- Regrowth	
@@ -121,7 +121,7 @@ local inCombat = {
 		{ "145518", { "!player.spell(18562).cooldown = 0", "lowest.health < 40", "lowest.buff(774)" }, "lowest" }, -- Genesis
 
 	-- Healing Touch
-	 	{ "5185", { "@mtsLib.getHp('mtsconfDruidResto_HealingTouchTank','focus')", "!player.moving" }, "focus" }, -- Healing Touch
+	 	{ "5185", { "@mtsLib.Compare('health','mtsconfDruidResto_HealingTouchTank','focus')", "!player.moving" }, "focus" }, -- Healing Touch
 		{ "5185", { "tank.health < 96", "!player.moving" }, "tank" }, -- Healing Touch
 		{ "5185", { "lowest.health < 96", "!player.moving" }, "lowest" }, -- Healing Touch
 
@@ -134,7 +134,7 @@ local outCombat = {
 		{ "20484", "modifier.control", "mouseover" }, -- Rebirth
 
 	-- Life Bloom
-		{ "33763", { "@mtsLib.getHp('mtsconfDruidResto_LifeBloomTank','focus')", "!focus.buff(33763)", "focus.spell(33763).range" }, "focus" }, -- Life Bloom
+		{ "33763", { "@mtsLib.Compare('health','mtsconfDruidResto_LifeBloomTank','focus')", "!focus.buff(33763)", "focus.spell(33763).range" }, "focus" }, -- Life Bloom
 		{ "33763", { "!tank.buff(33763)", "tank.spell(33763).range" }, "tank" }, -- Life Bloom
 
 }

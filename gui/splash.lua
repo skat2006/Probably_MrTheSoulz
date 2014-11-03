@@ -40,6 +40,13 @@ mtsStart.text:SetAllPoints()
 mtsStart.time = 0
 
 function mtsStart:message(message)
+
+	-- This forces it to create a GUI to save the keys so they can be compared...
+	if mts_getConfig('mtsconf_Splash') == nil then
+		mts_ClassGUI()
+		ProbablyEngine.interface.buildGUI(mts_config)
+	end
+
 	if mts_getConfig('mtsconf_Splash') then
 		mtsStart.text:SetText("|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:17:17|t"..message)
 		mtsStart:SetAlpha(1)
@@ -51,4 +58,5 @@ function mtsStart:message(message)
 		PlaySoundFile("Sound\\Interface\\Levelup.Wav")
 		mts_showLive()
 	end
+
 end
