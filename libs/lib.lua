@@ -164,7 +164,7 @@ function mtsLib.canUse(txt, txt2, txt3)
 		and mtsLib.getConfig('mtsconf_Whispers') then
 			return RunMacroText("/w "..txt2)
 	
-	~-- Check if can use sounds
+	-- Check if can use sounds
 	elseif txt == 'sound' 
 		and mtsLib.getConfig('mtsconf_Sounds') then
 			PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3", "master")
