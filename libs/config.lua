@@ -342,7 +342,7 @@ mts_configPriestDisc = {
 			{ type = "spinner", text = "Power Word: Shield", key = "ShieldPlayer", default = 70},
 
 			-- Heal
-			{ type = "spinner", text = "Heal", key = "Heal", default = 90},
+			{ type = "spinner", text = "Heal", key = "HealPlayer", default = 90},
 
 }}
 
