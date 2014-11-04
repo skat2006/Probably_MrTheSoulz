@@ -101,8 +101,11 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 end)
 
 -- Check Keys
-function mtsLib.getConfig(key, default)
-	return ProbablyEngine.config.read(key, default)
+function mtsLib.getConfig(key)
+ 	if ProbablyEngine.config.read(key) == nil then
+		mts_ClassGUI()
+		ProbablyEngine.interface.buildGUI(mts_config)
+	else return ProbablyEngine.config.read(key) end
 end
 
 -- Checks what GUI to call for what class
