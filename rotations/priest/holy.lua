@@ -56,7 +56,7 @@ local inCombat = {
 		{ "110744", "modifier.lcontrol", "player" }, --Divine Star
 	
 	-- LoOk aT It GOoZ!!! // Needs to add tank...
-		{ "121536", {"player.movingfor > 2", "@mts_getConfig('mtsconfPriestHoly_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestHoly_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 	
 	-- Mouse Over
 		{ "139", { "toggle.mouseOver", "!mouseover.buff" }, "mouseover" }, --renew
@@ -75,7 +75,7 @@ local inCombat = {
 	 	{ "527", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Torment')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-	 	{ "527", {"@mts_getConfig('mtsconfPriestHoly_Dispels')", Dispell }},
+	 	{ "527", {"@mtsLib.getConfig('mtsconfPriestHoly_Dispels')", Dispell }},
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
@@ -155,9 +155,9 @@ local inCombat = {
 local inCombatSolo = {
 
   	-- Auto Target
-		{ "/target [target=focustarget, harm, nodead]", { "@mts_getConfig('mtsconfPriestHoly_AutoTargets')", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "@mts_getConfig('mtsconfPriestHoly_AutoTargets')", "!target.exists" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "@mts_getConfig('mtsconfPriestHoly_AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfPriestHoly_AutoTargets')", "target.range > 40" }}, -- Use Tank Target
+		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfPriestHoly_AutoTargets')", "!target.exists" }}, -- target enemire if no target
+		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfPriestHoly_AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 	
 	-- Mana
 		{ "123040", { "player.mana < 75","target.spell(123040).range" }, "target" }, --Mindbender
@@ -204,7 +204,7 @@ local outCombat = {
 		{ "21562", {"!player.buff(21562).any","!player.buff(588)"}}, -- Fortitude
 	
 	-- LoOk aT It GOoZ!!!
-		{ "121536", {"player.movingfor > 2", "@mts_getConfig('mtsconfPriestHoly_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestHoly_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 
 }
 

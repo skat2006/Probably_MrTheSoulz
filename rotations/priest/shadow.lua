@@ -51,7 +51,7 @@ local inCombat = {
         { "12064", "player.area(8).enemies > 3" }, -- Halo
         { "122121", "player.area(8).enemies > 3" }, --Divine Star
 
-    }, {"player.firehack", "@mts_getConfig('mtsconf_Firehack')"}},
+    }, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
 
   -- AoE
     { "48045", "modifier.multitarget", "target" }, -- Mind Sear

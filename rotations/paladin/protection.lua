@@ -26,7 +26,7 @@ local inCombat = {
 		{ "31801", {"player.seal != 1", "@mtsLib.Dropdown('Truth')"}, nil }, -- seal of truth
 
 	-- run fast
-		{ "85499", {"player.movingfor > 3", "@mts_getConfig('mtsconfPalaProt_Run')"} }, -- Speed of Light
+		{ "85499", {"player.movingfor > 3", "@mtsLib.getConfig('mtsconfPalaProt_Run')"} }, -- Speed of Light
 
 	-- keybinds
 		{ "105593", "modifier.control", "target" }, -- Fist of Justice
@@ -34,9 +34,9 @@ local inCombat = {
 		{ "114158", "modifier.shift", "target.ground" }, -- Light´s Hammer
 	
 	-- Auto Targets
-		{ "/target [target=focustarget, harm, nodead]", { "@mts_getConfig('mtsconfPalaProt_AutoTargets')", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "@mts_getConfig('mtsconfPalaProt_AutoTargets')", "!target.exists" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "@mts_getConfig('mtsconfPalaProt_AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfPalaProt_AutoTargets')", "target.range > 40" }}, -- Use Tank Target
+		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfPalaProt_AutoTargets')", "!target.exists" }}, -- target enemire if no target
+		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfPalaProt_AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 
 	-- Hands
 		--{ "6940", { "lowest.health <= 80", "!player.health <= 40" }, "lowest" }, -- Hand of Sacrifice
@@ -108,7 +108,7 @@ local outCombat = {
 		{ "31801", {"player.seal != 1", "@mtsLib.Dropdown('Truth')"}, nil }, -- seal of truth
 
 	-- run fast
-		{ "85499", {"player.movingfor > 3", "@mts_getConfig('mtsconfPalaProt_Run')"} }, -- Speed of Light
+		{ "85499", {"player.movingfor > 3", "@mtsLib.getConfig('mtsconfPalaProt_Run')"} }, -- Speed of Light
 
 }
 

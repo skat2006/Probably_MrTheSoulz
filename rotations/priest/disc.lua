@@ -60,15 +60,15 @@ local inCombat = {
 		{ "109964", "modifier.lshift" }, --Spirit Shell
 
 	-- Auto Targets
-		{ "/target [target=focustarget, harm, nodead]", { "@mts_getConfig('mtsconfPriestDisc_AutoTargets')", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "@mts_getConfig('mtsconfPriestDisc_AutoTargets')", "!target.exists" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "@mts_getConfig('mtsconfPriestDisc_AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfPriestDisc_AutoTargets')", "target.range > 40" }}, -- Use Tank Target
+		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfPriestDisc_AutoTargets')", "!target.exists" }}, -- target enemire if no target
+		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfPriestDisc_AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 
    	-- buffs
 		{ "81700", "player.buff(81661).count = 5" },--Archangel
 	
 	-- LoOk aT It GOoZ!!! // Needs to add tank...
-		{ "121536", {"player.movingfor > 2", "@mts_getConfig('mtsconfPriestDisc_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestDisc_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 	
 	-- Mouse Over
 		{ "139", { "toggle.mouseOver", "!mouseover.buff" }, "mouseover" }, --renew
@@ -93,7 +93,7 @@ local inCombat = {
 	 	{ "527", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Torment')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-	 	{ "527", {"@mts_getConfig('mtsconfPriestDisc_Dispels')", Dispell}},
+	 	{ "527", {"@mtsLib.getConfig('mtsconfPriestDisc_Dispels')", Dispell}},
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
@@ -146,16 +146,16 @@ local inCombat = {
 local inCombatSolo = {
 
   	-- Auto Targets
-		{ "/target [target=focustarget, harm, nodead]", { "@mts_getConfig('mtsconfPriestDisc_AutoTargets')", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "@mts_getConfig('mtsconfPriestDisc_AutoTargets')", "!target.exists" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "@mts_getConfig('mtsconfPriestDisc_AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfPriestDisc_AutoTargets')", "target.range > 40" }}, -- Use Tank Target
+		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfPriestDisc_AutoTargets')", "!target.exists" }}, -- target enemire if no target
+		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfPriestDisc_AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 	
 	-- Mana
 		{ "123040", { "player.mana < 75","target.spell(123040).range" }, "target" }, --Mindbender
 		{ "34433", { "player.mana < 75", "target.spell(34433).range" }, "target" }, --Shadowfiend
 
 	-- LoOk aT It GOoZ!!!
-		{ "121536", {"player.movingfor > 2", "@mts_getConfig('mtsconfPriestDisc_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestDisc_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 
 	-- Heal
 		{ "17", { "!player.debuff(6788).any", "!player.buff(17).any", "player.health <= 60" }}, --Power Word Shield
@@ -197,7 +197,7 @@ local outCombat = {
 		{ "81700", "player.buff(81661).count = 5", "player.buff(81661).duration < 5" },--Archangel
 	
 	-- LoOk aT It GOoZ!!!
-		{ "121536", {"player.movingfor > 2", "@mts_getConfig('mtsconfPriestDisc_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestDisc_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 
 }
 
