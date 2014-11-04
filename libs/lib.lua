@@ -103,18 +103,18 @@ end)
 -- Check Keys
 function mtsLib.getConfig(key)
 	local _Config = ProbablyEngine.config
- 	if _Config == nil then
+ 	if _Config.read(key) == nil then
 		mts_ClassGUI()
-		ProbablyEngine.interface.buildGUI(mts_config)
+		mts_BuildGUI(mts_config)
 	else return _Config.read(key) end
 end
 
 -- Check Keys Global...
 function mts_getConfig(key)
 	local _Config = ProbablyEngine.config
- 	if _Config == nil then
+ 	if _Config.read(key) == nil then
 		mts_ClassGUI()
-		ProbablyEngine.interface.buildGUI(mts_config)
+		mts_BuildGUI(mts_config)
 	else return _Config.read(key) end
 end
 
