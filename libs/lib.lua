@@ -9,14 +9,21 @@ local mtsLib = {}
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
 local mts_BuildGUI = ProbablyEngine.interface.buildGUI
-local windowRef
-local mts_ShowingConfigWindow = false
-local mts_ShowingClassWindow = false
-local mts_ShowingInfoWindow = false
-local mts_ShowingLive = false
-local mts_LiveUpdating = false
 
-mts_Version = "0.11.23"
+local ConfigWindow
+local classWindow
+local InfoWindow
+
+local mts_OpenConfigWindow = false
+local mts_ShowingConfigWindow = false
+
+local mts_OpenClassWindow = false
+local mts_ShowingClassWindow = false
+
+local mts_OpenInfoWindow = false
+local mts_ShowingInfoWindow = false
+
+mts_Version = "0.11.24"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
@@ -122,63 +129,79 @@ function mts_getConfig(key)
 	local _Config = ProbablyEngine.config
  	if _Config.read(key) == nil then
 		mts_ClassGUI()
-		mts_BuildGUI(mts_config)
+		mts_ConfigGUI()
 		print('Error in key:'..key)
 	else return _Config.read(key) end
 end
 
-
-
 function mts_ConfigGUI()
-	if not mts_ShowingConfigWindow then
-		windowRef = ProbablyEngine.interface.buildGUI(mts_config)
+	if not mts_OpenConfigWindow then
+		ConfigWindow = ProbablyEngine.interface.buildGUI(mts_config)
 		-- This is so the window isn't opened twice :D
+		mts_OpenConfigWindow = true
 		mts_ShowingConfigWindow = true
-		windowRef.parent:SetEventListener('OnClose', function()
+		ConfigWindow.parent:SetEventListener('OnClose', function()
+			mts_OpenConfigWindow = false
 			mts_ShowingConfigWindow = false
 		end)
+	
+	elseif mts_OpenConfigWindow == true and mts_ShowingConfigWindow == true then
+		ConfigWindow.parent:Hide()
+		mts_ShowingConfigWindow = false
+	
+	elseif mts_OpenConfigWindow == true and mts_ShowingConfigWindow == false then
+		ConfigWindow.parent:Show()
+		mts_ShowingConfigWindow = true
+	
 	end
 end
 
 function mts_ClassGUI()
-	if not mts_ShowingClassWindow then
-		windowRef = mts_ClassGUIGet()
+	if not mts_OpenClassWindow then
+		ClassWindow = mtsLib.ClassGUIGet()
 		-- This is so the window isn't opened twice :D
+		mts_OpenClassWindow = true
 		mts_ShowingClassWindow = true
-		windowRef.parent:SetEventListener('OnClose', function()
+		ClassWindow.parent:SetEventListener('OnClose', function()
+			mts_OpenClassWindow = false
 			mts_ShowingClassWindow = false
 		end)
+	
+	elseif mts_OpenClassWindow == true and mts_ShowingClassWindow == true then
+		ClassWindow.parent:Hide()
+		mts_ShowingClassWindow = false
+	
+	elseif mts_OpenClassWindow == true and mts_ShowingClassWindow == false then
+		ClassWindow.parent:Show()
+		mts_ShowingClassWindow = true
+	
 	end
 end
 
 function mts_InfoGUI()
-	if not mts_ShowingInfoWindow then
-		windowRef = ProbablyEngine.interface.buildGUI(mts_info)
+	if not mts_OpenInfoWindow then
+		InfoWindow = ProbablyEngine.interface.buildGUI(mts_info)
 		-- This is so the window isn't opened twice :D
+		mts_OpenInfoWindow = true
 		mts_ShowingInfoWindow = true
-		windowRef.parent:SetEventListener('OnClose', function()
+		InfoWindow.parent:SetEventListener('OnClose', function()
+			mts_OpenInfoWindow = false
 			mts_ShowingInfoWindow = false
 		end)
-	end
-end
-
-function mts_showLive()
-	if not mts_ShowingLive and mts_getConfig('mtsconf_LiveGUI') then
-		windowRef = ProbablyEngine.interface.buildGUI(mts_live)
-		-- This is so the window isn't opened twice :D
-		mts_ShowingLive = true
-		windowRef.parent:SetEventListener('OnClose', function()
-			mts_ShowingLive = false
-		end)
-		if not mts_LiveUpdating then
-			mts_LiveUpdating = true
-			C_Timer.NewTicker(0.01, mts_updateLiveGUI, nil)
-		end
+	
+	elseif mts_OpenInfoWindow == true and mts_ShowingInfoWindow == true then
+		InfoWindow.parent:Hide()
+		mts_ShowingInfoWindow = false
+	
+	elseif mts_OpenInfoWindow == true and mts_ShowingInfoWindow == false then
+		InfoWindow.parent:Show()
+		mts_ShowingInfoWindow = true
+	
 	end
 end
 
 -- Checks what GUI to call for what class
-function mts_ClassGUIGet()
+function mtsLib.ClassGUIGet()
 local _SpecID =  GetSpecializationInfo(GetSpecialization())
 	
 	if _SpecID == 250 then -- DK Blood
