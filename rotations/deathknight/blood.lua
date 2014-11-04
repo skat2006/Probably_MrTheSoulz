@@ -68,7 +68,7 @@ local inCombat = {
 		{ "#5512", "player.health < 70"}, --healthstone
 
 	-- Def cooldowns // heals
-		{ "48792", "@mtsLib.Compare('health',mtsconfDkBlood_IceboundFortitude','player')", "player')" }, -- Icebound Fortitude
+		{ "48792", "@mtsLib.Compare('health','mtsconfDkBlood_IceboundFortitude','player')", "player')" }, -- Icebound Fortitude
 		{ "55233", "@mtsLib.Compare('health','mtsconfDkBlood_VampiricBlood','player')" }, -- Vampiric Blood
 		{ "48743", "@mtsLib.Compare('health','mtsconfDkBlood_DeathPact','player')" }, -- Death Pact
 		{ "49039", { "player.state.fear", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //fear

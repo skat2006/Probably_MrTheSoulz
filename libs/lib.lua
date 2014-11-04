@@ -120,7 +120,7 @@ function mtsLib.getConfig(key)
  	if _Config.read(key) == nil then
 		mts_ClassGUI()
 		mts_BuildGUI(mts_config)
-		print('Error in key:'..key)
+		print('|cFFB30000[MTS]|r Error in key: '..key)
 	else return _Config.read(key) end
 end
 
@@ -130,7 +130,7 @@ function mts_getConfig(key)
  	if _Config.read(key) == nil then
 		mts_ClassGUI()
 		mts_ConfigGUI()
-		print('Error in key:'..key)
+		print('|cFFB30000[MTS]|r Error in key: '..key)
 	else return _Config.read(key) end
 end
 
@@ -258,7 +258,12 @@ end
 
 -- Compare stuff with GUIs
 function mtsLib.Compare(txt, key, unit)
-	return ProbablyEngine.condition[txt](unit) <= mtsLib.getConfig(key)
+	local _Config = ProbablyEngine.config
+ 	if _Config.read(key) == nil then
+		mts_ClassGUI()
+		mts_ConfigGUI()
+		print('|cFFB30000[MTS]|r Error in key: '..key)
+	else return ProbablyEngine.condition[txt](unit) <= _Config.read(key) end
 end
 
 -- !Testing! to cancel targets
