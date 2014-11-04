@@ -67,11 +67,11 @@ end
 
 function mts_AoEState()
 	if FireHack and mts_getConfig('mtsconf_Firehack') then
-		if mts_getConfig('button_states', 'multitarget', false) then
+		if ProbablyEngine.config.read('button_states', 'multitarget', false) then
 			return ("\124cff0070DEForced")
 		end
 	  return ("\124cff0070DESmart AoE")
-	elseif mts_getConfig('button_states', 'multitarget', false) then
+	elseif ProbablyEngine.config.read('button_states', 'multitarget', false) then
 			return ("\124cff0070DEON")
 	else
 		return ("\124cffC41F3BOFF") 
@@ -79,13 +79,13 @@ function mts_AoEState()
 end
 
 function mts_KickState()
-	if mts_getConfig('button_states', 'interrupt', false) then
+	if ProbablyEngine.config.read('button_states', 'interrupt', false) then
 		return ("\124cff0070DEON")
 	else return ("\124cffC41F3BOFF") end
 end
 
 function mts_CdState()
-	if mts_getConfig('button_states', 'cooldowns', false) then
+	if ProbablyEngine.config.read('button_states', 'cooldowns', false) then
 		return ("\124cff0070DEON")
 	else return ("\124cffC41F3BOFF") end
 end
