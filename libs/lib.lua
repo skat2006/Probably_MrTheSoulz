@@ -9,7 +9,14 @@ local mtsLib = {}
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
 local mts_BuildGUI = ProbablyEngine.interface.buildGUI
-mts_Version = "0.11.22"
+local windowRef
+local mts_ShowingConfigWindow = false
+local mts_ShowingClassWindow = false
+local mts_ShowingInfoWindow = false
+local mts_ShowingLive = false
+local mts_LiveUpdating = false
+
+mts_Version = "0.11.23"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
@@ -80,12 +87,12 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 
     -- Displays General GUI
     if command == 'config' then
-    	mts_BuildGUI(mts_config)
+    	mts_ConfigGUI()
     end
 
    -- Displays LiveGUI
     if command == 'gui' then
-    	mts_BuildGUI(mts_live)
+    	mts_showLive()
     end
 
     -- Displays Class GUI
@@ -95,7 +102,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 
 	-- Displays Help GUI
 	if command == 'help' or command == 'info' or command == '?' then
-		mts_BuildGUI(mts_info)
+		mts_InfoGUI()
 	end
 
 end)
@@ -120,8 +127,58 @@ function mts_getConfig(key)
 	else return _Config.read(key) end
 end
 
--- Checks what GUI to call for what class
+
+
+function mts_ConfigGUI()
+	if not mts_ShowingConfigWindow then
+		windowRef = ProbablyEngine.interface.buildGUI(mts_config)
+		-- This is so the window isn't opened twice :D
+		mts_ShowingConfigWindow = true
+		windowRef.parent:SetEventListener('OnClose', function()
+			mts_ShowingConfigWindow = false
+		end)
+	end
+end
+
 function mts_ClassGUI()
+	if not mts_ShowingClassWindow then
+		windowRef = mts_ClassGUIGet()
+		-- This is so the window isn't opened twice :D
+		mts_ShowingClassWindow = true
+		windowRef.parent:SetEventListener('OnClose', function()
+			mts_ShowingClassWindow = false
+		end)
+	end
+end
+
+function mts_InfoGUI()
+	if not mts_ShowingInfoWindow then
+		windowRef = ProbablyEngine.interface.buildGUI(mts_info)
+		-- This is so the window isn't opened twice :D
+		mts_ShowingInfoWindow = true
+		windowRef.parent:SetEventListener('OnClose', function()
+			mts_ShowingInfoWindow = false
+		end)
+	end
+end
+
+function mts_showLive()
+	if not mts_ShowingLive and mts_getConfig('mtsconf_LiveGUI') then
+		windowRef = ProbablyEngine.interface.buildGUI(mts_live)
+		-- This is so the window isn't opened twice :D
+		mts_ShowingLive = true
+		windowRef.parent:SetEventListener('OnClose', function()
+			mts_ShowingLive = false
+		end)
+		if not mts_LiveUpdating then
+			mts_LiveUpdating = true
+			C_Timer.NewTicker(0.01, mts_updateLiveGUI, nil)
+		end
+	end
+end
+
+-- Checks what GUI to call for what class
+function mts_ClassGUIGet()
 local _SpecID =  GetSpecializationInfo(GetSpecialization())
 	
 	if _SpecID == 250 then -- DK Blood

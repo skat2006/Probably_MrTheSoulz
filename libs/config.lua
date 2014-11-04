@@ -41,18 +41,18 @@ local mts_live = {
 		-- General GUI
 		{ type = "button", text = "General Settings", width = 180, height = 20,
 			callback = function()
-				ProbablyEngine.interface.buildGUI(mts_config)
+				mts_ConfigGUI()
 			end},
 
 		-- Info GUI
 		{ type = "button", text = "Information", width = 180, height = 20,
 			callback = function()
-				ProbablyEngine.interface.buildGUI(mts_info)
+				mts_InfoGUI()
 			end},
 
 	}
 }
- 
+
 local windowRef
 
 function mts_QueueState()
@@ -90,36 +90,30 @@ function mts_CdState()
 	else return ("\124cffC41F3BOFF") end
 end
 
+local mts_ShowingLive = false
+local mts_LiveUpdating = false
+
+function mts_showLive()
+	if not mts_ShowingLive and mts_getConfig('mtsconf_LiveGUI') then
+		windowRef = ProbablyEngine.interface.buildGUI(mts_live)
+		-- This is so the window isn't opened twice :D
+		mts_ShowingLive = true
+		windowRef.parent:SetEventListener('OnClose', function()
+			mts_ShowingLive = false
+		end)
+		if not mts_LiveUpdating then
+			mts_LiveUpdating = true
+			C_Timer.NewTicker(0.01, mts_updateLiveGUI, nil)
+		end
+	end
+end
+
 function mts_updateLiveGUI()
 	windowRef.elements.current_Queue:SetText(mts_QueueState())
 	windowRef.elements.current_spell:SetText(mts_LastCastState())
 	windowRef.elements.current_AoE:SetText(mts_AoEState())
 	windowRef.elements.current_Interrupts:SetText(mts_KickState())
 	windowRef.elements.current_Cooldowns:SetText(mts_CdState())
-end
-
-local mts_ShowingLive = false
-local mts_LiveUpdating = false
-
-function mts_showLive()
-
-	if not mts_ShowingLive and mts_getConfig('mtsconf_LiveGUI') then
-
-		windowRef = ProbablyEngine.interface.buildGUI(mts_live)
-
-		-- This is so the window isn't opened twice :D
-		mts_ShowingLive = true
-		windowRef.parent:SetEventListener('OnClose', function()
-			mts_ShowingLive = false
-		end)
-
-		if not mts_LiveUpdating then
-			mts_LiveUpdating = true
-			C_Timer.NewTicker(0.01, mts_updateLiveGUI, nil)
-		end
-
-	end
-	
 end
 
 
@@ -131,7 +125,7 @@ mts_info = {
 	subtitle = "General Settings",
 	color = "9482C9",
 	width = 500,
-	height = 500,
+	height = 350,
 	config = {
 		{ type = 'header',text = 'MrTheSoulz Pack'},
 		{ type = 'rule' },
