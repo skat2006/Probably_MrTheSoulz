@@ -26,7 +26,7 @@ local inCombat = {
 		{ "31801", {"player.seal != 1", "@mtsLib.Dropdown('Truth')"}, nil }, -- seal of truth
 
 	-- run fast
-		{ "85499", {"player.movingfor > 3", "@mtsLib.getConfig('mtsconfPalaProt_Run')"} }, -- Speed of Light
+		{ "85499", {"player.movingfor > 3", "@mtsLib.getConfig('mtsconfPalaProt_RunFaster')"} }, -- Speed of Light
 
 	-- keybinds
 		{ "105593", "modifier.control", "target" }, -- Fist of Justice
@@ -108,7 +108,7 @@ local outCombat = {
 		{ "31801", {"player.seal != 1", "@mtsLib.Dropdown('Truth')"}, nil }, -- seal of truth
 
 	-- run fast
-		{ "85499", {"player.movingfor > 3", "@mtsLib.getConfig('mtsconfPalaProt_Run')"} }, -- Speed of Light
+		{ "85499", {"player.movingfor > 3", "@mtsLib.getConfig('mtsconfPalaProt_RunFaster')"} }, -- Speed of Light
 
 }
 

@@ -106,6 +106,7 @@ function mtsLib.getConfig(key)
  	if _Config.read(key) == nil then
 		mts_ClassGUI()
 		mts_BuildGUI(mts_config)
+		print('Error in key:'..key)
 	else return _Config.read(key) end
 end
 
@@ -115,6 +116,7 @@ function mts_getConfig(key)
  	if _Config.read(key) == nil then
 		mts_ClassGUI()
 		mts_BuildGUI(mts_config)
+		print('Error in key:'..key)
 	else return _Config.read(key) end
 end
 
