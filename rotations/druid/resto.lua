@@ -43,6 +43,7 @@ end
 local exeOnLoad = function()
 
 	mtsStart:message("\124cff9482C9*MrTheSoulz - \124cffFF7D0ADruid/Restoration \124cff9482C9Loaded*")
+	mts_showLive()
 	
 end	
 

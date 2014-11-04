@@ -8,6 +8,7 @@ MTS
 local exeOnLoad = function()
 
 	mtsStart:message("\124cff9482C9*MTS-\124cffFF7D0ADruid/Feral-\124cff9482C9Loaded*")
+	mts_showLive()
 	
 end
 
@@ -64,7 +65,8 @@ local inCombat = {
 			"!player.buff(1126).any",   -- Mark of the Wild
 			"!player.buff(90363).any",  -- embrace of the Shale Spider
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
-  			"!player.buff(5215)" }},-- Not in Stealth
+  			"!player.buff(5215)",-- Not in Stealth
+  			 "@mtsLib.getConfig('mtsconfDruidFeral_Cat')"}},
 		{ "1126", {  -- Mark of the Wild
 			"!player.buff(20217).any", -- kings
 			"!player.buff(115921).any", -- Legacy of the Emperor
@@ -72,12 +74,14 @@ local inCombat = {
 			"!player.buff(90363).any",  -- embrace of the Shale Spider
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
 			"!player.buff(5215)",-- Not in Stealth
-			"player.form = 0" }}, -- Player not in form
+			"player.form = 0", -- Player not in form
+			"@mtsLib.getConfig('mtsconfDruidFeral_Buffs')"}}, 
   		{ "768", { -- catform
   			"player.form != 2", -- Stop if cat
   			"!modifier.lalt", -- Stop if pressing left alt
-  			"!player.buff(5215)"}}, -- Not in Stealth
-  	},"@mtsLib.getConfig('mtsconfDruidFeral_Buffs')"},
+  			"!player.buff(5215)", -- Not in Stealth
+  			"@mtsLib.getConfig('mtsconfDruidFeral_Cat')"}},
+  	}},
 
   	-- buffs
   		{ "52610", { "!player.buff(52610)", "!player.buff(174544)", "player.combopoints <= 2" }, "target"}, -- Savage Roar
@@ -142,28 +146,29 @@ local outCombat = {
 	  	{ "Mass Entanglement", "modifier.shift" },
 
 	-- buff
-		{{-- Cat ANd MotW
-			{ "/cancelaura Cat Form", { -- Cancel player form
-	  			"player.form > 0",  -- Is in any fom
-	  			"!player.buff(20217).any", -- kings
-				"!player.buff(115921).any", -- Legacy of the Emperor
-				"!player.buff(1126).any",   -- Mark of the Wild
-				"!player.buff(90363).any",  -- embrace of the Shale Spider
-				"!player.buff(69378).any",  -- Blessing of Forgotten Kings
-	  			"!player.buff(5215)"}}, -- Not in Stealth
-			{ "1126", {  -- Mark of the Wild
-				"!player.buff(20217).any", -- kings
-				"!player.buff(115921).any", -- Legacy of the Emperor
-				"!player.buff(1126).any",   -- Mark of the Wild
-				"!player.buff(90363).any",  -- embrace of the Shale Spider
-				"!player.buff(69378).any",  -- Blessing of Forgotten Kings
-				"!player.buff(5215)",-- Not in Stealth
-				"player.form = 0"}},  -- Player not in form
-			{ "768", { -- catform
-	  			"player.form != 2", -- Stop if cat
-	  			"!modifier.lalt", -- Stop if pressing left alt
-	  			"!player.buff(5215)"}}, -- Not in Stealth
-	  	}, "@mtsLib.getConfig('mtsconfDruidFeral_Buffs')" },
+		{ "/cancelaura Cat Form", { -- Cancel player form
+	  		"player.form > 0",  -- Is in any fom
+	  		"!player.buff(20217).any", -- kings
+			"!player.buff(115921).any", -- Legacy of the Emperor
+			"!player.buff(1126).any",   -- Mark of the Wild
+			"!player.buff(90363).any",  -- embrace of the Shale Spider
+			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
+	  		"!player.buff(5215)", -- Not in Stealt
+	  		"@mtsLib.getConfig('mtsconfDruidFeral_CatOOC')" }},
+		{ "1126", {  -- Mark of the Wild
+			"!player.buff(20217).any", -- kings
+			"!player.buff(115921).any", -- Legacy of the Emperor
+			"!player.buff(1126).any",   -- Mark of the Wild
+			"!player.buff(90363).any",  -- embrace of the Shale Spider
+			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
+			"!player.buff(5215)",-- Not in Stealth
+			"player.form = 0",  -- Player not in form
+			"@mtsLib.getConfig('mtsconfDruidFeral_Buffs')" }},
+		{ "768", { -- catform
+	  		"player.form != 2", -- Stop if cat
+	  		"!modifier.lalt", -- Stop if pressing left alt
+	  		"!player.buff(5215)",-- Not in Stealth
+	  		"@mtsLib.getConfig('mtsconfDruidFeral_CatOOC')"}}, 
   		{ "5215", { -- Stealth
   			"player.form = 2", -- If cat
   			"!player.buff(5215)", -- Not in Stealth

@@ -4,6 +4,7 @@ local lib = function()
   ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist,')
   ProbablyEngine.toggle.create('mouseoverdots', 'Interface\\Icons\\INV_Helmet_131.png', 'Mouseoverd Doting', 'Mouseover to to anything thats not doted.')
   mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Shadow\124cff9482C9-Loaded*")
+  mts_showLive()
 
 end
 

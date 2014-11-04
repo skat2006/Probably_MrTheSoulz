@@ -9,8 +9,7 @@ local mtsLib = {}
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
 local mts_BuildGUI = ProbablyEngine.interface.buildGUI
-mts_Version = "0.11.20"
-mtsLib.getConfig = ProbablyEngine.config.read
+mts_Version = "0.11.21"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
@@ -101,6 +100,11 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 
 end)
 
+-- Check Keys
+function mtsLib.getConfig(key, default)
+	return ProbablyEngine.config.read(key, default)
+end
+
 -- Checks what GUI to call for what class
 function mts_ClassGUI()
 local _SpecID =  GetSpecializationInfo(GetSpecialization())
@@ -124,18 +128,42 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 	if _SpecID == 256 then -- Priest Disc
 		return mts_BuildGUI(mts_configPriestDisc)
 	end
+
+	if _SpecID == 66 then -- Pala Prot
+		return mts_BuildGUI(mts_configPalaProt)
+	end
+end
+
+function mtsLib.Dropdown(txt)
+local _seal = mtsLib.getConfig("mtsconfPalaProt_seal")
+local _palabuff = mtsLib.getConfig("mtsconfPalaProt_Buff")
+	if _seal == 'Insight' and txt == 'Insight' 
+	or _seal == 'Righteousness'and txt == 'Righteousness'
+	or _seal == 'Truth' and txt == 'Truth'
+	or _palabuff == 'Kings'and txt == 'Kings'
+	or _palabuff == 'Might' and txt == 'Might' then
+		return true
+	else return false end
+end
+
+-- Compare keybinds with names
+function mtsLib.CompareKeybind(txt, key)
+	if txt == 'alt'	then
+		return IsAltKeyDown() and not GetCurrentKeyBoardFocus() and mtsLib.getConfig("altKeyAction") == key
+	end
+
+	if txt == 'shift' then
+		return IsShiftKeyDown() and not GetCurrentKeyBoardFocus() and mtsLib.getConfig("shiftKeyAction") == key
+	end
+
+	if txt == 'control' then
+		return IsControlKeyDown() and not GetCurrentKeyBoardFocus() and mtsLib.getConfig("controlKeyAction") == key
+	end
 end
 
 -- Compare stuff with GUIs
 function mtsLib.Compare(txt, key, unit)
-	
-	-- This forces it to create a GUI to save the keys so they can be compared..
-	if ProbablyEngine.condition[txt](unit) <= mtsLib.getConfig(key) == nil then
-		mts_ClassGUI()
-		mts_BuildGUI(mts_config)
-	else 
-		return ProbablyEngine.condition[txt](unit) <= mtsLib.getConfig(key) end
-
+	return ProbablyEngine.condition[txt](unit) <= mtsLib.getConfig(key)
 end
 
 -- !Testing! to cancel targets

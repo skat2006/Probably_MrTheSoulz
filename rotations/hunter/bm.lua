@@ -9,6 +9,7 @@ local lib = function()
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create('resspet', 'Interface\\Icons\\Inv_misc_head_tiger_01.png', 'Auto Ress Pet', 'Automatically ress your pet when it dies.')
 	mtsStart:message("\124cff9482C9*MTS-\124cffABD473Hunter/BM-\124cff9482C9Loaded*")
+	mts_showLive()
 	
 end
 

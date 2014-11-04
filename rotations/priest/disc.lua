@@ -44,6 +44,7 @@ local exeOnLoad = function()
 	ProbablyEngine.toggle.create( 'painSup', 'Interface\\Icons\\Spell_holy_painsupression.png', 'Pain Suppression', 'Toggle Enables Pain Suppression')
 	ProbablyEngine.toggle.create( 'mouseOver', 'Interface\\Icons\\Priest_spell_leapoffaith_a', 'MouseOver Heal', 'Toggle Mouse-Over Healing')
 	mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Disc\124cff9482C9-Loaded*")
+	mts_showLive()
 
 end
 
@@ -102,10 +103,10 @@ local inCombat = {
 		{ "2061", {"lowest.health < 100","player.buff(114255)","!player.moving"}, "lowest" }, -- Flash Heal
 
 	-- Flash Heal
-			{ "2061", {"@mtsLib.Compare('health','mtsconfPriestDisc_FlashHealTank','focus')", "focus.spell(2061).range","!player.moving"}, "focus" }, --Flash Heal
-			{ "2061", {"tank.health <= 40", "tank.spell(2061).range","!player.moving"}, "tank" }, --Flash Heal
-			{ "2061", {"@mtsLib.Compare('health','mtsconfPriestDisc_FlashHealPlayer','player')","!player.moving"}, "player" }, --Flash Heal
-			{ "2061", {"lowest.health <= 20","!player.moving"}, "lowest" }, --Flash Heal
+		{ "2061", {"@mtsLib.Compare('health','mtsconfPriestDisc_FlashHealTank','focus')", "focus.spell(2061).range","!player.moving"}, "focus" }, --Flash Heal
+		{ "2061", {"tank.health <= 40", "tank.spell(2061).range","!player.moving"}, "tank" }, --Flash Heal
+		{ "2061", {"@mtsLib.Compare('health','mtsconfPriestDisc_FlashHealPlayer','player')","!player.moving"}, "player" }, --Flash Heal
+		{ "2061", {"lowest.health <= 20","!player.moving"}, "lowest" }, --Flash Heal
 
 	-- AOE
    		-- Prayer of Healing

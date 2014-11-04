@@ -43,6 +43,7 @@ local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create( 'mouseOver', 'Interface\\Icons\\Priest_spell_leapoffaith_a', 'MouseOver Heal', 'Toggle Mouse-Over Healing')
 	mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Holy\124cff9482C9-Loaded*")
+	mts_showLive()
 
 end
 

@@ -23,6 +23,7 @@ local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create("DRW", "Interface\\Icons\\INV_Sword_07", "Stop using Dancing Rune Weapon", "Toggle Off if you dont want to use DRW on CD")
 	mtsStart:message("\124cff9482C9*MTS-\124cffC41F3BDeathKnight/Blood\124cff9482C9-Loaded*")
+	mts_showLive()
 
 end
 
