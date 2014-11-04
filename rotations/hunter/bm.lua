@@ -68,7 +68,7 @@ local inCombat = {
 				{"2643","player.area(35).enemies > 4", "target"}, -- Multi-Shot
 				{"13813", nil, "target.ground"}, --Explosive Trap
 
-		}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+		}, {"player.firehack", "@mts_getConfig('mtsconf_Firehack')"}},
 
 
 		-- aoe fallback

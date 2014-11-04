@@ -75,7 +75,7 @@ local inCombat = {
 		{ "88423", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 		{ "88423", "@coreHealing.needsDispelled('Torment')", nil },
 		{ "88423", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{ "88423", {"@mtsLib.getConfig('mtsconfDruidResto_Dispels')", Dispell }},
+		{ "88423", {"@mts_getConfig('mtsconfDruidResto_Dispels')", Dispell }},
 
 	-- Cooldowns
 		{ "29166", { "player.mana < 80", "modifier.cooldowns"}, "player" }, -- Inervate

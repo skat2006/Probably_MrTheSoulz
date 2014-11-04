@@ -42,7 +42,7 @@ local inCombat = {
       { "1449", "target.area(10).enemies >= 5" },--Arcane Explosion
       { "120", "target.area(10).enemies >= 5" },--Cone of Cold
 
-  }, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+  }, {"player.firehack", "@mts_getConfig('mtsconf_Firehack')"}},
 
   -- AoE
     { "1449", "modifier.multitarget"},--Arcane Explosion

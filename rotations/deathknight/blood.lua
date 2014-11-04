@@ -55,9 +55,9 @@ local inCombat = {
 		{ "49222", "!player.buff(49222)" }, -- bone shield
 
 	-- Auto Targets
-		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfDkBlood_AutoTargets')", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfDkBlood_AutoTargets')", "!target.exists" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfDkBlood_AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+		{ "/target [target=focustarget, harm, nodead]", { "@mts_getConfig('mtsconfDkBlood_AutoTargets')", "target.range > 40" }}, -- Use Tank Target
+		{ "/targetenemy [noexists]", { "@mts_getConfig('mtsconfDkBlood_AutoTargets')", "!target.exists" }}, -- target enemire if no target
+		{ "/targetenemy [dead]", { "@mts_getConfig('mtsconfDkBlood_AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 
 	-- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
@@ -121,7 +121,7 @@ local inCombat = {
 		-- AoE smart
 			{ "50842","player.area(10).enemies > 4"}, -- Blood Boil
 
-	}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+	}, {"player.firehack", "@mts_getConfig('mtsconf_Firehack')"}},
 
 	-- AoE
 		{ "50842",	{"modifier.multitarget","target.range <= 10" }}, -- Blood Boil
@@ -156,7 +156,7 @@ local outCombat = {
 		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 
 	-- Buffs
-		{ "48265", { "player.seal != 3", "@mtsLib.getConfig('mtsconfDkBlood_RunFaster')" }}, -- unholy // moves faster out of combat...
+		{ "48265", { "player.seal != 3", "@mts_getConfig('mtsconfDkBlood_RunFaster')" }}, -- unholy // moves faster out of combat...
 		{ "49222", "!player.buff(49222)" }, -- bone shield
 		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
 

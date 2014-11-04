@@ -43,9 +43,9 @@ local inCombat = {
 	  	{ "Mass Entanglement", "modifier.shift" },
 
   	-- Auto Targets
-		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfDruidFeral_AutoTarget')", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfDruidFeral_AutoTarget')", "!target.exists" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfDruidFeral_AutoTarget')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+		{ "/target [target=focustarget, harm, nodead]", { "@mts_getConfig('mtsconfDruidFeral_AutoTarget')", "target.range > 40" }}, -- Use Tank Target
+		{ "/targetenemy [noexists]", { "@mts_getConfig('mtsconfDruidFeral_AutoTarget')", "!target.exists" }}, -- target enemire if no target
+		{ "/targetenemy [dead]", { "@mts_getConfig('mtsconfDruidFeral_AutoTarget')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 
   	-- Survival
 	  	{ "Renewal", "@mtsLib.Compare('health','mtsconfDruidFeral_Renewal','player')" }, -- Renewal
@@ -66,7 +66,7 @@ local inCombat = {
 			"!player.buff(90363).any",  -- embrace of the Shale Spider
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
   			"!player.buff(5215)",-- Not in Stealth
-  			 "@mtsLib.getConfig('mtsconfDruidFeral_Cat')"}},
+  			 "@mts_getConfig('mtsconfDruidFeral_Cat')"}},
 		{ "1126", {  -- Mark of the Wild
 			"!player.buff(20217).any", -- kings
 			"!player.buff(115921).any", -- Legacy of the Emperor
@@ -75,12 +75,12 @@ local inCombat = {
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
 			"!player.buff(5215)",-- Not in Stealth
 			"player.form = 0", -- Player not in form
-			"@mtsLib.getConfig('mtsconfDruidFeral_Buffs')"}}, 
+			"@mts_getConfig('mtsconfDruidFeral_Buffs')"}}, 
   		{ "768", { -- catform
   			"player.form != 2", -- Stop if cat
   			"!modifier.lalt", -- Stop if pressing left alt
   			"!player.buff(5215)", -- Not in Stealth
-  			"@mtsLib.getConfig('mtsconfDruidFeral_Cat')"}},
+  			"@mts_getConfig('mtsconfDruidFeral_Cat')"}},
   	}},
 
   	-- buffs
@@ -103,7 +103,7 @@ local inCombat = {
 			{ "106785", "player.area(8).enemies >= 4" }, -- Swipe // FireHack
 			{ "106830", "player.area(8).enemies >= 4", "target" }, -- Tharsh
 
-	}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+	}, {"player.firehack", "@mts_getConfig('mtsconf_Firehack')"}},
 
 
 	-- AoE
@@ -154,7 +154,7 @@ local outCombat = {
 			"!player.buff(90363).any",  -- embrace of the Shale Spider
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
 	  		"!player.buff(5215)", -- Not in Stealt
-	  		"@mtsLib.getConfig('mtsconfDruidFeral_CatOOC')" }},
+	  		"@mts_getConfig('mtsconfDruidFeral_CatOOC')" }},
 		{ "1126", {  -- Mark of the Wild
 			"!player.buff(20217).any", -- kings
 			"!player.buff(115921).any", -- Legacy of the Emperor
@@ -163,16 +163,16 @@ local outCombat = {
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
 			"!player.buff(5215)",-- Not in Stealth
 			"player.form = 0",  -- Player not in form
-			"@mtsLib.getConfig('mtsconfDruidFeral_Buffs')" }},
+			"@mts_getConfig('mtsconfDruidFeral_Buffs')" }},
 		{ "768", { -- catform
 	  		"player.form != 2", -- Stop if cat
 	  		"!modifier.lalt", -- Stop if pressing left alt
 	  		"!player.buff(5215)",-- Not in Stealth
-	  		"@mtsLib.getConfig('mtsconfDruidFeral_CatOOC')"}}, 
+	  		"@mts_getConfig('mtsconfDruidFeral_CatOOC')"}}, 
   		{ "5215", { -- Stealth
   			"player.form = 2", -- If cat
   			"!player.buff(5215)", -- Not in Stealth
-  			"@mtsLib.getConfig('mtsconfDruidFeral_Prowl')"}},
+  			"@mts_getConfig('mtsconfDruidFeral_Prowl')"}},
 
 }
 
