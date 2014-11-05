@@ -121,7 +121,7 @@ function mtsLib.getConfig(key)
 	local _Config = ProbablyEngine.config
  	if _Config.read(key) == nil and not mtsKeyError then
 		mts_ClassGUI()
-		mts_BuildGUI(mts_config)
+		mts_ConfigGUI()
 		mtsKeyError = true
 	elseif _Config.read(key) == nil and mtsKeyError and not mtsKeyError2 then
 		print('|cFFB30000[MTS]|r Error in key: '..key)
@@ -134,7 +134,7 @@ function mts_getConfig(key)
 	local _Config = ProbablyEngine.config
  	if _Config.read(key) == nil and not mtsKeyError then
 		mts_ClassGUI()
-		mts_BuildGUI(mts_config)
+		mts_ConfigGUI()
 		mtsKeyError = true
 	elseif _Config.read(key) == nil and mtsKeyError and not mtsKeyError2 then
 		print('|cFFB30000[MTS]|r Error in key: '..key)
