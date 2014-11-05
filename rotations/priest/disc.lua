@@ -202,7 +202,7 @@ local outCombat = {
 		{ "81700", "player.buff(81661).count = 5", "player.buff(81661).duration < 5" },--Archangel
 	
 	-- LoOk aT It GOoZ!!!
-		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestDisc_Featherst')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestDisc_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 
 }
 
