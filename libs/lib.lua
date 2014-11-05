@@ -8,15 +8,16 @@ MTS
 local mtsLib = {}
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
 local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541}
+
 local mts_BuildGUI = ProbablyEngine.interface.buildGUI
+local _CurrentSpec = nil
 
 local ConfigWindow
 local mts_OpenConfigWindow = false
 local mts_ShowingConfigWindow = false
 
-local classWindow
-local mts_OpenClassWindow = false
-local mts_ShowingClassWindow = false
+local _OpenClassWindow = false
+local _ShowingClassWindow = false
 
 local InfoWindow
 local mts_OpenInfoWindow = false
@@ -25,7 +26,9 @@ local mts_ShowingInfoWindow = false
 local mtsKeyError = false
 local mtsKeyError2 = false
 
-mts_Version = "0.11.27"
+
+
+mts_Version = "0.11.28"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
@@ -165,25 +168,48 @@ function mts_ConfigGUI()
 end
 
 function mts_ClassGUI()
-	if not mts_OpenClassWindow then
-		ClassWindow = mtsLib.ClassGUIGet()
-		-- This is so the window isn't opened twice :D
-		mts_OpenClassWindow = true
-		mts_ShowingClassWindow = true
-		ClassWindow.parent:SetEventListener('OnClose', function()
-			mts_OpenClassWindow = false
-			mts_ShowingClassWindow = false
-		end)
-	
-	elseif mts_OpenClassWindow == true and mts_ShowingClassWindow == true then
-		ClassWindow.parent:Hide()
-		mts_ShowingClassWindow = false
-	
-	elseif mts_OpenClassWindow == true and mts_ShowingClassWindow == false then
-		ClassWindow.parent:Show()
-		mts_ShowingClassWindow = true
-	
+local _SpecID =  GetSpecializationInfo(GetSpecialization())
+
+	-- Check wich spec the player is to return the currect window.	
+	if _SpecID == 250 and not _OpenClassWindow then -- DK Blood
+		_CurrentSpec = mts_BuildGUI(mts_configDkBlood)
+
+	elseif _SpecID == 103 and not _OpenClassWindow  then -- Druid Feral
+		_CurrentSpec = mts_BuildGUI(mts_configDruidFeral)
+
+	elseif _SpecID == 105 and not _OpenClassWindow  then -- Druid Resto
+		_CurrentSpec = mts_BuildGUI(mts_configDruidResto)
+
+	elseif _SpecID == 257 and not _OpenClassWindow  then -- Priest holy
+		_CurrentSpec = mts_BuildGUI(mts_configPriestHoly)
+
+	elseif _SpecID == 256 and not _OpenClassWindow  then -- Priest Disc
+		_CurrentSpec = mts_BuildGUI(mts_configPriestDisc)
+
+	elseif _SpecID == 66 and not _OpenClassWindow  then -- Pala Prot
+		_CurrentSpec = mts_BuildGUI(mts_configPalaProt)
 	end
+
+	-- If no window been created, create one...
+	if not _OpenClassWindow and _CurrentSpec ~= nil then
+		_OpenClassWindow = true
+		_ShowingClassWindow = true
+		_CurrentSpec.parent:SetEventListener('OnClose', function()
+			_OpenClassWindow = false
+			_ShowingClassWindow = false
+		end)
+
+	-- If a windows has been created and its showing then hide it...	
+	elseif _OpenClassWindow == true and _ShowingClassWindow == true then
+		_CurrentSpec.parent:Hide()
+		_ShowingClassWindow = false
+
+	-- If a windows has been created and its hidden then show it...		
+	elseif _OpenClassWindow == true and _ShowingClassWindow == false then
+		_CurrentSpec.parent:Show()
+		_ShowingClassWindow = true
+	end
+
 end
 
 function mts_InfoGUI()
@@ -205,35 +231,6 @@ function mts_InfoGUI()
 		InfoWindow.parent:Show()
 		mts_ShowingInfoWindow = true
 	
-	end
-end
-
--- Checks what GUI to call for what class
-function mtsLib.ClassGUIGet()
-local _SpecID =  GetSpecializationInfo(GetSpecialization())
-	
-	if _SpecID == 250 then -- DK Blood
-		return mts_BuildGUI(mts_configDkBlood)
-	end
-
-	if _SpecID == 103 then -- Druid Feral
-		return mts_BuildGUI(mts_configDruidFeral)
-	end
-
-	if _SpecID == 105 then -- Druid Resto
-		return mts_BuildGUI(mts_configDruidResto)
-	end
-
-	if _SpecID == 257 then -- Priest holy
-		return mts_BuildGUI(mts_configPriestHoly)
-	end
-
-	if _SpecID == 256 then -- Priest Disc
-		return mts_BuildGUI(mts_configPriestDisc)
-	end
-
-	if _SpecID == 66 then -- Pala Prot
-		return mts_BuildGUI(mts_configPalaProt)
 	end
 end
 
@@ -266,7 +263,8 @@ end
 
 -- Compare stuff with GUIs
 function mtsLib.Compare(txt, key, unit)
-	local _Config = ProbablyEngine.config
+local _Config = ProbablyEngine.config
+local mts_BuildGUI = ProbablyEngine.interface.buildGUI
  	if _Config.read(key) == nil and not mtsKeyError then
 		mts_ClassGUI()
 		mts_BuildGUI(mts_config)

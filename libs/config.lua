@@ -13,7 +13,7 @@ local mts_live = {
 	config = {
 
 		-- Current Spell
-		{ type = "text", text = "Queded: ", size = 11, offset = -13 },
+		{ type = "text", text = "Queued: ", size = 11, offset = -13 },
 		{ key = 'current_Queue', type = "text", text = "Random", size = 12, align = "right", offset = 1 },
 
 		-- Current Spell
