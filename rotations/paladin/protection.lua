@@ -26,7 +26,7 @@ local inCombat = {
 		{ "31801", {"player.seal != 1", "@mtsLib.Dropdown('Truth')"}, nil }, -- seal of truth
 
 	-- run fast
-		{ "85499", {"player.movingfor > 3", "@mtsLib.getConfig('mtsconfPalaProt_RunFaster')"} }, -- Speed of Light
+		{ "85499", {"player.movingfor > 3", "@mtsLib.getConfig('mtsconfPalaProt','RunFaster')"} }, -- Speed of Light
 
 	-- keybinds
 		{ "105593", "modifier.control", "target" }, -- Fist of Justice
@@ -34,9 +34,9 @@ local inCombat = {
 		{ "114158", "modifier.shift", "target.ground" }, -- Light´s Hammer
 	
 	-- Auto Targets
-		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfPalaProt_AutoTarget')", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfPalaProt_AutoTarget')", "!target.exists" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfPalaProt_AutoTarget')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfPalaProt','AutoTarget')", "target.range > 40" }}, -- Use Tank Target
+		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfPalaProt','AutoTarget')", "!target.exists" }}, -- target enemire if no target
+		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfPalaProt','AutoTarget')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 
 	-- Hands
 		--{ "6940", { "lowest.health <= 80", "!player.health <= 40" }, "lowest" }, -- Hand of Sacrifice
@@ -46,10 +46,10 @@ local inCombat = {
 		{ "96231", "modifier.interrupts", "target" }, -- Rebuke
 
 	-- Defensive Cooldowns
-		{ "20925", "@mtsLib.Compare('health','mtsconfPalaProt_SacredShield','player')", "player" }, -- Sacred Shield
-		{ "31850", "@mtsLib.Compare('health','mtsconfPalaProt_ArdentDefender','player')" }, --Ardent Defender
-		{ "498", "@mtsLib.Compare('health','mtsconfPalaProt_DivineProtection','player')" }, -- Divine Protection
-		{ "86659", "@mtsLib.Compare('health','mtsconfPalaProt_GuardianofAncientKings','player')" }, -- Guardian of Ancient Kings
+		{ "20925", "@mtsLib.Compare('health','mtsconfPalaProt','SacredShield','player')", "player" }, -- Sacred Shield
+		{ "31850", "@mtsLib.Compare('health','mtsconfPalaProt','ArdentDefender','player')" }, --Ardent Defender
+		{ "498", "@mtsLib.Compare('health','mtsconfPalaProt','DivineProtection','player')" }, -- Divine Protection
+		{ "86659", "@mtsLib.Compare('health','mtsconfPalaProt','GuardianofAncientKings','player')" }, -- Guardian of Ancient Kings
 
 	-- Cooldowns
 		{ "31884", "modifier.cooldowns" }, -- Avenging Wrath
@@ -58,10 +58,10 @@ local inCombat = {
 		{ "#gloves", "modifier.cooldowns" },
 		
 	-- Self Heal
-		{ "#5512", "@mtsLib.Compare('health','mtsconfPalaProt_Healthstone','player')" }, --Healthstone
-		{ "633", "@mtsLib.Compare('health','mtsconfPalaProt_LayonHands','player')","player"}, -- Lay on Hands
-		{ "114163", { "!player.buff(114163)", "player.buff(114637).count = 5", "player.holypower >= 3", "@mtsLib.Compare('health','mtsconfPalaProt_EternalFlame','player')" }, "player"}, -- Eternal Flame
-		{ "85673", { "player.buff(114637).count = 5", "player.holypower >= 3", "@mtsLib.Compare('health','mtsconfPalaProt_WordofGlory','player')" }, "player" },-- Word of Glory
+		{ "#5512", "@mtsLib.Compare('health','mtsconfPalaProt','Healthstone','player')" }, --Healthstone
+		{ "633", "@mtsLib.Compare('health','mtsconfPalaProt','LayonHands','player')","player"}, -- Lay on Hands
+		{ "114163", { "!player.buff(114163)", "player.buff(114637).count = 5", "player.holypower >= 3", "@mtsLib.Compare('health','mtsconfPalaProt','EternalFlame','player')" }, "player"}, -- Eternal Flame
+		{ "85673", { "player.buff(114637).count = 5", "player.holypower >= 3", "@mtsLib.Compare('health','mtsconfPalaProt','WordofGlory','player')" }, "player" },-- Word of Glory
 
 	-- Procs
 		{ "31935", { "modifier.multitarget", "player.buff(Grand Crusader)" }, "target" }, -- Avenger's Shield
@@ -108,7 +108,7 @@ local outCombat = {
 		{ "31801", {"player.seal != 1", "@mtsLib.Dropdown('Truth')"}, nil }, -- seal of truth
 
 	-- run fast
-		{ "85499", {"player.movingfor > 3", "@mtsLib.getConfig('mtsconfPalaProt_RunFaster')"} }, -- Speed of Light
+		{ "85499", {"player.movingfor > 3", "@mtsLib.getConfig('mtsconfPalaProt','RunFaster')"} }, -- Speed of Light
 
 }
 

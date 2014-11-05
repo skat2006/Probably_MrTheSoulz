@@ -48,50 +48,6 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 		mtsAlert:message('MrTheSoulz Version: '..mts_Version)
 	end
 
-	-- -- Enabled/Disable PE
-	if command == 'toggle' then
-    	if mtsLib.getConfig('button_states', 'MasterToggle', false) then
-        	ProbablyEngine.buttons.toggle('MasterToggle')
-        	mtsAlert:message("|cFFB30000Rotation off")
-    	else
-        	ProbablyEngine.buttons.toggle('MasterToggle')
-        	mtsAlert:message("|cFF00B34ARotation on")
-    	end
-  	end
-
-	-- Enabled/Disable Interrupts
-	if command == 'kick' or command == 'interrupt' then
-    	if mtsLib.getConfig('button_states', 'interrupt', false) then
-      		ProbablyEngine.buttons.toggle('interrupt')
-      		mtsAlert:message("|cFFB30000Interrupts off")
-    	else
-      		ProbablyEngine.buttons.toggle('interrupt')
-      		mtsAlert:message("|cFF00B34AInterrupts on")
-    	end
-  	end
-
-  	-- Enabled/Disable cooldowns
-  	if command == 'cds' or command == 'cooldowns' then
-    	if mtsLib.getConfig('button_states', 'cooldowns', false) then
-      		ProbablyEngine.buttons.toggle('cooldowns')
-      		mtsAlert:message("|cFFB30000Offensive Cooldowns off")
-    	else
-      		ProbablyEngine.buttons.toggle('cooldowns')
-      		mtsAlert:message("|cFF00B34AOffensive Cooldowns on")
-    	end
-  	end
-
-  	-- Enabled/Disable aoe
-	if command == 'aoe' then
-    	if mtsLib.getConfig('button_states', 'multitarget', false) then
-      		ProbablyEngine.buttons.toggle('multitarget')
-      		mtsAlert:message("|cFFB30000AoE off")
-    	else
-      		ProbablyEngine.buttons.toggle('multitarget')
-      		mtsAlert:message("|cFF00B34AAoE on")
-      	end
-    end
-
     -- Displays MTS splash
     if command == 'logo' then
     	mtsStart:message("\124cff9482C9*Wanted To See Me?!*")
@@ -120,29 +76,61 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 end)
 
 -- Check Keys
-function mtsLib.getConfig(key)
-	local _Config = ProbablyEngine.config
- 	if _Config.read(key) == nil and not mtsKeyError then
+function mtsLib.getConfig(key, key2)
+	local _Config = ProbablyEngine.interface
+ 	if _Config.fetchKey(key, key2) == nil and not mtsKeyError then
 		mts_ClassGUI()
 		mts_ConfigGUI()
 		mtsKeyError = true
-	elseif _Config.read(key) == nil and mtsKeyError and not mtsKeyError2 then
-		print('|cFFB30000[MTS]|r Error in key: |cff0070DE'..key)
+	elseif _Config.fetchKey(key, key2) == nil and mtsKeyError and not mtsKeyError2 then
+		print('|cffB30000[MTS]|r Error in key: |cff0070DE'..key.."_"..key2)
 		mtsKeyError2 = true
-	else return _Config.read(key) end
+	else return _Config.fetchKey(key, key2) end
 end
 
 -- Check Keys Global...
-function mts_getConfig(key)
-	local _Config = ProbablyEngine.config
- 	if _Config.read(key) == nil and not mtsKeyError then
+function mts_getConfig(key,  key2)
+	local _Config = ProbablyEngine.interface
+ 	if _Config.fetchKey(key, key2) == nil and not mtsKeyError then
 		mts_ClassGUI()
 		mts_ConfigGUI()
 		mtsKeyError = true
-	elseif _Config.read(key) == nil and mtsKeyError and not mtsKeyError2 then
-		print('|cffB30000[MTS]|r Error in key: |cff0070DE'..key)
+	elseif _Config.fetchKey(key, key2) == nil and mtsKeyError and not mtsKeyError2 then
+		print('|cffB30000[MTS]|r Error in key: |cff0070DE'..key.."_"..key2)
 		mtsKeyError2 = true
-	else return _Config.read(key) end
+	else return _Config.fetchKey(key, key2) end
+end
+
+function mtsLib.Dropdown(txt)
+local _Config = ProbablyEngine.interface
+local _seal =_Config.fetchKey("mtsconfPalaProt", "seal")
+local _palabuff = _Config.fetchKey("mtsconfPalaProt", "Buff")
+	if _seal == 'Insight' and txt == 'Insight' 
+	or _seal == 'Righteousness'and txt == 'Righteousness'
+	or _seal == 'Truth' and txt == 'Truth'
+	or _palabuff == 'Kings'and txt == 'Kings'
+	or _palabuff == 'Might' and txt == 'Might' then
+		return true
+	else return false end
+end
+
+-- Compare stuff with GUIs
+function mtsLib.Compare(txt, key, key2, unit)
+local _CompareConfig = ProbablyEngine.interface
+ 	
+	-- If a key is nil open GUIs to try to fix it...
+ 	if _CompareConfig.fetchKey(key, key2) == nil and not mtsKeyError then
+		mts_ClassGUI()
+		mts_ConfigGUI()
+		mtsKeyError = true
+
+	-- If key is still broken then print a error to fix it...
+	elseif _CompareConfig.fetchKey(key, key2) == nil and mtsKeyError and not mtsKeyError2 then
+		print('|cFFB30000[MTS]|r Error in key: |cff0070DE'..key)
+		mtsKeyError2 = true
+
+	-- Else just do the thingz!
+	else return ProbablyEngine.dsl.get(txt)(unit) <= _CompareConfig.fetchKey(key, key2) end
 end
 
 function mts_ConfigGUI()
@@ -234,47 +222,6 @@ function mts_InfoGUI()
 	end
 end
 
-function mtsLib.Dropdown(txt)
-local _seal = mtsLib.getConfig("mtsconfPalaProt_seal")
-local _palabuff = mtsLib.getConfig("mtsconfPalaProt_Buff")
-	if _seal == 'Insight' and txt == 'Insight' 
-	or _seal == 'Righteousness'and txt == 'Righteousness'
-	or _seal == 'Truth' and txt == 'Truth'
-	or _palabuff == 'Kings'and txt == 'Kings'
-	or _palabuff == 'Might' and txt == 'Might' then
-		return true
-	else return false end
-end
-
--- Compare keybinds with names
-function mtsLib.CompareKeybind(txt, key)
-	if txt == 'alt'	then
-		return IsAltKeyDown() and not GetCurrentKeyBoardFocus() and mtsLib.getConfig("altKeyAction") == key
-	end
-
-	if txt == 'shift' then
-		return IsShiftKeyDown() and not GetCurrentKeyBoardFocus() and mtsLib.getConfig("shiftKeyAction") == key
-	end
-
-	if txt == 'control' then
-		return IsControlKeyDown() and not GetCurrentKeyBoardFocus() and mtsLib.getConfig("controlKeyAction") == key
-	end
-end
-
--- Compare stuff with GUIs
-function mtsLib.Compare(txt, key, unit)
-local _Config = ProbablyEngine.config
-local mts_BuildGUI = ProbablyEngine.interface.buildGUI
- 	if _Config.read(key) == nil and not mtsKeyError then
-		mts_ClassGUI()
-		mts_BuildGUI(mts_config)
-		mtsKeyError = true
-	elseif _Config.read(key) == nil and mtsKeyError and not mtsKeyError2 then
-		print('|cFFB30000[MTS]|r Error in key: |cff0070DE'..key)
-		mtsKeyError2 = true
-	else return ProbablyEngine.condition[txt](unit) <= _Config.read(key) end
-end
-
 -- !Testing! to cancel targets
 -- Usefull for autotargets
 function mtsLib.cancelTarget()
@@ -293,22 +240,22 @@ function mtsLib.canUse(txt, txt2, txt3)
 	-- Check it can Taunt
 	if txt == 'taunt' 
 		and UnitIsTappedByPlayer("target") 
-		and mtsLib.getConfig('mtsconf_Taunts') then
+		and mtsLib.getConfig('mtsconf','Taunts') then
 			return true
 
 	-- Check if can whisper
 	elseif txt == 'whisper' 
-		and mtsLib.getConfig('mtsconf_Whispers') then
+		and mtsLib.getConfig('mtsconf','Whispers') then
 			return RunMacroText("/w "..txt2)
 	
 	-- Check if can use sounds
 	elseif txt == 'sound' 
-		and mtsLib.getConfig('mtsconf_Sounds') then
+		and mtsLib.getConfig('mtsconf','Sounds') then
 			PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3", "master")
 
 	-- Check if can use alerts
 	elseif txt == 'alert' 
-		and mtsLib.getConfig('mtsconf_Alerts') then
+		and mtsLib.getConfig('mtsconf','Alerts') then
 			return mtsAlert:message(txt2)
 
 	-- Checks if Can use Priest Feathers
@@ -323,7 +270,7 @@ function mtsLib.canUse(txt, txt2, txt3)
 
 	-- check if can use item
 	elseif txt == 'item'
-	 	and mtsLib.getConfig('mtsconf_Items') 
+	 	and mtsLib.getConfig('mtsconf','Items') 
 	 	and GetItemCount(key) > 1 
 	 	and GetItemCooldown(key) == 0 then 
 			return true

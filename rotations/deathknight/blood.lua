@@ -55,9 +55,9 @@ local inCombat = {
 		{ "49222", "!player.buff(49222)" }, -- bone shield
 
 	-- Auto Targets
-		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfDkBlood_AutoTarget')", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfDkBlood_AutoTarget')", "!target.exists" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfDkBlood_AutoTarget')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfDkBlood','AutoTarget')", "target.range > 40" }}, -- Use Tank Target
+		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfDkBlood','AutoTarget')", "!target.exists" }}, -- target enemire if no target
+		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfDkBlood','AutoTarget')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 
 	-- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
@@ -68,14 +68,14 @@ local inCombat = {
 		{ "#5512", "player.health < 70"}, --healthstone
 
 	-- Def cooldowns // heals
-		{ "48792", "@mtsLib.Compare('health','mtsconfDkBlood_IceboundFortitude','player')", "player')" }, -- Icebound Fortitude
-		{ "55233", "@mtsLib.Compare('health','mtsconfDkBlood_VampiricBlood','player')" }, -- Vampiric Blood
-		{ "48743", "@mtsLib.Compare('health','mtsconfDkBlood_DeathPact','player')" }, -- Death Pact
+		{ "48792", "@mtsLib.Compare('health','mtsconfDkBlood','IceboundFortitude','player')", "player')" }, -- Icebound Fortitude
+		{ "55233", "@mtsLib.Compare('health','mtsconfDkBlood','VampiricBlood','player')" }, -- Vampiric Blood
+		{ "48743", "@mtsLib.Compare('health','mtsconfDkBlood','DeathPact','player')" }, -- Death Pact
 		{ "49039", { "player.state.fear", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //fear
 		{ "49039", { "player.state.sleep", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //sleep
 		{ "49039", { "player.state.charm", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //charm
-		{ "48982", "@mtsLib.Compare('health','mtsconfDkBlood_RuneTap','player')" }, -- rune tap
-		{ "108196", "@mtsLib.Compare('health','mtsconfDkBlood_DeathSiphon','player')" },-- Death Siphon
+		{ "48982", "@mtsLib.Compare('health','mtsconfDkBlood','RuneTap','player')" }, -- rune tap
+		{ "108196", "@mtsLib.Compare('health','mtsconfDkBlood','DeathSiphon','player')" },-- Death Siphon
 
 	-- Cooldowns
 		{ "49028", { "modifier.cooldowns", "!toggle.DRW" }, "target" }, -- Dancing Rune Weapon
@@ -121,7 +121,7 @@ local inCombat = {
 		-- AoE smart
 			{ "50842","player.area(10).enemies > 4"}, -- Blood Boil
 
-	}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+	}, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
 
 	-- AoE
 		{ "50842",	{"modifier.multitarget","target.range <= 10" }}, -- Blood Boil
@@ -156,7 +156,7 @@ local outCombat = {
 		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 
 	-- Buffs
-		{ "48265", { "player.seal != 3", "@mtsLib.getConfig('mtsconfDkBlood_RunFaster')" }}, -- unholy // moves faster out of combat...
+		{ "48265", { "player.seal != 3", "@mtsLib.getConfig('mtsconfDkBlood','RunFaster')" }}, -- unholy // moves faster out of combat...
 		{ "49222", "!player.buff(49222)" }, -- bone shield
 		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
 

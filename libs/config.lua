@@ -59,7 +59,7 @@ local mts_OpenLive = false
 local mts_LiveUpdating = false
 
 function mts_showLive()
-	if not mts_OpenLive and mts_getConfig('mtsconf_LiveGUI') then
+	if not mts_OpenLive and mts_getConfig('mtsconf','LiveGUI') then
 		LiveWindow = ProbablyEngine.interface.buildGUI(mts_live)
 		-- This is so the window isn't opened twice :D
 		mts_OpenLive = true
@@ -96,7 +96,7 @@ function mts_LastCastState()
 end
 
 function mts_AoEState()
-	if FireHack and mts_getConfig('mtsconf_Firehack') then
+	if FireHack and mts_getConfig('mtsconf','Firehack') then
 		if ProbablyEngine.config.read('button_states', 'multitarget', false) then
 			return ("\124cff0070DEForced")
 		end
@@ -157,6 +157,7 @@ mts_info = {
 --[[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]]
 mts_config = {
 	key = "mtsconf",
+	profiles = true,
 	title = logo.."MrTheSoulz Config",
 	subtitle = "General Settings",
 	color = "9482C9",
@@ -206,6 +207,7 @@ mts_config = {
 
 mts_configPriestHoly = {
 	key = "mtsconfPriestHoly",
+	profiles = true,
 	title = logo.."MrTheSoulz Config",
 	subtitle = "Priest Holy Settings",
 	color = "9482C9",
@@ -288,6 +290,7 @@ mts_configPriestHoly = {
 
 mts_configPriestDisc = {
 	key = "mtsconfPriestDisc",
+	profiles = true,
 	title = logo.."MrTheSoulz Config",
 	subtitle = "Priest Discipline Settings",
 	color = "9482C9",
@@ -348,6 +351,7 @@ mts_configPriestDisc = {
 
 mts_configDruidResto = {
 	key = "mtsconfDruidResto",
+	profiles = true,
 	title = logo.."MrTheSoulz Config",
 	subtitle = "Druid Restoration Settings",
 	color = "FF7D0A",
@@ -389,6 +393,7 @@ mts_configDruidResto = {
 
 mts_configDruidFeral = {
 	key = "mtsconfDruidFeral",
+	profiles = true,
 	title = logo.."MrTheSoulz Config",
 	subtitle = "Druid Feral Settings",
 	color = "FF7D0A",
@@ -447,6 +452,7 @@ mts_configDruidFeral = {
 
 mts_configDkBlood = {
 	key = "mtsconfDkBlood",
+	profiles = true,
 	title = logo.."MrTheSoulz Config",
 	subtitle = "Deathknight Blood Settings",
 	color = "C41F3B",
@@ -492,6 +498,7 @@ mts_configDkBlood = {
 
 mts_configPalaProt = {
 	key = "mtsconfPalaProt",
+	profiles = true,
 	title = logo.."MrTheSoulz Config",
 	subtitle = "Deathknight Blood Settings",
 	color = "F58CBA",
