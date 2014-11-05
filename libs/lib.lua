@@ -11,19 +11,21 @@ local mts_Dummies = {31146,67127,46647,32546,31144,32667,32542,32666,32545,32541
 local mts_BuildGUI = ProbablyEngine.interface.buildGUI
 
 local ConfigWindow
-local classWindow
-local InfoWindow
-
 local mts_OpenConfigWindow = false
 local mts_ShowingConfigWindow = false
 
+local classWindow
 local mts_OpenClassWindow = false
 local mts_ShowingClassWindow = false
 
+local InfoWindow
 local mts_OpenInfoWindow = false
 local mts_ShowingInfoWindow = false
 
-mts_Version = "0.11.26"
+local mtsKeyError = false
+local mtsKeyError2 = false
+
+mts_Version = "0.11.27"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
@@ -117,20 +119,26 @@ end)
 -- Check Keys
 function mtsLib.getConfig(key)
 	local _Config = ProbablyEngine.config
- 	if _Config.read(key) == nil then
+ 	if _Config.read(key) == nil and not mtsKeyError then
 		mts_ClassGUI()
 		mts_BuildGUI(mts_config)
+		mtsKeyError = true
+	elseif _Config.read(key) == nil and mtsKeyError and not mtsKeyError2 then
 		print('|cFFB30000[MTS]|r Error in key: '..key)
+		mtsKeyError2 = true
 	else return _Config.read(key) end
 end
 
 -- Check Keys Global...
 function mts_getConfig(key)
 	local _Config = ProbablyEngine.config
- 	if _Config.read(key) == nil then
+ 	if _Config.read(key) == nil and not mtsKeyError then
 		mts_ClassGUI()
-		mts_ConfigGUI()
+		mts_BuildGUI(mts_config)
+		mtsKeyError = true
+	elseif _Config.read(key) == nil and mtsKeyError and not mtsKeyError2 then
 		print('|cFFB30000[MTS]|r Error in key: '..key)
+		mtsKeyError2 = true
 	else return _Config.read(key) end
 end
 
@@ -259,10 +267,13 @@ end
 -- Compare stuff with GUIs
 function mtsLib.Compare(txt, key, unit)
 	local _Config = ProbablyEngine.config
- 	if _Config.read(key) == nil then
+ 	if _Config.read(key) == nil and not mtsKeyError then
 		mts_ClassGUI()
-		mts_ConfigGUI()
+		mts_BuildGUI(mts_config)
+		mtsKeyError = true
+	elseif _Config.read(key) == nil and mtsKeyError and not mtsKeyError2 then
 		print('|cFFB30000[MTS]|r Error in key: '..key)
+		mtsKeyError2 = true
 	else return ProbablyEngine.condition[txt](unit) <= _Config.read(key) end
 end
 
