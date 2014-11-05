@@ -99,6 +99,9 @@ local inCombat = {
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
 		{ "33206", { "toggle.painSup", "lowest.health <= 25 " }, "lowest" }, --Pain Suppression
 	
+	-- For Archangel
+		{ "14914", { "!toggle.mouseOver", "player.mana > 20","target.spell(14914).range" }, "target" }, --Holy Fire
+
 	-- Surge of light
 		{ "2061", {"lowest.health < 100","player.buff(114255)","!player.moving"}, "lowest" }, -- Flash Heal
 
@@ -109,6 +112,9 @@ local inCombat = {
 		{ "2061", {"lowest.health <= 20","!player.moving"}, "lowest" }, --Flash Heal
 
 	-- AOE
+   		-- Holy nova
+   			{ "132157", "modifier.multitarget" }, -- Holy Nova
+
    		-- Prayer of Healing
    			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5","!player.moving"}, "lowest" }, --Prayer of Healing
    			{ "596", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "!modifier.raid", "!player.moving" }, "lowest" }, --Prayer of Healing
@@ -137,7 +143,6 @@ local inCombat = {
 		{ "2060", {"lowest.health <= 90","!player.moving"}, "lowest" }, -- Heal	
 
 	--Attonement 
-		{ "14914", { "!toggle.mouseOver", "player.mana > 20","target.spell(14914).range" }, "target" }, --Holy Fire
 		{ "47540", { "player.mana > 20", "target.spell(47540).range", "!player.moving" }, "target" }, --Penance
 		{ "585", { "player.mana > 20", "!player.moving", "target.spell(585).range" }, "target" }, --Smite
 

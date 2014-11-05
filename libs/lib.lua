@@ -23,7 +23,7 @@ local mts_ShowingClassWindow = false
 local mts_OpenInfoWindow = false
 local mts_ShowingInfoWindow = false
 
-mts_Version = "0.11.25"
+mts_Version = "0.11.26"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
