@@ -124,7 +124,7 @@ function mtsLib.getConfig(key)
 		mts_ConfigGUI()
 		mtsKeyError = true
 	elseif _Config.read(key) == nil and mtsKeyError and not mtsKeyError2 then
-		print('|cFFB30000[MTS]|r Error in key: '..key)
+		print('|cFFB30000[MTS]|r Error in key: |cff0070DE'..key)
 		mtsKeyError2 = true
 	else return _Config.read(key) end
 end
@@ -137,7 +137,7 @@ function mts_getConfig(key)
 		mts_ConfigGUI()
 		mtsKeyError = true
 	elseif _Config.read(key) == nil and mtsKeyError and not mtsKeyError2 then
-		print('|cFFB30000[MTS]|r Error in key: '..key)
+		print('|cffB30000[MTS]|r Error in key: |cff0070DE'..key)
 		mtsKeyError2 = true
 	else return _Config.read(key) end
 end
@@ -272,7 +272,7 @@ function mtsLib.Compare(txt, key, unit)
 		mts_BuildGUI(mts_config)
 		mtsKeyError = true
 	elseif _Config.read(key) == nil and mtsKeyError and not mtsKeyError2 then
-		print('|cFFB30000[MTS]|r Error in key: '..key)
+		print('|cFFB30000[MTS]|r Error in key: |cff0070DE'..key)
 		mtsKeyError2 = true
 	else return ProbablyEngine.condition[txt](unit) <= _Config.read(key) end
 end
