@@ -56,7 +56,7 @@ local inCombat = {
 		{ "110744", "modifier.lcontrol", "player" }, --Divine Star
 	
 	-- LoOk aT It GOoZ!!! // Needs to add tank...
-		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestHoly_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestHoly'.'Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 	
 	-- Mouse Over
 		{ "139", { "toggle.mouseOver", "!mouseover.buff" }, "mouseover" }, --renew
@@ -75,7 +75,7 @@ local inCombat = {
 	 	{ "527", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Torment')", nil },
 	 	{ "527", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-	 	{ "527", {"@mtsLib.getConfig('mtsconfPriestHoly_Dispels')", Dispell }},
+	 	{ "527", {"@mtsLib.getConfig('mtsconfPriestHoly'.'Dispels')", Dispell }},
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
@@ -94,18 +94,18 @@ local inCombat = {
 
 	-- Heal Fast Bitch!!
 		-- Desperate Prayer
-			{ "19236", "@mtsLib.Compare('health','mtsconfPriestHoly_DesperatePrayer','player')", "player" }, --Desperate Prayer
+			{ "19236", "@mtsLib.Compare('health','mtsconfPriestHoly'.'DesperatePrayer','player')", "player" }, --Desperate Prayer
 
 		-- Holy Word Serenity
-			{ "88684", {"@mtsLib.Compare('health','mtsconfPriestHoly_HolyWordSerenityTank','focus')", "focus.spell(88684).range"}, "focus" }, -- Holy Word Serenity
+			{ "88684", {"@mtsLib.Compare('health','mtsconfPriestHoly'.'HolyWordSerenityTank','focus')", "focus.spell(88684).range"}, "focus" }, -- Holy Word Serenity
 			{ "88684", {"tank.health <= 90", "tank.spell(88684).range"}, "tank" }, -- Holy Word Serenity
-			{ "88684", "@mtsLib.Compare('health','mtsconfPriestHoly_HolyWordSerenityPlayer','player')", "player" }, -- Holy Word Serenity
+			{ "88684", "@mtsLib.Compare('health','mtsconfPriestHoly'.'HolyWordSerenityPlayer','player')", "player" }, -- Holy Word Serenity
 			{ "88684", "lowest.health <= 60", "lowest" }, -- Holy Word Serenity
 
 		-- Flash Heal
-			{ "2061", {"@mtsLib.Compare('health','mtsconfPriestHoly_FlashHealTank','focus')", "focus.spell(2061).range","!player.moving"}, "focus" }, --Flash Heal
+			{ "2061", {"@mtsLib.Compare('health','mtsconfPriestHoly'.'FlashHealTank','focus')", "focus.spell(2061).range","!player.moving"}, "focus" }, --Flash Heal
 			{ "2061", {"tank.health <= 40", "tank.spell(2061).range","!player.moving"}, "tank" }, --Flash Heal
-			{ "2061", {"@mtsLib.Compare('health','mtsconfPriestHoly_FlashHealPlayer','player')","!player.moving"}, "player" }, --Flash Heal
+			{ "2061", {"@mtsLib.Compare('health','mtsconfPriestHoly'.'FlashHealPlayer','player')","!player.moving"}, "player" }, --Flash Heal
 			{ "2061", {"lowest.health <= 20","!player.moving"}, "lowest" }, --Flash Heal
 
 	-- AOE
@@ -124,30 +124,30 @@ local inCombat = {
 			{ "64843", { "@coreHealing.needsHealing(60, 8)", "modifier.raid", "modifier.members > 10" }}, -- Divine Hymn
 
 	-- shields
-		{ "17", { "@mtsLib.Compare('health','mtsconfPriestHoly_ShieldTank','focus')", "!focus.debuff(6788).any", "focus.spell(17).range", "focus.spell(17).range" }, "focus" }, --Power Word: Shield
+		{ "17", { "@mtsLib.Compare('health','mtsconfPriestHoly'.'ShieldTank','focus')", "!focus.debuff(6788).any", "focus.spell(17).range", "focus.spell(17).range" }, "focus" }, --Power Word: Shield
 		{ "17", { "!tank.debuff(6788).any", "tank.spell(17).range", "tank.spell(17).range" }, "tank" }, --Power Word: Shield
-		{ "17", { "@mtsLib.Compare('health','mtsconfPriestHoly_ShieldPlayer','player')", "!player.debuff(6788).any", "!player.buff(17).any" }, "player" }, --Power Word: Shield
+		{ "17", { "@mtsLib.Compare('health','mtsconfPriestHoly'.'ShieldPlayer','player')", "!player.debuff(6788).any", "!player.buff(17).any" }, "player" }, --Power Word: Shield
 		{ "17", { "!lowest.debuff(6788).any", "!lowest.buff(17).any", "lowest.health <= 40" }, "lowest" }, --Power Word: Shield
 
 	-- renew
-		{ "139", {"@mtsLib.Compare('health','mtsconfPriestHoly_RenewTank','focus')","!focus.buff(139)", "focus.spell(139).range"}, "focus" }, --renew
+		{ "139", {"@mtsLib.Compare('health','mtsconfPriestHoly'.'RenewTank','focus')","!focus.buff(139)", "focus.spell(139).range"}, "focus" }, --renew
 		{ "139", {"!tank.buff(139)", "tank.spell(139).range"}, "tank" }, --renew
-		{ "139", {"@mtsLib.Compare('health','mtsconfPriestHoly_RenewPlayer','player')", "player.health < 85", "!player.buff(139)"}, "player" }, --renew
+		{ "139", {"@mtsLib.Compare('health','mtsconfPriestHoly'.'RenewPlayer','player')", "player.health < 85", "!player.buff(139)"}, "player" }, --renew
 		{ "139", {"lowest.health < 85", "!lowest.buff(139)"}, "lowest" }, --renew
 
 	-- Prayer of Mending
-		{ "33076", {"@mtsLib.Compare('health','mtsconfPriestHoly_PrayerofMendingTank','focus')", "focus.spell(33076).range","!player.moving"}, "focus" }, --Prayer of Mending
+		{ "33076", {"@mtsLib.Compare('health','mtsconfPriestHoly'.'PrayerofMendingTank','focus')", "focus.spell(33076).range","!player.moving"}, "focus" }, --Prayer of Mending
 		{ "33076", {"tank.health < 99", "tank.spell(33076).range","!player.moving"}, "tank" }, --Prayer of Mending
 
 	-- binding heal
-		{ "32546", { "@mtsLib.Compare('health','mtsconfPriestHoly_BindingHealTank','focus')", "focus.health < 99", "focus.spell(32546).range","!player.moving"}, "focus" }, --binding heal
+		{ "32546", { "@mtsLib.Compare('health','mtsconfPriestHoly'.'BindingHealTank','focus')", "focus.health < 99", "focus.spell(32546).range","!player.moving"}, "focus" }, --binding heal
 		{ "32546", { "tank.health < 99", "player.health <= 60", "tank.spell(32546).range","!player.moving"}, "tank" }, --binding heal
 		{ "32546", { "lowest.health < 99", "player.health < 60","!player.moving"}, "lowest" }, --binding heal
 
 	-- heal
-		{ "2060", {"@mtsLib.Compare('health','mtsconfPriestHoly_HealTank','focus')", "focus.spell(2060).range","!player.moving"}, "focus" }, -- Heal
+		{ "2060", {"@mtsLib.Compare('health','mtsconfPriestHoly'.'HealTank','focus')", "focus.spell(2060).range","!player.moving"}, "focus" }, -- Heal
 		{ "2060", {"tank.health <= 95", "tank.spell(2060).range","!player.moving"}, "tank" }, -- Heal
-		{ "2060", {"@mtsLib.Compare('health','mtsconfPriestHoly_HealPlayer','player')","!player.moving"}, "player" }, -- Heal	
+		{ "2060", {"@mtsLib.Compare('health','mtsconfPriestHoly'.'HealPlayer','player')","!player.moving"}, "player" }, -- Heal	
 		{ "2060", {"lowest.health <= 95","!player.moving"}, "lowest" }, -- Heal	
 
 }
@@ -155,9 +155,9 @@ local inCombat = {
 local inCombatSolo = {
 
   	-- Auto Target
-		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfPriestHoly_AutoTargets')", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfPriestHoly_AutoTargets')", "!target.exists" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfPriestHoly_AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfPriestHoly'.'AutoTargets')", "target.range > 40" }}, -- Use Tank Target
+		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfPriestHoly'.'AutoTargets')", "!target.exists" }}, -- target enemire if no target
+		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfPriestHoly'.'AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
 	
 	-- Mana
 		{ "123040", { "player.mana < 75","target.spell(123040).range" }, "target" }, --Mindbender
@@ -187,7 +187,7 @@ local outCombat = {
 			{ "34861", "@coreHealing.needsHealing(90, 3)", "lowest"}, -- Circle of Healing
 		
 		-- shields 
-			{ "17", { "@mtsLib.Compare('health','mtsconfPriestHoly_ShieldTank','focus')", "!focus.debuff(6788).any", "focus.spell(17).range", "focus.spell(17).range" }, "focus" }, --Power Word: Shield
+			{ "17", { "@mtsLib.Compare('health','mtsconfPriestHoly'.'ShieldTank','focus')", "!focus.debuff(6788).any", "focus.spell(17).range", "focus.spell(17).range" }, "focus" }, --Power Word: Shield
 			{ "17", { "!tank.debuff(6788).any", "tank.spell(17).range", "modifier.party" }, "tank" }, --Power Word: Shield
 	   	
 	   	-- heals
@@ -204,7 +204,7 @@ local outCombat = {
 		{ "21562", {"!player.buff(21562).any","!player.buff(588)"}}, -- Fortitude
 	
 	-- LoOk aT It GOoZ!!!
-		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestHoly_Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestHoly'.'Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
 
 }
 

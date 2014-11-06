@@ -116,12 +116,11 @@ end
 
 -- Compare stuff with GUIs
 function mtsLib.Compare(txt, key, key2, unit)
- 	if UnitExists(unit) and txt == 'player' or 'focus' or 'target' then
-        return ProbablyEngine.dsl.get(txt)(unit) <= mtsLib.getConfig(key, key2)
-    elseif txt == 'tank' or 'lowest' then
-        -- to figure out...
-        return false
+	local _fetch = ProbablyEngine.interface.fetchKey
+ 	if UnitExists(unit) then
+        return ProbablyEngine.dsl.get(txt)(unit) <= _fetch(key, key2)
     end
+    return false
 end
 
 function mts_ConfigGUI()
