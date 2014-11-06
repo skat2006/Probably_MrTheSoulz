@@ -116,21 +116,9 @@ end
 
 -- Compare stuff with GUIs
 function mtsLib.Compare(txt, key, key2, unit)
-local _CompareConfig = ProbablyEngine.interface
- 	
-	-- If a key is nil open GUIs to try to fix it...
- 	if _CompareConfig.fetchKey(key, key2) == nil and not _mtsKeyError then
-		mts_ClassGUI()
-		mts_ConfigGUI()
-		_mtsKeyError = true
-
-	-- If key is still broken then print a error to fix it...
-	elseif _CompareConfig.fetchKey(key, key2) == nil and _mtsKeyError and not __mtsKeyError2 then
-		print('|cFFB30000[MTS]|r Error in key: |cff0070DE'..key"_"..key2)
-		__mtsKeyError2 = true
-
-	-- Else just do the thingz!
-	else return ProbablyEngine.condition[txt](unit) <= _CompareConfig.fetchKey(key, key2) end
+ 	if UnitExists(unit) then
+        return math.floor((UnitHealth(unit) / UnitHealthMax(unit)) * 100) <= mtsLib.getConfig(key, key2)
+    end
 end
 
 function mts_ConfigGUI()
