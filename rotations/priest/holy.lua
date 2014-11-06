@@ -152,33 +152,6 @@ local inCombat = {
 
 }
 
-local inCombatSolo = {
-
-  	-- Auto Target
-		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfPriestHoly'.'AutoTargets')", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfPriestHoly'.'AutoTargets')", "!target.exists" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfPriestHoly'.'AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
-	
-	-- Mana
-		{ "123040", { "player.mana < 75","target.spell(123040).range" }, "target" }, --Mindbender
-		{ "34433", { "player.mana < 75", "target.spell(34433).range" }, "target" }, --Shadowfiend
-
-	-- LoOk aT It GOoZ!!!
-		{ "121536", {"player.movingfor > 2", "toggle.feather", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
-
-	-- Heal
-		{ "17", { "!player.debuff(6788).any", "!player.buff(17).any", "player.health <= 60" }}, --Power Word Shield
-		{ "2061", "player.health <= 35", "Player" }, --Flash Heal
-
-  	--DPS
-  		{ "32379", {"target.health < 20","target.spell(32379).range" }, "target" }, -- Shadow Word: Death
-		{ "589", { "target.debuff(589).duration < 2","target.spell(589).range"}, "target" }, --Shadow Word:Pain
-		{ "129250", { "target.spell(129250).range" }, "target" }, -- Power Word: Solace
-		{ "14914", { "target.spell(14914).range" }, "target" }, --Holy Fire
-		{ "585", "target.spell(585).range", "target" },	--Smite
-
-}
-
 local outCombat = {
 
 	--Heal
@@ -209,4 +182,3 @@ local outCombat = {
 }
 
 ProbablyEngine.rotation.register_custom(257, mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Holy-Party|r]", inCombat, outCombat, exeOnLoad)
-ProbablyEngine.rotation.register_custom(257, mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Holy-Solo|r]", inCombatSolo, outCombat, exeOnLoad)
