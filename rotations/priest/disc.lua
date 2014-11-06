@@ -178,7 +178,6 @@ local inCombatSolo = {
 
 local outCombat = {
 
-
 	--Heal
 		-- AoE
 			{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 3)" }, "lowest" }, --Prayer of Healing

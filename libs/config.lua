@@ -5,7 +5,7 @@ local _Header = { type = "texture",texture = "Interface\\AddOns\\Probably_MrTheS
 --[[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]]
 local mts_live = {
 	key = "mtslive",
-	title = logo.."MrTheSoulz Live GUI \124cffC41F3Bv:"..mts_Version,
+	title = logo.."MrTheSoulz GUI \124cffC41F3Bv:"..mts_Version,
 	color = "9482C9",
 	width = 200,
 	height = 84,

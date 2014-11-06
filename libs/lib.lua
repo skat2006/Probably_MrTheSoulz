@@ -116,8 +116,11 @@ end
 
 -- Compare stuff with GUIs
 function mtsLib.Compare(txt, key, key2, unit)
- 	if UnitExists(unit) then
-        return math.floor((UnitHealth(unit) / UnitHealthMax(unit)) * 100) <= mtsLib.getConfig(key, key2)
+ 	if UnitExists(unit) and txt == 'player' or 'focus' or 'target' then
+        return ProbablyEngine.dsl.get(txt)(unit) <= mtsLib.getConfig(key, key2)
+    elseif txt == 'tank' or 'lowest' then
+        -- to figure out...
+        return false
     end
 end
 
