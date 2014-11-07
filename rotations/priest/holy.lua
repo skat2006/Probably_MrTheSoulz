@@ -82,7 +82,7 @@ local inCombat = {
 		{ "123040", {"player.mana < 75", "target.spell(123040).range", "modifier.cooldowns"}, "target" }, --Mindbender
 	
 	-- Proc's
-		{ "596", {"lowest.health < 100","player.buff(123267)","!player.moving"}, "lowest" }, -- Prayer of healing // Divine Insigt
+		{ "596", {"lowest.health < 100","player.buff(123267)","!player.moving","modifier.party", "!modifier.raid"}, "lowest" }, -- Prayer of healing // Divine Insigt
 		{ "2061", {"lowest.health < 100","player.buff(114255)","!player.moving"}, "lowest" }, -- Flash heal // Surge of light
 
 	-- Player dead (Spirit)
@@ -90,7 +90,7 @@ local inCombat = {
 		{ "2061", {"lowest.health < 100", "player.buff(27827)"}, "lowest" }, --Flash Heal
 		{ "34861", {"@coreHealing.needsHealing(95, 3)", "player.buff(27827)"}, "lowest"}, -- Circle of Healing
 		{ "121135", {"@coreHealing.needsHealing(95, 3)", "player.buff(27827)"}}, -- cascade
-		{ "596", { "@coreHealing.needsHealing(95, 3)", "player.buff(27827)" }, "lowest" }, --Prayer of Healing
+		{ "596", { "@coreHealing.needsHealing(95, 3)", "player.buff(27827)","modifier.party", "!modifier.raid" }, "lowest" }, --Prayer of Healing
 
 	-- Heal Fast Bitch!!
 		-- Desperate Prayer
