@@ -195,7 +195,7 @@ mts_config = {
 
 		-- Firehack
 		{ type = "checkbox", text = "Firehack", key = "Firehack", default = false, desc =
-		"This checkbox enables or disables MrTheSoulz Pack using Firehacks features like smarth aoe and other fancy stuff."},
+		"This checkbox enables or disables MrTheSoulz Pack using Firehacks features like smart aoe and other fancy stuff."},
 
 		-- LiveGUI
 		{ type = "checkbox", text = "LiveGUI", key = "LiveGUI", default = true, desc =
@@ -502,7 +502,7 @@ mts_configPalaProt = {
 	key = "mtsconfPalaProt",
 	profiles = true,
 	title = logo.."MrTheSoulz Config",
-	subtitle = "Deathknight Blood Settings",
+	subtitle = "Paladin Protection Settings",
 	color = "F58CBA",
 	width = 250,
 	height = 500,

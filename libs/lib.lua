@@ -226,9 +226,9 @@ function mtsLib.CanTaunt()
 		return false
 end
 
-function mtsLib.CanWhisper()
+function mtsLib.CanWhisper(txt)
 	if mtsLib.getConfig('mtsconf','Whispers') then
-		return RunMacroText("/w "..txt2)
+		return RunMacroText("/w "..txt)
 	end
 end
 
@@ -238,15 +238,15 @@ function mtsLib.CanSound()
 	end
 end
 
-function mtsLib.CanAlert()
+function mtsLib.CanAlert(txt)
 	if mtsLib.getConfig('mtsconf','Alerts') then
-		return mtsAlert:message(txt2) 
+		return mtsAlert:message(txt) 
 	end
 end
 
-function mtsLib.CanUseFeathers()
+function mtsLib.CanUseFeathers(txt, txt2)
 	if txt == 'feather' 
-		and Distance(txt2, txt3) >= 35 then
+		and Distance(txt, txt2) >= 35 then
 			return true 
 	end
 		return false
@@ -258,7 +258,7 @@ function mtsLib.mouseNotEqualTarget()
 	end
 end
 
-function mtsLib.CanUseItem()
+function mtsLib.CanUseItem(key)
 	if mtsLib.getConfig('mtsconf','Items') 
 	 	and GetItemCount(key) > 1 
 	 	and GetItemCooldown(key) == 0 then 
