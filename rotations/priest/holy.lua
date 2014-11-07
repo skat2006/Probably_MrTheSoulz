@@ -81,6 +81,10 @@ local inCombat = {
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
 		{ "123040", {"player.mana < 75", "target.spell(123040).range", "modifier.cooldowns"}, "target" }, --Mindbender
 	
+	-- Use on cd
+		{ "34861", "@coreHealing.needsHealing(95, 3)", "lowest"}, -- Circle of Healing
+		{ "121135", {"@coreHealing.needsHealing(95, 3)", "!player.moving"}, "lowest"}, -- cascade
+
 	-- Proc's
 		{ "596", {"lowest.health < 100","player.buff(123267)","!player.moving","modifier.party", "!modifier.raid"}, "lowest" }, -- Prayer of healing // Divine Insigt
 		{ "2061", {"lowest.health < 100","player.buff(114255)","!player.moving"}, "lowest" }, -- Flash heal // Surge of light
@@ -109,10 +113,6 @@ local inCombat = {
 			{ "2061", {"lowest.health <= 20","!player.moving"}, "lowest" }, --Flash Heal
 
 	-- AOE
-		-- Shared
-			{ "34861", "@coreHealing.needsHealing(95, 3)", "lowest"}, -- Circle of Healing
-			{ "121135", {"@coreHealing.needsHealing(95, 3)", "!player.moving"}}, -- cascade
-   		
    		-- Prayer of Healing
    			{ "596", { "modifier.lshift", "!player.moving" }, "mouseover" }, --Prayer of Healing // Raid WorkAround.
    			{ "596", { "@coreHealing.needsHealing(85, 3)", "modifier.party", "!modifier.raid", "!player.moving" }, "lowest" }, --Prayer of Healing
