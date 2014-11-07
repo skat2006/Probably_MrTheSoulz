@@ -28,7 +28,7 @@ local __mtsKeyError2 = false
 
 
 
-mts_Version = "0.11.29"
+mts_Version = "0.11.30"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0

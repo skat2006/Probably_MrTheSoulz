@@ -11,7 +11,7 @@ local exeOnLoad = function()
 	ProbablyEngine.toggle.create('tc', 'Interface\\Icons\\ability_deathwing_bloodcorruption_death', 'Threat Control', '')
 	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Inv_shield_55.png', 'Defensive Cooldowns & Heals', 'Enable or Disable Defensive & Healing Cooldowns.')
 	mtsStart:message("\124cff9482C9*MTS-\124cffC79C6EWarrior/Prot-\124cff9482C9Loaded*")
-	mts_showLive()
+	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     mts_showLive()
 	
 end
 
