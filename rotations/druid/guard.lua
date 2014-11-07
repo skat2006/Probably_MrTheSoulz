@@ -112,7 +112,7 @@ local inCombat = {
 			-- AoE smart
 				{ "77758", "player.area(8).enemies >= 3", "target" }, -- Thrash  // FH SMARTH AoE
 
-		}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+		}, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
 
 		-- AoE
 			{ "77758", "modifier.multitarget" }, -- Thrash

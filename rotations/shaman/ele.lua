@@ -11,7 +11,7 @@ local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 								--[[   !!!Dispell function!!!   ]]
 						--[[   Checks is member as debuff and can be dispeled.   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-Dispell = function ()
+function Dispell()
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
 	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
@@ -46,7 +46,8 @@ function exeOnLoad()
 	ProbablyEngine.toggle.create('cleavemode', 'Interface\\Icons\\spell_nature_chainlightning', 'Disable Cleaves', 'Disables automatic casting of earthquake and chain lightning for cleaves.')
 	ProbablyEngine.toggle.create('mouseovers', 'Interface\\Icons\\spell_fire_flameshock', 'Enable Mouseovers', 'Enable flameshock on mousover targets.')
 	mtsStart:message("\124cff9482C9*MTS-\124cff0070DEShaman/Elemental\124cff9482C9-Loaded*")
-	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     mts_showLive()
+	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     
+	mts_showLive()
 	
 end
 
@@ -70,7 +71,7 @@ local inCombat = {
 		{ "Tremor Totem", { "!player.buff", "player.state.fear" }, "player" }, 
  
 	-- Dispell
-		{ "Cleanse Spirit", { "modifier.lshift", "!modifier.last(Cleanse Spirit)", Dispell } },
+		{ "Cleanse Spirit", { "modifier.lshift", "!modifier.last(Cleanse Spirit)", (function() return Dispell() end) } },
 	
 	-- Control Toggles
 		{ "Flame Shock", { "!modifier.multitarget", "mouseover.enemy", "mouseover.alive", "mouseover.debuff(Flame Shock).duration <= 3", "toggle.mouseovers" }, "mouseover" },
@@ -120,7 +121,7 @@ local inCombat = {
 			"player.area(12).enemies > 3" } },
 		{ "403", "player.area(12).enemies > 3" },--Chain Lightning
 
-  }, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+  }, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
 
 	-- AoE Fallback
 		{ "Lava Beam", { -- Does it even still exist? // To Review.
@@ -147,7 +148,7 @@ local inCombat = {
 
    	 		{ "403", {"player.area(8).enemies > 1", "!toggle.cleavemode" } }, -- Chain Lightning
 
-  		}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+  		}, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
 
 		{ "3599", { "!player.totem(Fire Elemental Totem)", "!player.totem(Searing Totem)" } }, -- Searing Totem
 		{ "403" }, -- Lightning Bolt

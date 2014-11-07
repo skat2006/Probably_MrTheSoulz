@@ -11,7 +11,7 @@ local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 								--[[   !!!Dispell function!!!   ]]
 						--[[   Checks is member as debuff and can be dispeled.   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-Dispell = function ()
+function Dispell()
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
 	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
@@ -45,7 +45,8 @@ local exeOnLoad = function()
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
 	mtsStart:message("\124cff9482C9*MTS-\124cff00FF96Monk/WW\124cff9482C9-Loaded*")
-	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     mts_showLive()
+	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     
+	mts_showLive()
 	
 end
 
@@ -87,7 +88,7 @@ local inCombatSerpente = {
 		{ "115450", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 		{ "115450", "@coreHealing.needsDispelled('Torment')", nil },
 		{ "115450", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{ "115450", { "toggle.dispel", Dispell }, nil },
+		{ "115450", { "toggle.dispel", (function() return Dispell() end) }},
 
 	-- Cooldowns
   		{ "116849", "lowest.health <= 25" },-- Life Coccon

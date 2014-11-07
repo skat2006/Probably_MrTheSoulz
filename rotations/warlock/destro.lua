@@ -10,7 +10,8 @@ local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	mtsStart:message("\124cff9482C9*MTS-Warlock/Destro-Loaded*")
-	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     mts_showLive()
+	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     
+	mts_showLive()
 
 end
 
@@ -41,7 +42,7 @@ local inCombat = {
 
    	 	{"Fire and Brimstone","player.area(10).enemies >= 3", "target"}, -- smarth
 
-  	}, {"player.firehack", "@mtsLib.getConfig('mtsconf_Firehack')"}},
+  	}, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
 		
 	-- AoE
 		{"Fire and Brimstone", "modifier.multitarget", "target"},

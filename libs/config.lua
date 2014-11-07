@@ -13,24 +13,26 @@ local mts_live = {
 	config = {
 
 		-- Current Spell
-		{ type = "text", text = "Queued: ", size = 11, offset = -13 },
-		{ key = 'current_Queue', type = "text", text = "Random", size = 12, align = "right", offset = 1 },
+		{ type = "text", text = "Queued: ", size = 11, offset = -11 },
+		{ key = 'current_Queue', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
 
 		-- Current Spell
-		{ type = "text", text = "Last Used: ", size = 11, offset = -13 },
-		{ key = 'current_spell', type = "text", text = "Random", size = 12, align = "right", offset = 1 },
+		{ type = "text", text = "Last Used: ", size = 11, offset = -11 },
+		{ key = 'current_spell', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
 
 		-- AoE
-		{ type = "text", text = "AoE: ", size = 11, offset = -13 },
-		{ key = 'current_AoE', type = "text", text = "Random", size = 12, align = "right", offset = 1 },
+		{ type = "text", text = "AoE: ", size = 11, offset = -11 },
+		{ key = 'current_AoE', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
 
 		-- Interrupts
-		{ type = "text", text = "Interrupts: ", size = 11, offset = -13 },
-		{ key = 'current_Interrupts', type = "text", text = "Random", size = 12, align = "right", offset = 1 },
+		{ type = "text", text = "Interrupts: ", size = 11, offset = -11 },
+		{ key = 'current_Interrupts', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
 
 		-- Cooldowns
-		{ type = "text", text = "Cooldowns: ", size = 11, offset = -13 },
-		{ key = 'current_Cooldowns', type = "text", text = "Random", size = 12, align = "right", offset = 1 },
+		{ type = "text", text = "Cooldowns: ", size = 11, offset = -11 },
+		{ key = 'current_Cooldowns', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+
+		{ type = "spacer" },
 
 		-- Class GUI
 		{ type = "button", text = "Class Settings", width = 180, height = 20,
@@ -54,36 +56,26 @@ local mts_live = {
 }
 
 local LiveWindow
-local mts_ShowingLive = false
 local mts_OpenLive = false
 local mts_LiveUpdating = false
 
 function mts_showLive()
 	local _Config = ProbablyEngine.interface
+
+	-- If a window is not created, then create one...
 	if not mts_OpenLive and _Config.fetchKey('mtsconf','LiveGUI') then
 		LiveWindow = ProbablyEngine.interface.buildGUI(mts_live)
 		-- This is so the window isn't opened twice :D
 		mts_OpenLive = true
-		mts_ShowingLive = true
 		LiveWindow.parent:SetEventListener('OnClose', function()
 			mts_OpenLive = false
-			mts_ShowingLive = false
 		end)
+	end
 
 	if not mts_LiveUpdating then
 			mts_LiveUpdating = true
 			C_Timer.NewTicker(0.01, mts_updateLiveGUI, nil)
 		end
-	
-	elseif mts_OpenLive == true and mts_ShowingLive == true then
-		LiveWindow.parent:Hide()
-		mts_ShowingLive = false
-	
-	elseif mts_OpenLive == true and mts_ShowingLive == false then
-		LiveWindow.parent:Show()
-		mts_ShowingLive = true
-	
-	end
 end
 
 function mts_QueueState()

@@ -4,7 +4,7 @@ local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 								--[[   !!!Dispell function!!!   ]]
 						--[[   Checks is member as debuff and can be dispeled.   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-Dispell = function ()
+function Dispell()
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
 	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
@@ -37,7 +37,8 @@ local lib = function()
 
   	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
   	mtsStart:message("\124cff9482C9*MTS-\124cff0070DEShaman/Resto-\124cff9482C9Loaded*")
-  	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     mts_showLive()
+  	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     
+  	mts_showLive()
   	
 end
 
@@ -62,7 +63,7 @@ local inCombat = {
 	 	{ "77130", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 	 	{ "77130", "@coreHealing.needsDispelled('Torment')", nil },
 	 	{ "77130", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-	 	{ "77130", {"toggle.dispel", Dispell }},
+	 	{ "77130", {"toggle.dispel", (function() return Dispell() end) }},
 
   	-- Heal Fast Bitch
    		{ "Ascendance", { "@coreHealing.needsHealing(45,10)", "!player.buff(Ascendance)", "modifier.cooldowns"}},
