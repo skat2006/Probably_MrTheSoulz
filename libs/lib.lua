@@ -44,7 +44,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 		
 	-- Dispaly Version
 	if command == 'ver' or command == 'version' then
-		mtsLib.canUse('sound')
+		mtsLib.CanSound()
 		mtsAlert:message('MrTheSoulz Version: '..mts_Version)
 	end
 
@@ -78,26 +78,19 @@ end)
 -- Check Keys
 function mtsLib.getConfig(key, key2)
 	local _Config = ProbablyEngine.interface
+ 	
+	-- If a key is NIL then create a GUI to try and fix it... (Work Around...)
  	if _Config.fetchKey(key, key2) == nil and not _mtsKeyError then
 		mts_ClassGUI()
 		mts_ConfigGUI()
 		_mtsKeyError = true
-	elseif _Config.fetchKey(key, key2) == nil and _mtsKeyError and not __mtsKeyError2 then
-		print('|cffB30000[MTS]|r Error in key: |cff0070DE'..key.."_"..key2)
-		__mtsKeyError2 = true
-	else return _Config.fetchKey(key, key2) end
-end
 
--- Check Keys Global...
-function mts_getConfig(key,  key2)
-	local _Config = ProbablyEngine.interface
- 	if _Config.fetchKey(key, key2) == nil and not _mtsKeyError then
-		mts_ClassGUI()
-		mts_ConfigGUI()
-		_mtsKeyError = true
+	-- if the key is still broken then print a error with the key--- (Work Around...)
 	elseif _Config.fetchKey(key, key2) == nil and _mtsKeyError and not __mtsKeyError2 then
 		print('|cffB30000[MTS]|r Error in key: |cff0070DE'..key.."_"..key2)
 		__mtsKeyError2 = true
+
+	-- Else just do the thingz!
 	else return _Config.fetchKey(key, key2) end
 end
 
@@ -224,49 +217,54 @@ function mtsLib.cancelTarget()
 	end
 end
 
--- Generic Check Function
-function mtsLib.canUse(txt, txt2, txt3)
-
-	-- Check it can Taunt
-	if txt == 'taunt' 
-		and UnitIsTappedByPlayer("target") 
+-- Cab Use Taunts
+function mtsLib.CanTaunt()
+	if UnitIsTappedByPlayer("target") 
 		and mtsLib.getConfig('mtsconf','Taunts') then
-			return true
+			return true 
+	end
+		return false
+end
 
-	-- Check if can whisper
-	elseif txt == 'whisper' 
-		and mtsLib.getConfig('mtsconf','Whispers') then
-			return RunMacroText("/w "..txt2)
-	
-	-- Check if can use sounds
-	elseif txt == 'sound' 
-		and mtsLib.getConfig('mtsconf','Sounds') then
-			PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3", "master")
+function mtsLib.CanWhisper()
+	if mtsLib.getConfig('mtsconf','Whispers') then
+		return RunMacroText("/w "..txt2)
+	end
+end
 
-	-- Check if can use alerts
-	elseif txt == 'alert' 
-		and mtsLib.getConfig('mtsconf','Alerts') then
-			return mtsAlert:message(txt2)
+function mtsLib.CanSound()
+	if mtsLib.getConfig('mtsconf','Sounds') then
+		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3", "master")
+	end
+end
 
-	-- Checks if Can use Priest Feathers
-	elseif txt == 'feather' 
+function mtsLib.CanAlert()
+	if mtsLib.getConfig('mtsconf','Alerts') then
+		return mtsAlert:message(txt2) 
+	end
+end
+
+function mtsLib.CanUseFeathers()
+	if txt == 'feather' 
 		and Distance(txt2, txt3) >= 35 then
-			return true
-	
-	-- Check if monk can SEF on mouseover
-	elseif txt == 'sef' 
-		and (UnitGUID('target')) ~= (UnitGUID('mouseover')) then
- 			return true
+			return true 
+	end
+		return false
+end
 
-	-- check if can use item
-	elseif txt == 'item'
-	 	and mtsLib.getConfig('mtsconf','Items') 
+function mtsLib.mouseNotEqualTarget()
+	if (UnitGUID('target')) ~= (UnitGUID('mouseover')) then
+		return true
+	end
+end
+
+function mtsLib.CanUseItem()
+	if mtsLib.getConfig('mtsconf','Items') 
 	 	and GetItemCount(key) > 1 
 	 	and GetItemCooldown(key) == 0 then 
 			return true
-
-	else return false end
-
+	end
+ 		return false
 end
 
 									--[[   !!!Check Queue!!!   ]]
@@ -382,86 +380,86 @@ if source ~= UnitGUID("player") then return false end
     -- Paladin
 
 		if spellId == 114158 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casted Light´s Hammer*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casted Light´s Hammer*")
 		end
 		if spellId == 633 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('whisper', tname.." MSG: Casted Lay On Hands on you.")
-			mtsLib.canUse('alert', "*Casted Lay on Hands*")
+			mtsLib.CanSound()
+			mtsLib.CanWhisper(tname.." MSG: Casted Lay On Hands on you.")
+			mtsLib.CanAlert("*Casted Lay on Hands*")
 		end
 		if spellId == 1044 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('whisper', tname.." MSG: Casted Hand of Freedom on you.")
-			mtsLib.canUse('alert', "*Casted Hand of Freedom*")
+			mtsLib.CanSound()
+			mtsLib.CanWhisper(tname.." MSG: Casted Hand of Freedom on you.")
+			mtsLib.CanAlert("*Casted Hand of Freedom*")
 		end
 		if spellId == 6940 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casted Hand of Sacrifice*")
-			mtsLib.canUse('whisper', "/w "..tname.." MSG: Casted Hand of Sacrifice on you.")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casted Hand of Sacrifice*")
+			mtsLib.CanWhisper("/w "..tname.." MSG: Casted Hand of Sacrifice on you.")
 		end
 		if spellId == 105593 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Stunned Target*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Stunned Target*")
 		end
 		if spellId == 853 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Stunned Target*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Stunned Target*")
 		end
 		if spellId == 31821 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casted Devotion Aura*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casted Devotion Aura*")
 		end
 		if spellId == 31884 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casted Avenging Wrath*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casted Avenging Wrath*")
 		end
 		if spellId == 105809 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casted Guardian of Ancient Kings*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casted Guardian of Ancient Kings*")
 		end
 		if spellId == 31850 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casted Ardent Defender*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casted Ardent Defender*")
 		end
 		if spellId == 86659 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casted Holy Avenger*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casted Holy Avenger*")
 		end
 		if spellId == 86669 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casted Guardian of Ancient Kings*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casted Guardian of Ancient Kings*")
 		end
 		if spellId == 31842 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casted Divine Favor*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casted Divine Favor*")
 		end
 
     -- DeathKnight
 
 		if spellId == 43265 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casted Death and Decay*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casted Death and Decay*")
 		end
 		if spellId == 48707 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casted Anti-Magic Shell*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casted Anti-Magic Shell*")
 		end
 		if spellId == 49028 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casted Dancing Rune Weapon*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casted Dancing Rune Weapon*")
 		end
 		if spellId == 55233 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casted Vampiric Blood*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casted Vampiric Blood*")
 		end
 		if spellId == 48792 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casted Icebound Fortitude*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casted Icebound Fortitude*")
 		end
 		if spellId == 42650 then
-			mtsLib.canUse('sound')
-			mtsLib.canUse('alert', "*Casting Army of the Dead*")
+			mtsLib.CanSound()
+			mtsLib.CanAlert("*Casting Army of the Dead*")
 		end
 
 	end

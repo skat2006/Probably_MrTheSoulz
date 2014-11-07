@@ -40,8 +40,9 @@ mtsStart.text:SetAllPoints()
 mtsStart.time = 0
 
 function mtsStart:message(message)
+	local _Config = ProbablyEngine.interface
 
-	if mts_getConfig('mtsconf', 'Splash') then
+	if _Config.fetchKey('mtsconf', 'Splash') then
 		mtsStart.text:SetText("|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:17:17|t"..message)
 		mtsStart:SetAlpha(1)
 		mtsSplash:SetAlpha(1)

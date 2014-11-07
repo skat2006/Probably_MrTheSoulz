@@ -114,7 +114,6 @@ local inCombat = {
 			{ "121135", {"@coreHealing.needsHealing(95, 3)", "!player.moving"}}, -- cascade
    		
    		-- Prayer of Healing
-   			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5","!player.moving", "modifier.party"}, "lowest" }, --Prayer of Healing
    			{ "596", { "modifier.lshift", "!player.moving" }, "mouseover" }, --Prayer of Healing // Raid WorkAround.
    			{ "596", { "@coreHealing.needsHealing(85, 3)", "modifier.party", "!modifier.raid", "!player.moving" }, "lowest" }, --Prayer of Healing
 		

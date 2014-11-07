@@ -59,7 +59,8 @@ local mts_OpenLive = false
 local mts_LiveUpdating = false
 
 function mts_showLive()
-	if not mts_OpenLive and mts_getConfig('mtsconf','LiveGUI') then
+	local _Config = ProbablyEngine.interface
+	if not mts_OpenLive and _Config.fetchKey('mtsconf','LiveGUI') then
 		LiveWindow = ProbablyEngine.interface.buildGUI(mts_live)
 		-- This is so the window isn't opened twice :D
 		mts_OpenLive = true
@@ -96,7 +97,8 @@ function mts_LastCastState()
 end
 
 function mts_AoEState()
-	if FireHack and mts_getConfig('mtsconf','Firehack') then
+	local _Config = ProbablyEngine.interface
+	if FireHack and _Config.fetchKey('mtsconf','Firehack') then
 		if ProbablyEngine.config.read('button_states', 'multitarget', false) then
 			return ("\124cff0070DEForced")
 		end

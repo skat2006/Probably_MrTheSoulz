@@ -47,7 +47,12 @@ local exeOnLoad = function()
 	
 end	
 
-local Buffs = {
+local inCombat = {
+
+	--	keybinds
+		{ "740" , "modifier.shift" }, -- Tranq
+		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
+		{ "20484", "modifier.control", "mouseover" }, -- Rebirth
 
 	--	Buffs
 		{ "1126", { -- Mark of the Wild
@@ -58,15 +63,6 @@ local Buffs = {
 			"!player.buff(69378).any",
 			"player.form = 0" 
 		}, nil },
-  
-}
-
-local inCombat = {
-
-	--	keybinds
-		{ "740" , "modifier.shift" }, -- Tranq
-		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
-		{ "20484", "modifier.control", "mouseover" }, -- Rebirth
 
 	-- Dispel
 		{ "88423", { "player.buff(Gift of the Titans)", "@coreHealing.needsDispelled('Mark of Arrogance')" }, nil },
@@ -134,15 +130,20 @@ local outCombat = {
 		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
 		{ "20484", "modifier.control", "mouseover" }, -- Rebirth
 
+	--	Buffs
+		{ "1126", { -- Mark of the Wild
+			"!player.buff(20217).any",
+			"!player.buff(115921).any",
+			"!player.buff(1126).any",
+			"!player.buff(90363).any",
+			"!player.buff(69378).any",
+			"player.form = 0" 
+		}, nil },
+
 	-- Life Bloom
 		{ "33763", { "@mtsLib.Compare('health', 'mtsconfDruidResto', 'LifeBloomTank', 'focus')", "!focus.buff(33763)", "focus.spell(33763).range" }, "focus" }, -- Life Bloom
 		{ "33763", { "!tank.buff(33763)", "tank.spell(33763).range" }, "tank" }, -- Life Bloom
 
 }
-
-for _, Buffs in pairs(Buffs) do
-  inCombat[#inCombat + 1] = Buffs
-  outCombat[#outCombat + 1] = Buffs
-end
 
 ProbablyEngine.rotation.register_custom(105, mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Resto|r]", inCombat, outCombat, exeOnLoad)
