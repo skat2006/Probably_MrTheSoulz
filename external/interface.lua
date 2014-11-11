@@ -1,5 +1,33 @@
 local logo = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:15:15|t"
-local _Header = { type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",width = 200, height = 100, offset = 90, y = 42, center = true }
+local _Header = { 
+	type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",
+	width = 200, 
+	height = 100, 
+	offset = 90, 
+	y = 42, 
+	center = true 
+}
+local fetch = ProbablyEngine.interface.fetchKey
+
+local mts_BuildGUI = ProbablyEngine.interface.buildGUI
+local _CurrentSpec = nil
+
+local ConfigWindow
+local mts_OpenConfigWindow = false
+local mts_ShowingConfigWindow = false
+
+local _OpenClassWindow = false
+local _ShowingClassWindow = false
+
+local InfoWindow
+local mts_OpenInfoWindow = false
+local mts_ShowingInfoWindow = false
+
+local LiveWindow
+local mts_OpenLive = false
+local mts_LiveUpdating = false
+
+
 
 								--[[   !!!Live window!!!   ]]
 --[[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]]
@@ -54,73 +82,6 @@ local mts_live = {
 
 	}
 }
-
-local LiveWindow
-local mts_OpenLive = false
-local mts_LiveUpdating = false
-
-function mts_showLive()
-	local _Config = ProbablyEngine.interface
-
-	-- If a window is not created, then create one...
-	if not mts_OpenLive and _Config.fetchKey('mtsconf','LiveGUI') then
-		LiveWindow = ProbablyEngine.interface.buildGUI(mts_live)
-		-- This is so the window isn't opened twice :D
-		mts_OpenLive = true
-		LiveWindow.parent:SetEventListener('OnClose', function()
-			mts_OpenLive = false
-		end)
-	end
-
-	if not mts_LiveUpdating then
-			mts_LiveUpdating = true
-			C_Timer.NewTicker(0.01, mts_updateLiveGUI, nil)
-		end
-end
-
-function mts_QueueState()
-	if ProbablyEngine.current_spell == false then
-		return ("\124cff0070DEWaiting...")
-	else return ProbablyEngine.current_spell end
-end
-
-function mts_LastCastState()
-	return ProbablyEngine.parser.lastCast == "" and "\124cff0070DENone" or ProbablyEngine.parser.lastCast
-end
-
-function mts_AoEState()
-	local _Config = ProbablyEngine.interface
-	if FireHack and _Config.fetchKey('mtsconf','Firehack') then
-		if ProbablyEngine.config.read('button_states', 'multitarget', false) then
-			return ("\124cff0070DEForced")
-		end
-	  return ("\124cff0070DESmart AoE")
-	elseif ProbablyEngine.config.read('button_states', 'multitarget', false) then
-			return ("\124cff0070DEON")
-	else
-		return ("\124cffC41F3BOFF") 
-	end
-end
-
-function mts_KickState()
-	if ProbablyEngine.config.read('button_states', 'interrupt', false) then
-		return ("\124cff0070DEON")
-	else return ("\124cffC41F3BOFF") end
-end
-
-function mts_CdState()
-	if ProbablyEngine.config.read('button_states', 'cooldowns', false) then
-		return ("\124cff0070DEON")
-	else return ("\124cffC41F3BOFF") end
-end
-
-function mts_updateLiveGUI()
-	LiveWindow.elements.current_Queue:SetText(mts_QueueState())
-	LiveWindow.elements.current_spell:SetText(mts_LastCastState())
-	LiveWindow.elements.current_AoE:SetText(mts_AoEState())
-	LiveWindow.elements.current_Interrupts:SetText(mts_KickState())
-	LiveWindow.elements.current_Cooldowns:SetText(mts_CdState())
-end
 
 
 								--[[   !!!INfo!!!   ]]
@@ -186,7 +147,7 @@ mts_config = {
 		"This checkbox enables or disables MrTheSoulz Pack using sounds."},
 
 		-- Firehack
-		{ type = "checkbox", text = "Firehack", key = "Firehack", default = false, desc =
+		{ type = "checkbox", text = "Firehack", key = "Firehack", default = true, desc =
 		"This checkbox enables or disables MrTheSoulz Pack using Firehacks features like smart aoe and other fancy stuff."},
 
 		-- LiveGUI
@@ -204,17 +165,15 @@ mts_configPriestHoly = {
 	profiles = true,
 	title = logo.."MrTheSoulz Config",
 	subtitle = "Priest Holy Settings",
-	color = "9482C9",
+	color = "ffffff",
 	width = 250,
 	height = 500,
 	config = {
-		{ type = 'header',text = 'MrTheSoulz Pack'},
-		{ type = 'rule' },
-			_Header,
 
 		-- General
 		{ type = 'rule' },
-		{ type = 'header', text = "General settings:"},
+		{ type = 'header', text = "General settings:", align = "center" },
+		{ type = 'spacer' },
 
 			-- AutoTargets
 			{ type = "checkbox", text = "AutoTargets", key = "AutoTargets", default = true, desc =
@@ -228,9 +187,27 @@ mts_configPriestHoly = {
 			{ type = "checkbox", text = "Feathers", key = "Feathers", default = true, desc =
 			 "This checkbox enables or disables the use of automatic feathers to move faster."},
 
-		-- Focus
+			 -- Chakra
+			{ type = "dropdown",text = "Chakra:", key = "Chakra", list = {
+				{
+					text = "Chastise",
+					key = "Chastise"
+				},{
+					text = "Sanctuary",
+					key = "Sanctuary"
+				},{
+					text = "Serenity",
+					key = "Serenity"
+				}}, default = "Serenity", desc = "Select What Chakra to use..." },
+
+		-- Buff
+			{ type = "checkbox", text = "Buff", key = "Buff", default = true, desc =
+			 "This checkbox enables or disables the use of automatic buffing."},
+
+		-- Focus/Tank
 		{ type = 'rule' },
-		{ type = 'header', text = 'Focus settings:'},
+		{ type = 'header', text = 'Focus/Tank settings:', align = "center" },
+		{ type = 'spacer' },
 
 			-- Flash Heal
 			{ type = "spinner", text = "Flash Heal", key = "FlashHealTank", default = 40},
@@ -253,10 +230,33 @@ mts_configPriestHoly = {
 			-- Prayer of Mending
 			{ type = "spinner", text = "Prayer of Mending", key = "PrayerofMendingTank", default = 100},
 
+		-- Raid/Party
+		{ type = 'rule' },
+		{ type = 'header', text = 'Raid/Party settings:', align = "center" },
+		{ type = 'spacer' },
+
+			-- Flash Heal
+			{ type = "spinner", text = "Flash Heal", key = "FlashHealRaid", default = 20},
+
+			-- Holy Word Serenity
+			{ type = "spinner", text = "Holy Word Serenity", key = "HolyWordSerenityRaid", default = 60},
+
+			-- Renew
+			{ type = "spinner", text = "Renew", key = "RenewRaid", default = 85},
+
+			-- Power Word: Shield
+			{ type = "spinner", text = "Power Word: Shield", key = "ShieldRaid", default = 40},
+
+			-- Binding Heal
+			{ type = "spinner", text = "Binding Heal", key = "BindingHealRaid", default = 99},
+
+			-- Heal
+			{ type = "spinner", text = "Heal", key = "HealRaid", default = 95},
 
 		-- Player
 		{ type = 'rule' },
-		{ type = 'header', text = 'Player settings:'},
+		{ type = 'header', text = 'Player settings:', align = "center" },
+		{ type = 'spacer' },
 
 			-- Flash Heal
 			{ type = "spinner", text = "Flash Heal", key = "FlashHealPlayer", default = 40},
@@ -276,6 +276,9 @@ mts_configPriestHoly = {
 			-- Heal
 			{ type = "spinner", text = "Heal", key = "Heal", default = 95},
 
+			-- Healthstone
+			{ type = "spinner", text = "Heal", key = "Healthstone", default = 35},
+
 
 }}
 
@@ -291,13 +294,10 @@ mts_configPriestDisc = {
 	width = 250,
 	height = 500,
 	config = {
-		{ type = 'header',text = 'MrTheSoulz Pack'},
-		{ type = 'rule' },
-		_Header,
 		
 		-- General
 		{ type = 'rule' },
-		{ type = 'header', text = "General settings:"},
+		{ type = 'header', text = "General settings:", align = "center" },
 
 			-- AutoTargets
 			{ type = "checkbox", text = "AutoTargets", key = "AutoTargets", default = true, desc =
@@ -311,9 +311,9 @@ mts_configPriestDisc = {
 			{ type = "checkbox", text = "Feathers", key = "Feathers", default = true, desc =
 			 "This checkbox enables or disables the use of automatic feathers to move faster."},
 
-		-- Focus
+		-- Focus/Tank
 		{ type = 'rule' },
-		{ type = 'header', text = 'Focus settings:'},
+		{ type = 'header', text = 'Focus/Tank settings:', align = "center" },
 
 			-- Flash Heal
 			{ type = "spinner", text = "Flash Heal", key = "FlashHealTank", default = 40},
@@ -328,9 +328,26 @@ mts_configPriestDisc = {
 			{ type = "spinner", text = "Prayer of Mending", key = "PrayerofMendingTank", default = 100},
 
 
+		-- Raid/Party
+		{ type = 'rule' },
+		{ type = 'header', text = 'Raid/Party settings:', align = "center" },
+		{ type = 'spacer' },
+
+			-- Flash Heal
+			{ type = "spinner", text = "Flash Heal", key = "FlashHealRaid", default = 20},
+
+			-- Penance
+			{ type = "spinner", text = "Panance", key = "PenanceRaid", default = 85},
+
+			-- Power Word: Shield
+			{ type = "spinner", text = "Power Word: Shield", key = "ShieldRaid", default = 40},
+
+			-- Heal
+			{ type = "spinner", text = "Heal", key = "HealRaid", default = 95},
+
 		-- Player
 		{ type = 'rule' },
-		{ type = 'header', text = 'Player settings:'},
+		{ type = 'header', text = 'Player settings:', align = "center" },
 
 			-- Flash Heal
 			{ type = "spinner", text = "Flash Heal", key = "FlashHealPlayer", default = 40},
@@ -352,13 +369,10 @@ mts_configDruidResto = {
 	width = 250,
 	height = 500,
 	config = {
-		{ type = 'header',text = 'MrTheSoulz Pack'},
-		{ type = 'rule' },
-		_Header,
 		
 		-- General
 		{ type = 'rule' },
-		{ type = 'header', text = "General settings:"},
+		{ type = 'header', text = "General settings:", align = "center"},
 
 			-- Dispels
 			{ type = "checkbox", text = "Dispels", key = "Dispels", default = true, desc =
@@ -366,7 +380,7 @@ mts_configDruidResto = {
 
 		-- Focus
 		{ type = 'rule' },
-		{ type = 'header', text = 'Focus settings:'},
+		{ type = 'header', text = 'Focus settings:', align = "center"},
 
 			-- Life Bloom
 			{ type = "spinner", text = "Life Bloom", key = "LifeBloomTank", default = 100},
@@ -394,13 +408,10 @@ mts_configDruidFeral = {
 	width = 250,
 	height = 500,
 	config = {
-		{ type = 'header',text = 'MrTheSoulz Pack'},
-		{ type = 'rule' },
-		_Header,
 		
 		-- General
 		{ type = 'rule' },
-		{ type = 'header', text = "General settings:"},
+		{ type = 'header', text = "General settings:", align = "center"},
 
 			-- Buff
 			{ type = "checkbox", text = "Buffs", key = "Buffs", default = true, desc =
@@ -424,7 +435,7 @@ mts_configDruidFeral = {
 
 		-- Player
 		{ type = 'rule' },
-		{ type = 'header', text = "Player settings:"},
+		{ type = 'header', text = "Player settings:", align = "center"},
 
 			-- Tiger's Fury
 			{ type = "spinner", text = "Tigers Fury", key = "TigersFury", default = 35},
@@ -453,13 +464,10 @@ mts_configDkBlood = {
 	width = 250,
 	height = 500,
 	config = {
-		{ type = 'header',text = 'MrTheSoulz Pack'},
-		{ type = 'rule' },
-		_Header,
 		
 		-- General
 		{ type = 'rule' },
-		{ type = 'header', text = "General settings:"},
+		{ type = 'header', text = "General settings:", align = "center"},
 
 			-- Run Faster
 			{ type = "checkbox", text = "Run Faster", key = "RunFaster", default = false , desc =
@@ -471,7 +479,7 @@ mts_configDkBlood = {
 
 		-- Focus
 		{ type = 'rule' },
-		{ type = 'header', text = 'Player settings:'},
+		{ type = 'header', text = 'Player settings:', align = "center"},
 
 			-- Icebound Fortitude
 			{ type = "spinner", text = "Icebound Fortitude", key = "IceboundFortitude", default = 40},
@@ -499,13 +507,10 @@ mts_configPalaProt = {
 	width = 250,
 	height = 500,
 	config = {
-		{ type = 'header',text = 'MrTheSoulz Pack'},
-		{ type = 'rule' },
-		_Header,
 		
 		-- General
 		{ type = 'rule' },
-		{ type = 'header', text = "General settings:"},
+		{ type = 'header', text = "General settings:", align = "center"},
 
 			-- Run Faster
 			{ type = "checkbox", text = "Run Faster", key = "RunFaster", default = false , desc =
@@ -540,7 +545,7 @@ mts_configPalaProt = {
 
 		-- Def CD's
 		{ type = 'rule' },
-		{ type = 'header', text = 'Defensive Cooldowns Settings:'},
+		{ type = 'header', text = 'Defensive Cooldowns Settings:', align = "center"},
 
 			-- Sacred Shield
 			{ type = "spinner", text = "Sacred Shield", key = "SacredShield", default = 95},
@@ -556,7 +561,7 @@ mts_configPalaProt = {
 
 	-- Survival
 		{ type = 'rule' },
-		{ type = 'header', text = 'Survival Settings:'},
+		{ type = 'header', text = 'Survival Settings:', align = "center"},
 
 			-- Healthstone
 			{ type = "spinner", text = "Healthstone", key = "Healthstone", default = 60},
@@ -571,3 +576,158 @@ mts_configPalaProt = {
 			{ type = "spinner", text = "Word of Glory", key = "WordofGlory", default = 40},
 
 }}
+
+
+local function mts_QueueState()
+	if ProbablyEngine.current_spell == false then
+		return ("\124cff0070DEWaiting...")
+	else return ProbablyEngine.current_spell end
+end
+
+local function mts_LastCastState()
+	return ProbablyEngine.parser.lastCast == "" and "\124cff0070DENone" or ProbablyEngine.parser.lastCast
+end
+
+local function mts_AoEState()
+	if FireHack and fetch('mtsconf','Firehack') then
+		if ProbablyEngine.config.read('button_states', 'multitarget', false) then
+			return ("\124cff0070DEForced")
+		end
+	  return ("\124cff0070DESmart AoE")
+	elseif ProbablyEngine.config.read('button_states', 'multitarget', false) then
+			return ("\124cff0070DEON")
+	else
+		return ("\124cffC41F3BOFF") 
+	end
+end
+
+local function mts_KickState()
+	if ProbablyEngine.config.read('button_states', 'interrupt', false) then
+		return ("\124cff0070DEON")
+	else return ("\124cffC41F3BOFF") end
+end
+
+local function mts_CdState()
+	if ProbablyEngine.config.read('button_states', 'cooldowns', false) then
+		return ("\124cff0070DEON")
+	else return ("\124cffC41F3BOFF") end
+end
+
+local function mts_updateLiveGUI()
+	LiveWindow.elements.current_Queue:SetText(mts_QueueState())
+	LiveWindow.elements.current_spell:SetText(mts_LastCastState())
+	LiveWindow.elements.current_AoE:SetText(mts_AoEState())
+	LiveWindow.elements.current_Interrupts:SetText(mts_KickState())
+	LiveWindow.elements.current_Cooldowns:SetText(mts_CdState())
+end
+
+function mts_showLive()
+
+	-- If a window is not created, then create one...
+	if not mts_OpenLive and fetch('mtsconf','LiveGUI') then
+		LiveWindow = ProbablyEngine.interface.buildGUI(mts_live)
+		-- This is so the window isn't opened twice :D
+		mts_OpenLive = true
+		LiveWindow.parent:SetEventListener('OnClose', function()
+			mts_OpenLive = false
+		end)
+	end
+
+	if not mts_LiveUpdating then
+			mts_LiveUpdating = true
+			C_Timer.NewTicker(0.01, mts_updateLiveGUI, nil)
+		end
+end
+
+function mts_ConfigGUI()
+	
+	-- If a frame has not been created, create one...
+	if not mts_OpenConfigWindow then
+		ConfigWindow = ProbablyEngine.interface.buildGUI(mts_config)
+		-- This is so the window isn't opened twice :D
+		mts_OpenConfigWindow = true
+		mts_ShowingConfigWindow = true
+		ConfigWindow.parent:SetEventListener('OnClose', function()
+			mts_OpenConfigWindow = false
+			mts_ShowingConfigWindow = false
+		end)
+	
+	-- If a frame has been created and its showing, hide it.
+	elseif mts_OpenConfigWindow == true and mts_ShowingConfigWindow == true then
+		ConfigWindow.parent:Hide()
+		mts_ShowingConfigWindow = false
+	
+	-- If a frame has been created and its hiding, show it.
+	elseif mts_OpenConfigWindow == true and mts_ShowingConfigWindow == false then
+		ConfigWindow.parent:Show()
+		mts_ShowingConfigWindow = true
+	
+	end
+end
+
+function mts_ClassGUI()
+local _SpecID =  GetSpecializationInfo(GetSpecialization())
+
+	-- Check wich spec the player is to return the currect window.	
+	if _SpecID == 250 and not _OpenClassWindow then -- DK Blood
+		_CurrentSpec = mts_BuildGUI(mts_configDkBlood)
+
+	elseif _SpecID == 103 and not _OpenClassWindow  then -- Druid Feral
+		_CurrentSpec = mts_BuildGUI(mts_configDruidFeral)
+
+	elseif _SpecID == 105 and not _OpenClassWindow  then -- Druid Resto
+		_CurrentSpec = mts_BuildGUI(mts_configDruidResto)
+
+	elseif _SpecID == 257 and not _OpenClassWindow  then -- Priest holy
+		_CurrentSpec = mts_BuildGUI(mts_configPriestHoly)
+
+	elseif _SpecID == 256 and not _OpenClassWindow  then -- Priest Disc
+		_CurrentSpec = mts_BuildGUI(mts_configPriestDisc)
+
+	elseif _SpecID == 66 and not _OpenClassWindow  then -- Pala Prot
+		_CurrentSpec = mts_BuildGUI(mts_configPalaProt)
+	end
+
+	-- If no window been created, create one...
+	if not _OpenClassWindow and _CurrentSpec ~= nil then
+		_OpenClassWindow = true
+		_ShowingClassWindow = true
+		_CurrentSpec.parent:SetEventListener('OnClose', function()
+			_OpenClassWindow = false
+			_ShowingClassWindow = false
+		end)
+
+	-- If a windows has been created and its showing then hide it...	
+	elseif _OpenClassWindow == true and _ShowingClassWindow == true then
+		_CurrentSpec.parent:Hide()
+		_ShowingClassWindow = false
+
+	-- If a windows has been created and its hidden then show it...		
+	elseif _OpenClassWindow == true and _ShowingClassWindow == false then
+		_CurrentSpec.parent:Show()
+		_ShowingClassWindow = true
+	end
+
+end
+
+function mts_InfoGUI()
+	if not mts_OpenInfoWindow then
+		InfoWindow = ProbablyEngine.interface.buildGUI(mts_info)
+		-- This is so the window isn't opened twice :D
+		mts_OpenInfoWindow = true
+		mts_ShowingInfoWindow = true
+		InfoWindow.parent:SetEventListener('OnClose', function()
+			mts_OpenInfoWindow = false
+			mts_ShowingInfoWindow = false
+		end)
+	
+	elseif mts_OpenInfoWindow == true and mts_ShowingInfoWindow == true then
+		InfoWindow.parent:Hide()
+		mts_ShowingInfoWindow = false
+	
+	elseif mts_OpenInfoWindow == true and mts_ShowingInfoWindow == false then
+		InfoWindow.parent:Show()
+		mts_ShowingInfoWindow = true
+	
+	end
+end

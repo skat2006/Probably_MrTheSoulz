@@ -130,6 +130,10 @@ local inCombatSerpente = {
 local inCombatCrane = {
 
 	-- Auto Target
+		{ "/cleartarget", {
+			"toggle.autotarget", 
+			(function() return UnitIsFriend("player","target") end)
+			}},
 		{ "/target [target=focustarget, harm, nodead]", {"target.range > 40", "!target.exists","toggle.autotarget"} },
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},

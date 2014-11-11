@@ -5,6 +5,8 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
+local fetch = ProbablyEngine.interface.fetchKey
+
 local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
@@ -68,6 +70,10 @@ local inCombat = {
   			"!player.buff(5215)"}}, -- Not in Stealth
 
 	-- Auto Target
+		{ "/cleartarget", {
+			"toggle.autotarget", 
+			(function() return UnitIsFriend("player","target") end)
+			}},
 		{ "/target [target=focustarget, harm, nodead]", {"target.range > 40", "!target.exists","toggle.autotarget"} },
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
@@ -112,7 +118,7 @@ local inCombat = {
 			-- AoE smart
 				{ "77758", "player.area(8).enemies >= 3", "target" }, -- Thrash  // FH SMARTH AoE
 
-		}, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
+		}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
 
 		-- AoE
 			{ "77758", "modifier.multitarget" }, -- Thrash

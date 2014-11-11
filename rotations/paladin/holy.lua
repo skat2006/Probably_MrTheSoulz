@@ -43,32 +43,10 @@ local lib = function()
 	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
 	ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
 	mtsStart:message("\124cff9482C9*MTS-\124cffF58CBAPaladin/Holy-\124cff9482C9Loaded*")
-	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     mts_showLive()
+	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     
+	mts_showLive()
 	
 end
-
-local Shared = {
-
-	-- Buffs
-		{ "19740", { -- Blessing of Might
-			"!player.buff(19740).any", 
-			"!player.buff(116956).any", 
-			"!player.buff(93435).any", 
-			"!player.buff(128997).any", 
-			"!toggle.buff" }}, 
-		{ "20217", { -- Blessing of Kings
-			"!player.buff(20217).any",
-			"!player.buff(115921).any", 
-			"!player.buff(1126).any", 
-			"!player.buff(90363).any", 
-			"!player.buff(69378).any",
-			"toggle.buff" }}, 
-	
-	-- Seals
-		{ "20165", "player.seal != 3" }, -- Seal of Insight
-
-
-}
 
 local inCombat = {
 	
@@ -92,6 +70,24 @@ local inCombat = {
 			{ "7744", "player.state.sleep" },
 		-- Goblins
 			{ "69041", "player.moving" },
+
+	-- Buffs
+		{ "19740", { -- Blessing of Might
+			"!player.buff(19740).any", 
+			"!player.buff(116956).any", 
+			"!player.buff(93435).any", 
+			"!player.buff(128997).any", 
+			"!toggle.buff" }}, 
+		{ "20217", { -- Blessing of Kings
+			"!player.buff(20217).any",
+			"!player.buff(115921).any", 
+			"!player.buff(1126).any", 
+			"!player.buff(90363).any", 
+			"!player.buff(69378).any",
+			"toggle.buff" }}, 
+	
+	-- Seals
+		{ "20165", "player.seal != 3" }, -- Seal of Insight
 
 	-- keybinds
 		{ "114158", "modifier.shift", "target.ground"}, -- Light´s Hammer
@@ -168,28 +164,53 @@ local inCombat = {
 	-- HEAL FAST BITCH
 		{ "633", "lowest.health < 15", "lowest" }, -- Lay on Hands
 		{ "85673", { "player.holypower >= 3", "lowest.health <= 80" }, "lowest"  }, -- Word of Glory
-		{ "114163", { "player.holypower >= 1", "!lowest.buff(114163)", "lowest.health <= 93" }, "lowest" }, -- Eternal Flame
-		{ "Sacred Shield", { "player.spell(Sacred Shield).charges >= 2", "lowest.health < 100", "!lowest.buff(Sacred Shield)" }, "lowest" }, -- Sacred Shield
 		{ "19750", { "lowest.health < 30", "!player.moving" }, "lowest" }, -- Flash of light
 
 	-- Dps
 		{ "35395", "target.spell(35395).range", "target" }, -- Crusader Strike
 		
-	-- Tank
+	-- Execution Sentence
 		{ "114157", "tank.health < 85", "tank" }, -- Execution Sentence
+
+	-- Eternal Flame
 		{ "114163", { "player.holypower >= 3", "!tank.buff(114163)", "tank.health <= 75" }, "tank" }, -- Eternal Flame
-		{ "Sacred Shield", { "player.spell(Sacred Shield).charges >= 2", "tank.health < 100", "!tank.buff(Sacred Shield)", "tank.spell(Sacred Shield).range" }, "tank" }, -- Sacred Shield
-		{ "82326", { "tank.health < 65", "tank.spell(82326).range", "!player.moving" }, "tank" }, -- Divine Light
+		{ "114163", { "player.holypower >= 1", "!lowest.buff(114163)", "lowest.health <= 93" }, "lowest" }, -- Eternal Flame
 		
-	-- Single target
+	-- Sacred Shield
+		{ "Sacred Shield", { "player.spell(Sacred Shield).charges >= 1", "tank.health < 100", "!tank.buff(Sacred Shield)", "tank.spell(Sacred Shield).range" }, "tank" },
+		{ "Sacred Shield", { "player.spell(Sacred Shield).charges >= 2", "lowest.health < 80", "!lowest.buff(Sacred Shield)" }, "lowest" }, -- Sacred Shield
+		
+	-- Holy Prism
 		{ "114165", { "lowest.health < 85", "!player.moving" }, "lowest"}, -- Holy Prism
-		{ "635", { "lowest.health < 97", "!lowest.health < 65", "!player.moving" }, "lowest" }, -- Holy Light
-		{ "82326", { "lowest.health < 35", "!player.moving" }, "lowest" }, -- Divine Light
-  
+		
+	-- Holy Light
+		{ "635", { "lowest.health < 97", "!lowest.health < 65", "!player.moving" }, "lowest" },
+		
+	-- Divine light
+		{ "82326", { "tank.health < 65", "tank.spell(82326).range", "!player.moving" }, "tank" }, -- Divine Light
+  		{ "82326", { "lowest.health < 35", "!player.moving" }, "lowest" }, -- Divine Light
 } 
 
 local outCombat = {
 	
+	-- Buffs
+		{ "19740", { -- Blessing of Might
+			"!player.buff(19740).any", 
+			"!player.buff(116956).any", 
+			"!player.buff(93435).any", 
+			"!player.buff(128997).any", 
+			"!toggle.buff" }}, 
+		{ "20217", { -- Blessing of Kings
+			"!player.buff(20217).any",
+			"!player.buff(115921).any", 
+			"!player.buff(1126).any", 
+			"!player.buff(90363).any", 
+			"!player.buff(69378).any",
+			"toggle.buff" }}, 
+	
+	-- Seals
+		{ "20165", "player.seal != 3" }, -- Seal of Insight
+
 	-- keybinds
 		{ "114158", "modifier.shift", "mouseover.ground"}, -- Light´s Hammer
 		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus
@@ -201,11 +222,5 @@ local outCombat = {
 		{ "20473", "lowest.health < 100", "lowest" }, -- Holy Shock
 
 }
-
-for _, Shared in pairs(Shared) do
-  inCombat[#inCombat + 1] = Shared
-  outCombat[#outCombat + 1] = Shared
-end
-
 
 ProbablyEngine.rotation.register_custom(65, mts_Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Holy|r]", inCombat, outCombat, lib)

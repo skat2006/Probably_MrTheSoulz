@@ -5,6 +5,8 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
+local fetch = ProbablyEngine.interface.fetchKey
+
 local exeOnLoad = function()
 
 	mtsStart:message("\124cff9482C9*MTS-\124cffC79C6EWarrior/Fury-\124cff9482C9Loaded*")
@@ -74,6 +76,7 @@ local inCombat = {
 		{ "#86125", { "modifier.cooldowns","@mtsLib.checkItem(KafaPress)" }}, -- Kafa Press]]
 
     -- Auto Target
+    	{ "/cleartarget", (function() return UnitIsFriend("player","target") end) },
     	{ "/TargetNearestEnemy", "!target.exists" },
         { "/TargetNearestEnemy", { "target.exists", "target.dead" } },
 	
@@ -91,7 +94,7 @@ local inCombat = {
 	    	-- AoE smart
 	     	{ "1680", "player.area(8).enemies > 3" }, -- Whirlwind
 
-	  	}, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
+	  	}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
 
 
 	-- AoE

@@ -5,6 +5,7 @@ I Hope Your Enjoy Them
 MTS
 ]]--
 
+local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
 
@@ -21,6 +22,10 @@ local inCombat = {
 		{ "Rain of Fire", "modifier.alt", "ground" },
 
 	-- Auto Target
+		{ "/cleartarget", {
+	      "toggle.autotarget",
+	      (function() return UnitIsFriend("player","target") end)
+	      }},
 		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
@@ -42,7 +47,7 @@ local inCombat = {
 
    	 	{"Fire and Brimstone","player.area(10).enemies >= 3", "target"}, -- smarth
 
-  	}, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
+  	}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
 		
 	-- AoE
 		{"Fire and Brimstone", "modifier.multitarget", "target"},

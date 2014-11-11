@@ -1,3 +1,5 @@
+local fetch = ProbablyEngine.interface.fetchKey
+
 local lib = function()
 
   	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
@@ -23,7 +25,8 @@ local inCombat = {
  		{ "1953", "player.state.root" }, -- Blink
 		{ "475", { -- Remove Curse
 			"!modifier.last(475)", 
-			"player.dispellable(475)" }, "player" }, 
+			"player.dispellable(475)" 
+			}, "player" }, 
 	
 	-- Cooldowns
 		{ "Rune of Power", { "!player.buff(Rune of Power)", "!player.moving" }, "player.ground" }, 
@@ -48,7 +51,7 @@ local inCombat = {
 			{ "120", "target.area(10).enemies >= 5" },--Cone of Cold
 			{ "10", "target.area(10).enemies >= 5", "target.ground" },--Blizzard
 
-	}, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
+	}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
 
 	
 	-- AoE // FallBack

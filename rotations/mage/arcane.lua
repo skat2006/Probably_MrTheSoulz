@@ -1,3 +1,5 @@
+local fetch = ProbablyEngine.interface.fetchKey
+
 local lib = function()
 
   ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
@@ -42,7 +44,7 @@ local inCombat = {
       { "1449", "target.area(10).enemies >= 5" },--Arcane Explosion
       { "120", "target.area(10).enemies >= 5" },--Cone of Cold
 
-  }, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
+  }, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
 
   -- AoE
     { "1449", "modifier.multitarget"},--Arcane Explosion

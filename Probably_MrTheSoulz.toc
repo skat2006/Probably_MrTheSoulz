@@ -5,12 +5,12 @@
 ## Interface: 60000
 ## Author: MrTheSoulz
 
-gui\splash.lua
-gui\alert.lua
-libs\lib.lua
-libs\dotTracker.lua
-libs\bossTaunts.lua
-libs\config.lua
+external\splash.lua
+external\alert.lua
+external\core.lua
+external\tracker.lua
+external\interface.lua
+external\conditions.lua
 rotations\paladin\protection.lua
 rotations\paladin\holy.lua
 rotations\druid\resto.lua

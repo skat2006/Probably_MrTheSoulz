@@ -1,3 +1,4 @@
+local fetch = ProbablyEngine.interface.fetchKey
 
 local lib = function()
 
@@ -23,6 +24,10 @@ local inCombat = {
     { "Mind Sear", "modifier.shift" },
 
   -- Auto Target
+    { "/cleartarget", {
+      "toggle.autotarget",
+      (function() return UnitIsFriend("player","target") end)
+      }},
     { "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40" }}, -- Use Tank Target
     { "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }}, -- target enemire if no target
    	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }}, -- target enemire if current is dead.
@@ -51,7 +56,7 @@ local inCombat = {
         { "12064", "player.area(8).enemies > 3" }, -- Halo
         { "122121", "player.area(8).enemies > 3" }, --Divine Star
 
-    }, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
+    }, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
 
   -- AoE
     { "48045", "modifier.multitarget", "target" }, -- Mind Sear

@@ -5,6 +5,8 @@ Thank Your For Using My ProFiles
 I Hope Your Enjoy Them
 MTS
 ]]
+
+local fetch = ProbablyEngine.interface.fetchKey
 local _darkSimSpells = {
 -- siege of orgrimmar
 "Froststorm Bolt","Arcane Shock","Rage of the Empress","Chain Lightning",
@@ -21,9 +23,20 @@ end
 
 local exeOnLoad = function()
 
-	ProbablyEngine.toggle.create("DRW", "Interface\\Icons\\INV_Sword_07", "Stop using Dancing Rune Weapon", "Toggle Off if you dont want to use DRW on CD")
+	ProbablyEngine.toggle.create("DRW", 
+		"Interface\\Icons\\INV_Sword_07", 
+		"Stop using Dancing Rune Weapon",
+		"Toggle Off if you dont want to use DRW on CD")
+	
 	mtsStart:message("\124cff9482C9*MTS-\124cffC41F3BDeathKnight/Blood\124cff9482C9-Loaded*")
-	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     mts_showLive()
+	
+	ProbablyEngine.toggle.create( 'GUI', 
+		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 
+		'Open/Close GUIs',
+		'Toggle GUIs',
+		(function() mts_ClassGUI() mts_ConfigGUI() end) )
+	
+	mts_showLive()
 
 end
 
@@ -55,9 +68,24 @@ local inCombat = {
 		{ "49222", "!player.buff(49222)" }, -- bone shield
 
 	-- Auto Targets
-		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfDkBlood','AutoTarget')", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfDkBlood','AutoTarget')", "!target.exists" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfDkBlood','AutoTarget')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+		{ "/cleartarget", {
+			(function() return fetch('mtsconfDkBlood','AutoTargets') end),
+			(function() return UnitIsFriend("player","target") end)
+			}},
+
+		{ "/target [target=focustarget, harm, nodead]", { -- Use Tank Target
+			(function() return fetch('mtsconfDkBlood','AutoTarget') end),
+			"target.range > 40"
+			 }}, 
+		{ "/targetenemy [noexists]", { -- target enemire if no target
+			(function() return fetch('mtsconfDkBlood','AutoTarget') end),
+			"!target.exists" 
+			}},
+		{ "/targetenemy [dead]", { -- target enemire if current is dead.
+			(function() return fetch('mtsconfDkBlood','AutoTarget') end), 
+			"target.exists", 
+			"target.dead" 
+			}},
 
 	-- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
@@ -68,18 +96,23 @@ local inCombat = {
 		{ "#5512", "player.health < 70"}, --healthstone
 
 	-- Def cooldowns // heals
-		{ "48792", "@mtsLib.Compare('health','mtsconfDkBlood','IceboundFortitude','player')", "player')" }, -- Icebound Fortitude
-		{ "55233", "@mtsLib.Compare('health','mtsconfDkBlood','VampiricBlood','player')" }, -- Vampiric Blood
-		{ "48743", "@mtsLib.Compare('health','mtsconfDkBlood','DeathPact','player')" }, -- Death Pact
+		{ "48792", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'IceboundFortitude')) end) }, -- Icebound Fortitude
+		{ "55233", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'VampiricBlood')) end) }, -- Vampiric Blood
+		{ "48743", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'DeathPact')) end) }, -- Death Pact
+		{ "48982", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'RuneTap')) end) }, -- rune tap
+		{ "108196", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'DeathSiphon')) end) },-- Death Siphon
 		{ "49039", { "player.state.fear", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //fear
 		{ "49039", { "player.state.sleep", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //sleep
 		{ "49039", { "player.state.charm", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //charm
-		{ "48982", "@mtsLib.Compare('health','mtsconfDkBlood','RuneTap','player')" }, -- rune tap
-		{ "108196", "@mtsLib.Compare('health','mtsconfDkBlood','DeathSiphon','player')" },-- Death Siphon
-
+		
 	-- Cooldowns
 		{ "49028", { "modifier.cooldowns", "!toggle.DRW" }, "target" }, -- Dancing Rune Weapon
-		{ "47568", { "modifier.cooldowns", "player.runes(death).count < 1", "player.runes(frost).count < 1", "player.runes(unholy).count < 1", "player.runicpower < 30" }}, -- Empower Rune Weapon
+		{ "47568", { -- Empower Rune Weapon
+			"modifier.cooldowns", 
+			"player.runes(death).count < 1", 
+			"player.runes(frost).count < 1", 
+			"player.runes(unholy).count < 1", 
+			"player.runicpower < 30" }}, 
 		{ "115989", { "modifier.cooldowns","target.debuff(55095)" }}, -- Unholy Blight
 		{ "115989", { "modifier.cooldowns","target.debuff(55078)" }}, -- Unholy Blight
 		{ "#gloves"},
@@ -121,7 +154,7 @@ local inCombat = {
 		-- AoE smart
 			{ "50842","player.area(10).enemies > 4"}, -- Blood Boil
 
-	}, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
+	}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
 
 	-- AoE
 		{ "50842",	{"modifier.multitarget","target.range <= 10" }}, -- Blood Boil
@@ -132,7 +165,7 @@ local inCombat = {
 		{ "49998", { "player.buff(77513).duration <= 1" }, "target" }, -- Death Strike
 		{ "114866", "target.health <= 35", "target" }, -- Soul Reaper
 		{ "50842",	{ "target.range <= 10", "!target.health <= 35" }}, -- Blood Boil
-		{ "50842",	{ "player.runes(blood).count = 1", "target.range <= 10", "target.health <= 35" }}, -- Blood Boil // at less then 35% health if SR is not available.
+		{ "50842",	{ "player.runes(blood).count = 1", "target.range <= 10", "target.health <= 35" }}, -- Blood Boil //35 % health if SR
 		{ "47541", "player.runicpower >= 30", "target" }, -- Death Coil
 
 	-- Blood Tap
@@ -156,7 +189,10 @@ local outCombat = {
 		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 
 	-- Buffs
-		{ "48265", { "player.seal != 3", "@mtsLib.getConfig('mtsconfDkBlood','RunFaster')" }}, -- unholy // moves faster out of combat...
+		{ "48265", { -- unholy // moves faster out of combat...
+			"player.seal != 3",
+			(function() return fetch('mtsconfDkBlood','RunFaster') end)
+			}},
 		{ "49222", "!player.buff(49222)" }, -- bone shield
 		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
 

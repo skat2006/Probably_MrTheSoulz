@@ -5,12 +5,21 @@ I Hope Your Enjoy Them
 MTS
 ]]--
 
+local fetch = ProbablyEngine.interface.fetchKey
 local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
+
+local function CanUseFeathers(txt, txt2)
+	if txt == 'feather' 
+		and Distance(txt, txt2) >= 35 then
+			return true 
+	end
+		return false
+end
 
 								--[[   !!!Dispell function!!!   ]]
 						--[[   Checks is member as debuff and can be dispeled.   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-function Dispell()
+local function Dispell()
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
 	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
@@ -41,11 +50,21 @@ end
 
 local exeOnLoad = function()
 
-	ProbablyEngine.toggle.create( 'painSup', 'Interface\\Icons\\Spell_holy_painsupression.png', 'Pain Suppression', 'Toggle Enables Pain Suppression')
-	ProbablyEngine.toggle.create( 'mouseOver', 'Interface\\Icons\\Priest_spell_leapoffaith_a', 'MouseOver Heal', 'Toggle Mouse-Over Healing')
+	ProbablyEngine.toggle.create( 'painSup', 
+		'Interface\\Icons\\Spell_holy_painsupression.png', 
+		'Pain Suppression', 
+		'Toggle Enables Pain Suppression')
+	
 	mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Disc\124cff9482C9-Loaded*")
-	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     mts_showLive()
-
+	
+	ProbablyEngine.toggle.create( 'GUI', 
+		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 
+		'Open/Close GUIs',
+		'Toggle GUIs', 
+		(function() mts_ClassGUI() mts_ConfigGUI() end) )
+	
+	-- Opens Status GUI
+	mts_showLive()
 end
 
 local inCombat = {
@@ -60,26 +79,52 @@ local inCombat = {
 		{ "109964", "modifier.lshift" }, --Spirit Shell
 
 	-- Auto Targets
-		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfPriestDisc','AutoTargets')", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfPriestDisc','AutoTargets')", "!target.exists" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfPriestDisc','AutoTargets')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+		{ "/cleartarget", {
+			(function() return fetch('mtsconfPriestDisc','AutoTargets') end),
+			(function() return UnitIsFriend("player","target") end)
+			}},
+
+		{ "/target [target=focustarget, harm, nodead]", {  -- Use Tank Target
+			(function() return fetch('mtsconfPriestDisc','AutoTargets') end),
+			"target.range > 40" 
+			}},
+		
+		{ "/targetenemy [noexists]", {  -- target enemire if no target
+			(function() return fetch('mtsconfPriestDisc','AutoTargets') end), 
+			"!target.exists" 
+			}},
+		
+		{ "/targetenemy [dead]", { -- target enemire if current is dead.
+			(function() return fetch('mtsconfPriestDisc','AutoTargets') end),
+			"target.exists", 
+			"target.dead" 
+			}}, 
 
    	-- buffs
 		{ "81700", "player.buff(81661).count = 5" },--Archangel
 	
 	-- LoOk aT It GOoZ!!! // Needs to add tank...
-		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestDisc','Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
-	
-	-- Mouse Over
-		{ "139", { "toggle.mouseOver", "!mouseover.buff" }, "mouseover" }, --renew
-		{ "47540", { "toggle.mouseOver", "mouseover.health <= 85", "!player.moving" }, "mouseover" }, --Penance
-		{ "2061", { "toggle.mouseOver", "mouseover.health <= 55", "!player.moving" }, "mouseover" },  --Flash Heal
-		{ "2050", { "toggle.mouseOver", "mouseover.health <= 95", "!player.moving" }, "mouseover" }, -- Heal
+		{ "121536", {
+			(function() return fetch('mtsconfPriestDisc','Feathers') end), 
+			"player.movingfor > 2", 
+			"!player.buff(121557)", 
+			"player.spell(121536).charges >= 1" 
+			}, "player.ground" },
 
   	-- Mana/Survival
-		{ "123040", {"player.mana < 75","target.spell(123040).range"}, "target" }, --Mindbender
-		{ "34433", {"player.mana < 75","target.spell(34433).range"}, "target" }, --Shadowfiend
-		{ "19236", {"player.health <= 20" }, "Player" }, --Desperate Prayer
+		{ "123040", { --Mindbender
+			"player.mana < 75",
+			"target.spell(123040).range"
+			}, "target" },
+		
+		{ "34433", { --Shadowfiend
+			"player.mana < 75",
+			"target.spell(34433).range"
+			}, "target" },
+		
+		{ "19236", 
+			"player.health <= 20", 
+				"Player" }, --Desperate Prayer
 
   	-- HEALTHSTONE 
 		{ "#5512", "player.health <= 35" },
@@ -88,63 +133,187 @@ local inCombat = {
 		{ "586", "target.threat >= 80" }, -- Fade
  
   	-- Dispel's
-	    { "527", {"player.debuff(146595)","@coreHealing.needsDispelled('Mark of Arrogance')"}, nil },
-	    { "527", "@coreHealing.needsDispelled('Corrosive Blood')", nil },
-	 	{ "527", "@coreHealing.needsDispelled('Harden Flesh')", nil },
-	 	{ "527", "@coreHealing.needsDispelled('Torment')", nil },
-	 	{ "527", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-	 	{ "527", {"@mtsLib.getConfig('mtsconfPriestDisc','Dispels')",(function() return Dispell() end)}},
+  		-- SoO Stuff
+		    { "527", {
+		    	"player.debuff(146595)",
+		    	"@coreHealing.needsDispelled('Mark of Arrogance')"
+		    	}, nil },
+		    
+		    { "527", 
+		    	"@coreHealing.needsDispelled('Corrosive Blood')",
+		    	nil },
+		 	
+		 	{ "527", 
+		 		"@coreHealing.needsDispelled('Harden Flesh')", 
+		 		nil },
+		 	
+		 	{ "527", "@coreHealing.needsDispelled('Torment')", nil },
+		 	
+		 	{ "527", 
+		 		"@coreHealing.needsDispelled('Breath of Fire')", 
+		 		nil },
+	 	
+	 	-- Dispell ALl
+	 	{ "527", {
+	 		(function() return fetch('mtsconfPriestDisc','Dispels') end), 
+	 		(function() return Dispell() end) 
+	 		}},
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
-		{ "33206", { "toggle.painSup", "lowest.health <= 25 " }, "lowest" }, --Pain Suppression
+		{ "33206", {  --Pain Suppression
+			"toggle.painSup", 
+			"lowest.health <= 25 " 
+			}, "lowest" },
 	
 	-- For Archangel
-		{ "14914", { "!toggle.mouseOver", "player.mana > 20","target.spell(14914).range" }, "target" }, --Holy Fire
+		{ "14914", { --Holy Fire
+			"player.mana > 20",
+			"target.spell(14914).range" 
+			}, "target" }, 
 
 	-- Surge of light
-		{ "2061", {"lowest.health < 100","player.buff(114255)","!player.moving"}, "lowest" }, -- Flash Heal
+		{ "2061", {-- Flash Heal
+			"lowest.health < 100",
+			"player.buff(114255)",
+			"!player.moving"
+			}, "lowest" }, 
 
 	-- Flash Heal
-		{ "2061", {"@mtsLib.Compare('health','mtsconfPriestDisc','FlashHealTank','focus')", "focus.spell(2061).range","!player.moving"}, "focus" }, --Flash Heal
-		{ "2061", {"tank.health <= 40", "tank.spell(2061).range","!player.moving"}, "tank" }, --Flash Heal
-		{ "2061", {"@mtsLib.Compare('health','mtsconfPriestDisc','FlashHealPlayer','player')","!player.moving"}, "player" }, --Flash Heal
-		{ "2061", {"lowest.health <= 20","!player.moving"}, "lowest" }, --Flash Heal
+		{ "2061", { --Flash Heal
+			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end),
+			"focus.spell(2061).range",
+			"!player.moving"
+			}, "focus" },
+		
+		{ "2061", { --Flash Heal
+			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end), 
+			"tank.spell(2061).range",
+			"!player.moving"
+			}, "tank" },
+		
+		{ "2061", { --Flash Heal
+			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealPlayer')) end),
+			"!player.moving"
+			}, "player" },
+		
+		{ "2061", { --Flash Heal
+			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealRaid')) end),
+			"!player.moving"
+			}, "lowest" },
 
 	-- AOE
    		-- Holy nova
    			{ "132157", "modifier.multitarget" }, -- Holy Nova
 
    		-- Prayer of Healing
-   			{ "596", {"player.buff(109964)","player.buff(109964).duration > 2.5","!player.moving"}, "lowest" }, --Prayer of Healing
-   			{ "596", { "@coreHealing.needsHealing(80, 3)", "modifier.party", "!modifier.raid", "!player.moving" }, "lowest" }, --Prayer of Healing
-   			{ "596", { "modifier.lshift", "!player.moving" }, "mouseover" }, --Prayer of Healing // Raid WorkAround.
+   			{ "596", { --Prayer of Healing
+   				"player.buff(109964)",
+   				"player.buff(109964).duration > 2.5",
+   				"!player.moving"
+   				}, "lowest" },
+   			
+   			{ "596", { --Prayer of Healing
+   				"@coreHealing.needsHealing(80, 3)", 
+   				"modifier.party", 
+   				"!modifier.raid", 
+   				"!player.moving" 
+   				}, "lowest" },
+   			
+   			{ "596", { --Prayer of Healing // Raid WorkAround.
+   			"modifier.lshift", 
+   			"!player.moving" 
+   			}, "mouseover" }, 
 
    		-- Power word Barrier
-			{ "62618", { "@coreHealing.needsHealing(50, 3)", "modifier.party", "!player.moving", "modifier.cooldowns" }, "tank.ground" }, -- Power word Barrier // w/t CD's and on tank
+			{ "62618", {  -- Power word Barrier // w/t CD's and on tank
+				"@coreHealing.needsHealing(50, 3)", 
+				"modifier.party", 
+				"!player.moving", 
+				"modifier.cooldowns" 
+				}, "tank.ground" },
 	
 	-- shields
-		{ "17", { "@mtsLib.Compare('health','mtsconfPriestDisc','ShieldTank','focus')", "!focus.debuff(6788).any", "focus.spell(17).range", "focus.spell(17).range" }, "focus" }, --Power Word: Shield
-		{ "17", { "!tank.debuff(6788).any", "tank.spell(17).range", "tank.spell(17).range" }, "tank" }, --Power Word: Shield
-		{ "17", { "@mtsLib.Compare('health','mtsconfPriestDisc','ShieldPlayer','player')", "!player.debuff(6788).any", "!player.buff(17).any" }, "player" }, --Power Word: Shield
-		{ "17", { "!lowest.debuff(6788).any", "!lowest.buff(17).any", "lowest.health <= 40" }, "lowest" }, --Power Word: Shield
+		{ "17", { 
+			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'ShieldTank')) end),
+			"!focus.debuff(6788).any", 
+			"focus.spell(17).range", 
+			"focus.spell(17).range" 
+			}, "focus" }, --Power Word: Shield
+		
+		{ "17", { --Power Word: Shield
+			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'ShieldTank')) end),
+			"!tank.debuff(6788).any", 
+			"tank.spell(17).range", 
+			"tank.spell(17).range" 
+			}, "tank" },
+		
+		{ "17", { --Power Word: Shield
+			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'ShieldPlayer')) end),
+			"!player.debuff(6788).any", 
+			"!player.buff(17).any" 
+			}, "player" }, 
+		
+		{ "17", {  --Power Word: Shield
+			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'ShieldRaid')) end),
+			"!lowest.debuff(6788).any", 
+			"!lowest.buff(17).any", 
+			}, "lowest" },
 	
 	-- Prayer of Mending
-		{ "33076", {"@mtsLib.Compare('health','mtsconfPriestDisc','PrayerofMendingTank','focus')", "focus.spell(33076).range","!player.moving"}, "focus" }, --Prayer of Mending
-		{ "33076", { "tank.health <= 95", "!player.moving", "tank.spell(17).range" }, "tank" }, --Prayer of Mending
+		{ "33076", { --Prayer of Mending
+			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'PrayerofMendingTank')) end),
+			"focus.spell(33076).range",
+			"!player.moving"
+			}, "focus" }, 
+		
+		{ "33076", {  --Prayer of Mending
+			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PrayerofMendingTank')) end),
+			"!player.moving", 
+			"tank.spell(17).range" 
+			}, "tank" },
 
 	 --Penance	
-		{ "47540", {"lowest.health <= 85","!player.moving"}, "lowest" }, --Penance
+		{ "47540", { --Penance
+			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PenanceRaid')) end),
+			"!player.moving"
+			}, "lowest" }, 
 
 	-- heal
-		{ "2060", {"@mtsLib.Compare('health','mtsconfPriestDisc','HealTank','focus')", "focus.spell(2060).range","!player.moving"}, "focus" }, -- Heal
-		{ "2060", {"tank.health <= 90", "tank.spell(2060).range","!player.moving"}, "tank" }, -- Heal
-		{ "2060", {"@mtsLib.Compare('health','mtsconfPriestDisc','HealPlayer','player')","!player.moving"}, "player" }, -- Heal	
-		{ "2060", {"lowest.health <= 90","!player.moving"}, "lowest" }, -- Heal	
+		{ "2060", { -- Heal
+			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'HealTank')) end),
+			"focus.spell(2060).range",
+			"!player.moving"
+			}, "focus" },
+		
+		{ "2060", {
+			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'HealTank')) end),
+			"tank.spell(2060).range",
+			"!player.moving"
+			}, "tank" }, -- Heal
+		
+		{ "2060", { -- Heal	
+			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'HealPlayer')) end),
+			"!player.moving"
+			}, "player" },
+		
+		{ "2060", {-- Heal
+			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'HealRaid')) end),
+			"!player.moving"
+			}, "lowest" }, 
 
 	--Attonement 
-		{ "47540", { "player.mana > 20", "target.spell(47540).range", "!player.moving" }, "target" }, --Penance
-		{ "585", { "player.mana > 20", "!player.moving", "target.spell(585).range" }, "target" }, --Smite
+		{ "47540", { --Penance
+			"player.mana > 20", 
+			"target.spell(47540).range", 
+			"!player.moving" 
+			}, "target" },
+		
+		{ "585", {  --Smite
+			"player.mana > 20", 
+			"!player.moving", 
+			"target.spell(585).range" 
+			}, "target" },
 
 }
 
@@ -153,29 +322,45 @@ local outCombat = {
 
 	--Heal
 		-- AoE
-			{ "596", { "!player.moving", "@coreHealing.needsHealing(90, 3)" }, "lowest" }, --Prayer of Healing
-		
-		-- Shields
-			{ "17", { "!focus.debuff(6788).any", "focus.spell(17).range" }, "focus" }, --Power Word: Shield
-	    	{ "17", { "!tank.debuff(6788).any", "tank.spell(17).range", "modifier.party" }, "tank" }, --Power Word: Shield
+			{ "596", { --Prayer of Healing
+				"!player.moving", 
+				"@coreHealing.needsHealing(90, 3)" 
+				}, "lowest" }, 
 	   
 	   	-- Heals
-			{ "47540", { "lowest.health <= 85", "!player.moving" }, "lowest" }, --Penance
-			{ "2061", { "!player.moving", "lowest.health <= 75" }, "lowest" }, --Flash Heal
-
-	-- Mouse Over
-		{ "139", { "toggle.mouseOver", "!mouseover.buff" }, "mouseover" }, --renew
-		{ "47540", { "toggle.mouseOver", "mouseover.health <= 85", "!player.moving" }, "mouseover" }, --Penance
-		{ "2061", { "toggle.mouseOver", "mouseover.health <= 55", "!player.moving" }, "mouseover" },  --Flash Heal
-		{ "2050", { "toggle.mouseOver", "mouseover.health <= 95", "!player.moving" }, "mouseover" }, -- Heal
+			{ "47540", {  --Penance
+				"lowest.health <= 85", 
+				"!player.moving" 
+				}, "lowest" },
+			{ "2061", { --Flash Heal
+				"!player.moving", 
+				"lowest.health <= 75" 
+				}, "lowest" }, 
 		
 	-- buffs
-		{ "21562", {"!player.buff(21562).any","!player.buff(588)"}}, -- Fortitude
-		{ "81700", "player.buff(81661).count = 5", "player.buff(81661).duration < 5" },--Archangel
+		{ "21562", {-- Fortitude
+			"!player.buff(21562).any",
+			"!player.buff(588)"
+			}}, 
+		
+		{ "81700", {--Archangel
+			"player.buff(81661).count = 5", 
+			"player.buff(81661).duration < 5"
+			}},
 	
 	-- LoOk aT It GOoZ!!!
-		{ "121536", {"player.movingfor > 2", "@mtsLib.getConfig('mtsconfPriestDisc','Feathers')", "!player.buff(121557)", "player.spell(121536).charges >= 1" }, "player.ground" },
+		{ "121536", {
+			(function() return fetch('mtsconfPriestDisc','Feathers') end), 
+			"player.movingfor > 2", 
+			"!player.buff(121557)", 
+			"player.spell(121536).charges >= 1" 
+			}, "player.ground" },
 
 }
 
-ProbablyEngine.rotation.register_custom(256, mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(
+	256, 
+	mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", 
+	inCombat, 
+	outCombat, 
+	exeOnLoad)

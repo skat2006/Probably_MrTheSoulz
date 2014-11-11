@@ -7,6 +7,7 @@ MTS
 ]]
 
 local n,r = GetSpellInfo(137639)
+local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
 
@@ -29,6 +30,10 @@ local inCombat = {
   		{ "/cancelaura "..n, { "target.debuff(Storm, Earth, and Fire)", "toggle.autosef" }, "target"},
 
 	-- Auto Target
+		{ "/cleartarget", {
+			"toggle.autotarget", 
+			(function() return UnitIsFriend("player","target") end)
+			}},
 		{ "/target [target=focustarget, harm, nodead]", {"target.range > 40", "!target.exists","toggle.autotarget"} },
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
@@ -118,7 +123,7 @@ local inCombat = {
 			-- AoE smart
 				{ "101546","player.area(8).enemies >= 3"}, -- Spinning Crane Kick // FH Smarth
 
-		}, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
+		}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
 			
 		-- AoE
 			{ "101546", "modifier.multitarget" }, -- Spinning Crane Kick

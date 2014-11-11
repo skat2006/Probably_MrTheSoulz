@@ -7,11 +7,33 @@ MTS
 
 local exeOnLoad = function()
 
-	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
-	ProbablyEngine.toggle.create('tc', 'Interface\\Icons\\ability_deathwing_bloodcorruption_death', 'Threat Control', '')
-	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Inv_shield_55.png', 'Defensive Cooldowns & Heals', 'Enable or Disable Defensive & Healing Cooldowns.')
+	ProbablyEngine.toggle.create(
+		'autotarget', 
+		'Interface\\Icons\\Ability_spy.png', 
+		'Auto Target', 
+		'Automatically target the nearest enemy when target dies or does not exist')
+	
+	ProbablyEngine.toggle.create('tc', 
+		'Interface\\Icons\\ability_deathwing_bloodcorruption_death', 
+		'Threat Control', 
+		'')
+	
+	ProbablyEngine.toggle.create(
+		'defcd', 
+		'Interface\\Icons\\Inv_shield_55.png', 
+		'Defensive Cooldowns & Heals', 
+		'Enable or Disable Defensive & Healing Cooldowns.')
+	
 	mtsStart:message("\124cff9482C9*MTS-\124cffC79C6EWarrior/Prot-\124cff9482C9Loaded*")
-	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     mts_showLive()
+	
+	ProbablyEngine.toggle.create( 
+		'GUI', 
+		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 
+		'Open/Close GUIs',
+		'Toggle GUIs', 
+		(function() mts_ClassGUI() mts_ConfigGUI() end) )     
+	
+	mts_showLive()
 	
 end
 
@@ -79,6 +101,7 @@ local inCombat = {
 		{ "#86125", { "modifier.cooldowns","@mtsLib.checkItem(KafaPress)" }}, -- Kafa Press]]
 
     -- Auto Target
+    	{ "/cleartarget", (function() return UnitIsFriend("player","target") end) },
     	{ "/TargetNearestEnemy", "!target.exists" },
         { "/TargetNearestEnemy", { "target.exists", "target.dead" } },
 	

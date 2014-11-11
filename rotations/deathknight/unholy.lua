@@ -66,6 +66,10 @@ local inCombat = {
 		{ "108196", { "toggle.defcd","player.health < 60" }},-- Death Siphon
 		
 	--Auto target
+		{ "/cleartarget", {
+			"toggle.autotarget",
+			(function() return UnitIsFriend("player","target") end)
+			}},
 		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},

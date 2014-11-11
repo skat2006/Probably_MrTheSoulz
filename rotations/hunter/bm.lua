@@ -1,3 +1,5 @@
+local fetch = ProbablyEngine.interface.fetchKey
+
 ProbablyEngine.library.register('coreHunter', {
     petInRange = function()
         return (IsSpellInRange('Growl', 'target') == 1)
@@ -56,6 +58,10 @@ local inCombat = {
   		{ "109304", "player.health < 40" },--Exhilaration
 
 	-- Auto Target
+		{ "/cleartarget", {
+			"toggle.autotarget", 
+			(function() return UnitIsFriend("player","target") end)
+			}},
 		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
 		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
@@ -69,7 +75,7 @@ local inCombat = {
 				{"2643","player.area(35).enemies > 4", "target"}, -- Multi-Shot
 				{"13813", nil, "target.ground"}, --Explosive Trap
 
-		}, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
+		}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
 
 
 		-- aoe fallback

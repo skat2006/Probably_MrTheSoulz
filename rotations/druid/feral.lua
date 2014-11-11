@@ -5,10 +5,20 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
+local fetch = ProbablyEngine.interface.fetchKey
+
 local exeOnLoad = function()
 
 	mtsStart:message("\124cff9482C9*MTS-\124cffFF7D0ADruid/Feral-\124cff9482C9Loaded*")
-	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     mts_showLive()
+	
+	ProbablyEngine.toggle.create( 
+		'GUI', 
+		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 
+		'Open/Close GUIs',
+		'Toggle GUIs',
+		 (function() mts_ClassGUI() mts_ConfigGUI() end) )     
+
+	mts_showLive()
 	
 end
 
@@ -43,21 +53,42 @@ local inCombat = {
 	  	{ "Mass Entanglement", "modifier.shift" },
 
   	-- Auto Targets
-		{ "/target [target=focustarget, harm, nodead]", { "@mtsLib.getConfig('mtsconfDruidFeral','AutoTarget')", "target.range > 40" }}, -- Use Tank Target
-		{ "/targetenemy [noexists]", { "@mtsLib.getConfig('mtsconfDruidFeral','AutoTarget')", "!target.exists" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "@mtsLib.getConfig('mtsconfDruidFeral','AutoTarget')", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+		{ "/cleartarget", {
+			(function() return fetch('mtsconfDruidFeral','AutoTarget') end), 
+			(function() return UnitIsFriend("player","target") end)
+			}},
+
+		{ "/target [target=focustarget, harm, nodead]", { -- Use Tank Target
+			 (function() return fetch('mtsconfDruidFeral','AutoTarget') end), 
+			 "target.range > 40" 
+			 }},
+		
+		{ "/targetenemy [noexists]", {  -- target enemire if no target
+			(function() return fetch('mtsconfDruidFeral','AutoTarget') end),
+			"!target.exists" 
+			}},
+		
+		{ "/targetenemy [dead]", { -- target enemire if current is dead.
+			(function() return fetch('mtsconfDruidFeral','AutoTarget') end),
+			"target.exists", 
+			"target.dead" 
+			}},
 
   	-- Survival
-	  	{ "Renewal", "@mtsLib.Compare('health','mtsconfDruidFeral','Renewal','player')" }, -- Renewal
-	  	{ "Cenarion Ward", "@mtsLib.Compare('health','mtsconfDruidFeral','CenarionWard','player')" }, -- Cenarion Ward
-	  	{ "61336", "@mtsLib.Compare('health','mtsconfDruidFeral','SurvivalInstincts','player')" }, -- Survival Instincts
-	  	{ "5185", { "@mtsLib.Compare('health','mtsconfDruidFeral','HealingTouch','player')", "player.buff(Predatory Swiftness)" }}, -- Healing Touch
+	  	{ "Renewal", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'Renewal')) end) }, -- Renewal
+	  	{ "Cenarion Ward", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'CenarionWard')) end) }, -- Cenarion Ward
+	  	{ "61336",(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'SurvivalInstincts')) end) }, -- Survival Instincts
+	  	
+	  	{ "5185", {  -- Healing Touch
+	  		(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'HealingTouch')) end),
+	  		"player.buff(Predatory Swiftness)" 
+	  		}},
 
   	--Interrupts
 	  	{ "106839", { "target.casting", "modifier.interrupt" }, "target"},	-- Skull Bash
 	  	{ "5211", "modifier.interrupt", "target" }, -- Mighty Bash
 
-  	{{-- Cat && MotW
+  	-- Cat && MotW
   		{ "/cancelaura Cat Form", { -- Cancel player form
   			"player.form > 0",  -- Is in any fom
   			"!player.buff(20217).any", -- kings
@@ -66,7 +97,9 @@ local inCombat = {
 			"!player.buff(90363).any",  -- embrace of the Shale Spider
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
   			"!player.buff(5215)",-- Not in Stealth
-  			 "@mtsLib.getConfig('mtsconfDruidFeral','Cat')"}},
+  			(function() return fetch('mtsconfDruidFeral','Cat') end)
+  			}},
+
 		{ "1126", {  -- Mark of the Wild
 			"!player.buff(20217).any", -- kings
 			"!player.buff(115921).any", -- Legacy of the Emperor
@@ -75,18 +108,20 @@ local inCombat = {
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
 			"!player.buff(5215)",-- Not in Stealth
 			"player.form = 0", -- Player not in form
-			"@mtsLib.getConfig('mtsconfDruidFeral','Buffs')"}}, 
+			(function() return fetch('mtsconfDruidFeral','Buffs') end),
+			}}, 
+
   		{ "768", { -- catform
   			"player.form != 2", -- Stop if cat
   			"!modifier.lalt", -- Stop if pressing left alt
   			"!player.buff(5215)", -- Not in Stealth
-  			"@mtsLib.getConfig('mtsconfDruidFeral','Cat')"}},
-  	}},
+  			(function() return fetch('mtsconfDruidFeral','Cat') end),
+  			}},
 
   	-- buffs
   		{ "52610", { "!player.buff(52610)", "!player.buff(174544)", "player.combopoints <= 2" }, "target"}, -- Savage Roar
   		{ "770", { "!target.debuff(770)", "!player.spell(106707).exists" }, "target", "!player.buff(5215)" }, -- Faerie Fire
-		{ "5217", "@mtsLib.Compare('energy','mtsconfDruidFeral','TigersFury','player')"}, -- Tiger's Fury
+		{ "5217", (function() return mts_dynamicEval("player.energy <= " .. fetch('mtsconfDruidFeral', 'TigersFury')) end) }, -- Tiger's Fury
 
   	--Cooldowns
 	  	{ "106737", { "player.spell(106737).charges > 2", "!modifier.last(106737)", "player.spell(106737).exists" }}, --Force of Nature
@@ -103,7 +138,7 @@ local inCombat = {
 			{ "106785", "player.area(8).enemies >= 4" }, -- Swipe // FireHack
 			{ "106830", "player.area(8).enemies >= 4", "target" }, -- Tharsh
 
-	}, {"player.firehack", "@mtsLib.getConfig('mtsconf','Firehack')"}},
+	}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end) }},
 
 
 	-- AoE
@@ -146,15 +181,18 @@ local outCombat = {
 	  	{ "Mass Entanglement", "modifier.shift" },
 
 	-- buff
-		{ "/cancelaura Cat Form", { -- Cancel player form
-	  		"player.form > 0",  -- Is in any fom
-	  		"!player.buff(20217).any", -- kings
+		-- Cat && MotW
+  		{ "/cancelaura Cat Form", { -- Cancel player form
+  			"player.form > 0",  -- Is in any fom
+  			"!player.buff(20217).any", -- kings
 			"!player.buff(115921).any", -- Legacy of the Emperor
 			"!player.buff(1126).any",   -- Mark of the Wild
 			"!player.buff(90363).any",  -- embrace of the Shale Spider
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
-	  		"!player.buff(5215)", -- Not in Stealt
-	  		"@mtsLib.getConfig('mtsconfDruidFeral','CatOOC')" }},
+  			"!player.buff(5215)",-- Not in Stealth
+  			(function() return fetch('mtsconfDruidFeral','CatOOC') end)
+  			}},
+
 		{ "1126", {  -- Mark of the Wild
 			"!player.buff(20217).any", -- kings
 			"!player.buff(115921).any", -- Legacy of the Emperor
@@ -162,17 +200,21 @@ local outCombat = {
 			"!player.buff(90363).any",  -- embrace of the Shale Spider
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
 			"!player.buff(5215)",-- Not in Stealth
-			"player.form = 0",  -- Player not in form
-			"@mtsLib.getConfig('mtsconfDruidFeral','Buffs')" }},
-		{ "768", { -- catform
-	  		"player.form != 2", -- Stop if cat
-	  		"!modifier.lalt", -- Stop if pressing left alt
-	  		"!player.buff(5215)",-- Not in Stealth
-	  		"@mtsLib.getConfig('mtsconfDruidFeral','CatOOC')"}}, 
+			"player.form = 0", -- Player not in form
+			(function() return fetch('mtsconfDruidFeral','Buffs') end),
+			}}, 
+
+  		{ "768", { -- catform
+  			"player.form != 2", -- Stop if cat
+  			"!modifier.lalt", -- Stop if pressing left alt
+  			"!player.buff(5215)", -- Not in Stealth
+  			(function() return fetch('mtsconfDruidFeral','CatOOC') end),
+  			}},
   		{ "5215", { -- Stealth
   			"player.form = 2", -- If cat
   			"!player.buff(5215)", -- Not in Stealth
-  			"@mtsLib.getConfig('mtsconfDruidFeral','Prowl')"}},
+  			(function() return fetch('mtsconfDruidFeral','Prowl') end),
+  			}},
 
 }
 

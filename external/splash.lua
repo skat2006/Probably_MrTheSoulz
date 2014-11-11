@@ -42,6 +42,15 @@ mtsStart.time = 0
 function mtsStart:message(message)
 	local _Config = ProbablyEngine.interface
 
+	-- This iis a WorkAround to fix nil Keys easely...
+		-- Open GUIs
+		mts_ConfigGUI()
+		mts_ClassGUI()
+
+		-- Close GUIs
+		mts_ConfigGUI()
+		mts_ClassGUI()
+
 	if _Config.fetchKey('mtsconf', 'Splash') then
 		mtsStart.text:SetText("|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:17:17|t"..message)
 		mtsStart:SetAlpha(1)
