@@ -10,9 +10,7 @@ local fetch = ProbablyEngine.interface.fetchKey
 local function seal(txt)
 	local _seal = ProbablyEngine.interface.fetchKey("mtsconfPalaProt", "seal")
 	
-	if _seal == 'Insight' and txt == 'Insight' 
-		or _seal == 'Righteousness'and txt == 'Righteousness'
-		or _seal == 'Truth' and txt == 'Truth' then
+	if _seal == txt then
 			return true
 	end
 	 	

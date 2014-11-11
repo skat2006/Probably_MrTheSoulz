@@ -15,13 +15,10 @@ local ignoreDebuffs = {
 local function Chakra(txt)
 	local _chakra = ProbablyEngine.interface.fetchKey("mtsconfPriestHoly", "Chakra")
 	
-	if _chakra == 'Chastise' and txt == 'Chastise' 
-		or _chakra == 'Sanctuary'and txt == 'Sanctuary' 
-		or _chakra == 'Serenity' and txt == 'Serenity' then
-			return true
-	end
-	 	
-	 	return false
+	if _chakra == txt then
+		return true
+	end	
+		return false
 end
 
 --[[ Dispell function ]]
