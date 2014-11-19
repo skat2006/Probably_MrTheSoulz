@@ -11,7 +11,7 @@ local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 								--[[   !!!Dispell function!!!   ]]
 						--[[   Checks is member as debuff and can be dispeled.   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-function Dispell()
+local Dispell = function()
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
 	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
@@ -88,7 +88,7 @@ local inCombatSerpente = {
 		{ "115450", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 		{ "115450", "@coreHealing.needsDispelled('Torment')", nil },
 		{ "115450", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{ "115450", { "toggle.dispel", (function() return Dispell() end) }},
+		{ "115450", { "toggle.dispel", (function() return Dispell end) }},
 
 	-- Cooldowns
   		{ "116849", "lowest.health <= 25" },-- Life Coccon

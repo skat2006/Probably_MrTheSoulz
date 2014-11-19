@@ -11,7 +11,7 @@ local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 								--[[   !!!Dispell function!!!   ]]
 						--[[   Checks is member as debuff and can be dispeled.   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-function Dispell()
+local Dispell = function()
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
 	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
@@ -74,7 +74,7 @@ local inCombat = {
 		{ "88423", "@coreHealing.needsDispelled('Breath of Fire')", nil },
 		{ "88423", {
 			(function() return fetch('mtsconfDruidResto','Dispels') end),
-			(function() return Dispell() end) 
+			(function() return Dispell end) 
 			}},
 
 	-- Cooldowns

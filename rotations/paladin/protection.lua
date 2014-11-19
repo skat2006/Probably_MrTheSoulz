@@ -56,7 +56,7 @@ local inCombat = {
 			"!player.buff(116956).any", 
 			"!player.buff(93435).any", 
 			"!player.buff(128997).any", 
-			(function() return seal('Might') end)
+			(function() return buff('Might') end)
 			}, nil },
 		{ "25780", "!player.buff(25780).any" }, -- Fury
 
