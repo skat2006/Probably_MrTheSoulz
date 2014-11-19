@@ -110,18 +110,13 @@ local inCombat = {
 	
 	-- Seals
 		{ "20165", { -- seal of Insigh
-			"player.seal != 3", 
+			"player.seal != 2", 
 			(function() return seal('Insight') end),
 			}, nil }, 
 		
-		{ "20154", { -- seal of Righteousness
-			"player.seal != 2",
-			(function() return seal('Righteousness') end),
-			}, nil },
-		
-		{ "31801", { -- seal of truth
-			"player.seal != 1", 
-			(function() return seal('Truth') end),
+		{ "105361", { -- seal of Command
+			"player.seal != 1",
+			(function() return seal('Command') end),
 			}, nil },
 
 	-- keybinds
@@ -254,18 +249,13 @@ local outCombat = {
 	
 	-- Seals
 		{ "20165", { -- seal of Insigh
-			"player.seal != 3", 
+			"player.seal != 2", 
 			(function() return seal('Insight') end),
 			}, nil }, 
 		
-		{ "20154", { -- seal of Righteousness
-			"player.seal != 2",
-			(function() return seal('Righteousness') end),
-			}, nil },
-		
-		{ "31801", { -- seal of truth
-			"player.seal != 1", 
-			(function() return seal('Truth') end),
+		{ "105361", { -- seal of Command
+			"player.seal != 1",
+			(function() return seal('Command') end),
 			}, nil },
 
 	-- keybinds

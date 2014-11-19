@@ -688,11 +688,8 @@ mts_configPalaHoly = {
 					text = "Insight",
 					key = "Insight"
 				},{
-					text = "Righteousness",
-					key = "Righteousness"
-				},{
-					text = "Truth",
-					key = "Truth"
+					text = "Command",
+					key = "Command"
 				}}, default = "Insight", desc = "Select What Seal to use..." },
 
 			-- Dispels
