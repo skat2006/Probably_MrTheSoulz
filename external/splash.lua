@@ -52,7 +52,7 @@ function mtsStart:message(message)
 		mts_ClassGUI()
 
 	-- Open Info if theres issues
-	if ProbablyEngine.unlocker == 'Locked' then
+	if ProbablyEngine.pmethod == 'Locked' then
 		print('[|cff9482C9MTS|r] You are not lua unlocked.')
 		print('[|cff9482C9MTS|r] Please use "/mts info" for futher information.')
 	end
