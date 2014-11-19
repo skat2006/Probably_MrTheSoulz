@@ -106,7 +106,7 @@ mts_info = {
 
 		-- General Status
 		{ type = 'rule' },
-		{ type = 'header', text = "MrTheSoulzs General Status:", align = "center"},
+		{ type = 'header', text = "MrTheSoulz General Status:", align = "center"},
 		{ type = 'spacer' },
 
 			{ type = "text", text = "Unlocker Status: ", size = 11, offset = -11 },
@@ -122,7 +122,7 @@ mts_info = {
 		
 		-- CR Status
 		{ type = 'rule' },
-		{ type = 'header', text = "MrTheSoulzs CR Status:", align = "center"},
+		{ type = 'header', text = "MrTheSoulz CR Status:", align = "center"},
 		{ type = 'spacer' },
 
 			{ type = "text", text = "Queued: ", size = 11, offset = -11 },
@@ -147,7 +147,7 @@ mts_info = {
 		{ type = 'spacer' },
 
 		{ type = 'rule' },
-		{ type = 'header', text = "MrTheSoulzs Pack Information:", align = "center"},
+		{ type = 'header', text = "MrTheSoulz Pack Information:", align = "center"},
 		{ type = 'spacer' },
 
 			{ type = 'text', text = "This pack been created for personal use and shared to help others with the same needs." },
