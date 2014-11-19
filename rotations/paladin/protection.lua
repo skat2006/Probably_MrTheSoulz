@@ -7,6 +7,16 @@
 
 local fetch = ProbablyEngine.interface.fetchKey
 
+local function buff(txt)
+	local _buff = ProbablyEngine.interface.fetchKey("mtsconfPalaProt", "Buff")
+	
+	if _buff == txt then
+			return true
+	end
+	 	
+	 	return false
+end
+
 local function seal(txt)
 	local _seal = ProbablyEngine.interface.fetchKey("mtsconfPalaProt", "seal")
 	
@@ -25,12 +35,6 @@ local lib = function()
 		'Enable or Disable Defensive Cooldowns.')
 	
 	mtsStart:message("\124cff9482C9*MTS-\124cffF58CBAPaladin/Protection-\124cff9482C9Loaded*")
-	
-	ProbablyEngine.toggle.create( 'GUI', 
-		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 
-		'Open/Close GUIs',
-		'Toggle GUIs', 
-		(function() mts_ClassGUI() mts_ConfigGUI() end) )     
 
 	mts_showLive()
 	
@@ -39,8 +43,21 @@ end
 local inCombat = {
 	
 	-- Buffs
-		--{ "20217", { "player.buffs.stats", "@mtsLib.Dropdown('Kings')" }, nil },
-		--{ "19740", { "player.buffs.attackpower", "@mtsLib.Dropdown('Might')" }, nil },
+		{ "20217", { -- Blessing of Kings
+			"!player.buff(20217).any",
+			"!player.buff(115921).any", 
+			"!player.buff(1126).any", 
+			"!player.buff(90363).any", 
+			"!player.buff(69378).any",
+			(function() return buff('Kings') end),
+			}, nil },
+		{ "19740", { -- Blessing of Might
+			"!player.buff(19740).any", 
+			"!player.buff(116956).any", 
+			"!player.buff(93435).any", 
+			"!player.buff(128997).any", 
+			(function() return seal('Might') end)
+			}, nil },
 		{ "25780", "!player.buff(25780).any" }, -- Fury
 
 	-- Seals
@@ -160,8 +177,21 @@ local outCombat = {
 		{ "1044", "player.state.root" }, -- Hand of Freedom
 
 	-- Buffs
-		--{ "20217", { "!player.buffs.stats", "@mtsLib.Dropdown('Kings')" }, nil },
-		--{ "19740", { "!player.buffs.attackpower", "@mtsLib.Dropdown('Might')" }, nil },
+		{ "20217", { -- Blessing of Kings
+			"!player.buff(20217).any",
+			"!player.buff(115921).any", 
+			"!player.buff(1126).any", 
+			"!player.buff(90363).any", 
+			"!player.buff(69378).any",
+			(function() return buff('Kings') end),
+			}, nil },
+		{ "19740", { -- Blessing of Might
+			"!player.buff(19740).any", 
+			"!player.buff(116956).any", 
+			"!player.buff(93435).any", 
+			"!player.buff(128997).any", 
+			(function() return buff('Might') end)
+			}, nil },
 		{ "25780", "!player.buff(25780).any" }, -- Fury
 
 	-- Seals

@@ -24,14 +24,7 @@ local exeOnLoad = function()
 		'Defensive Cooldowns & Heals', 
 		'Enable or Disable Defensive & Healing Cooldowns.')
 	
-	mtsStart:message("\124cff9482C9*MTS-\124cffC79C6EWarrior/Prot-\124cff9482C9Loaded*")
-	
-	ProbablyEngine.toggle.create( 
-		'GUI', 
-		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 
-		'Open/Close GUIs',
-		'Toggle GUIs', 
-		(function() mts_ClassGUI() mts_ConfigGUI() end) )     
+	mtsStart:message("\124cff9482C9*MTS-\124cffC79C6EWarrior/Prot-\124cff9482C9Loaded*")  
 	
 	mts_showLive()
 	

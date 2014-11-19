@@ -146,6 +146,23 @@ mts_info = {
 
 		{ type = 'spacer' },
 
+		-- Spec Info
+		{ type = 'rule' },
+		{ type = 'header', text = "MrTheSoulz Spec Info:", align = "center"},
+		{ type = 'spacer' },
+
+			{ type = "text", text = "Spec:", size = 11, offset = -11 },
+			{ key = 'current_spec', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+
+			{ type = "text", text = "Keykinds:", size = 11, offset = -11 },
+			{ key = 'current_keybinds', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+
+		{ type = 'spacer' },
+		{ type = 'spacer' },
+		{ type = 'spacer' },
+		{ type = 'spacer' },
+		{ type = 'spacer' },
+
 		{ type = 'rule' },
 		{ type = 'header', text = "MrTheSoulz Pack Information:", align = "center"},
 		{ type = 'spacer' },
@@ -569,7 +586,7 @@ mts_configPalaProt = {
 
 			-- Run Faster
 			{ type = "checkbox", text = "Run Faster", key = "RunFaster", default = false , desc =
-			 "This checkbox enables or disables the use of Unholy presence while out of combat to move faster."},
+			 "This checkbox enables or disables the use of Speed of Light to move faster."},
 
 			 -- Auto Target
 			{ type = "checkbox", text = "Auto Target", key = "AutoTarget", default = true , desc =
@@ -630,7 +647,62 @@ mts_configPalaProt = {
 			-- Word of Glory
 			{ type = "spinner", text = "Word of Glory", key = "WordofGlory", default = 40},
 
-}}
+	}
+}
+
+mts_configPalaHoly = {
+	key = "mtsconfPalaHoly",
+	profiles = true,
+	title = logo.."MrTheSoulz Config",
+	subtitle = "Paladin Holy Settings",
+	color = "F58CBA",
+	width = 250,
+	height = 500,
+	config = {
+		
+		-- General
+		{ type = 'rule' },
+		{ type = 'header', text = "General settings:", align = "center"},
+
+			-- Run Faster
+			{ type = "checkbox", text = "Run Faster", key = "RunFaster", default = false , desc =
+			 "This checkbox enables or disables the use of Unholy presence while out of combat to move faster."},
+
+			 -- Auto Target
+			{ type = "checkbox", text = "Auto Target", key = "AutoTarget", default = true , desc =
+			 "This checkbox enables or disables the use of Unholy presence while out of combat to move faster."},
+			
+			 -- Buff Might//Kinds
+			{ type = "dropdown",text = "Buff:", key = "Buff", list = {
+				{
+					text = "Kings",
+					key = "Kings"
+				},{
+					text = "Might",
+					key = "Might"
+				}}, default = "Kings", desc = "Select What buff to use The moust..." },
+
+			-- Seal
+			{ type = "dropdown",text = "Seal:", key = "seal", list = {
+				{
+					text = "Insight",
+					key = "Insight"
+				},{
+					text = "Righteousness",
+					key = "Righteousness"
+				},{
+					text = "Truth",
+					key = "Truth"
+				}}, default = "Insight", desc = "Select What Seal to use..." },
+
+			-- Dispels
+			{ type = "checkbox", text = "Dispels", key = "Dispels", default = true, desc =
+			 "This checkbox enables or disables the use of automatic dispels of everything it can dispel."},
+
+		
+
+	}
+}
 
 
 local function UnlockerInfo()
@@ -693,6 +765,20 @@ local function mts_CdState()
 	else return ("\124cffC41F3BOFF") end
 end
 
+local function mts_ClassInfo()
+	local _SpecID =  GetSpecializationInfo(GetSpecialization())
+
+	-- Check wich spec the player is to return the currect info.	
+	if _SpecID == 66 then -- Pala Prot
+		return ("Control: Fist of Justice or Hammer of Justice\nShift: Light´s Hammer")
+	else 
+		return ("This Current Class is either not suported or wasnt documented yet...")
+	end
+end
+
+
+
+
 local function mts_updateLiveGUI()
 	LiveWindow.elements.current_Queue:SetText(mts_QueueState())
 	LiveWindow.elements.current_spell:SetText(mts_LastCastState())
@@ -713,6 +799,10 @@ local function mts_updateLiveInfo()
 	InfoWindow.elements.current_AoE:SetText(mts_AoEState())
 	InfoWindow.elements.current_Interrupts:SetText(mts_KickState())
 	InfoWindow.elements.current_Cooldowns:SetText(mts_CdState())
+
+	-- Spec info
+	InfoWindow.elements.current_spec:SetText(select(2, GetSpecializationInfo(GetSpecialization())) or "None")
+	InfoWindow.elements.current_keybinds:SetText(mts_ClassInfo())
 end
 
 function mts_InfoGUI()
@@ -807,6 +897,9 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 
 	elseif _SpecID == 66 and not _OpenClassWindow  then -- Pala Prot
 		_CurrentSpec = mts_BuildGUI(mts_configPalaProt)
+
+	elseif _SpecID == 65 and not _OpenClassWindow  then -- Pala Holy
+		_CurrentSpec = mts_BuildGUI(mts_configPalaHoly)	
 	end
 
 	-- If no window been created, create one...

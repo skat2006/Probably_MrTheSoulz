@@ -57,12 +57,6 @@ local exeOnLoad = function()
 	mtsStart:message(
 		"\124cff9482C9*MTS-\124cffFFFFFFPriest/Holy\124cff9482C9-Loaded*")
 	
-	--[[ MTS GUI toggle ]]
-	ProbablyEngine.toggle.create( 'GUI', 
-		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 
-		'Open/Close GUIs','Toggle GUIs', 
-		(function() mts_ClassGUI() mts_ConfigGUI() end) ) 
-	
 	--[[ MTS Status GUI ]]
 	mts_showLive()
 

@@ -11,6 +11,7 @@ external\core.lua
 external\tracker.lua
 external\interface.lua
 external\conditions.lua
+external\minimap.lua
 rotations\paladin\protection.lua
 rotations\paladin\holy.lua
 rotations\druid\resto.lua

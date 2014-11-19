@@ -4,12 +4,35 @@
 --													  I Hope Your Enjoy Them
 --															    MTS
 
-local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
+local fetch = ProbablyEngine.interface.fetchKey
+local ignoreDebuffs = {
+	'Mark of Arrogance',
+	'Displaced Energy'
+}
 
+local function buff(txt)
+	local _buff = ProbablyEngine.interface.fetchKey("mtsconfPalaHoly", "Buff")
+	
+	if _buff == txt then
+			return true
+	end
+	 	
+	 	return false
+end
+
+local function seal(txt)
+	local _seal = ProbablyEngine.interface.fetchKey("mtsconfPalaHoly", "seal")
+	
+	if _seal == txt then
+			return true
+	end
+	 	
+	 	return false
+end
 							--[[   !!!Dispell function!!!   ]]
 						--[[   Checks is member as debuff and can be dispeled.   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-function Dispell()
+local Dispell = function()
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
 	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
@@ -40,10 +63,7 @@ end
 
 local lib = function()
 	
-	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
-	ProbablyEngine.toggle.create('buff', 'Interface\\Icons\\spell_magic_greaterblessingofkings.png', 'Buffs', 'Enable for Blessing of Kings. \nDisable for Blessing of Might.')
 	mtsStart:message("\124cff9482C9*MTS-\124cffF58CBAPaladin/Holy-\124cff9482C9Loaded*")
-	ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     
 	mts_showLive()
 	
 end
@@ -72,22 +92,37 @@ local inCombat = {
 			{ "69041", "player.moving" },
 
 	-- Buffs
-		{ "19740", { -- Blessing of Might
-			"!player.buff(19740).any", 
-			"!player.buff(116956).any", 
-			"!player.buff(93435).any", 
-			"!player.buff(128997).any", 
-			"!toggle.buff" }}, 
 		{ "20217", { -- Blessing of Kings
 			"!player.buff(20217).any",
 			"!player.buff(115921).any", 
 			"!player.buff(1126).any", 
 			"!player.buff(90363).any", 
 			"!player.buff(69378).any",
-			"toggle.buff" }}, 
+			(function() return buff('Kings') end),
+			}, nil },
+		{ "19740", { -- Blessing of Might
+			"!player.buff(19740).any", 
+			"!player.buff(116956).any", 
+			"!player.buff(93435).any", 
+			"!player.buff(128997).any", 
+			(function() return buff('Might') end)
+			}, nil }, 
 	
 	-- Seals
-		{ "20165", "player.seal != 3" }, -- Seal of Insight
+		{ "20165", { -- seal of Insigh
+			"player.seal != 3", 
+			(function() return seal('Insight') end),
+			}, nil }, 
+		
+		{ "20154", { -- seal of Righteousness
+			"player.seal != 2",
+			(function() return seal('Righteousness') end),
+			}, nil },
+		
+		{ "31801", { -- seal of truth
+			"player.seal != 1", 
+			(function() return seal('Truth') end),
+			}, nil },
 
 	-- keybinds
 		{ "114158", "modifier.shift", "target.ground"}, -- Light´s Hammer
@@ -123,13 +158,19 @@ local inCombat = {
 	}, "modifier.cooldowns" },
 	
 	-- Dispel
-		{ "4987", { "player.buff(Gift of the Titans)", "@coreHealing.needsDispelled('Mark of Arrogance')" }, nil },
+		{ "4987", { 
+			"player.buff(Gift of the Titans)",
+			"@coreHealing.needsDispelled('Mark of Arrogance')" 
+			}, nil },
 		{ "4987", "@coreHealing.needsDispelled('Shadow Word: Bane')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Corrosive Blood')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Torment')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{ "4987", { "toggle.dispel", (function() return Dispell() end) }},
+		{ "4987", { -- Dispel Everything
+			(function() return fetch('mtsconfPriestHoly','Dispels') end), 
+			(function() return Dispell() end) 
+			}},
 	
 	{{-- Divine Purpose
 		{ "85673", "lowest.health <= 80", "lowest"  }, -- Word of Glory
@@ -189,27 +230,43 @@ local inCombat = {
 	-- Divine light
 		{ "82326", { "tank.health < 65", "tank.spell(82326).range", "!player.moving" }, "tank" }, -- Divine Light
   		{ "82326", { "lowest.health < 35", "!player.moving" }, "lowest" }, -- Divine Light
+
 } 
 
 local outCombat = {
 	
 	-- Buffs
-		{ "19740", { -- Blessing of Might
-			"!player.buff(19740).any", 
-			"!player.buff(116956).any", 
-			"!player.buff(93435).any", 
-			"!player.buff(128997).any", 
-			"!toggle.buff" }}, 
 		{ "20217", { -- Blessing of Kings
 			"!player.buff(20217).any",
 			"!player.buff(115921).any", 
 			"!player.buff(1126).any", 
 			"!player.buff(90363).any", 
 			"!player.buff(69378).any",
-			"toggle.buff" }}, 
+			(function() return buff('Kings') end),
+			}, nil },
+		{ "19740", { -- Blessing of Might
+			"!player.buff(19740).any", 
+			"!player.buff(116956).any", 
+			"!player.buff(93435).any", 
+			"!player.buff(128997).any", 
+			(function() return buff('Might') end)
+			}, nil },
 	
 	-- Seals
-		{ "20165", "player.seal != 3" }, -- Seal of Insight
+		{ "20165", { -- seal of Insigh
+			"player.seal != 3", 
+			(function() return seal('Insight') end),
+			}, nil }, 
+		
+		{ "20154", { -- seal of Righteousness
+			"player.seal != 2",
+			(function() return seal('Righteousness') end),
+			}, nil },
+		
+		{ "31801", { -- seal of truth
+			"player.seal != 1", 
+			(function() return seal('Truth') end),
+			}, nil },
 
 	-- keybinds
 		{ "114158", "modifier.shift", "mouseover.ground"}, -- Light´s Hammer

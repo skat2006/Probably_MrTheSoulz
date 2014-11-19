@@ -30,12 +30,6 @@ local exeOnLoad = function()
 	
 	mtsStart:message("\124cff9482C9*MTS-\124cffC41F3BDeathKnight/Blood\124cff9482C9-Loaded*")
 	
-	ProbablyEngine.toggle.create( 'GUI', 
-		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 
-		'Open/Close GUIs',
-		'Toggle GUIs',
-		(function() mts_ClassGUI() mts_ConfigGUI() end) )
-	
 	mts_showLive()
 
 end

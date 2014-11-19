@@ -9,14 +9,7 @@ local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
 
-	mtsStart:message("\124cff9482C9*MTS-\124cffFF7D0ADruid/Feral-\124cff9482C9Loaded*")
-	
-	ProbablyEngine.toggle.create( 
-		'GUI', 
-		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 
-		'Open/Close GUIs',
-		'Toggle GUIs',
-		 (function() mts_ClassGUI() mts_ConfigGUI() end) )     
+	mtsStart:message("\124cff9482C9*MTS-\124cffFF7D0ADruid/Feral-\124cff9482C9Loaded*") 
 
 	mts_showLive()
 	
