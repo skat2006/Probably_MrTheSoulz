@@ -169,7 +169,7 @@ local inCombat = {
 		{ "4987", "@coreHealing.needsDispelled('Breath of Fire')", nil },
 		{ "4987", { -- Dispel Everything
 			(function() return fetch('mtsconfPriestHoly','Dispels') end), 
-			(function() return Dispell() end) 
+			(function() return Dispell end) 
 			}},
 	
 	{{-- Divine Purpose
