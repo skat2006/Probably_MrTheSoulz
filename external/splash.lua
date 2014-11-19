@@ -42,7 +42,7 @@ mtsStart.time = 0
 function mtsStart:message(message)
 	local _Config = ProbablyEngine.interface
 
-	-- This iis a WorkAround to fix nil Keys easely...
+	-- This is a WorkAround to fix nil Keys easly...
 		-- Open GUIs
 		mts_ConfigGUI()
 		mts_ClassGUI()
@@ -50,6 +50,18 @@ function mtsStart:message(message)
 		-- Close GUIs
 		mts_ConfigGUI()
 		mts_ClassGUI()
+
+	-- Open Info if theres issues
+	if ProbablyEngine.unlocker == 'Locked' then
+		print('[|cff9482C9MTS|r] You are not lua unlocked.')
+		print('[|cff9482C9MTS|r] Please use "/mts info" for futher information.')
+	end
+
+
+	if ProbablyEngine.version ~= mts_peRecomemded then
+		print('[|cff9482C9MTS|r] You are not using the required PE version for this to work.')
+		print('[|cff9482C9MTS|r] Please use "/mts info" for futher information.')
+	end
 
 	if _Config.fetchKey('mtsconf', 'Splash') then
 		mtsStart.text:SetText("|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:17:17|t"..message)

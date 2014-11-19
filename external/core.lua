@@ -21,8 +21,9 @@ local mts_Dummies = {
 }
 local fetch = ProbablyEngine.interface.fetchKey
 
-mts_Version = "0.12.1"
+mts_Version = "0.12.3"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
+mts_peRecomemded = "6.0.3r9-|cffC41F3BDEV|r"
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
 

@@ -22,6 +22,7 @@ local _ShowingClassWindow = false
 local InfoWindow
 local mts_OpenInfoWindow = false
 local mts_ShowingInfoWindow = false
+local mts_InfoUpdating = false
 
 local LiveWindow
 local mts_OpenLive = false
@@ -83,7 +84,6 @@ local mts_live = {
 	}
 }
 
-
 								--[[   !!!INfo!!!   ]]
 --[[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]]
 mts_info = {
@@ -94,19 +94,70 @@ mts_info = {
 	width = 500,
 	height = 350,
 	config = {
-		{ type = 'header',text = 'MrTheSoulz Pack'},
+		{ type = 'header',text = 'MrTheSoulz Pack', size = 15},
 		{ type = 'rule' },
-		_Header,
+		{ type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",
+			width = 400, 
+			height = 200, 
+			offset = 190, 
+			y = 94, 
+			center = true 
+		},
+
+		-- General Status
+		{ type = 'rule' },
+		{ type = 'header', text = "MrTheSoulzs General Status:", align = "center"},
+		{ type = 'spacer' },
+
+			{ type = "text", text = "Unlocker Status: ", size = 11, offset = -11 },
+			{ key = 'current_Unlocker', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+
+			{ type = "text", text = "PE Version Status: ", size = 11, offset = -11 },
+			{ key = 'current_PEStatus', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+
+			{ type = "text", text = "Overall Status: ", size = 11, offset = -11 },
+			{ key = 'current_Status', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
 		
+		-- CR Status
 		{ type = 'rule' },
-		{ type = 'header', text = "MrTheSoulzs Pack information:"},
+		{ type = 'header', text = "MrTheSoulzs CR Status:", align = "center"},
+		{ type = 'spacer' },
 
+			{ type = "text", text = "Queued: ", size = 11, offset = -11 },
+			{ key = 'current_Queue', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+
+			-- Current Spell
+			{ type = "text", text = "Last Used: ", size = 11, offset = -11 },
+			{ key = 'current_spell', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+
+			-- AoE
+			{ type = "text", text = "AoE: ", size = 11, offset = -11 },
+			{ key = 'current_AoE', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+
+			-- Interrupts
+			{ type = "text", text = "Interrupts: ", size = 11, offset = -11 },
+			{ key = 'current_Interrupts', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+
+			-- Cooldowns
+			{ type = "text", text = "Cooldowns: ", size = 11, offset = -11 },
+			{ key = 'current_Cooldowns', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
 
 		{ type = 'rule' },
-		{ type = 'text', text = "To be filled..."},
+		{ type = 'header', text = "MrTheSoulzs Pack Information:", align = "center"},
+
+		{ type = 'rule' },
+		{ type = 'text', text = "This pack been created for personal use and shared to help others with the same needs." },
+		{ type = 'text', text = "If you have any issues while using it and the Status say they are okay, please visit: |cffC41F3Bhttp://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-bots-programs/probably-engine/combat-routines/498642-pe-mrthesoulzpack.html|r for futher help."},
+		{ type = 'text', text = "Created By: MrTheSoulz" },
+
+		{ type = "button", text = "Close", width = 480, height = 20,
+			callback = function()
+				mts_InfoGUI()
+			end},
 
 		
-}}
+	}
+}
 
 								--[[   !!!General Config!!!   ]]
 --[[!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!]]
@@ -578,6 +629,22 @@ mts_configPalaProt = {
 }}
 
 
+local function UnlockerInfo()
+	if ProbablyEngine.pmethod == 'Locked' then
+		return "|cffC41F3BYou're not Unlocked, please use an unlocker."
+	else 
+		return "|cff00FF96You're Unlocked, Using: ".. ProbablyEngine.pmethod
+	end
+end
+
+local function PEVersionInfo()
+	if ProbablyEngine.version ~= mts_peRecomemded then
+		return "|cffC41F3BYou're not using the recommeded PE version."
+	else 
+		return "|cff00FF96You're using the recommeded version."
+	end
+end
+
 local function mts_QueueState()
 	if ProbablyEngine.current_spell == false then
 		return ("\124cff0070DEWaiting...")
@@ -619,6 +686,56 @@ local function mts_updateLiveGUI()
 	LiveWindow.elements.current_AoE:SetText(mts_AoEState())
 	LiveWindow.elements.current_Interrupts:SetText(mts_KickState())
 	LiveWindow.elements.current_Cooldowns:SetText(mts_CdState())
+end
+
+local function mts_updateLiveInfo()
+	-- General Status
+	InfoWindow.elements.current_Unlocker:SetText(UnlockerInfo())
+	InfoWindow.elements.current_PEStatus:SetText(PEVersionInfo())
+	InfoWindow.elements.current_Status:SetText(mtsInfoStatus())
+
+	-- CR Status
+	InfoWindow.elements.current_Queue:SetText(mts_QueueState())
+	InfoWindow.elements.current_spell:SetText(mts_LastCastState())
+	InfoWindow.elements.current_AoE:SetText(mts_AoEState())
+	InfoWindow.elements.current_Interrupts:SetText(mts_KickState())
+	InfoWindow.elements.current_Cooldowns:SetText(mts_CdState())
+end
+
+function mts_InfoGUI()
+	if not mts_OpenInfoWindow then
+		InfoWindow = ProbablyEngine.interface.buildGUI(mts_info)
+		-- This is so the window isn't opened twice :D
+		mts_OpenInfoWindow = true
+		mts_ShowingInfoWindow = true
+		InfoWindow.parent:SetEventListener('OnClose', function()
+			mts_OpenInfoWindow = false
+			mts_ShowingInfoWindow = false
+		end)
+	
+	elseif mts_OpenInfoWindow == true and mts_ShowingInfoWindow == true then
+		InfoWindow.parent:Hide()
+		mts_ShowingInfoWindow = false
+	
+	elseif mts_OpenInfoWindow == true and mts_ShowingInfoWindow == false then
+		InfoWindow.parent:Show()
+		mts_ShowingInfoWindow = true
+	
+	end
+
+	if not mts_InfoUpdating then
+			mts_InfoUpdating = true
+			C_Timer.NewTicker(0.01, mts_updateLiveInfo, nil)
+		end
+end
+
+function mtsInfoStatus()
+	if ProbablyEngine.version == mts_peRecomemded
+	and ProbablyEngine.pmethod ~= 'Locked' then
+		return "|cff00FF96Okay!"
+	else 
+		return "|cffC41F3BOuch, something is not might right..."
+	end
 end
 
 function mts_showLive()
@@ -708,26 +825,4 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 		_ShowingClassWindow = true
 	end
 
-end
-
-function mts_InfoGUI()
-	if not mts_OpenInfoWindow then
-		InfoWindow = ProbablyEngine.interface.buildGUI(mts_info)
-		-- This is so the window isn't opened twice :D
-		mts_OpenInfoWindow = true
-		mts_ShowingInfoWindow = true
-		InfoWindow.parent:SetEventListener('OnClose', function()
-			mts_OpenInfoWindow = false
-			mts_ShowingInfoWindow = false
-		end)
-	
-	elseif mts_OpenInfoWindow == true and mts_ShowingInfoWindow == true then
-		InfoWindow.parent:Hide()
-		mts_ShowingInfoWindow = false
-	
-	elseif mts_OpenInfoWindow == true and mts_ShowingInfoWindow == false then
-		InfoWindow.parent:Show()
-		mts_ShowingInfoWindow = true
-	
-	end
 end
