@@ -117,6 +117,8 @@ mts_info = {
 
 			{ type = "text", text = "Overall Status: ", size = 11, offset = -11 },
 			{ key = 'current_Status', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+
+		{ type = 'spacer' },
 		
 		-- CR Status
 		{ type = 'rule' },
@@ -142,18 +144,20 @@ mts_info = {
 			{ type = "text", text = "Cooldowns: ", size = 11, offset = -11 },
 			{ key = 'current_Cooldowns', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
 
+		{ type = 'spacer' },
+
 		{ type = 'rule' },
 		{ type = 'header', text = "MrTheSoulzs Pack Information:", align = "center"},
+		{ type = 'spacer' },
 
-		{ type = 'rule' },
-		{ type = 'text', text = "This pack been created for personal use and shared to help others with the same needs." },
-		{ type = 'text', text = "If you have any issues while using it and the Status say they are okay, please visit: |cffC41F3Bhttp://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-bots-programs/probably-engine/combat-routines/498642-pe-mrthesoulzpack.html|r for futher help."},
-		{ type = 'text', text = "Created By: MrTheSoulz" },
+			{ type = 'text', text = "This pack been created for personal use and shared to help others with the same needs." },
+			{ type = 'text', text = "If you have any issues while using it and the Status say they are okay, please visit: |cffC41F3Bhttp://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-bots-programs/probably-engine/combat-routines/498642-pe-mrthesoulzpack.html|r for futher help."},
+			{ type = 'text', text = "Created By: MrTheSoulz" },
 
-		{ type = "button", text = "Close", width = 480, height = 20,
-			callback = function()
-				mts_InfoGUI()
-			end},
+			{ type = "button", text = "Close", width = 480, height = 20,
+				callback = function()
+					mts_InfoGUI()
+				end},
 
 		
 	}
