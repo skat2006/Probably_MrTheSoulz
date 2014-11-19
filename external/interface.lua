@@ -645,6 +645,15 @@ local function PEVersionInfo()
 	end
 end
 
+local function mtsInfoStatus()
+	if ProbablyEngine.version == mts_peRecomemded
+	and ProbablyEngine.pmethod ~= 'Locked' then
+		return "|cff00FF96Okay!"
+	else 
+		return "|cffC41F3BOuch, something is not right..."
+	end
+end
+
 local function mts_QueueState()
 	if ProbablyEngine.current_spell == false then
 		return ("\124cff0070DEWaiting...")
@@ -727,15 +736,6 @@ function mts_InfoGUI()
 			mts_InfoUpdating = true
 			C_Timer.NewTicker(0.01, mts_updateLiveInfo, nil)
 		end
-end
-
-function mtsInfoStatus()
-	if ProbablyEngine.version == mts_peRecomemded
-	and ProbablyEngine.pmethod ~= 'Locked' then
-		return "|cff00FF96Okay!"
-	else 
-		return "|cffC41F3BOuch, something is not might right..."
-	end
 end
 
 function mts_showLive()
