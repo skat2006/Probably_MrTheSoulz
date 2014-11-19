@@ -734,7 +734,7 @@ function mts_InfoGUI()
 
 	if not mts_InfoUpdating then
 			mts_InfoUpdating = true
-			C_Timer.NewTicker(0.01, mts_updateLiveInfo, nil)
+			C_Timer.NewTicker(1.00, mts_updateLiveInfo, nil)
 		end
 end
 
