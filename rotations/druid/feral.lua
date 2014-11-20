@@ -101,14 +101,14 @@ local inCombat = {
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
 			"!player.buff(5215)",-- Not in Stealth
 			"player.form = 0", -- Player not in form
-			(function() return fetch('mtsconfDruidFeral','Buffs') end),
+			(function() return fetch('mtsconfDruidFeral','Buffs') end)
 			}}, 
 
   		{ "768", { -- catform
   			"player.form != 2", -- Stop if cat
   			"!modifier.lalt", -- Stop if pressing left alt
   			"!player.buff(5215)", -- Not in Stealth
-  			(function() return fetch('mtsconfDruidFeral','Cat') end),
+  			(function() return fetch('mtsconfDruidFeral','Cat') end)
   			}},
 
   	-- buffs
@@ -125,18 +125,18 @@ local inCombat = {
 	-- Proc's
   		{ "106830", "player.buff(Omen of Clarity)", "target" }, -- Free Thrash
 
+	-- AoE
+		{ "106830", {"modifier.multitarget", "target.debuff(106830).duration < 5"}, "target" }, -- Tharsh
+		{ "106785", {"modifier.multitarget", "!target.debuff(106830).duration < 5"}}, -- Swipe
+
 	{{-- can use FH
 
 		-- AoE smart
-			{ "106785", "player.area(8).enemies >= 4" }, -- Swipe // FireHack
-			{ "106830", "player.area(8).enemies >= 4", "target" }, -- Tharsh
+			{ "106830", {"player.area(8).enemies >= 4", "target.debuff(106830).duration < 5"}, "target" }, -- Tharsh
+			{ "106785", {"player.area(8).enemies >= 4", "!target.debuff(106830).duration < 5"} }, -- Swipe // FireHack
 
 	}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end) }},
 
-
-	-- AoE
-		{ "106785", "modifier.multitarget"}, -- Swipe
-		{ "106830", "modifier.multitarget", "target" }, -- Tharsh
 
 	{{ -- Dont use in aoe
 	-- dots
@@ -149,7 +149,6 @@ local inCombat = {
 			"target.health > 25", 
 			"target.debuff(1079).duration <= 7", 
 			"player.combopoints = 5" }, "target"},
-		{ "106830", "target.debuff(106830).duration <= 1.5", "target" }, -- Tharsh
 
 	-- rotation
 	    { "22568", { "target.health < 25", "target.debuff(1079).duration < 5" }, "target"}, -- Ferocious Bite to refresh Rip when target at <= 25% health.

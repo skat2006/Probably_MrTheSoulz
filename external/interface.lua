@@ -469,7 +469,8 @@ mts_configDruidResto = {
 			-- Healing Touch
 			{ type = "spinner", text = "Healing Touch", key = "HealingTouchTank", default = 96},
 
-}}
+	}
+}
 
 mts_configDruidFeral = {
 	key = "mtsconfDruidFeral",
@@ -525,7 +526,68 @@ mts_configDruidFeral = {
 			{ type = "spinner", text = "Healing Touch", key = "HealingTouch", default = 70, Desc=
 			"When player as buff (Predatory Swiftness)."},		
 
-}}
+	}
+}
+
+mts_configDruidGuard = {
+	key = "mtsconfDruidGuard",
+	profiles = true,
+	title = logo.."MrTheSoulz Config",
+	subtitle = "Druid Guardian Settings",
+	color = "FF7D0A",
+	width = 250,
+	height = 500,
+	config = {
+		
+		-- General
+		{ type = 'rule' },
+		{ type = 'header', text = "General settings:", align = "center"},
+
+			-- Buff
+			{ type = "checkbox", text = "Buffs", key = "Buffs", default = true, desc =
+			 "This checkbox enables or disables the use of automatic buffing."},
+
+			 -- Bear
+			{ type = "checkbox", text = "Bear Form", key = "Bear", default = true, desc =
+			 "This checkbox enables or disables the use of automatic Cat form."},
+
+			 -- Auto Target
+			{ type = "checkbox", text = "Auto Target", key = "AutoTarget", default = true, desc =
+			 "This checkbox enables or disables the use of automatic Targets."},
+
+		-- Player
+		{ type = 'rule' },
+		{ type = 'header', text = "Player settings:", align = "center"},
+
+			-- Savage Defense
+			{ type = "spinner", text = "Savage Defense", key = "SavageDefense", default = 95},
+
+			-- Frenzied Regeneration
+			{ type = "spinner", text = "Frenzied Regeneration", key = "FrenziedRegeneration", default = 70},
+
+			-- Barkskin
+			{ type = "spinner", text = "Barkskin", key = "Barkskin", default = 70},
+
+			-- Cenarion Ward
+			{ type = "spinner", text = "Cenarion Ward", key = "CenarionWard", default = 60},
+
+			-- Survival Instincts
+			{ type = "spinner", text = "Survival Instincts", key = "SurvivalInstincts", default = 40 },
+
+			-- Renewal
+			{ type = "spinner", text = "Renewal", key = "Renewal", default = 40 },	
+
+			-- Healthstone
+			{ type = "spinner", text = "Healthstone", key = "Healthstone", default = 50 },	
+
+			-- Healing Tonic
+			{ type = "spinner", text = "Healing Tonic", key = "HealingTonic", default = 30 },	
+
+			-- Smuggled Tonic
+			{ type = "spinner", text = "Smuggled Tonic", key = "SmuggledTonic", default = 30 },	
+
+	}
+}
 
 mts_configDkBlood = {
 	key = "mtsconfDkBlood",
@@ -714,7 +776,7 @@ local function PEVersionInfo()
 	if ProbablyEngine.version ~= mts_peRecomemded then
 		return "|cffC41F3BYou're not using the recommeded PE version."
 	else 
-		return "|cff00FF96You're using the recommeded version."
+		return "|cff00FF96You're using the recommeded PE version."
 	end
 end
 
@@ -882,6 +944,9 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 
 	elseif _SpecID == 103 and not _OpenClassWindow  then -- Druid Feral
 		_CurrentSpec = mts_BuildGUI(mts_configDruidFeral)
+
+	elseif _SpecID == 104 and not _OpenClassWindow  then -- Druid Guardian
+		_CurrentSpec = mts_BuildGUI(mts_configDruidGuard)
 
 	elseif _SpecID == 105 and not _OpenClassWindow  then -- Druid Resto
 		_CurrentSpec = mts_BuildGUI(mts_configDruidResto)

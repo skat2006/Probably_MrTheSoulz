@@ -3,15 +3,15 @@
 Thank You For Using My ProFiles
 I Hope Your Enjoy Them
 MTS
+
+Updated for level 100 WoD by mac_attack @ ownedcore
 ]]
 
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
 
-	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	mtsStart:message("\124cff9482C9*MTS-\124cffFF7D0ADruid/Guardian\124cff9482C9-Loaded*")
-	--ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     mts_showLive()
 	
 end
 
@@ -71,35 +71,51 @@ local inCombat = {
 
 	-- Auto Target
 		{ "/cleartarget", {
-			"toggle.autotarget", 
+			(function() return fetch('mtsconfDruidGuard','AutoTarget') end), 
 			(function() return UnitIsFriend("player","target") end)
 			}},
-		{ "/target [target=focustarget, harm, nodead]", {"target.range > 40", "!target.exists","toggle.autotarget"} },
-		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
-   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
+
+		{ "/target [target=focustarget, harm, nodead]", { -- Use Tank Target
+			(function() return fetch('mtsconfDruidGuard','AutoTarget') end),
+			"target.range > 40"
+			 }}, 
+		{ "/targetenemy [noexists]", { -- target enemire if no target
+			(function() return fetch('mtsconfDruidGuard','AutoTarget') end),
+			"!target.exists" 
+			}},
+		{ "/targetenemy [dead]", { -- target enemire if current is dead.
+			(function() return fetch('mtsconfDruidGuard','AutoTarget') end), 
+			"target.exists", 
+			"target.dead" 
+			}},
 
 	-- Interrupts
-		{ "80964", "target.interruptsAt(50)" }, -- skull bash
+		{ "80964", {"target.interruptsAt(50)", "modifier.interrupts"}, "target" }, -- skull bash
 	
 	-- Items
-		{ "#5512", "player.health < 50" }, --Healthstone
-		--{ "#76097", "player.health < 30" }, -- Master Health Potion
-		--{ "#86125"}, -- Kafa Press
+		{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'Healthstone')) end) }, -- Healthstone
+		{ "#109223", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'HealingTonic')) end) }, --  Healing Tonic
+		{ "#117415", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'SmuggledTonic')) end) }, --  Smuggled Tonic
 	
 	-- Cooldowns
 		{ "50334", "modifier.cooldowns" }, -- Berserk
 		{ "124974", "modifier.cooldowns" }, -- Nature's Vigil
-		{ "5229", "modifier.cooldowns" }, -- Enrage
 		{ "106731", "modifier.cooldowns" }, -- Incarnation
  
 	--Defensive
-		{ "62606", { "!player.buff", "player.health <= 95" } }, -- Savage Defense
-		{ "22842", { "!player.buff", "player.health <= 70", "player.rage >= 20" } }, -- Frenzied Regeneration
-		{ "22812",  "player.health <= 70" }, -- Barkskin
-		{ "102351",  "player.health <= 60", "player" }, -- Cenarion Ward
-		{ "61336",  "player.health <= 40" }, -- Survival Instincts
-		{ "106922", "player.health < 30", nil }, -- Might of Ursoc
-		{ "108238", "player.health <= 40" }, -- Renewal		
+		{ "62606", { -- Savage Defense
+			"!player.buff", 
+			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'SavageDefense')) end) 
+			} },
+		{ "22842", { -- Frenzied Regeneration
+			"!player.buff",
+			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'FrenziedRegeneration')) end),
+			"player.rage >= 20"
+			} },
+		{ "22812",  (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'Barkskin')) end) }, -- Barkskin
+		{ "102351",  (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'CenarionWard')) end), "player" }, -- Cenarion Ward
+		{ "61336",  (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'SurvivalInstincts')) end) }, -- Survival Instincts
+		{ "108238", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'Renewal')) end) }, -- Renewal		
 
 	-- Dream of Cenarious
 		-- Needs a Rebirth here
@@ -111,17 +127,19 @@ local inCombat = {
 
 	-- Rotation
 		{ "770", {"!target.debuff(770)", "target.boss"} }, -- Faerie Fire
-		{ "33917", "player.rage < 80" }, -- Mangle
+		{ "158792", {"target.debuff(Lacerate).count >= 3", "player.buff(Pulverize).duration <= 3"} }, -- Pulverize
+		{ "33917" }, -- Mangle
 		
+		-- AoE
+			{ "77758", "modifier.multitarget" }, -- Thrash
+
 		{{-- can use FH
 
 			-- AoE smart
 				{ "77758", "player.area(8).enemies >= 3", "target" }, -- Thrash  // FH SMARTH AoE
 
-		}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
+		}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end) }},
 
-		-- AoE
-			{ "77758", "modifier.multitarget" }, -- Thrash
 			
 		{ "77758", "target.debuff(77758).duration <= 4" }, -- Thrash
 		{ "33745" }, -- Lacerate
@@ -160,5 +178,3 @@ local outCombat = {
 }
 
 ProbablyEngine.rotation.register_custom(104, mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Guardian|r]", inCombat, outCombat, exeOnLoad)
-
-
