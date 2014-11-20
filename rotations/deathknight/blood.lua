@@ -60,6 +60,7 @@ local inCombat = {
 	-- buffs
 		{ "48263", "player.seal != 1", nil }, -- Blood
 		{ "49222", "!player.buff(49222)" }, -- bone shield
+		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
 
 	-- Auto Targets
 		{ "/cleartarget", {
