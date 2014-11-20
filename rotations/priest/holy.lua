@@ -12,15 +12,6 @@ local ignoreDebuffs = {
 	'Displaced Energy'
 }
 
-local function Chakra(txt)
-	local _chakra = ProbablyEngine.interface.fetchKey("mtsconfPriestHoly", "Chakra")
-	
-	if _chakra == txt then
-		return true
-	end	
-		return false
-end
-
 --[[ Dispell function ]]
 local Dispell = function()
 local prefix = (IsInRaid() and 'raid') or 'party'
@@ -66,18 +57,18 @@ local inCombat = {
 	
   	--[[ Chakra ]]
   		{ "81208", {--Serenity
-  			"player.chakra != 3", 
-  			(function() return Chakra('Serenity') end),
+  			"player.chakra != 3",
+  			(function() return fetch("mtsconfPriestHoly", "Chakra") == 'Serenity' end),
   			}, nil },
 
 		{ "81206", {--Sanctuary
-			"player.chakra != 2", 
-			(function() return Chakra('Sanctuary') end),
+			"player.chakra != 2",
+			(function() return fetch("mtsconfPriestHoly", "Chakra") == 'Sanctuary' end),
 			}, nil },
 		
 		{ "81209", {--Serenity
-			"player.chakra != 1", 
-			(function() return Chakra('Chastise') end),
+			"player.chakra != 1",
+			(function() return fetch("mtsconfPriestHoly", "Chakra") == 'Chastise' end),
 			}, nil },
 
   	-- buffs
@@ -382,18 +373,18 @@ local outCombat = {
 		
 	--[[ Chakra ]]
   		{ "81208", {--Serenity
-  			"player.seal != 3", 
-  			(function() return Chakra('Serenity') end),
+  			"player.chakra != 3",
+  			(function() return fetch("mtsconfPriestHoly", "Chakra") == 'Serenity' end),
   			}, nil },
 
 		{ "81206", {--Sanctuary
-			"player.seal != 2", 
-			(function() return Chakra('Sanctuary') end),
+			"player.chakra != 2",
+			(function() return fetch("mtsconfPriestHoly", "Chakra") == 'Sanctuary' end),
 			}, nil },
 		
 		{ "81209", {--Serenity
-			"player.seal != 1", 
-			(function() return Chakra('Chastise') end),
+			"player.chakra != 1",
+			(function() return fetch("mtsconfPriestHoly", "Chakra") == 'Chastise' end),
 			}, nil },
 
 	-- AoE

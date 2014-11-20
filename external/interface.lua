@@ -758,6 +758,48 @@ mts_configPalaHoly = {
 			{ type = "checkbox", text = "Dispels", key = "Dispels", default = true, desc =
 			 "This checkbox enables or disables the use of automatic dispels of everything it can dispel."},
 
+		-- Items
+		{ type = 'rule' },
+		{ type = 'header', text = "Items settings:", align = "center"},
+
+			-- Healthstone
+			{ type = "spinner", text = "Healthstone", key = "Healthstone", default = 50 },
+
+			-- Trinket 1
+			{ type = "spinner", text = "Trinket 1", key = "Trinket1", default = 85, desc =
+			 "Use Trinket when player mana is equal to..." },	
+
+			-- Trinket 2
+			{ type = "spinner", text = "Trinket 2", key = "Trinket2", default = 85, desc =
+			 "Use Trinket when player mana is equal to..." },
+
+		-- Survival
+		{ type = 'rule' },
+		{ type = 'header', text = "Survival settings:", align = "center"},
+
+			-- Divine Protection
+			{ type = "spinner", text = "Divine Protection", key = "DivineProtection", default = 90 },
+
+			-- Divine Shield
+			{ type = "spinner", text = "Divine Shield", key = "DivineShield", default = 20 },
+
+		-- Tank/Focus
+		{ type = 'rule' },
+		{ type = 'header', text = "Tank/Focus settings:", align = "center"},
+
+			-- Beacon of light
+			{ type = "dropdown",text = "Beacon of light:", key = "Beacon", list = {
+				{
+					text = "Tank",
+					key = "Tank"
+				},{
+					text = "Focus",
+					key = "Focus"
+				}}, default = "Tank", desc = "Select who to use Beacon of light on..." },
+
+			-- Hand of Sacrifice
+			{ type = "spinner", text = "Hand of Sacrifice", key = "HandofSacrifice", default = 40 }
+
 		
 
 	}

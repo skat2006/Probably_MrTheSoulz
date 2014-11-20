@@ -7,26 +7,6 @@
 
 local fetch = ProbablyEngine.interface.fetchKey
 
-local function buff(txt)
-	local _buff = ProbablyEngine.interface.fetchKey("mtsconfPalaProt", "Buff")
-	
-	if _buff == txt then
-			return true
-	end
-	 	
-	 	return false
-end
-
-local function seal(txt)
-	local _seal = ProbablyEngine.interface.fetchKey("mtsconfPalaProt", "seal")
-	
-	if _seal == txt then
-			return true
-	end
-	 	
-	 	return false
-end
-
 local lib = function()
 
 	ProbablyEngine.toggle.create('defcd', 
@@ -49,31 +29,31 @@ local inCombat = {
 			"!player.buff(1126).any", 
 			"!player.buff(90363).any", 
 			"!player.buff(69378).any",
-			(function() return buff('Kings') end),
+			(function() return fetch("mtsconfPalaProt", "Buff") == 'Kings' end),
 			}, nil },
 		{ "19740", { -- Blessing of Might
 			"!player.buff(19740).any", 
 			"!player.buff(116956).any", 
 			"!player.buff(93435).any", 
 			"!player.buff(128997).any", 
-			(function() return buff('Might') end)
+			(function() return fetch("mtsconfPalaProt", "Buff") == 'Might' end),
 			}, nil },
 		{ "25780", "!player.buff(25780).any" }, -- Fury
 
 	-- Seals
 		{ "20165", { -- seal of Insigh
 			"player.seal != 3", 
-			(function() return seal('Insight') end),
+			(function() return fetch("mtsconfPalaProt", "seal") == 'Insight' end),
 			}, nil }, 
 		
 		{ "20154", { -- seal of Righteousness
 			"player.seal != 2",
-			(function() return seal('Righteousness') end),
+			(function() return fetch("mtsconfPalaProt", "seal") == 'Righteousness' end),
 			}, nil },
 		
 		{ "31801", { -- seal of truth
-			"player.seal != 1", 
-			(function() return seal('Truth') end),
+			"player.seal != 1",
+			(function() return fetch("mtsconfPalaProt", "seal") == 'Truth' end),
 			}, nil },
 
 	-- run fast
@@ -183,31 +163,31 @@ local outCombat = {
 			"!player.buff(1126).any", 
 			"!player.buff(90363).any", 
 			"!player.buff(69378).any",
-			(function() return buff('Kings') end),
+			(function() return fetch("mtsconfPalaProt", "Buff") == 'Kings' end),
 			}, nil },
 		{ "19740", { -- Blessing of Might
 			"!player.buff(19740).any", 
 			"!player.buff(116956).any", 
 			"!player.buff(93435).any", 
 			"!player.buff(128997).any", 
-			(function() return buff('Might') end)
+			(function() return fetch("mtsconfPalaProt", "Buff") == 'Might' end),
 			}, nil },
 		{ "25780", "!player.buff(25780).any" }, -- Fury
 
 	-- Seals
 		{ "20165", { -- seal of Insigh
 			"player.seal != 3", 
-			(function() return seal('Insight') end),
+			(function() return fetch("mtsconfPalaProt", "seal") == 'Insight' end),
 			}, nil }, 
 		
 		{ "20154", { -- seal of Righteousness
 			"player.seal != 2",
-			(function() return seal('Righteousness') end),
+			(function() return fetch("mtsconfPalaProt", "seal") == 'Righteousness' end),
 			}, nil },
 		
 		{ "31801", { -- seal of truth
-			"player.seal != 1", 
-			(function() return seal('Truth') end),
+			"player.seal != 1",
+			(function() return fetch("mtsconfPalaProt", "seal") == 'Truth' end),
 			}, nil },
 
 	-- run fast
