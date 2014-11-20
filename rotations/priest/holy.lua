@@ -447,7 +447,7 @@ local outCombat = {
 --[[ Register CR ]]
 ProbablyEngine.rotation.register_custom(
 	257, 
-	mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Holy-Party|r]", 
+	mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Holy|r]", 
 	inCombat, 
 	outCombat, 
 	exeOnLoad )

@@ -129,7 +129,6 @@ local inCombat = {
 		{ "6940", { -- Hand of Sacrifice
 			"tank.spell(6940).range",
 			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'HandofSacrifice')) end)
-			"tank.health < 40" 
 			}, "tank" },
 		{ "6940", { -- Hand of Sacrifice
 			"focus.spell(6940).range",
