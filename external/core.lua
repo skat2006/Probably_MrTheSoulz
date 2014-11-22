@@ -21,15 +21,11 @@ local mts_Dummies = {
 }
 local fetch = ProbablyEngine.interface.fetchKey
 
-mts_Version = "0.12.9"
+mts_Version = "0.13.0"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mts_peRecomemded = "6.0.3r9-|cffC41F3BDEV|r"
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
-
--- To Implement // FH Keybinds
--- if GetKeyState(90) then print("Z HAS BEEN PRESSED!") end
-
 							
 									--[[   !!!Pack Commands!!!   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
@@ -192,6 +188,5 @@ function mtsLib.dummy()
 		end	
 	end
 end
-
 
 ProbablyEngine.library.register('mtsLib', mtsLib)

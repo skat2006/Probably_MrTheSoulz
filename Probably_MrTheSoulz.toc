@@ -6,6 +6,7 @@
 ## Author: MrTheSoulz
 
 external\core.lua
+external\movement.lua
 external\tracker.lua
 external\conditions.lua
 interface\minimap.lua

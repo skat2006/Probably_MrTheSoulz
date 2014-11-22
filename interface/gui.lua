@@ -311,6 +311,10 @@ mts_config = {
 		{ type = "checkbox", text = "LiveGUI", key = "LiveGUI", default = true, desc =
 		"This checkbox enables or disables MrTheSoulz Pack Displaying LiveGUI at Start."},
 
+		-- AutoMove
+		{ type = "checkbox", text = "Auto Moving", key = "AutoMove", default = false, desc =
+		"Follows your current target if its an enemie.\nChecks for LoS and range."},
+
 	}
 }
 
