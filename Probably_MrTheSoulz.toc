@@ -5,13 +5,21 @@
 ## Interface: 60000
 ## Author: MrTheSoulz
 
-external\splash.lua
-external\alert.lua
 external\core.lua
 external\tracker.lua
-external\interface.lua
 external\conditions.lua
-external\minimap.lua
+interface\minimap.lua
+interface\splash.lua
+interface\alert.lua
+interface\gui.lua
+interface\dk\blood.lua
+interface\druid\feral.lua
+interface\druid\guard.lua
+interface\druid\resto.lua
+interface\pala\holy.lua
+interface\pala\prot.lua
+interface\priest\disc.lua
+interface\priest\holy.lua
 rotations\paladin\protection.lua
 rotations\paladin\holy.lua
 rotations\druid\resto.lua
