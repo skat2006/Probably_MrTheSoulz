@@ -24,10 +24,6 @@ local exeOnLoad = function()
 		'Defensive Cooldowns & Heals', 
 		'Enable or Disable Defensive & Healing Cooldowns.')
 	
-	mtsStart:message("\124cff9482C9*MTS-\124cffC79C6EWarrior/Prot-\124cff9482C9Loaded*")  
-	
-	mts_showLive()
-	
 end
 
 local Shared = {

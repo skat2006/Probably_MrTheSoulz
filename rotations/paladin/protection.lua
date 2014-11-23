@@ -14,10 +14,6 @@ local lib = function()
 		'Defensive Cooldowns', 
 		'Enable or Disable Defensive Cooldowns.')
 	
-	mtsStart:message("\124cff9482C9*MTS-\124cffF58CBAPaladin/Protection-\124cff9482C9Loaded*")
-
-	mts_showLive()
-	
 end
 
 local inCombat = {

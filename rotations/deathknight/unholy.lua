@@ -1,3 +1,4 @@
+local fetch = ProbablyEngine.interface.fetchKey
 local _darkSimSpells = {
 -- siege of orgrimmar
 "Froststorm Bolt","Arcane Shock","Rage of the Empress","Chain Lightning",
@@ -16,8 +17,6 @@ function exeOnLoad()
 
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_deathknight_iceboundfortitude.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
-	mtsStart:message("\124cff9482C9*MTS-\124cffC41F3BDeathKnight/Unholy\124cff9482C9-Loaded*")
-	--ProbablyEngine.toggle.create( 'GUI', 'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp:36:36"', 'Open/Close GUIs','Toggle GUIs', (function() mts_ClassGUI() mts_ConfigGUI() end) )     mts_showLive()
 
 end
 
@@ -103,30 +102,70 @@ local inCombat = {
 			"player.runes(death).count = 0",-- With 0 Death Runes
 			"!modifier.last"}}, 
 
+	-- Proc
+		{ "47541", "player.buff(Sudden Doom)", "target"  }, -- Death Coil w/t Sudden Doom
+
+	-- Soul Reaper
+		{ "Soul Reaper", { "!target.debuff", "target.health < 45" }, "target" },
+
+	-- Excess RP
+		{ "47541", "player.runicpower >= 75", "target"  }, -- Death Coil
+
 	-- Diseases
 		{ "77575", "target.debuff(55095).duration < 2" }, -- Outbreak
 		{ "77575", "target.debuff(55078).duration < 2" }, -- Outbreak
-		{ "45462", "target.debuff(55078).duration < 2", "target" }, -- Plague Strike
-		{ "45477", "target.debuff(55095).duration < 2", "target" }, -- Icy Touch
-		{ "48721", { -- Blood Boil // blod
-			"player.runes(blood).count > 1",
-			"target.debuff(55095).duration < 3", 
-			"target.debuff(55078).duration <3" }},
-		{ "48721", {  -- Blood Boil // death
-			"player.runes(death).count > 1",
-			"target.debuff(55095).duration < 3", 
-			"target.debuff(55078).duration <3" }},
+		{ "45462", "target.debuff(55095).duration <= 9", "target" }, -- Plague Strike
+		{ "45462", "target.debuff(55078).duration <= 9", "target" }, -- Plague Strike
 
-	-- Rotation
-		{ "Soul Reaper", { "!target.debuff", "target.health < 35" } },
-		{ "Death Coil", "player.runicpower > 90" },
-		{ "Death and Decay", "player.runes(unholy) = 2", "target.ground" },
-		{ "Scourge Strike", "player.runes(unholy) = 2" },
-		{ "Fastering Strike", { "player.runes(unholy) = 2", "player.runes(blood) = 2" } },
-		{ "Death Coil", "player.buff(Sudden Doom)" },
-		{ "Scourge Strike" },
+	{{-- AoE // Smarth
+		{ "43265", "target.range < 7", "target.ground" }, -- Death and Decay
+		{ "50842", { -- Blood Boil // death
+			"player.runes(death).count >= 1",
+			"target.range <= 10"
+			}, nil },
+		{ "50842", { -- Blood Boil // blood
+			"player.runes(blood).count >= 1",
+			"target.debuff(55095).duration < 3", 
+			"target.debuff(55078).duration <3",
+			"target.range <= 10" }},
+		{ "50842", {  -- Blood Boil // death
+			"player.runes(death).count >= 1",
+			"target.debuff(55095).duration < 3", 
+			"target.debuff(55078).duration <3",
+			"target.range <= 10" }},
 		{ "Festering Strike" },
-		{ "Death Coil" },
+		{ "47541", "player.runicpower >= 40", "target"  }, -- Death Coil
+	}, { "player.firehack", (function() return fetch('mtsconf','Firehack') end), "player.area(10).enemies >= 4" }},
+
+	{{-- AoE
+		{ "43265", "target.range < 7", "target.ground" }, -- Death and Decay
+		{ "50842", { -- Blood Boil // death
+			"player.runes(death).count >= 1",
+			"target.range <= 10"
+			}, nil },
+		{ "50842", { -- Blood Boil // blood
+			"player.runes(blood).count >= 1",
+			"target.debuff(55095).duration < 3", 
+			"target.debuff(55078).duration <3",
+			"target.range <= 10" }},
+		{ "50842", {  -- Blood Boil // death
+			"player.runes(death).count >= 1",
+			"target.debuff(55095).duration < 3", 
+			"target.debuff(55078).duration <3",
+			"target.range <= 10" }},
+		{ "Festering Strike" },
+		{ "Festering Strike" },
+		{ "47541", "player.runicpower >= 40", "target"  }, -- Death Coil
+	}, "modifier.multitarget"},
+
+	{{-- Rotation
+		{ "55090", "player.runes(unholy) = 2", "target"  }, -- Scourge Strike
+		{ "43265", "target.range < 7", "target.ground" }, -- Death and Decay
+		{ "Fastering Strike", { "player.runes(unholy) = 2", "player.runes(blood) = 2" }, "target"  },
+		{ "55090" },-- Scourge Strike
+		{ "Festering Strike" },
+		{ "47541" }, -- Death Coil
+	}, "!modifier.multitarget" },
 
 	-- Blood Tap
 		{{

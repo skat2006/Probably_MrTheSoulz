@@ -11,7 +11,6 @@ local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
 
-	mtsStart:message("\124cff9482C9*MTS-\124cffFF7D0ADruid/Guardian\124cff9482C9-Loaded*")
 	
 end
 

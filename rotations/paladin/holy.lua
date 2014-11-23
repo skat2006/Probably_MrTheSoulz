@@ -44,8 +44,7 @@ end
 
 local lib = function()
 	
-	mtsStart:message("\124cff9482C9*MTS-\124cffF58CBAPaladin/Holy-\124cff9482C9Loaded*")
-	mts_showLive()
+	
 	
 end
 

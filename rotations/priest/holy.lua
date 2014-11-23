@@ -44,13 +44,6 @@ end
 
 local exeOnLoad = function()
 	
-	--[[ MTS Splash ]]
-	mtsStart:message(
-		"\124cff9482C9*MTS-\124cffFFFFFFPriest/Holy\124cff9482C9-Loaded*")
-	
-	--[[ MTS Status GUI ]]
-	mts_showLive()
-
 end
 
 local inCombat = {

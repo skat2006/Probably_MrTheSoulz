@@ -54,11 +54,7 @@ local exeOnLoad = function()
 		'Interface\\Icons\\Spell_holy_painsupression.png', 
 		'Pain Suppression', 
 		'Toggle Enables Pain Suppression')
-	
-	mtsStart:message("\124cff9482C9*MTS-\124cffFFFFFFPriest/Disc\124cff9482C9-Loaded*")
-	
-	-- Opens Status GUI
-	mts_showLive()
+
 end
 
 local inCombat = {

@@ -13,6 +13,9 @@ interface\minimap.lua
 interface\splash.lua
 interface\alert.lua
 interface\gui.lua
+interface\status.lua
+interface\info.lua
+interface\config.lua
 interface\dk\blood.lua
 interface\druid\feral.lua
 interface\druid\guard.lua

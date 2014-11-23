@@ -36,8 +36,6 @@ end
 local lib = function()
 
   	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
-  	mtsStart:message("\124cff9482C9*MTS-\124cff0070DEShaman/Resto-\124cff9482C9Loaded*")
-  	mts_showLive()
   	
 end
 

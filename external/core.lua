@@ -7,6 +7,7 @@ MTS
 
 local mtsLib = {}
 local _media = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\"
+local fetch = ProbablyEngine.interface.fetchKey
 local mts_Dummies = {
 	31146,
 	67127,
@@ -19,51 +20,12 @@ local mts_Dummies = {
 	32545,
 	32541
 }
-local fetch = ProbablyEngine.interface.fetchKey
 
-mts_Version = "0.13.0"
+mts_Version = "0.13.1"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mts_peRecomemded = "6.0.3r9-|cffC41F3BDEV|r"
 mtsLib.queueSpell = nil
 mtsLib.queueTime = 0
-							
-									--[[   !!!Pack Commands!!!   ]]
---[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
-ProbablyEngine.command.register('mts', function(msg, box)
-local command, text = msg:match("^(%S*)%s*(.-)$")
-		
-	-- Dispaly Version
-	if command == 'ver' or command == 'version' then
-		mtsLib.CanSound()
-		mtsAlert:message('MrTheSoulz Version: '..mts_Version)
-	end
-
-    -- Displays MTS splash
-    if command == 'logo' then
-    	mtsStart:message("\124cff9482C9*Wanted To See Me?!*")
-    end
-
-    -- Displays General GUI
-    if command == 'config' then
-    	mts_ConfigGUI()
-    end
-
-   -- Displays LiveGUI
-    if command == 'gui' then
-    	mts_showLive()
-    end
-
-    -- Displays Class GUI
-    if command == 'class' then
-    	mts_ClassGUI()
-    end
-
-	-- Displays Help GUI
-	if command == 'help' or command == 'info' or command == '?' then
-		mts_InfoGUI()
-	end
-
-end)
 
 function mts_dynamicEval(condition, spell)
 	if not condition then return false end

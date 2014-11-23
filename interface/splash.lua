@@ -1,12 +1,4 @@
---[[ ///---INFO---////
-// Splash GUI //
-Thank Your For Using My ProFiles
-I Hope Your Enjoy Them
-MTS
-]]
-
-local currentSpec = GetSpecialization()
-local currentSpecName = currentSpec and select(2, GetSpecializationInfo(currentSpec)) or "None"
+local fetch = ProbablyEngine.interface.fetchKey
 
 local function onUpdate(mtsStart,elapsed) 
 	if mtsStart.time < GetTime() - 2.0 and mtsSplash.time < GetTime() - 2.0 then
@@ -20,6 +12,19 @@ local function onUpdate(mtsStart,elapsed)
 	end
 end
 
+local function mts_Splash(message)
+	if fetch('mtsconf', 'Splash') then
+		mtsStart.text:SetText("|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:17:17|t"..message)
+		mtsStart:SetAlpha(1)
+		mtsSplash:SetAlpha(1)
+		mtsStart.time = GetTime()
+		mtsSplash.time = GetTime()
+		mtsStart:Show()
+		mtsSplash:Show()
+		PlaySoundFile("Sound\\Interface\\Levelup.Wav")
+	end
+end
+
 mtsSplash = CreateFrame("Frame", nil,UIParent)
 mtsSplash:SetPoint("CENTER",UIParent)
 mtsSplash:SetWidth(512)
@@ -30,7 +35,7 @@ mtsSplash:Hide()
 mtsSplash.time = 0
 	
 mtsStart = CreateFrame("Frame",nil,UIParent)
-mtsStart:SetWidth(400)
+mtsStart:SetWidth(600)
 mtsStart:SetHeight(30)
 mtsStart:Hide()
 mtsStart:SetScript("OnUpdate",onUpdate)
@@ -39,39 +44,4 @@ mtsStart.text = mtsStart:CreateFontString(nil,"OVERLAY","MovieSubtitleFont")
 mtsStart.text:SetAllPoints()
 mtsStart.time = 0
 
-function mtsStart:message(message)
-	local _Config = ProbablyEngine.interface
-
-	-- This is a WorkAround to fix nil Keys easly...
-		-- Open GUIs
-		mts_ConfigGUI()
-		mts_ClassGUI()
-
-		-- Close GUIs
-		mts_ConfigGUI()
-		mts_ClassGUI()
-
-	-- Open Info if theres issues
-	if ProbablyEngine.pmethod == 'Locked' then
-		print('[|cff9482C9MTS|r] You are not lua unlocked.')
-		print('[|cff9482C9MTS|r] Please use "/mts info" for futher information.')
-	end
-
-
-	if ProbablyEngine.version ~= mts_peRecomemded then
-		print('[|cff9482C9MTS|r] You are not using the required PE version for this to work.')
-		print('[|cff9482C9MTS|r] Please use "/mts info" for futher information.')
-	end
-
-	if _Config.fetchKey('mtsconf', 'Splash') then
-		mtsStart.text:SetText("|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:17:17|t"..message)
-		mtsStart:SetAlpha(1)
-		mtsSplash:SetAlpha(1)
-		mtsStart.time = GetTime()
-		mtsSplash.time = GetTime()
-		mtsStart:Show()
-		mtsSplash:Show()
-		PlaySoundFile("Sound\\Interface\\Levelup.Wav")
-	end
-
-end
+mts_Splash("|cff9482C9*[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded*", 5.0)
