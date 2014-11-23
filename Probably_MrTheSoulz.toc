@@ -17,6 +17,7 @@ interface\status.lua
 interface\info.lua
 interface\config.lua
 interface\dk\blood.lua
+interface\dk\unholy.lua
 interface\druid\feral.lua
 interface\druid\guard.lua
 interface\druid\resto.lua

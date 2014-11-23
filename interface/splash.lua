@@ -44,4 +44,9 @@ mtsStart.text = mtsStart:CreateFontString(nil,"OVERLAY","MovieSubtitleFont")
 mtsStart.text:SetAllPoints()
 mtsStart.time = 0
 
-mts_Splash("|cff9482C9*[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded*", 5.0)
+
+-- Need a way to only call this only when inside the game (delay it).
+--"|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded",
+mts_Splash(
+	"|cff9482C9[MTS] Loaded",
+	5.0)

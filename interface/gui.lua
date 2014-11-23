@@ -14,6 +14,9 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 	if _SpecID == 250 and not _OpenClassWindow then -- DK Blood
 		_CurrentSpec = mts_BuildGUI(mts_configDkBlood)
 
+	elseif _SpecID == 252 and not _OpenClassWindow  then -- DK Unholy
+		_CurrentSpec = mts_BuildGUI(mts_configDkUnholy)
+
 	elseif _SpecID == 103 and not _OpenClassWindow  then -- Druid Feral
 		_CurrentSpec = mts_BuildGUI(mts_configDruidFeral)
 

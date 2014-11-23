@@ -1,9 +1,21 @@
 local fetch = ProbablyEngine.interface.fetchKey
 local _darkSimSpells = {
--- siege of orgrimmar
-"Froststorm Bolt","Arcane Shock","Rage of the Empress","Chain Lightning",
--- pvp
-"Hex","Mind Control","Cyclone","Polymorph","Pyroblast","Tranquility","Divine Hymn","Hymn of Hope","Ring of Frost","Entangling Roots"
+	-- siege of orgrimmar
+	"Froststorm Bolt",
+	"Arcane Shock",
+	"Rage of the Empress",
+	"Chain Lightning",
+	-- pvp
+	"Hex",
+	"Mind Control",
+	"Cyclone",
+	"Polymorph",
+	"Pyroblast",
+	"Tranquility",
+	"Divine Hymn",
+	"Hymn of Hope",
+	"Ring of Frost",
+	"Entangling Roots"
 }
 
 function DarkSimUnit(unit)
@@ -15,8 +27,7 @@ end
 
 function exeOnLoad()
 
-	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
-	ProbablyEngine.toggle.create('defcd', 'Interface\\Icons\\Spell_deathknight_iceboundfortitude.png', 'Defensive Cooldowns', 'Enable or Disable Defensive Cooldowns.')
+
 
 end
 
@@ -43,39 +54,93 @@ local inCombat = {
 		-- Goblins
 			{ "69041", "player.moving" },
 	
+	--Auto target
+		{ "/cleartarget", {
+			(function() return fetch('mtsconfDkUnholy','AutoTargets') end),
+			(function() return UnitIsFriend("player","target") end)
+			}},
+
+		{ "/target [target=focustarget, harm, nodead]", { -- Use Tank Target
+			(function() return fetch('mtsconfDkUnholy','AutoTarget') end),
+			"target.range > 40"
+			 }}, 
+		{ "/targetenemy [noexists]", { -- target enemire if no target
+			(function() return fetch('mtsconfDkUnholy','AutoTarget') end),
+			"!target.exists" 
+			}},
+		{ "/targetenemy [dead]", { -- target enemire if current is dead.
+			(function() return fetch('mtsconfDkUnholy','AutoTarget') end), 
+			"target.exists", 
+			"target.dead" 
+			}},
+
+	-- Buffs
+		{ "48263", { -- Blood
+			"player.seal != 1", 
+			(function() return fetch("mtsconfDkUnholy", "Presence") == 'Blood' end),
+			}, nil }, 
+		{ "48266", { -- Frost
+			"player.seal != 2", 
+			(function() return fetch("mtsconfDkUnholy", "Presence") == 'Frost' end),
+			}, nil },
+		{ "48265", { -- Unholy
+			"player.seal != 3", 
+			(function() return fetch("mtsconfDkUnholy", "Presence") == 'Unholy' end),
+			}, nil },
+		{ "57330", { -- Horn of Winter
+			"!player.buff(57330).any",
+			"!player.buff(6673).any",
+			"!player.buff(19506).any"
+			}},
+
 	-- Keybinds 
 		{ "Army of the Dead", "modifier.alt" },
 		{ "Death Grip", "modifier.control" },
+		{ "152280", "modifier.shift", "target.ground" }, -- Defile
+		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 	
 	-- Pet
 		{ "Raise Dead", "!pet.exists" },
 		{ "Dark Transformation" },
 
 	-- Interrumpts 
-		{ "47528", { "target.interruptsAt(50)", "modifier.interrupts" }, "target" }, -- Mind freeze
-		{ "47476", { "target.interruptsAt(50)", "modifier.interrupts", "!player.modifier.last(47528)"}, "target" }, -- Strangulate
-		{ "108194", { "target.interruptsAt(50)", "!modifier.last(47528)" }, "target" }, -- Asphyxiate
+		{ "47528", { -- Mind freeze
+			"target.interruptsAt(50)", 
+			"modifier.interrupts" 
+			}, "target" }, 
+		{ "47476", { -- Strangulate
+			"target.interruptsAt(50)", 
+			"modifier.interrupts", 
+			"!player.modifier.last(47528)"
+			}, "target" }, 
+		{ "108194", { -- Asphyxiate
+			"target.interruptsAt(50)", 
+			"!modifier.last(47528)" 
+			}, "target" }, 
 
 	-- Def cooldowns // heals
-		{ "48792", { "toggle.defcd", "player.health <= 40" }, "player')" }, -- Icebound Fortitude
-		{ "48743", { "toggle.defcd", "player.health <= 50" }}, -- Death Pact
-		{ "49039", { "toggle.defcd", "player.state.fear", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //fear
-		{ "49039", { "toggle.defcd", "player.state.sleep", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //sleep
-		{ "49039", { "toggle.defcd", "player.state.charm", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //charm
-		{ "108196", { "toggle.defcd","player.health < 60" }},-- Death Siphon
-		
-	--Auto target
-		{ "/cleartarget", {
-			"toggle.autotarget",
-			(function() return UnitIsFriend("player","target") end)
+		{ "48792", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'IceboundFortitude')) end) }, -- Icebound Fortitude
+		{ "48743", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'DeathPact')) end) }, -- Death Pact
+		{ "108196", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'DeathSiphon')) end) },-- Death Siphon
+		{ "49039", { -- Lichborne //fear 
+			"player.state.fear", 
+			"player.runicpower >= 40", 
+			"player.spell.exists(49039)" 
 			}},
-		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
-		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
-   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
-	
-	-- buffs
-		{ "48265", { "player.seal != 3", "toggle.run" }}, -- unholy
-		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
+		{ "49039", { -- Lichborne //sleep 
+			"player.state.sleep", 
+			"player.runicpower >= 40", 
+			"player.spell.exists(49039)" 
+			}}, 
+		{ "49039", { -- Lichborne //charm 
+			"player.state.charm", 
+			"player.runicpower >= 40", 
+			"player.spell.exists(49039)" 
+			}},
+		{ "49998", { -- Death Strike With Dark Succor
+			"player.buff(10156", 
+			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'DeathStrikeDS')) end)
+			}}, 
 	
 	-- Cooldowns
 		 { "Empower Rune Weapon", {
@@ -84,10 +149,61 @@ local inCombat = {
 			"player.runes(blood).count = 0", 
 			"player.runes(unholy).count = 0", 
 			"player.runes(frost).count = 0", 
-			"player.runes(death).count = 0"}},
-		{ "Summon Gargoyle", "modifier.cooldowns" },
-		{ "115989", { "modifier.cooldowns","target.debuff(55095)" }}, -- Unholy Blight
-		{ "115989", { "modifier.cooldowns","target.debuff(55078)" }}, -- Unholy Blight
+			"player.runes(death).count = 0",
+			(function() return fetch("mtsconfDkUnholy", "ERP") == 'Allways' end)
+			}},
+		{ "Summon Gargoyle", {
+			"modifier.cooldowns",
+			(function() return fetch("mtsconfDkUnholy", "SG") == 'Allways' end)
+			} },
+		{ "115989", { -- Unholy Blight
+			"modifier.cooldowns",
+			"target.debuff(55095)",
+			(function() return fetch("mtsconfDkUnholy", "SG") == 'Allways' end)
+			}}, 
+		{ "115989", { -- Unholy Blight
+			"modifier.cooldowns",
+			"target.debuff(55078)",
+			(function() return fetch("mtsconfDkUnholy", "UB") == 'Allways' end)
+			}}, 
+		{ "20572", { -- Blood Fury
+			"modifier.cooldowns",
+			(function() return fetch("mtsconfDkUnholy", "BF") == 'Allways' end)
+			} },
+	
+	-- Cooldowns boss
+		{ "Empower Rune Weapon", {
+			"modifier.cooldowns", 
+			"player.runicpower <= 70", 
+			"player.runes(blood).count = 0", 
+			"player.runes(unholy).count = 0", 
+			"player.runes(frost).count = 0", 
+			"player.runes(death).count = 0",
+			"target.boss",
+			(function() return fetch("mtsconfDkUnholy", "ERP") == 'Boss' end)
+			}},
+		{ "Summon Gargoyle", {
+			"modifier.cooldowns",
+			"target.boss",
+			(function() return fetch("mtsconfDkUnholy", "SG") == 'Boss' end)
+			} },
+		{ "115989", { -- Unholy Blight
+			"modifier.cooldowns",
+			"target.debuff(55095)",
+			"target.boss",
+			(function() return fetch("mtsconfDkUnholy", "SG") == 'Boss' end)
+			}}, 
+		{ "115989", { -- Unholy Blight
+			"modifier.cooldowns",
+			"target.debuff(55078)",
+			"target.boss",
+			(function() return fetch("mtsconfDkUnholy", "UB") == 'Boss' end)
+			}}, 
+		{ "20572", { -- Blood Fury
+			"modifier.cooldowns",
+			"target.boss",
+			(function() return fetch("mtsconfDkUnholy", "BF") == 'Boss' end)
+			} }, 
 
 	-- Spell Steal
 		{ "77606", function() return DarkSimUnit('target') end, "target" }, -- Dark Simulacrum
@@ -117,8 +233,9 @@ local inCombat = {
 		{ "45462", "target.debuff(55095).duration <= 9", "target" }, -- Plague Strike
 		{ "45462", "target.debuff(55078).duration <= 9", "target" }, -- Plague Strike
 
-	{{-- AoE // Smarth
+	{{-- AoE // Smart
 		{ "43265", "target.range < 7", "target.ground" }, -- Death and Decay
+		{ "152280", "target.range < 7", "target.ground" }, -- Defile
 		{ "50842", { -- Blood Boil // death
 			"player.runes(death).count >= 1",
 			"target.range <= 10"
@@ -139,6 +256,7 @@ local inCombat = {
 
 	{{-- AoE
 		{ "43265", "target.range < 7", "target.ground" }, -- Death and Decay
+		{ "152280", "target.range < 7", "target.ground" }, -- Defile
 		{ "50842", { -- Blood Boil // death
 			"player.runes(death).count >= 1",
 			"target.range <= 10"
@@ -155,17 +273,22 @@ local inCombat = {
 			"target.range <= 10" }},
 		{ "Festering Strike" },
 		{ "Festering Strike" },
-		{ "47541", "player.runicpower >= 40", "target"  }, -- Death Coil
 	}, "modifier.multitarget"},
 
-	{{-- Rotation
+	-- Rotation
 		{ "55090", "player.runes(unholy) = 2", "target"  }, -- Scourge Strike
-		{ "43265", "target.range < 7", "target.ground" }, -- Death and Decay
+		{ "43265", { -- Death and Decay
+			"target.range < 7",
+			(function() return fetch("mtsconfDkUnholy", "DnD") == 'Allways' end)
+			}, "target.ground" }, 
+		{ "152280", {
+			"target.range < 7",
+			(function() return fetch("mtsconfDkUnholy", "Defile") == 'Allways' end)
+			}, "target.ground" }, -- Defile
 		{ "Fastering Strike", { "player.runes(unholy) = 2", "player.runes(blood) = 2" }, "target"  },
 		{ "55090" },-- Scourge Strike
 		{ "Festering Strike" },
 		{ "47541" }, -- Death Coil
-	}, "!modifier.multitarget" },
 
 	-- Blood Tap
 		{{
@@ -180,19 +303,36 @@ local inCombat = {
 
 }
 
-local outcombat = {
+local outCombat = {
   
 	-- Buffs
-		{ "48265", { "player.seal != 3", "toggle.run" }}, -- unholy
-		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
-  
-	-- Keybinds
-		{ "Army of the Dead", "modifier.alt" },
-		{ "Death Grip", "modifier.control" },
+		{ "48263", { -- Blood
+			"player.seal != 1", 
+			(function() return fetch("mtsconfDkUnholy", "Presence") == 'Blood' end),
+			}, nil }, 
+		{ "48266", { -- Frost
+			"player.seal != 2", 
+			(function() return fetch("mtsconfDkUnholy", "Presence") == 'Frost' end),
+			}, nil },
+		{ "48265", { -- Unholy
+			"player.seal != 3", 
+			(function() return fetch("mtsconfDkUnholy", "Presence") == 'Unholy' end),
+			}, nil },
+		{ "57330", { -- Horn of Winter
+			"!player.buff(57330).any",
+			"!player.buff(6673).any",
+			"!player.buff(19506).any",
+			(function() return fetch('mtsconfDkUnholy','HornOCC') end)
+			}}, 
   
 	-- Pet
 		{ "Raise Dead", "!pet.exists" },
 
 }
 
-ProbablyEngine.rotation.register_custom(252, mts_Icon.."|r[|cff9482C9MTS|r][\124cffC41F3BDeathKnight-Unholy|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(
+	252, mts_Icon..
+	"|r[|cff9482C9MTS|r][\124cffC41F3BDeathKnight-Unholy|r]", 
+	inCombat, 
+	outCombat, 
+	exeOnLoad)

@@ -131,7 +131,7 @@ local inCombat = {
 		{ "77575", "target.debuff(55078).duration < 2" }, -- Outbreak
 		{ "45462", "target.debuff(55078).duration < 2", "target" }, -- Plague Strike
 		{ "45477", "target.debuff(55095).duration < 2", "target" }, -- Icy Touch
-		{ "48721", { -- Blood Boil // blod
+		{ "48721", { -- Blood Boil // blood
 			"player.runes(blood).count > 1",
 			"target.debuff(55095).duration < 3", 
 			"target.debuff(55078).duration <3" }},

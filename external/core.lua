@@ -21,7 +21,7 @@ local mts_Dummies = {
 	32541
 }
 
-mts_Version = "0.13.1"
+mts_Version = "0.13.2"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mts_peRecomemded = "6.0.3r9-|cffC41F3BDEV|r"
 mtsLib.queueSpell = nil
