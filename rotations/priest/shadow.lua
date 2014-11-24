@@ -1,9 +1,18 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
 local lib = function()
-
-  ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist,')
-  ProbablyEngine.toggle.create('mouseoverdots', 'Interface\\Icons\\INV_Helmet_131.png', 'Mouseoverd Doting', 'Mouseover to to anything thats not doted.')
+  
+  ProbablyEngine.toggle.create(
+	'mouseoverdots', 
+	'Interface\\Icons\\INV_Helmet_131.png', 
+	'MouseOver Doting', 
+	'Mouseover to to anything thats not doted.')
+	
+  ProbablyEngine.toggle.create(
+	'dotEverything', 
+	'Interface\\Icons\\Ability_creature_cursed_05.png', 
+	'Dot All The Things!', 
+	'Click here to dot all the things!\nSome Spells require Multitarget enabled also.\nOnly Works if using FireHack.')
 
 end
 
@@ -14,83 +23,190 @@ local inCombat = {
     { "34433", "modifier.cooldowns" }, -- Shadowfiend
     
   --buffs
-    { "Power Word: Fortitude", "!player.buff(Power Word: Fortitude)" },
-    { "Inner Fire", "!player.buff(Inner Fire)" },
+    { "21562", {-- Fortitude
+		"!player.buff(21562).any",
+		"!player.buff(588)"
+		}},
     { "15473", "!player.buff(15473)" }, -- Shadowform
   
   -- Keybinds
     { "Mind Sear", "modifier.shift" },
 
+	{{-- Auto Dotting
+		{ "32379", (function() return mts_Dot(32379, 20, 30) end) },
+		{{-- AoE only
+			{ "589", (function() return mts_Dot(589, 100, 30) end) }, -- SWP 
+		}, "modifier.multitarget" },
+	}, {"toggle.dotEverything", "player.firehack"} },
+  
+  -- Mouse-Over
+		{ "589", { -- SWP
+			"!mouseover.debuff(589)",
+			"toggle.mouseoverdots",
+			--"mouseover.enemie" FIXME
+			}, "mouseover" },
+		{ "34914", { -- Vampiric touch
+			"!mouseover.debuff(34914)",
+			"toggle.mouseoverdots",
+			"!player.moving"
+			}, "mouseover"},
+  
   -- Auto Target
     { "/cleartarget", {
-      "toggle.autotarget",
-      (function() return UnitIsFriend("player","target") end)
-      }},
-    { "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40" }}, -- Use Tank Target
-    { "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }}, -- target enemire if no target
-   	{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }}, -- target enemire if current is dead.
+			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
+			(function() return UnitIsFriend("player","target") end)
+			}},
+		{ "/target [target=focustarget, harm, nodead]", {  -- Use Tank Target
+			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
+			"target.range > 40" 
+			}},
+		{ "/targetenemy [noexists]", {  -- target enemire if no target
+			(function() return fetch('mtsconfPriestShadow','AutoTargets') end), 
+			"!target.exists" 
+			}},
+		{ "/targetenemy [dead]", { -- target enemire if current is dead.
+			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
+			"target.exists", 
+			"target.dead" 
+			}},
+	
+  -- LoOk aT It GOoZ!!! // Needs to add tank...
+	{ "121536", {
+		(function() return fetch('mtsconfPriestShadow','feather') end), 
+		"player.movingfor > 2", 
+		"!player.buff(121557)", 
+		"player.spell(121536).charges >= 1" 
+		}, "player.ground" },
+	{ "17", {
+		"talent(2, 1)", 
+		"player.movingfor > 2", 
+		"!player.buff(6788)", 
+		(function() return fetch('mtsconfPriestShadow', 'feather') end)
+		}, "player" },
 
-  -- dots
-    { "589", "!target.debuff(589)", "target" },
-    { "589", {"toggle.mouseoverdots","!mouseover.debuff(589)"}, "mouseover" },
-
-  -- If Moving
-    { "73510", { "player.moving", "player.buff(162448)" }}, --Mind Spike // Proc
-    { "127632", { "player.moving", "modifier.multitarget" }}, -- Cascade
-    { "120644", { "player.moving", "modifier.multitarget" }}, --Halo 
-    { "122121", { "player.moving", "modifier.multitarget" }}, --Divine Star 
-    { "589", { "player.moving", "target.debuff(589).duration <= 3" } }, -- SW:Pain
-    { "32379", { "player.moving", "target.health <= 20" }}, -- SW:D // 20 Percent
-
-  -- Procs
-    { "73510", "player.buff(162448)" }, -- Mind Spike // Proc
-    { "129197", "player.buff(132573)" }, --Insanity // Proc
-
-    {{-- can use FH
-
-      -- AoE smart
-        { "48045", "player.area(8).enemies > 3", "target" }, -- Mind Sear
-        { "127632", "player.area(8).enemies > 3" }, --Cascade 
-        { "12064", "player.area(8).enemies > 3" }, -- Halo
-        { "122121", "player.area(8).enemies > 3" }, --Divine Star
-
-    }, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
-
+  -- items
+	{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'hstone')) end)}, -- Healthstone
+  
+  --Defensive/Heal
+		{ "586", (function() return mts_dynamicEval("player.threat >= " .. fetch('mtsconfPriestShadow', 'fade')) end) }, -- FADE
+		{ "!12963", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'instaprayer')) end) },
+		{ "17", { -- PW:S on HP
+			"!player.debuff(6788)", 
+			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'shield')) end)
+			}, "player" },
+		{ "47585", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'guise')) end) },  -- Dispersion
+		{ "112833", { -- Guise
+			"talent(1, 2)", 
+			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'guise')) end),
+			}},
+  
+  {{-- FH AoE
+    { "48045", "target.area(10).enemies >= 4" , "target" }, -- Mind Sear
+	{ "127632", { -- Cascade 
+		"target.area(10).enemies >= 4", 
+		"modifier.cooldowns"  
+		} }, 
+	{ "12064", { -- Halo
+		"target.area(10).enemies >= 4", 
+		"modifier.cooldowns"  
+		} }, 
+	{ "122121", {--Divine Star...
+		"target.area(10).enemies >= 4", 
+		"modifier.cooldowns"  
+		} }, 
+  }, {"player.firehack", (function() return fetch('mtsconf','Firehack') end)}},
+  
   -- AoE
     { "48045", "modifier.multitarget", "target" }, -- Mind Sear
-    { "127632", "modifier.multitarget" }, --Cascade 
-    { "12064", "modifier.multitarget" }, -- Halo
-    { "122121", "modifier.multitarget" }, --Divine Star
+	{ "127632", { -- Cascade
+		"modifier.multitarget",  
+		"modifier.cooldowns"  
+		} },
+	{ "12064", { -- Halo
+		"modifier.multitarget",  
+		"modifier.cooldowns"  
+		} }, 
+	{ "122121", { -- Divine Star
+		"modifier.multitarget", 
+		"modifier.cooldowns"  
+		} },
 
+   -- Dots
+	--{ "32379", "target.health <= 20", "target" }, -- SWD
+	--{ "589", "!target.debuff(589)", "target" }, -- SWP
+	--{ "34914", { -- Vampiric Touch
+		--"target.debuff(34914).duration <= 3.5",
+		--"!player.buff(132573)" 
+		--}, "target" },
+   
+   -- Moving
+	{ "73510", { 
+		"player.moving", 
+		"player.buff(162448)" 
+		}}, --Mind Spike when Procc
+  
   -- Rotation
-    { "8092" }, -- Mind Blast 
-    { "8092", "player.buff(162452)" }, --Mind Blast with Shadowy Insight
-    { "2944", "player.shadoworbs = 3" }, -- Devouring Plague // 3 Orbs
-    { "32379", "target.health <= 20" }, -- SW:D // 20%
-    { "589", "target.debuff(589).duration <= 3" }, -- SW:P
-    { "32379", "target.debuff(32379).duration <= 3" }, -- wat
-    { "34914", { "target.debuff(34914).duration <= 3", "!modifier.last", "!player.buff(132573)" }}, -- Vampiric Touch
-    { "15407" }, --Mind Flay as filler
-    { "15286", "player.health <= 75" }, -- Vampiric Embrace
+	{ "!8092", { --Mind Blast // Shadowy Insight
+		"player.buff(162452)", 
+		"!player.buff(132573" 
+		}, "target" }, 
+	{ "73510", "player.buff(87160)", "target", "target" }, -- Mind Spike // Procc
+	{ "!2944", "player.shadoworbs = 3", "target" }, -- Devouring Plague // 3 Orbs
+	{ "129197", "player.buff(132573)" }, --Insanity with Procc Up
+	{ "8092" }, -- Mind Blast
+	{ "15407" }, --Mind Flay // filler
   
 } 
 
 local outCombat = {
 
+	-- LoOk aT It GOoZ!!! // Needs to add tank...
+	{ "121536", {
+		(function() return fetch('mtsconfPriestShadow','feather') end), 
+		"player.movingfor > 2", 
+		"!player.buff(121557)", 
+		"player.spell(121536).charges >= 1" 
+		}, "player.ground" },
+	{ "17", {
+		"talent(2, 1)", 
+		"player.movingfor > 2", 
+		"!player.buff(6788)", 
+		(function() return fetch('mtsconfPriestShadow', 'feather') end)
+		}, "player" },
+	
 	-- Auto Target
-		{ "/target [target=focustarget, harm, nodead]", { "toggle.autotarget", "target.range > 40", "tank.combat" }}, -- Use Tank Target
-		{ "/targetenemy ", { "toggle.autotarget", "target.friendly", "tank.combat" }}, -- Target a enemie if target is friendly
-		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists", "tank.combat" }}, -- target enemire if no target
-		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead", "tank.combat" }}, -- target enemire if current is dead.
-
-	-- dot to start ICC if tank is in combat
+		{ "/cleartarget", {
+			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
+			(function() return UnitIsFriend("player","target") end),
+			"tank.combat"
+			}},
+		{ "/target [target=focustarget, harm, nodead]", {  -- Use Tank Target
+			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
+			"target.range > 40",
+			"tank.combat"
+			}},
+		{ "/targetenemy [noexists]", {  -- target enemire if no target
+			(function() return fetch('mtsconfPriestShadow','AutoTargets') end), 
+			"!target.exists",
+			"tank.combat"
+			}},
+		{ "/targetenemy [dead]", { -- target enemire if current is dead.
+			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
+			"target.exists", 
+			"target.dead",
+			"tank.combat"
+			}},
+	
+	-- dot to start if tank is in combat
 		{ "589", "tank.combat", "target" },
 	
-	--buffs
-		{ "Power Word: Fortitude", "!player.buff(Power Word: Fortitude)" },
-		{ "Inner Fire", "!player.buff(Inner Fire)" },
-		{ "15473", "!player.buff(15473)" },--Shadow Form
+	-- buffs
+		{ "21562", {-- Fortitude
+			"!player.buff(21562).any",
+			"!player.buff(588)"
+			}},
+		{ "15473", "!player.buff(15473)" }, -- Shadow Form
   
 }
 
-ProbablyEngine.rotation.register_custom(258, mts_Icon.."|r[|cff9482C9MTS|r][Testing Priest-Shadow|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(258, mts_Icon.."|r[|cff9482C9MTS|r][Priest-Shadow|r]", inCombat, outCombat, lib)

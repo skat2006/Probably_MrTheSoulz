@@ -29,6 +29,9 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 	elseif _SpecID == 257 and not _OpenClassWindow  then -- Priest holy
 		_CurrentSpec = mts_BuildGUI(mts_configPriestHoly)
 
+	elseif _SpecID == 258 and not _OpenClassWindow  then -- Priest Shadow
+		_CurrentSpec = mts_BuildGUI(mts_configPriestShadow)
+	
 	elseif _SpecID == 256 and not _OpenClassWindow  then -- Priest Disc
 		_CurrentSpec = mts_BuildGUI(mts_configPriestDisc)
 

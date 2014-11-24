@@ -5,10 +5,12 @@
 ## Interface: 60000
 ## Author: MrTheSoulz
 
-external\core.lua
-external\movement.lua
-external\tracker.lua
-external\conditions.lua
+system\core.lua
+system\Lib.lua
+system\movement.lua
+system\tracker.lua
+system\conditions.lua
+system\dots.lua
 interface\minimap.lua
 interface\splash.lua
 interface\alert.lua
@@ -25,6 +27,7 @@ interface\pala\holy.lua
 interface\pala\prot.lua
 interface\priest\disc.lua
 interface\priest\holy.lua
+interface\priest\shadow.lua
 rotations\paladin\protection.lua
 rotations\paladin\holy.lua
 rotations\druid\resto.lua
