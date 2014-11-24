@@ -16,7 +16,7 @@ end
 local Shared = {
 	
 	-- Buffs
-		{ "Battle Shout", "!player.buff(Battle Shout)" },
+		{ "6673", "!player.buff(6673)" }, -- Battle Shout
 
 	-- Stances
 		{ "2487", "player.seal != 1", nil  }, -- Battle Stance
@@ -48,9 +48,9 @@ local inCombat = {
 			{ "69041", "player.moving" },
 
 	-- Freedoom
-		{ "Will of the Forsaken", "player.state.fear" },
-  		{ "Will of the Forsaken", "player.state.charm" },
-  		{ "Will of the Forsaken", "player.state.sleep" },
+		{ "7744", "player.state.fear" }, -- Will of the Forsaken
+  		{ "7744", "player.state.charm" },
+  		{ "7744", "player.state.sleep" },
 		
 	-- keybinds
 		{ "6544", "modifier.shift", "mouseover.ground" }, -- Heroic Leap // FH
@@ -84,9 +84,9 @@ local inCombat = {
   		{ "118038", "player.health < 25" }, -- Die by the Sword
 
   	-- Proc's
-  		{ "5308", "player.buff(Sudden Death)", "target" }, -- Execute
-  		{ "100130", "player.buff(Bloodsurge)", "target" }, -- Wild Strike
-  		{ "Victory Rush" },
+  		{ "5308", "player.buff(29725)", "target" }, -- Execute, Sudden Death
+  		{ "100130", "player.buff(46916)", "target" }, -- Wild Strike, Bloodsurge
+  		{ "34428" }, -- Victory Rush
 
 		{{-- can use FH
 
