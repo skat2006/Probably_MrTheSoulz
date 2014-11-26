@@ -10,7 +10,7 @@ local function mts_MoveTo(unit)
   
 	--(Over sensitive...)if TraceLine(bX, bY, bZ, aX, aY, aZ, 0xFFFFFFFF) then 
 	  if (math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90) == false
-	  or (ProbablyEngine.condition["distance"]('target') <= playerReach+unitReach) == false then
+	  or (Distance(unit, "player") <= playerReach+unitReach) == false then
 		MoveTo(aX, aY, aZ)
 	  end
     --end
@@ -18,6 +18,7 @@ end
 
 C_Timer.NewTicker(0.05, (function()
   if ProbablyEngine.config.read('button_states', 'MasterToggle', false)
+  and ProbablyEngine.module.player.combat
   and FireHack then
 	if UnitExists("target") 
 	and fetch('mtsconf', 'AutoMove') 

@@ -85,7 +85,9 @@ local inCombatSerpente = {
 		{ "115450", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 		{ "115450", "@coreHealing.needsDispelled('Torment')", nil },
 		{ "115450", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{ "115450", { "toggle.dispel", (function() return Dispell() end) }},
+		{{ -- Dispell all?
+			{ "115450", (function() return Dispell() end) },-- Dispel Everything
+		}, "toggle.dispel" },
 
 	-- Cooldowns
   		{ "116849", "lowest.health <= 25" },-- Life Coccon

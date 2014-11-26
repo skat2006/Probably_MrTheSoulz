@@ -196,10 +196,9 @@ local inCombat = {
 		{ "4987", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Torment')", nil },
 		{ "4987", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{ "4987", { -- Dispel Everything
-			(function() return fetch('mtsconfPalaHoly','Dispels') end), 
-			(function() return Dispell() end) 
-			}},
+		{{ -- Dispell all?
+			{ "4987", (function() return Dispell() end) },-- Dispel Everything
+		}, (function() return fetch('mtsconfPalaHoly','Dispels') end) },
 	
 	-- Execution Sentence // Talent
 		{ "114157", (function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'ExecutionSentenceTank')) end), "tank" },
@@ -431,8 +430,8 @@ local outCombat = {
 }
 
 ProbablyEngine.rotation.register_custom(
-	65,
-	mts_Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Holy|r]", 
-	inCombat, 
-	outCombat, 
-	lib)
+65,
+mts_Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Holy|r]", 
+inCombat, 
+outCombat, 
+lib)

@@ -44,6 +44,12 @@ end
 
 local exeOnLoad = function()
 	
+	ProbablyEngine.toggle.create(
+	'dotEverything', 
+	'Interface\\Icons\\Ability_creature_cursed_05.png', 
+	'Dot All The Things! (SOLO)', 
+	'Click here to dot all the things while in Solo mode!\nSome Spells require Multitarget enabled also.\nOnly Works if using FireHack.')
+	
 end
 
 local inCombat = {
@@ -112,10 +118,9 @@ local inCombat = {
 		 		nil },
 	 	
 	 	-- Dispell ALl
-	 	{ "527", {
-	 		(function() return fetch('mtsconfPriestHoly','Dispels') end), 
-	 		(function() return Dispell() end) 
-	 		}},
+	 	{{ -- Dispell all?
+			{ "4987", (function() return Dispell() end) },-- Dispel Everything
+		}, (function() return fetch('mtsconfPriestHoly','Dispels') end) },
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
@@ -362,6 +367,147 @@ local inCombat = {
 
 }
 
+local solo = {
+	
+  	--[[ Chakra ]]
+  		{ "81208", {--Serenity
+  			"player.chakra != 3",
+  			(function() return fetch("mtsconfPriestHoly", "Chakra") == 'Serenity' end),
+  			}, nil },
+
+		{ "81206", {--Sanctuary
+			"player.chakra != 2",
+			(function() return fetch("mtsconfPriestHoly", "Chakra") == 'Sanctuary' end),
+			}, nil },
+		
+		{ "81209", {--Serenity
+			"player.chakra != 1",
+			(function() return fetch("mtsconfPriestHoly", "Chakra") == 'Chastise' end),
+			}, nil },
+
+  	-- buffs
+		{ "21562", { -- Fortitude
+			(function() return fetch('mtsconfPriestHoly','Buff') end),
+			"!player.buff(21562).any",
+			"!player.buff(588)"
+			}},
+	
+	{{-- Auto Dotting
+		{ "32379", (function() return mts_Dot(32379, 20, 30) end) },
+		{{-- AoE FH
+			{ "589", (function() return mts_Dot(589, 100, 30) end) }, -- SWP 
+		}, "target.area(10).enemies >= 3" },
+		{{-- AoE forced
+			{ "589", (function() return mts_Dot(589, 100, 30) end) }, -- SWP 
+		}, "modifier.multitarget" },
+	}, {"toggle.dotEverything", "player.firehack"} },
+	
+	-- Auto Targets
+		{ "/cleartarget", {
+			(function() return fetch('mtsconfPriestHoly','AutoTargets') end),
+			(function() return UnitIsFriend("player","target") end)
+			}},
+
+		{ "/target [target=focustarget, harm, nodead]", {  -- Use Tank Target
+			(function() return fetch('mtsconfPriestHoly','AutoTargets') end),
+			"target.range > 40" 
+			}},
+		
+		{ "/targetenemy [noexists]", {  -- target enemire if no target
+			(function() return fetch('mtsconfPriestHoly','AutoTargets') end), 
+			"!target.exists" 
+			}},
+		
+		{ "/targetenemy [dead]", { -- target enemire if current is dead.
+			(function() return fetch('mtsconfPriestHoly','AutoTargets') end),
+			"target.exists", 
+			"target.dead" 
+			}}, 
+	
+	--[[ LoOk aT It GOoZ!!! // Needs to add tank... ]]
+		{ "121536", {
+			"player.movingfor > 2", 
+			(function() return fetch('mtsconfPriestHoly','Feathers') end),
+			"!player.buff(121557)", "player.spell(121536).charges >= 1" 
+			}, "player.ground" },
+
+  	-- HEALTHSTONE 
+		{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'Healthstone')) end) },
+
+  	-- Aggro
+		{ "586", "target.threat >= 80" }, -- Fade
+ 
+  	-- Dispel's
+	 	-- Dispell ALl
+	 	{{ -- Dispell all?
+			{ "4987", (function() return Dispell() end) },-- Dispel Everything
+		}, (function() return fetch('mtsconfPriestHoly','Dispels') end) },
+
+  	-- CD's
+		{ "10060", "modifier.cooldowns" }, --Power Infusion
+		
+		{ "123040", { --Mindbender
+			"player.mana < 75", 
+			"target.spell(123040).range",
+			 "modifier.cooldowns"
+			 }, "target" },
+
+	-- Proc's
+		{ "596", { -- Prayer of healing // Divine Insigt
+			"@coreHealing.needsHealing(95, 3)",
+			"player.buff(123267)",
+			"!player.moving",
+			"modifier.party", 
+			"!modifier.raid"
+			}, "lowest" },
+		{ "2061", { -- Flash heal // Surge of light
+			"lowest.health < 100",
+			"player.buff(114255)",
+			"!player.moving"
+			}, "lowest" },
+
+	-- Heal Fast Bitch!!
+		-- Desperate Prayer
+			{ "19236",  --Desperate Prayer
+				(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'DesperatePrayer')) end),
+				"player" },
+
+		-- Holy Word Serenity
+			{ "88684", -- Holy Word Serenity
+				(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityPlayer')) end), 
+				"player" },
+
+		-- Flash Heal
+			{ "2061", { --Flash Heal
+				(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealPlayer')) end),
+				"!player.moving"
+				}, "player" },
+
+	-- shields
+		{ "17", { --Power Word: Shield
+			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'ShieldPlayer')) end),
+			"!player.debuff(6788).any", 
+			"!player.buff(17).any"
+			}, "player" },
+
+	-- renew
+		{ "139", { --renew
+			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'RenewPlayer')) end), 
+			"!player.buff(139)"
+			}, "player" },
+	
+	-- DPS
+		-- AoE
+			
+
+		-- Single
+		{ "585", {  --Smite
+			"!player.moving", 
+			"target.spell(585).range" 
+			}, "target" },
+
+}
+
 local outCombat = {
 		
 	--[[ Chakra ]]
@@ -437,10 +583,8 @@ local outCombat = {
 
 }
 
---[[ Register CR ]]
-ProbablyEngine.rotation.register_custom(
-	257, 
-	mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Holy|r]", 
-	inCombat, 
-	outCombat, 
-	exeOnLoad )
+	
+ProbablyEngine.rotation.register_custom(257, mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Holy|r]", {
+	{ inCombat, "modifier.party" },
+	{ solo, "!modifier.party" },
+},  outCombat, exeOnLoad)

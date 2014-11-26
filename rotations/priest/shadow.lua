@@ -34,7 +34,10 @@ local inCombat = {
 
 	{{-- Auto Dotting
 		{ "32379", (function() return mts_Dot(32379, 20, 30) end) },
-		{{-- AoE only
+		{{-- AoE FH
+			{ "589", (function() return mts_Dot(589, 100, 30) end) }, -- SWP 
+		}, "target.area(10).enemies >= 3" },
+		{{-- AoE forced
 			{ "589", (function() return mts_Dot(589, 100, 30) end) }, -- SWP 
 		}, "modifier.multitarget" },
 	}, {"toggle.dotEverything", "player.firehack"} },
@@ -132,12 +135,12 @@ local inCombat = {
 		} },
 
    -- Dots
-	--{ "32379", "target.health <= 20", "target" }, -- SWD
-	--{ "589", "!target.debuff(589)", "target" }, -- SWP
-	--{ "34914", { -- Vampiric Touch
-		--"target.debuff(34914).duration <= 3.5",
-		--"!player.buff(132573)" 
-		--}, "target" },
+	{ "32379", "target.health <= 20", "target" }, -- SWD
+	{ "589", "!target.debuff(589)", "target" }, -- SWP
+	{ "34914", { -- Vampiric Touch
+		"target.debuff(34914).duration <= 3.5",
+		"!player.buff(132573)" 
+		}, "target" },
    
    -- Moving
 	{ "73510", { 

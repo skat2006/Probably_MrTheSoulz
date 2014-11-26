@@ -60,32 +60,72 @@ local inCombat = {
 	 	{ "77130", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 	 	{ "77130", "@coreHealing.needsDispelled('Torment')", nil },
 	 	{ "77130", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-	 	{ "77130", {"toggle.dispel", (function() return Dispell() end) }},
+		{{ -- Dispell all?
+			{ "77130", (function() return Dispell() end) },-- Dispel Everything
+		}, "toggle.dispel" },
 
   	-- Heal Fast Bitch
-   		{ "Ascendance", { "@coreHealing.needsHealing(45,10)", "!player.buff(Ascendance)", "modifier.cooldowns"}},
-    	{ "Spirit Link Totem", {  "player.buff(Ascendance)", "modifier.cooldowns"}},
+   		{ "Ascendance", { 
+			"@coreHealing.needsHealing(45,10)", 
+			"!player.buff(Ascendance)", 
+			"modifier.cooldowns"
+			}},
+    	{ "Spirit Link Totem", {  
+			"player.buff(Ascendance)", 
+			"modifier.cooldowns"
+			}},
    
     -- Focus
-    	{ "Earth Shield", { "!focus.buff(Earth Shield)", "focus.range <= 40" }, "focus" },
-	    { "Riptide", { "focus.buff(Riptide).duration <= 3", "focus.range <= 40" }, "focus" },
+    	{ "Earth Shield", { 
+			"!focus.buff(Earth Shield)", 
+			"focus.range <= 40" 
+			}, "focus" },
+	    { "Riptide", { 
+			"focus.buff(Riptide).duration <= 3", 
+			"focus.range <= 40" 
+			}, "focus" },
 
 	-- Tank
-		{ "Earth Shield", { "!tank.buff(Earth Shield)", "tank.range <= 40" }, "tank" },
-	    { "Riptide", { "tank.buff(Riptide).duration <= 3", "tank.range <= 40" }, "tank" },
+		{ "Earth Shield", { 
+			"!tank.buff(Earth Shield)", 
+			"tank.range <= 40" 
+			}, "tank" },
+	    { "Riptide", { 
+			"tank.buff(Riptide).duration <= 3", 
+			"tank.range <= 40" 
+			}, "tank" },
 
   	-- AoE
-  		{ "Chain Heal", { "!player.buff(Tidal Waves)", "@coreHealing.needsHealing(60, 3)" }, "lowest" },
+  		{ "Chain Heal", { 
+			"!player.buff(Tidal Waves)", 
+			"@coreHealing.needsHealing(60, 3)" 
+			}, "lowest" },
 	    { "Chain Heal", "@coreHealing.needsHealing(40, 3)", "lowest" },
 
   	-- regular healing
 	    { "Healing Stream Totem", "@coreHealing.needsHealing(99, 1)" },
-	    { "Riptide", {"!player.buff(Tidal Waves)","lowest.buff(Riptide).duration <= 3","lowest.range <= 40"}, "lowest" },
+	    { "Riptide", {
+			"!player.buff(Tidal Waves)",
+			"lowest.buff(Riptide).duration <= 3",
+			"lowest.range <= 40"
+			}, "lowest" },
 	    { "Unleash Life", "!player.buff(Unleash Life)" },
-	    { "Ancestral Swiftness", { "lowest.health <= 20", "lowest.range <= 40" }, "player" },
-	    { "Healing Wave", {"player.buff(Ancestral Swiftness)" ,"lowest.range <= 40"}, "lowest" },   
-	    { "Healing Surge", { "lowest.health <= 20", "lowest.range <= 40"}, "lowest" },
-	    { "Healing Wave", { "lowest.health <= 85","lowest.range <= 40"}, "lowest" },
+	    { "Ancestral Swiftness", { 
+			"lowest.health <= 20", 
+			"lowest.range <= 40" 
+			}, "player" },
+	    { "Healing Wave", {
+			"player.buff(Ancestral Swiftness)",
+			"lowest.range <= 40"
+			}, "lowest" },   
+	    { "Healing Surge", { 
+			"lowest.health <= 20", 
+			"lowest.range <= 40"
+			}, "lowest" },
+	    { "Healing Wave", { 
+			"lowest.health <= 85",
+			"lowest.range <= 40"
+			}, "lowest" },
   
 }
 

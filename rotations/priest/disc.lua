@@ -55,6 +55,12 @@ local exeOnLoad = function()
 		'Pain Suppression', 
 		'Toggle Enables Pain Suppression')
 
+	ProbablyEngine.toggle.create(
+		'dotEverything', 
+		'Interface\\Icons\\Ability_creature_cursed_05.png', 
+		'Dot All The Things! (SOLO)', 
+		'Click here to dot all the things while in Solo mode!\nSome Spells require Multitarget enabled also.\nOnly Works if using FireHack.')
+
 end
 
 local inCombat = {
@@ -91,7 +97,7 @@ local inCombat = {
 			}}, 
 
    	-- buffs
-		{ "81700", "player.buff(81661).count = 5" },--Archangel
+		{ "81700", "player.buff(81661).count = 5" }, -- Archangel
 	
 	-- LoOk aT It GOoZ!!! // Needs to add tank...
 		{ "121536", {
@@ -144,10 +150,9 @@ local inCombat = {
 		 		nil },
 	 	
 	 	-- Dispell ALl
-	 	{ "527", {
-	 		(function() return fetch('mtsconfPriestDisc','Dispels') end), 
-	 		(function() return Dispell() end) 
-	 		}},
+	 	{{ -- Dispell all?
+			{ "4987", (function() return Dispell() end) },-- Dispel Everything
+		}, (function() return fetch('mtsconfPriestDisc','Dispels') end) },
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
@@ -200,14 +205,16 @@ local inCombat = {
    			{ "596", { --Prayer of Healing
    				"player.buff(109964)",
    				"player.buff(109964).duration > 2.5",
-   				"!player.moving"
+   				"!player.moving",
+				"modifier.multitarget"
    				}, "lowest" },
    			
    			{ "596", { --Prayer of Healing
    				"@coreHealing.needsHealing(80, 3)", 
    				"modifier.party", 
    				"!modifier.raid", 
-   				"!player.moving" 
+   				"!player.moving",
+				"modifier.multitarget"
    				}, "lowest" },
    			
    			{ "596", { --Prayer of Healing // Raid WorkAround.
@@ -307,6 +314,125 @@ local inCombat = {
 
 }
 
+local solo = {
+
+	{{-- Auto Dotting
+		{ "32379", (function() return mts_Dot(32379, 20, 30) end) },
+		{{-- AoE FH
+			{ "589", (function() return mts_Dot(589, 100, 30) end) }, -- SWP 
+		}, "target.area(10).enemies >= 3" },
+		{{-- AoE forced
+			{ "589", (function() return mts_Dot(589, 100, 30) end) }, -- SWP 
+		}, "modifier.multitarget" },
+	}, {"toggle.dotEverything", "player.firehack"} },
+	
+	-- Auto Targets
+		{ "/cleartarget", {
+			(function() return fetch('mtsconfPriestDisc','AutoTargets') end),
+			(function() return UnitIsFriend("player","target") end)
+			}},
+
+		{ "/target [target=focustarget, harm, nodead]", {  -- Use Tank Target
+			(function() return fetch('mtsconfPriestDisc','AutoTargets') end),
+			"target.range > 40" 
+			}},
+		
+		{ "/targetenemy [noexists]", {  -- target enemire if no target
+			(function() return fetch('mtsconfPriestDisc','AutoTargets') end), 
+			"!target.exists" 
+			}},
+		
+		{ "/targetenemy [dead]", { -- target enemire if current is dead.
+			(function() return fetch('mtsconfPriestDisc','AutoTargets') end),
+			"target.exists", 
+			"target.dead" 
+			}}, 
+
+   	-- buffs
+		{ "81700", "player.buff(81661).count = 5" }, -- Archangel
+	
+	-- LoOk aT It GOoZ!!! // Needs to add tank...
+		{ "121536", {
+			(function() return fetch('mtsconfPriestDisc','Feathers') end), 
+			"player.movingfor > 2", 
+			"!player.buff(121557)", 
+			"player.spell(121536).charges >= 1" 
+			}, "player.ground" },
+
+  	-- Mana/Survival
+		{ "123040", { --Mindbender
+			"player.mana < 75",
+			"target.spell(123040).range"
+			}, "target" },
+		
+		{ "34433", { --Shadowfiend
+			"player.mana < 75",
+			"target.spell(34433).range"
+			}, "target" },
+		
+		{ "19236", 
+			"player.health <= 20", 
+				"Player" }, --Desperate Prayer
+
+  	-- HEALTHSTONE 
+		{ "#5512", "player.health <= 35" },
+
+  	-- Aggro
+		{ "586", "target.threat >= 80" }, -- Fade
+ 
+  	-- Dispel's
+	 	{{ -- Dispell all?
+			{ "4987", (function() return Dispell() end) },-- Dispel Everything
+		}, (function() return fetch('mtsconfPriestDisc','Dispels') end) },
+
+  	-- CD's
+		{ "10060", "modifier.cooldowns" }, --Power Infusion
+		{ "33206", {  --Pain Suppression
+			"toggle.painSup", 
+			"lowest.health <= 25 " 
+			}, "lowest" },
+	
+	-- For Archangel
+		{ "14914", { --Holy Fire
+			"player.mana > 20",
+			"target.spell(14914).range" 
+			}, "target" }, 
+
+	-- Surge of light
+		{ "2061", {-- Flash Heal
+			"lowest.health < 100",
+			"player.buff(114255)",
+			"!player.moving"
+			}, "lowest" }, 
+
+	-- Flash Heal
+		{ "2061", { --Flash Heal
+			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealPlayer')) end),
+			"!player.moving"
+			}, "player" },
+	
+	-- shields
+		{ "17", { --Power Word: Shield
+			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'ShieldPlayer')) end),
+			"!player.debuff(6788).any", 
+			"!player.buff(17).any" 
+			}, "player" },
+
+	--Attonement 
+		{ "47540", { --Penance
+			"player.mana > 20", 
+			"target.spell(47540).range", 
+			"!player.moving" 
+			}, "target" },
+		
+		{ "585", {  --Smite
+			"player.mana > 20", 
+			"!player.moving", 
+			"target.spell(585).range" 
+			}, "target" },
+
+}
+
 local outCombat = {
 
 
@@ -316,7 +442,6 @@ local outCombat = {
 				"!player.moving", 
 				"@coreHealing.needsHealing(90, 3)" 
 				}, "lowest" }, 
-	   
 	   	-- Heals
 			{ "47540", {  --Penance
 				"lowest.health <= 85", 
@@ -347,10 +472,8 @@ local outCombat = {
 			}, "player.ground" },
 
 }
-
-ProbablyEngine.rotation.register_custom(
-	256, 
-	mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", 
-	inCombat, 
-	outCombat, 
-	exeOnLoad)
+	
+ProbablyEngine.rotation.register_custom(256, mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", {
+	{ inCombat, "modifier.party" },
+	{ solo, "!modifier.party" },
+},  outCombat, exeOnLoad)

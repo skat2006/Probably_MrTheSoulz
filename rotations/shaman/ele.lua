@@ -70,7 +70,9 @@ local inCombat = {
 		{ "Tremor Totem", { "!player.buff", "player.state.fear" }, "player" }, 
  
 	-- Dispell
-		{ "Cleanse Spirit", { "modifier.lshift", "!modifier.last(Cleanse Spirit)", (function() return Dispell() end) } },
+		{{ -- Dispell all?
+			{ "77130", (function() return Dispell() end) },-- Dispel Everything
+		}, "toggle.dispel" },
 	
 	-- Control Toggles
 		{ "Flame Shock", { "!modifier.multitarget", "mouseover.enemy", "mouseover.alive", "mouseover.debuff(Flame Shock).duration <= 3", "toggle.mouseovers" }, "mouseover" },
