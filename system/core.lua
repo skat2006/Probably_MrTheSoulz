@@ -5,13 +5,9 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
-													--[[ Global's ]]
---[[------------------------------------------------------------------------------------------------------------]]
---[[------------------------------------------------------------------------------------------------------------]]
-
-mts_Version = "0.13.5"
+mts_Version = "0.13.6"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
-mts_peRecomemded = "6.0.3r10"
+mts_peRecomemded = "6.0.3r11"
 
 --[[   Pack Commands   ]]
 ProbablyEngine.command.register('mts', function(msg, box)

@@ -89,7 +89,8 @@ local inCombat = {
 			}},
 
 	-- Interrupts
-		{ "80964", {"target.interruptsAt(50)", "modifier.interrupts"}, "target" }, -- skull bash
+		{ "106839", "modifier.interrupt", "target"},	-- Skull Bash
+		{ "5211", "modifier.interrupt", "target" }, -- Mighty Bash
 	
 	-- Items
 		{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'Healthstone')) end) }, -- Healthstone

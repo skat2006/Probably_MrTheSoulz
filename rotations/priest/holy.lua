@@ -12,6 +12,48 @@ local ignoreDebuffs = {
 	'Displaced Energy'
 }
 
+-- Prayer of Healing
+-- THX woe!
+local function PoH()
+	local minHeal = (GetSpellBonusDamage(2) * 2.21664) * (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
+	local GetRaidRosterInfo, min, subgroups, member = GetRaidRosterInfo, math.min, {}, {}
+	local lowest, lowestHP, _, subgroup = false, 0
+ 
+	local start, groupMembers = 0, GetNumGroupMembers()
+ 
+	if IsInRaid() then
+		start = 1
+	elseif groupMembers > 0 then
+		groupMembers = groupMembers - 1
+	end
+ 
+	for i = start, groupMembers do
+		_, _, subgroup, _, _, _, _, _, _, _, _ = GetRaidRosterInfo(i)
+ 
+		if not subgroups[subgroup] then
+			subgroups[subgroup] = 0
+			member[subgroup] = ProbablyEngine.raid.roster[i].unit
+		end
+ 
+		subgroups[subgroup] = subgroups[subgroup] + min(minHeal, ProbablyEngine.raid.roster[i].healthMissing)
+	end
+ 
+	for i = 1, #subgroups do
+		if subgroups[i] > minHeal * 3 
+		and subgroups[i] > lowestHP then
+			lowest = i
+			lowestHP = subgroups[i]
+		end
+	end
+ 
+	if lowest then
+		ProbablyEngine.dsl.parsedTarget = member[lowest]
+		return true
+	end
+ 
+	return false
+end
+
 --[[ Dispell function ]]
 local function Dispell()
 local prefix = (IsInRaid() and 'raid') or 'party'
@@ -24,11 +66,13 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 				local ignore = false
 				for k = 1, #ignoreDebuffs do
 					if debuffName == ignoreDebuffs[k] then
+						print("cant dispell, blacklisted...")
 						ignore = true
 						break
 					end
 				end
 					if not ignore then
+						print("Dispelled: "..debuffName.." on:"..unit)
 						ProbablyEngine.dsl.parsedTarget = unit
 						return true
 					end
@@ -83,6 +127,31 @@ local inCombat = {
 		{ "120517", "modifier.lcontrol", "player" }, --Halo
 		{ "110744", "modifier.lcontrol", "player" }, --Divine Star
 	
+	-- Auto Targets
+		{ "/cleartarget", {
+			(function() return fetch('mtsconfPriestHoly','AutoTargets') end),
+			(function() return UnitIsFriend("player","target") end)
+			}},
+
+		{ "/target [target=focustarget, harm, nodead]", {  -- Use Tank Target
+			(function() return fetch('mtsconfPriestHoly','AutoTargets') end),
+			"target.range > 40" 
+			}},
+		
+		{ "/targetenemy", {  -- target enemire if no target
+			(function() return fetch('mtsconfPriestHoly','AutoTargets') end), 
+			"!target.exists" 
+			}},
+		
+		{ "/targetenemy", { -- target enemire if current is dead.
+			(function() return fetch('mtsconfPriestHoly','AutoTargets') end),
+			"target.exists", 
+			"target.dead" 
+			}}, 
+	
+	-- PW:S
+		{ "129250" },
+	
 	--[[ LoOk aT It GOoZ!!! // Needs to add tank... ]]
 		{ "121536", {
 			"player.movingfor > 2", 
@@ -119,7 +188,7 @@ local inCombat = {
 	 	
 	 	-- Dispell ALl
 	 	{{ -- Dispell all?
-			{ "4987", (function() return Dispell() end) },-- Dispel Everything
+			{ "527", (function() return Dispell() end) },-- Dispel Everything
 		}, (function() return fetch('mtsconfPriestHoly','Dispels') end) },
 
   	-- CD's
@@ -232,34 +301,26 @@ local inCombat = {
 				"!player.moving"
 				}, "lowest" },
 
-	-- AOE
+	{{-- AOE
    		-- Prayer of Healing
-   			{ "596", { --Prayer of Healing // Raid WorkAround.
-   				"modifier.lshift",
-   				"!player.moving" 
-   				}, "mouseover" }, 
-   			
-   			{ "596", { --Prayer of Healing
-   				"@coreHealing.needsHealing(85, 3)", 
-   				"modifier.party", 
-   				"!modifier.raid", 
-   				"!player.moving" 
-   				}, "lowest" },
-		
+   			{ "596", (function() return PoH() end)},
+
 		-- Divine Hymn
 			{ "64843", { -- Divine Hymn
 				"@coreHealing.needsHealing(50, 3)", 
-				"modifier.party" }}, 
-			
+				"modifier.party" 
+				}},
 			{ "64843", { -- Divine Hymn
 				"@coreHealing.needsHealing(60, 5)", 
 				"modifier.raid", 
-				"!modifier.members > 10" }},
-			
+				"!modifier.members > 10" 
+				}},
 			{ "64843", {  -- Divine Hymn
 				"@coreHealing.needsHealing(60, 8)", 
 				"modifier.raid", 
-				"modifier.members > 10" }},
+				"modifier.members > 10" 
+				}},
+	}, "modifier.multitarget" },
 
 	-- shields
 		{ "17", {  --Power Word: Shield
@@ -323,20 +384,21 @@ local inCombat = {
 			}, "tank" },
 
 	-- binding heal
-		{ "32546", { --binding heal
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'BindingHealTank')) end), 
+		{ "32546", {
+			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'BindingHealTank')) end),
+			"player.health < 60",
 			"focus.spell(32546).range",
 			"!player.moving"
 			}, "focus" },
 		
-		{ "32546", {  -- binding heal
+		{ "32546", {
 			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'BindingHealTank')) end),
 			"player.health <= 60", 
 			"tank.spell(32546).range",
 			"!player.moving"
 			}, "tank" },
 		
-		{ "32546", {  --binding heal
+		{ "32546", {
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'BindingHealRaid')) end),
 			"player.health < 60",
 			"!player.moving"
@@ -392,16 +454,6 @@ local solo = {
 			"!player.buff(588)"
 			}},
 	
-	{{-- Auto Dotting
-		{ "32379", (function() return mts_Dot(32379, 20, 30) end) },
-		{{-- AoE FH
-			{ "589", (function() return mts_Dot(589, 100, 30) end) }, -- SWP 
-		}, "target.area(10).enemies >= 3" },
-		{{-- AoE forced
-			{ "589", (function() return mts_Dot(589, 100, 30) end) }, -- SWP 
-		}, "modifier.multitarget" },
-	}, {"toggle.dotEverything", "player.firehack"} },
-	
 	-- Auto Targets
 		{ "/cleartarget", {
 			(function() return fetch('mtsconfPriestHoly','AutoTargets') end),
@@ -413,12 +465,12 @@ local solo = {
 			"target.range > 40" 
 			}},
 		
-		{ "/targetenemy [noexists]", {  -- target enemire if no target
+		{ "/targetenemy", {  -- target enemire if no target
 			(function() return fetch('mtsconfPriestHoly','AutoTargets') end), 
 			"!target.exists" 
 			}},
 		
-		{ "/targetenemy [dead]", { -- target enemire if current is dead.
+		{ "/targetenemy", { -- target enemire if current is dead.
 			(function() return fetch('mtsconfPriestHoly','AutoTargets') end),
 			"target.exists", 
 			"target.dead" 
@@ -433,14 +485,11 @@ local solo = {
 
   	-- HEALTHSTONE 
 		{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'Healthstone')) end) },
-
-  	-- Aggro
-		{ "586", "target.threat >= 80" }, -- Fade
  
   	-- Dispel's
 	 	-- Dispell ALl
 	 	{{ -- Dispell all?
-			{ "4987", (function() return Dispell() end) },-- Dispel Everything
+			{ "527", (function() return Dispell() end) },-- Dispel Everything
 		}, (function() return fetch('mtsconfPriestHoly','Dispels') end) },
 
   	-- CD's
@@ -496,11 +545,26 @@ local solo = {
 			"!player.buff(139)"
 			}, "player" },
 	
+	{{-- Auto Dotting
+		{ "32379", (function() return mts_SWD() end) },
+		{{-- AoE FH
+			{ "589", (function() return mts_SWP() end) }, -- SWP 
+		}, "target.area(10).enemies >= 3" },
+		{{-- AoE forced
+			{ "589", (function() return mts_SWP() end) }, -- SWP 
+		}, "modifier.multitarget" },
+	}, {"toggle.dotEverything", "player.firehack"} },
+	
 	-- DPS
+		-- AoE FH
+		{ "48045", "target.area(10).enemies >= 3", "target" }, -- mind sear
+		
 		-- AoE
+		{ "48045", "modifier.multitarget", "target" }, -- mind sear
 			
-
 		-- Single
+		{ "129250" }, -- PW:S
+		{ "589", "!target.debuff(589)", "target" }, -- SW:P
 		{ "585", {  --Smite
 			"!player.moving", 
 			"target.spell(585).range" 
@@ -527,12 +591,8 @@ local outCombat = {
 			}, nil },
 
 	-- AoE
-		{ "596", {  --Prayer of Healing
-			"!player.moving", 
-			"@coreHealing.needsHealing(90, 3)", 
-			"modifier.party", -- Player in Party
-			"!modifier.raid" -- Player not in raid
-			}, "lowest" },
+		-- Prayer of Healing
+   			{ "596", (function() return PoH() end)},
 		
 		{ "34861", "@coreHealing.needsHealing(90, 3)", "lowest"}, -- Circle of Healing
 		

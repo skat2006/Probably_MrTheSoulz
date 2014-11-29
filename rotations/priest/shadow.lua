@@ -33,12 +33,12 @@ local inCombat = {
     { "Mind Sear", "modifier.shift" },
 
 	{{-- Auto Dotting
-		{ "32379", (function() return mts_Dot(32379, 20, 30) end) },
+		{ "32379", (function() return mts_SWD() end) },
 		{{-- AoE FH
-			{ "589", (function() return mts_Dot(589, 100, 30) end) }, -- SWP 
+			{ "589", (function() return mts_SWP() end) }, -- SWP 
 		}, "target.area(10).enemies >= 3" },
 		{{-- AoE forced
-			{ "589", (function() return mts_Dot(589, 100, 30) end) }, -- SWP 
+			{ "589", (function() return mts_SWP() end) }, -- SWP 
 		}, "modifier.multitarget" },
 	}, {"toggle.dotEverything", "player.firehack"} },
   

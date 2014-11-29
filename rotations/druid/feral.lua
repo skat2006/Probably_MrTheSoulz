@@ -75,8 +75,8 @@ local inCombat = {
 	  		}},
 
   	--Interrupts
-	  	{ "106839", { "target.casting", "modifier.interrupt" }, "target"},	-- Skull Bash
-	  	{ "5211", "modifier.interrupt", "target" }, -- Mighty Bash
+	  	{ "106839", "modifier.interrupt", "target"},	-- Skull Bash
+		{ "5211", "modifier.interrupt", "target" }, -- Mighty Bash
 
   	-- Cat && MotW
   		{ "/cancelaura Cat Form", { -- Cancel player form

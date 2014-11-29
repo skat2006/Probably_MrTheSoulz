@@ -161,7 +161,7 @@ end
 -- current status
 local function mtsInfoStatus()
 	if ProbablyEngine.version == mts_peRecomemded
-	and not ProbablyEngine.pmethod == nil then
+	and ProbablyEngine.pmethod ~= nil then
 		return "|cff00FF96Okay!"
 	else 
 		return "|cffC41F3BOuch, something is not right..."

@@ -61,7 +61,7 @@ local inCombat = {
 		{ "108238", "player.health < 60", "player"}, --Instant renewal when less than 40% health
 	
 	{{ -- Auto Dotting	
-		{ "164812", (function() return mts_Dot(164812, 100, 30) end) }, -- moonfire
+		{ "164812", (function() return mts_MoonFire() end) }, -- moonfire
 	}, {"toggle.dotEverything", "player.firehack", "modifier.multitarget"} },
 	
 	-- Auto Target

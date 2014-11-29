@@ -61,31 +61,157 @@ local function mts_infront(unit)
 	return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
 end
 
--- Multidotting Function
--- Created by Mirakuru
-function mts_Dot(spell, health, distance)
+
+--[[ Originaly build by: Mirakuru ]]
+-- Manager cache
+local unitCache = {}
+local function cache()
 	local totalObjects = ObjectCount()
-	local can_cast = ProbablyEngine.parser.can_cast
-	local _,_,_,_,_,_,spellID = GetSpellInfo(spell) 
+	local specID = GetSpecializationInfo(GetSpecialization())
+	wipe(unitCache)
 	
-	-- Parse Object Manager
-	for i=1, totalObjects do
-		local object = ObjectWithIndex(i)
-		if ObjectIsType(object, ObjectTypes.Unit)
-		and mts_infront(object)
-		and mts_immuneEvents(object)
-		and not UnitIsPlayer(object)
-		and LineOfSight(object, "player")
-		and UnitCanAttack("player", object)
-		and can_cast(spellID, object, false)
-		and not UnitIsUnit("target", object)
-		and Distance(object, "player") <= distance
-		and not UnitDebuff(object, GetSpellInfo(spellID), nil, "player") then
-			local objectHealth = math.floor((UnitHealth(object) / UnitHealthMax(object)) * 100)
-			if objectHealth <= health then
-				ProbablyEngine.dsl.parsedTarget = object
-				return true
+	if FireHack then
+		for i=1, totalObjects do
+			local object = ObjectWithIndex(i)
+			if ObjectExists(object) then
+				if ObjectIsType(object, ObjectTypes.Unit)
+				and ProbablyEngine.condition["distance"](object) <= 40
+				and ProbablyEngine.condition["alive"](object) then
+					table.insert(unitCache, object)
+				end
 			end
+		end
+	end
+end
+ 
+-- Call cache manager and throttle
+C_Timer.NewTicker(0.1, (function()
+	if ProbablyEngine.config.read('button_states', 'MasterToggle', false) then
+		if ProbablyEngine.module.player.combat then cache() end
+	end
+end), nil)
+
+function mts_holyNova()
+local minHeal = GetSpellBonusDamage(2) * 1.125
+local inRange = 0
+local prefix = (IsInRaid() and 'raid') or 'party'
+	
+	if FireHack then
+		for i=1,#unitCache do
+			if UnitIsFriend("player", unitCache[i]) then
+				if ProbablyEngine.condition["distance"](unitCache[i]) <= 10
+				and UnitHealth(unitCache[i]) <= minHeal 
+				and UnitIsUnit("target", unitCache[i]) then
+					inRange = inRange + 1
+				end
+			end
+		end
+	else
+		for i = -1, GetNumGroupMembers() - 1 do
+		  local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
+		  if IsItemInRange(33278, unit) or unit == 'player' then
+			local diff = UnitHealth(unit)
+			if diff > minHeal then
+			  inRange = inRange + 1
+			end
+		  end
+		end
+	end
+	return inRange > 3
+end
+
+-- Priest - Shadow Word: Pain
+function mts_SWP()
+	for i=1,#unitCache do
+	local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(589), nil, "PLAYER")
+
+		if not debuff or debuff - GetTime() < 5.5 then
+			print("pass debuff")
+		
+			-- Checks 1
+			if mts_immuneEvents(unitCache[i])
+			and not UnitIsUnit("target", unitCache[i])
+			and UnitAffectingCombat(unitCache[i])
+			and UnitCanAttack("player", unitCache[i])
+			and not UnitIsPlayer(unitCache[i]) then
+				print("hit1")
+							
+				--Checks 2
+				if ProbablyEngine.parser.can_cast(589, unitCache[i], false) then
+				print("hit2")
+						
+					--Checks 3
+					if mts_infront(unitCache[i])
+					and LineOfSight(unitCache[i], "player") then
+						print("hit3")
+						ProbablyEngine.dsl.parsedTarget = unitCache[i]
+						return true
+					end
+						
+				end
+			end	
+		end
+	end
+	return false
+end
+
+function mts_SWD()
+	for i=1,#unitCache do
+		local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(589), nil, "PLAYER")
+		
+		if not debuff or debuff - GetTime() < 5.5 then
+		
+			-- Checks 1
+			if mts_immuneEvents(unitCache[i])
+			and not UnitIsUnit("target", unitCache[i])
+			and ProbablyEngine.condition["health"](unitCache[i]) <= 20
+			and UnitAffectingCombat(unitCache[i])
+			and UnitCanAttack("player", unitCache[i])
+			and not UnitIsPlayer(unitCache[i]) then
+						
+				--Checks 2
+				if ProbablyEngine.parser.can_cast(589, unitCache[i], false) then
+					
+					--Checks 3
+					if mts_infront(unitCache[i])
+					and LineOfSight(unitCache[i], "player") then
+						ProbablyEngine.dsl.parsedTarget = unitCache[i]
+						return true
+					end
+					
+				end
+			end	
+		end
+	end
+	return false
+end
+
+function mts_MoonFire()
+	for i=1,#unitCache do
+		local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(164812), nil, "PLAYER")
+		
+		if not debuff or debuff - GetTime() < 5.5 then
+			
+			-- Checks 1
+			if mts_immuneEvents(unitCache[i])
+			and not UnitIsUnit("target", unitCache[i])
+			and ProbablyEngine.condition["health"](unitCache[i]) <= 20
+			and UnitAffectingCombat(unitCache[i])
+			and UnitCanAttack("player", unitCache[i])
+			and not UnitIsPlayer(unitCache[i]) then
+						
+				--Checks 2
+				if ProbablyEngine.parser.can_cast(164812, unitCache[i], false) then
+					
+					--Checks 3
+					if mts_infront(unitCache[i])
+					and LineOfSight(unitCache[i], "player") then
+						ProbablyEngine.dsl.parsedTarget = unitCache[i]
+						return true
+					end
+					
+				end
+			end	
 		end
 	end
 	return false
