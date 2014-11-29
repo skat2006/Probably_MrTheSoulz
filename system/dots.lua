@@ -126,7 +126,6 @@ function mts_SWP()
 	local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(589), nil, "PLAYER")
 
 		if not debuff or debuff - GetTime() < 5.5 then
-			print("pass debuff")
 		
 			-- Checks 1
 			if mts_immuneEvents(unitCache[i])
@@ -134,16 +133,13 @@ function mts_SWP()
 			and UnitAffectingCombat(unitCache[i])
 			and UnitCanAttack("player", unitCache[i])
 			and not UnitIsPlayer(unitCache[i]) then
-				print("hit1")
 							
 				--Checks 2
 				if ProbablyEngine.parser.can_cast(589, unitCache[i], false) then
-				print("hit2")
 						
 					--Checks 3
 					if mts_infront(unitCache[i])
 					and LineOfSight(unitCache[i], "player") then
-						print("hit3")
 						ProbablyEngine.dsl.parsedTarget = unitCache[i]
 						return true
 					end
