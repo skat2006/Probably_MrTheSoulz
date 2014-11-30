@@ -83,41 +83,41 @@ local function cache()
 		end
 	end
 end
- 
--- Call cache manager and throttle
-C_Timer.NewTicker(0.1, (function()
-	if ProbablyEngine.config.read('button_states', 'MasterToggle', false) then
-		if ProbablyEngine.module.player.combat then cache() end
-	end
-end), nil)
+
+local holyNova_cache_time = 0
+local holyNova_cache_count = 0
+local holyNova_cache_dura = 0.1
 
 function mts_holyNova()
 local minHeal = GetSpellBonusDamage(2) * 1.125
-local inRange = 0
+local total = 0
 local prefix = (IsInRaid() and 'raid') or 'party'
+local holyNova_cache_time_c = holyNova_cache_time
 	
 	if FireHack then
 		for i=1,#unitCache do
-			if UnitIsFriend("player", unitCache[i]) then
-				if ProbablyEngine.condition["distance"](unitCache[i]) <= 10
-				and UnitHealth(unitCache[i]) <= minHeal 
-				and UnitIsUnit("target", unitCache[i]) then
-					inRange = inRange + 1
+		local incomingHeals = UnitGetIncomingHeals(unitCache[i]) or 0
+		local absorbs = UnitGetTotalHealAbsorbs(unitCache[i]) or 0
+		local health = UnitHealth(unitCache[i]) + incomingHeals - absorbs
+		local maxHealth = UnitHealthMax(unitCache[i])
+		local healthMissing = max(0, maxHealth - health)
+			
+			if holyNova_cache_time_c and ((holyNova_cache_time_c + holyNova_cache_dura) > GetTime()) then
+				return holyNova_cache_count > 3
+			end
+			
+			if healthMissing > minHeal 
+			and UnitIsFriend("player", unitCache[i]) then
+				if ProbablyEngine.condition["distance"](unitCache[i]) <= 12 then
+					--print("hit")
+					total = total + 1
 				end
 			end
 		end
-	else
-		for i = -1, GetNumGroupMembers() - 1 do
-		  local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
-		  if IsItemInRange(33278, unit) or unit == 'player' then
-			local diff = UnitHealth(unit)
-			if diff > minHeal then
-			  inRange = inRange + 1
-			end
-		  end
-		end
 	end
-	return inRange > 3
+		holyNova_cache_count = total
+		holyNova_cache_time = GetTime()
+		return total > 3
 end
 
 -- Priest - Shadow Word: Pain
@@ -212,3 +212,10 @@ function mts_MoonFire()
 	end
 	return false
 end
+
+-- Call cache manager and throttle
+C_Timer.NewTicker(0.1, (function()
+	if ProbablyEngine.config.read('button_states', 'MasterToggle', false) then
+		if ProbablyEngine.module.player.combat then cache() end
+	end
+end), nil)

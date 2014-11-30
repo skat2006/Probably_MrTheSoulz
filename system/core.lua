@@ -5,7 +5,7 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
-mts_Version = "0.13.6"
+mts_Version = "0.13.7"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mts_peRecomemded = "6.0.3r11"
 
@@ -40,5 +40,14 @@ function mts_dynamicEval(condition, spell)
 	if not condition then return false end
 	return ProbablyEngine.dsl.parse(condition, spell or '')
 end
+
+--(WORKAROUND)
+	-- Open GUIs to stop nil keys
+	mts_ClassGUI()
+	mts_ConfigGUI()
+
+	-- Close them
+	mts_ClassGUI()
+	mts_ConfigGUI()
 
 --if ProbablyEngine.rotation.currentStringComp == mts_Icon.."|r[|cff9482C9MTS|r][Priest-Shadow|r]"

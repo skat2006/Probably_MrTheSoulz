@@ -37,7 +37,7 @@ local function PoH()
 	end
  
 	for i = 1, #subgroups do
-		if subgroups[i] > minHeal * 3 
+		if subgroups[i] > minHeal * 3
 		and subgroups[i] > lowestHP then
 			lowest = i
 			lowestHP = subgroups[i]
