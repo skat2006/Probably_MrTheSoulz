@@ -12,7 +12,7 @@ local function onUpdate(mtsStart,elapsed)
 	end
 end
 
-local function mts_Splash(message)
+function mts_Splash(message)
 	if fetch('mtsconf', 'Splash') then
 		mtsStart.text:SetText("|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:17:17|t"..message)
 		mtsStart:SetAlpha(1)
@@ -43,10 +43,3 @@ mtsStart:SetPoint("TOP",0,0)
 mtsStart.text = mtsStart:CreateFontString(nil,"OVERLAY","MovieSubtitleFont")
 mtsStart.text:SetAllPoints()
 mtsStart.time = 0
-
-
--- Need a way to only call this only when inside the game (delay it).
---"|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded",
-mts_Splash(
-	"|cff9482C9[MTS] Loaded",
-	5.0)

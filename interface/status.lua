@@ -151,5 +151,3 @@ function mts_showLive()
 	end
 
 end
-
-mts_showLive()
