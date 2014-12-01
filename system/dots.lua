@@ -33,13 +33,9 @@ local function mts_immuneEvents(unit)
      1513, -- Scare Beast
    115268, -- Mesmerize
 }
-  if not UnitAffectingCombat(unit) then 
-	return false 
-  end
-  -- Crowd Control
-  if mts_hasDebuffTable(unit, cc) then 
-	return false 
-  end
+  if not UnitAffectingCombat(unit) then return false end
+  if mts_hasDebuffTable(unit, cc) then return false end
+  
   if UnitAura(unit,GetSpellInfo(116994))
   or UnitAura(unit,GetSpellInfo(122540))
   or UnitAura(unit,GetSpellInfo(123250))
@@ -47,181 +43,159 @@ local function mts_immuneEvents(unit)
   or UnitAura(unit,GetSpellInfo(110945))
   or UnitAura(unit,GetSpellInfo(143593)) -- General Nazgrim: Defensive Stance
   or UnitAura(unit,GetSpellInfo(143574)) -- Heroic Immerseus: Swelling Corruption
-	then 
-	  return false 
-	end
+	then return false end
   return true
 end
 
 local function mts_infront(unit)
+  if FireHack then
 	local aX, aY, aZ = ObjectPosition(unit)
 	local bX, bY, bZ = ObjectPosition('player')
 	local playerFacing = GetPlayerFacing()
 	local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
 	return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
+  elseif oexecute then
+	local aX, aY, aZ = opos(unit)
+	local bX, bY, bZ = opos('player')
+	local playerFacing = GetPlayerFacing()
+	local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
+	return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
+  end
 end
 
-
 --[[ Originaly build by: Mirakuru ]]
--- Manager cache
 local unitCache = {}
 local function cache()
 	local totalObjects = ObjectCount()
 	local specID = GetSpecializationInfo(GetSpecialization())
 	wipe(unitCache)
-
-	for i=1, totalObjects do
-		local object = ObjectWithIndex(i)
+	if FireHack then
+      for i=1, totalObjects do
+      local object = ObjectWithIndex(i)
 		if ObjectExists(object) then
-			if ObjectIsType(object, ObjectTypes.Unit)
-			and ProbablyEngine.condition["distance"](object) <= 40
-			and ProbablyEngine.condition["alive"](object) then
-				table.insert(unitCache, object)
-			end
+		  if ObjectIsType(object, ObjectTypes.Unit)
+		  and ProbablyEngine.condition["distance"](object) <= 40
+		  and ProbablyEngine.condition["alive"](object) then
+			table.insert(unitCache, object)
+		  end
 		end
-	end
+	  end
+	else
+	  local groupType = IsInRaid() and "raid" or "party"
+	  for i = 1, GetNumGroupMembers() do
+	  local target = groupType..i.."target"
+		if ProbablyEngine.condition["alive"](target)
+		and UnitAffectingCombat(target)
+		and not UnitIsPlayer(target) then
+		  if ProbablyEngine.condition["distance"](target) <= 40 then
+			table.insert(unitCache, target)
+		  end
+        end
+      end
+   end
 end
 
 local holyNova_cache_time = 0
 local holyNova_cache_count = 0
 local holyNova_cache_dura = 0.1
 
+-- Priest Discipline - Holy Nova
 function mts_holyNova()
-local minHeal = (GetSpellBonusDamage(2) * 1.125) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
-local total = 0
-local prefix = (IsInRaid() and 'raid') or 'party'
-local holyNova_cache_time_c = holyNova_cache_time
-	
-	if holyNova_cache_time_c and ((holyNova_cache_time_c + holyNova_cache_dura) > GetTime()) then
-		return holyNova_cache_count > 3
-	end
-	
-	if FireHack then
-		for i=1,#unitCache do
-		local incomingHeals = UnitGetIncomingHeals(unitCache[i]) or 0
-		local absorbs = UnitGetTotalHealAbsorbs(unitCache[i]) or 0
-		local health = UnitHealth(unitCache[i]) + incomingHeals - absorbs
-		local maxHealth = UnitHealthMax(unitCache[i])
-		local healthMissing = max(0, maxHealth - health)
-			
-			if healthMissing > minHeal 
-			and UnitIsFriend("player", unitCache[i]) then
-				if ProbablyEngine.condition["distance"](unitCache[i]) <= 12 then
-					--print("hit")
-					total = total + 1
-				end
-			end
-		end
-	end
-		holyNova_cache_count = total
-		holyNova_cache_time = GetTime()
-		return total > 3
+  local minHeal = (GetSpellBonusDamage(2) * 1.125) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
+  local total = 0
+  local prefix = (IsInRaid() and 'raid') or 'party'
+  local holyNova_cache_time_c = holyNova_cache_time
+  if holyNova_cache_time_c and ((holyNova_cache_time_c + holyNova_cache_dura) > GetTime()) then
+	return holyNova_cache_count > 3
+  end
+  for i=1,#unitCache do
+  local incomingHeals = UnitGetIncomingHeals(unitCache[i]) or 0
+  local absorbs = UnitGetTotalHealAbsorbs(unitCache[i]) or 0
+  local health = UnitHealth(unitCache[i]) + incomingHeals - absorbs
+  local maxHealth = UnitHealthMax(unitCache[i])
+  local healthMissing = max(0, maxHealth - health)
+	if healthMissing > minHeal 
+	  and UnitIsFriend("player", unitCache[i]) then
+	  if ProbablyEngine.condition["distance"](unitCache[i]) <= 12 then
+		total = total + 1
+	  end
+    end
+  end
+	holyNova_cache_count = total
+	holyNova_cache_time = GetTime()
+	return total > 3
 end
 
 -- Priest - Shadow Word: Pain
 function mts_SWP()
-	if FireHack then
-		for i=1,#unitCache do
-		local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(589), nil, "PLAYER")
-
-			if not debuff or debuff - GetTime() < 5.5 then
-			
-				-- Checks 1
-				if mts_immuneEvents(unitCache[i])
-				and not UnitIsUnit("target", unitCache[i])
-				and UnitAffectingCombat(unitCache[i])
-				and UnitCanAttack("player", unitCache[i])
-				and not UnitIsPlayer(unitCache[i]) then
-								
-					--Checks 2
-					if ProbablyEngine.parser.can_cast(589, unitCache[i], false) then
-							
-						--Checks 3
-						if mts_infront(unitCache[i])
-						and LineOfSight(unitCache[i], "player") then
-							ProbablyEngine.dsl.parsedTarget = unitCache[i]
-							return true
-						end
-							
-					end
-				end	
-			end
+  for i=1,#unitCache do
+  local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(589), nil, "PLAYER")
+	if not debuff then
+	  if mts_immuneEvents(unitCache[i])
+	  --and not UnitIsUnit("target", unitCache[i])
+      and UnitAffectingCombat(unitCache[i])
+	  and UnitCanAttack("player", unitCache[i])
+	  and not UnitIsPlayer(unitCache[i]) then
+	    if ProbablyEngine.parser.can_cast(589, unitCache[i], false) then
+		  if mts_infront(unitCache[i])
+		  and LineOfSight(unitCache[i], "player") then
+		    ProbablyEngine.dsl.parsedTarget = unitCache[i]
+			return true
+		  end			
 		end
+	  end	
 	end
-	return false
+  end
+    return false
 end
 
+-- Priest - Shadow Word: Death
 function mts_SWD()
-	if FireHack then
-		for i=1,#unitCache do
-			local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(589), nil, "PLAYER")
-			
-			if not debuff or debuff - GetTime() < 5.5 then
-			
-				-- Checks 1
-				if mts_immuneEvents(unitCache[i])
-				and not UnitIsUnit("target", unitCache[i])
-				and ProbablyEngine.condition["health"](unitCache[i]) <= 20
-				and UnitAffectingCombat(unitCache[i])
-				and UnitCanAttack("player", unitCache[i])
-				and not UnitIsPlayer(unitCache[i]) then
-							
-					--Checks 2
-					if ProbablyEngine.parser.can_cast(589, unitCache[i], false) then
-						
-						--Checks 3
-						if mts_infront(unitCache[i])
-						and LineOfSight(unitCache[i], "player") then
-							ProbablyEngine.dsl.parsedTarget = unitCache[i]
-							return true
-						end
-						
-					end
-				end	
-			end
+  for i=1,#unitCache do
+	if mts_immuneEvents(unitCache[i])
+	and ProbablyEngine.condition["health"](unitCache[i]) <= 20
+	and UnitAffectingCombat(unitCache[i])
+	and UnitCanAttack("player", unitCache[i])
+	and not UnitIsPlayer(unitCache[i]) then
+	  if ProbablyEngine.parser.can_cast(32379, unitCache[i], false) then
+		if mts_infront(unitCache[i])
+		and LineOfSight(unitCache[i], "player") then
+		  ProbablyEngine.dsl.parsedTarget = unitCache[i]
+		  return true
 		end
+      end
 	end
+  end
 	return false
 end
 
+-- Druid - MoonFire
 function mts_MoonFire()
-	if FireHack then
-		for i=1,#unitCache do
-			local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(164812), nil, "PLAYER")
-			
-			if not debuff or debuff - GetTime() < 5.5 then
-				
-				-- Checks 1
-				if mts_immuneEvents(unitCache[i])
-				and not UnitIsUnit("target", unitCache[i])
-				and ProbablyEngine.condition["health"](unitCache[i]) <= 20
-				and UnitAffectingCombat(unitCache[i])
-				and UnitCanAttack("player", unitCache[i])
-				and not UnitIsPlayer(unitCache[i]) then
-							
-					--Checks 2
-					if ProbablyEngine.parser.can_cast(164812, unitCache[i], false) then
-						
-						--Checks 3
-						if mts_infront(unitCache[i])
-						and LineOfSight(unitCache[i], "player") then
-							ProbablyEngine.dsl.parsedTarget = unitCache[i]
-							return true
-						end
-						
-					end
-				end	
-			end
-		end
-	end
+  for i=1,#unitCache do
+  local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(164812), nil, "PLAYER")
+	if not debuff or debuff - GetTime() < 5.5 then
+	  if mts_immuneEvents(unitCache[i])
+	  and not UnitIsUnit("target", unitCache[i])
+	  and ProbablyEngine.condition["health"](unitCache[i]) <= 20
+	  and UnitAffectingCombat(unitCache[i])
+	  and UnitCanAttack("player", unitCache[i])
+	  and not UnitIsPlayer(unitCache[i]) then
+	    if ProbablyEngine.parser.can_cast(164812, unitCache[i], false) then
+	      if mts_infront(unitCache[i])
+		  and LineOfSight(unitCache[i], "player") then
+		    ProbablyEngine.dsl.parsedTarget = unitCache[i]
+		    return true
+		  end			
+	    end
+      end	
+    end
+  end
 	return false
 end
 
 C_Timer.NewTicker(0.1, (function()
-	if FireHack then
-		if ProbablyEngine.config.read('button_states', 'MasterToggle', false)
-		and ProbablyEngine.module.player.combat then
-			cache() 
-		end
-	end
+  if ProbablyEngine.config.read('button_states', 'MasterToggle', false)
+  and ProbablyEngine.module.player.combat then
+	cache() 
+  end
 end), nil)
