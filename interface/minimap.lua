@@ -21,7 +21,7 @@ local function onUpdate()
 end
 
 local function onDragStart(self)
-	self:LockHighlight()
+  self:LockHighlight()
   self:StartMoving()
   self:SetScript('OnUpdate', onUpdate)
 end
@@ -29,7 +29,7 @@ end
 local function onDragStop(self)
   self:SetScript('OnUpdate', nil)
   self:StopMovingOrSizing()
-	self:UnlockHighlight()
+  self:UnlockHighlight()
 
   ProbablyEngine.config.write('mts_minimap_position', minimap.position)
 end
@@ -55,7 +55,7 @@ local function onLeave(self)
   GameTooltip:Hide()
 end
 
-function mts_minimap.create()
+local function mts_minimap.create()
 	local button = CreateFrame('Button', 'MTS_Minimap', Minimap)
 	button:SetFrameStrata('MEDIUM')
 	button:SetSize(33, 33)
