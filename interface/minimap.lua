@@ -55,7 +55,7 @@ local function onLeave(self)
   GameTooltip:Hide()
 end
 
-local function mts_minimap.create()
+local function mts_createMinimap()
 	local button = CreateFrame('Button', 'MTS_Minimap', Minimap)
 	button:SetFrameStrata('MEDIUM')
 	button:SetSize(33, 33)
@@ -90,4 +90,4 @@ local function mts_minimap.create()
 	button:Show()
 end
 
-mts_minimap.create()
+mts_createMinimap()
