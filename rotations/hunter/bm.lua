@@ -127,7 +127,7 @@ local inCombat = {
 			{ "Powershot", "player.timetomax > 2.5" },
 			{ "3044", { --Arcane Shot
 				"player.buff(Thrill of the Hunt)", 
-				´"player.focus > 35" 
+				"player.focus > 35"
 			}},
 			{ "3044", "player.buff(Bestial Wrath)" },--Arcane Shot
 			{ "3044", "player.focus >= 64" },--Arcane Shot
