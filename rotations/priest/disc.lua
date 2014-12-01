@@ -12,7 +12,8 @@ local function mts_Feathers()
 local possibleTank = ProbablyEngine.raid.tank()
   
   if FireHack or oexecute
-  and mts_dynamicEval("player.spell(121536).charges >= 1") then
+  and mts_dynamicEval("player.spell(121536).charges >= 1") 
+  and fetch('mtsconfPriestDisc','Feathers') then
   
     if UnitExists("focus") then
 	  if not mts_dynamicEval("focus.range >= 40")
@@ -116,11 +117,6 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 end
 
 local exeOnLoad = function()
-
-	ProbablyEngine.toggle.create( 'painSup', 
-		'Interface\\Icons\\Spell_holy_painsupression.png', 
-		'Pain Suppression', 
-		'Toggle Enables Pain Suppression')
 
 	ProbablyEngine.toggle.create(
 		'dotEverything', 
@@ -457,10 +453,6 @@ local solo = {
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
-		{ "33206", {  --Pain Suppression
-			"toggle.painSup", 
-			"lowest.health <= 25 " 
-			}, "lowest" },
 	
 	-- For Archangel
 		{ "14914", { --Holy Fire

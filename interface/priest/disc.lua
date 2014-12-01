@@ -47,7 +47,7 @@ mts_configPriestDisc = {
 		        },{
 		          text = "Boss",
 		          key = "Boss"
-		    	}}, default = "Lowest", desc = "Select When to use Pain Suppression." },
+		    	}}, default = "Allways", desc = "Select When to use Pain Suppression." },
 			
 			-- Pain Suppression // health
 			{ type = "spinner", text = "Pain Suppression", key = "PainSuppressionHP", default = 25},
