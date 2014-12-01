@@ -56,36 +56,36 @@ local function onLeave(self)
 end
 
 function mts_minimap.create()
-	local button = CreateFrame('Button', 'PE_Minimap', Minimap)
+	local button = CreateFrame('Button', 'MTS_Minimap', Minimap)
 	button:SetFrameStrata('MEDIUM')
 	button:SetSize(33, 33)
 	button:RegisterForClicks('anyUp')
 	button:RegisterForDrag('LeftButton', 'RightButton')
-  button:SetMovable(true)
+    button:SetMovable(true)
 	button:SetHighlightTexture('Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight')
 
 	local overlay = button:CreateTexture(nil, 'OVERLAY')
-  overlay:SetSize(56, 56)
-  overlay:SetTexture('Interface\\Minimap\\MiniMap-TrackingBorder')
-  overlay:SetPoint('TOPLEFT')
+	overlay:SetSize(56, 56)
+	overlay:SetTexture('Interface\\Minimap\\MiniMap-TrackingBorder')
+	overlay:SetPoint('TOPLEFT')
 
-  local icon = button:CreateTexture(nil, 'BACKGROUND')
+	local icon = button:CreateTexture(nil, 'BACKGROUND')
 	icon:SetSize(21, 21)
 	icon:SetTexture('Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp')
 	icon:SetPoint('TOPLEFT', 7, -6)
 
 	button.icon = icon
 
-  button:SetScript('OnDragStart', onDragStart)
-  button:SetScript('OnDragStop', onDragStop)
+	button:SetScript('OnDragStart', onDragStart)
+	button:SetScript('OnDragStop', onDragStop)
 	button:SetScript('OnClick', onClick)
 	button:SetScript('OnEnter', onEnter)
 	button:SetScript('OnLeave', onLeave)
 
-  minimap.button = button
+	minimap.button = button
 
-  minimap.position = ProbablyEngine.config.read('mts_minimap_position', -36)
-  reposition()
+	minimap.position = ProbablyEngine.config.read('mts_minimap_position', -36)
+	reposition()
 
 	button:Show()
 end
