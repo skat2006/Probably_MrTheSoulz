@@ -1,7 +1,7 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
 local function onUpdate(mtsStart,elapsed) 
-	if mtsStart.time < GetTime() - 2.0 and mtsSplash.time < GetTime() - 2.0 then
+	if mtsStart.time < GetTime() - 5.0 and mtsSplash.time < GetTime() - 5.0 then
 		if mtsStart:GetAlpha() == 0 and  mtsSplash:GetAlpha() then
 			mtsStart:Hide()
 			mtsSplash:Hide()

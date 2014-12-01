@@ -49,8 +49,8 @@ mts_config = {
 		{ type = "checkbox", text = "Sounds", key = "Sounds", default = true, desc =
 		"This checkbox enables or disables MrTheSoulz Pack using sounds."},
 
-		-- Firehack
-		{ type = "checkbox", text = "Firehack", key = "Firehack", default = true, desc =
+		-- Smart AoE
+		{ type = "checkbox", text = "Smart AoE", key = "Firehack", default = true, desc =
 		"This checkbox enables or disables MrTheSoulz Pack using Firehacks features like smart aoe and other fancy stuff."},
 
 		-- LiveGUI

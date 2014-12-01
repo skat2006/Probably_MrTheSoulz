@@ -8,12 +8,43 @@ MTS
 local fetch = ProbablyEngine.interface.fetchKey
 local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 
--- * (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
+local function mts_Feathers()
+local possibleTank = ProbablyEngine.raid.tank()
+  
+  if FireHack or oexecute
+  and mts_dynamicEval("player.spell(121536).charges >= 1") then
+  
+    if UnitExists("focus") then
+	  if not mts_dynamicEval("focus.range >= 40")
+	  and mts_dynamicEval("!focus.buff(121557)") then
+		ProbablyEngine.dsl.parsedTarget = "focus.ground"
+	    return true
+	  end
+	end
+	
+    if possibleTank then
+	  if not mts_dynamicEval("tank.range >= 40")
+	  and mts_dynamicEval("!tank.buff(121557)") 
+	  and possibleTank ~= "player" then
+		ProbablyEngine.dsl.parsedTarget = possibleTank..".ground"
+	    return true
+      end
+	end
+	
+	if mts_dynamicEval("player.movingfor > 2")
+	and mts_dynamicEval("!player.buff(121557)") then
+      ProbablyEngine.dsl.parsedTarget = "player.ground"
+      return true
+	end
+	
+  end
+	return false
+end 
 
 -- Prayer of Healing
 -- THX woe!
 local function PoH()
-	local minHeal = GetSpellBonusDamage(2) * 2.21664
+	local minHeal = (GetSpellBonusDamage(2) * 2.21664) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
 	local GetRaidRosterInfo, min, subgroups, member = GetRaidRosterInfo, math.min, {}, {}
 	local lowest, lowestHP, _, subgroup = false, 0
  
@@ -37,7 +68,7 @@ local function PoH()
 	end
  
 	for i = 1, #subgroups do
-		if subgroups[i] > minHeal * 3
+		if subgroups[i] > minHeal * 4
 		and subgroups[i] > lowestHP then
 			lowest = i
 			lowestHP = subgroups[i]
@@ -136,12 +167,7 @@ local inCombat = {
 		{ "81700", "player.buff(81661).count = 5" }, -- Archangel
 	
 	-- LoOk aT It GOoZ!!! // Needs to add tank...
-		{ "121536", {
-			(function() return fetch('mtsconfPriestDisc','Feathers') end), 
-			"player.movingfor > 2", 
-			"!player.buff(121557)", 
-			"player.spell(121536).charges >= 1" 
-			}, "player.ground" },
+		{ "121536", (function() return mts_Feathers() end)},
 
   	-- Mana/Survival
 		{ "123040", { --Mindbender
@@ -192,16 +218,44 @@ local inCombat = {
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
-		{ "33206", {  --Pain Suppression
-			"toggle.painSup", 
-			"lowest.health <= 25 " 
-			}, "lowest" },
-	
-	-- For Archangel
-		{ "14914", { --Holy Fire
-			"player.mana > 20",
-			"target.spell(14914).range" 
-			}, "target" }, 
+		
+	--Pain Suppression	
+		-- ALL
+			{ "33206", { 
+				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Focus' end),
+				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Allways' end),
+				(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
+				}, "focus" },
+			{ "33206", {
+				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Tank' end),
+				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Allways' end),
+				(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
+				}, "tank" },
+			{ "33206", {
+				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Lowest' end),
+				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Allways' end),
+				(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
+				}, "lowest" },
+		
+		-- Boss
+			{ "33206", { 
+				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Focus' end),
+				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Boss' end),
+				(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
+				"target.boss"
+				}, "focus" },
+			{ "33206", {
+				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Tank' end),
+				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Boss' end),
+				(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
+				"target.boss"
+				}, "tank" },
+			{ "33206", {
+				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Lowest' end),
+				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Boss' end),
+				(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
+				"target.boss"
+				}, "lowest" },
 
 	-- Surge of light
 		{ "2061", {-- Flash Heal
@@ -209,7 +263,14 @@ local inCombat = {
 			"player.buff(114255)",
 			"!player.moving"
 			}, "lowest" }, 
-
+	
+	-- Penance	
+		{ "!47540", { --Penance
+			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PenanceRaid')) end),
+			"!player.casting(2061)",
+			"!player.moving"
+			}, "lowest" }, 
+	
 	-- shields
 		{ "17", { 
 			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'ShieldTank')) end),
@@ -227,42 +288,37 @@ local inCombat = {
 			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'ShieldPlayer')) end),
 			"!player.debuff(6788).any", 
 			"!player.buff(17).any" 
-			}, "player" }, 
-		
-		{ "17", {  --Power Word: Shield
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'ShieldRaid')) end),
-			"!lowest.debuff(6788).any", 
-			"!lowest.buff(17).any", 
-			}, "lowest" },
-	
-	-- Penance	
-		{ "47540", { --Penance
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PenanceRaid')) end),
-			"!player.moving"
-			}, "lowest" }, 
+			}, "player" },
 	
 	-- Flash Heal
-		{ "2061", { --Flash Heal
+		{ "!2061", { --Flash Heal
 			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end),
 			"focus.spell(2061).range",
 			"!player.moving"
 			}, "focus" },
 		
-		{ "2061", { --Flash Heal
+		{ "!2061", { --Flash Heal
 			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end), 
 			"tank.spell(2061).range",
 			"!player.moving"
 			}, "tank" },
 		
-		{ "2061", { --Flash Heal
+		{ "!2061", { --Flash Heal
 			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealPlayer')) end),
 			"!player.moving"
 			}, "player" },
 		
-		{ "2061", { --Flash Heal
+		{ "!2061", { --Flash Heal
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealRaid')) end),
 			"!player.moving"
 			}, "lowest" },
+	
+	-- For Archangel
+		{ "14914", { --Holy Fire
+			"player.mana > 20",
+			"target.spell(14914).range",
+			"target.infront"
+			}, "target" }, 
 
 	{{-- AOE
 		--Prayer of Mending
@@ -371,12 +427,7 @@ local solo = {
 		{ "81700", "player.buff(81661).count = 5" }, -- Archangel
 	
 	-- LoOk aT It GOoZ!!! // Needs to add tank...
-		{ "121536", {
-			(function() return fetch('mtsconfPriestDisc','Feathers') end), 
-			"player.movingfor > 2", 
-			"!player.buff(121557)", 
-			"player.spell(121536).charges >= 1" 
-			}, "player.ground" },
+		{ "121536", (function() return mts_Feathers() end)},
 
   	-- Mana/Survival
 		{ "123040", { --Mindbender
@@ -453,8 +504,21 @@ local solo = {
 }
 
 local outCombat = {
-
-
+	
+	-- buffs
+		{ "21562", {-- Fortitude
+			"!player.buff(21562).any",
+			"!player.buff(588)"
+			}}, 
+		
+		{ "81700", {--Archangel
+			"player.buff(81661).count = 5", 
+			"player.buff(81661).duration < 5"
+			}},
+	
+	-- LoOk aT It GOoZ!!! // Needs to add tank...
+		{ "121536", (function() return mts_Feathers() end)},
+	
 	{{-- AOE
    		-- Holy nova
    			{ "132157", (function() return mts_holyNova() end), nil }, -- Holy Nova
@@ -470,25 +534,17 @@ local outCombat = {
 				"modifier.cooldowns" 
 			}, "tank.ground" },
 	}, "modifier.multitarget" },
-		
-	-- buffs
-		{ "21562", {-- Fortitude
-			"!player.buff(21562).any",
-			"!player.buff(588)"
-			}}, 
-		
-		{ "81700", {--Archangel
-			"player.buff(81661).count = 5", 
-			"player.buff(81661).duration < 5"
-			}},
 	
-	-- LoOk aT It GOoZ!!! // Needs to add tank...
-		{ "121536", {
-			(function() return fetch('mtsconfPriestDisc','Feathers') end), 
-			"player.movingfor > 2", 
-			"!player.buff(121557)", 
-			"player.spell(121536).charges >= 1" 
-			}, "player.ground" },
+	-- Heals
+		{ "!47540", { --Penance
+			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PenanceRaid')) end),
+			"!player.casting(2061)",
+			"!player.moving"
+			}, "lowest" },
+		{ "2060", {-- Heal
+			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'HealRaid')) end),
+			"!player.moving"
+			}, "lowest" }, 
 
 }
 	

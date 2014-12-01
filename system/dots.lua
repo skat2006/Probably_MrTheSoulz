@@ -69,16 +69,14 @@ local function cache()
 	local totalObjects = ObjectCount()
 	local specID = GetSpecializationInfo(GetSpecialization())
 	wipe(unitCache)
-	
-	if FireHack then
-		for i=1, totalObjects do
-			local object = ObjectWithIndex(i)
-			if ObjectExists(object) then
-				if ObjectIsType(object, ObjectTypes.Unit)
-				and ProbablyEngine.condition["distance"](object) <= 40
-				and ProbablyEngine.condition["alive"](object) then
-					table.insert(unitCache, object)
-				end
+
+	for i=1, totalObjects do
+		local object = ObjectWithIndex(i)
+		if ObjectExists(object) then
+			if ObjectIsType(object, ObjectTypes.Unit)
+			and ProbablyEngine.condition["distance"](object) <= 40
+			and ProbablyEngine.condition["alive"](object) then
+				table.insert(unitCache, object)
 			end
 		end
 	end
@@ -89,10 +87,14 @@ local holyNova_cache_count = 0
 local holyNova_cache_dura = 0.1
 
 function mts_holyNova()
-local minHeal = GetSpellBonusDamage(2) * 1.125
+local minHeal = (GetSpellBonusDamage(2) * 1.125) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
 local total = 0
 local prefix = (IsInRaid() and 'raid') or 'party'
 local holyNova_cache_time_c = holyNova_cache_time
+	
+	if holyNova_cache_time_c and ((holyNova_cache_time_c + holyNova_cache_dura) > GetTime()) then
+		return holyNova_cache_count > 3
+	end
 	
 	if FireHack then
 		for i=1,#unitCache do
@@ -101,10 +103,6 @@ local holyNova_cache_time_c = holyNova_cache_time
 		local health = UnitHealth(unitCache[i]) + incomingHeals - absorbs
 		local maxHealth = UnitHealthMax(unitCache[i])
 		local healthMissing = max(0, maxHealth - health)
-			
-			if holyNova_cache_time_c and ((holyNova_cache_time_c + holyNova_cache_dura) > GetTime()) then
-				return holyNova_cache_count > 3
-			end
 			
 			if healthMissing > minHeal 
 			and UnitIsFriend("player", unitCache[i]) then
@@ -122,100 +120,108 @@ end
 
 -- Priest - Shadow Word: Pain
 function mts_SWP()
-	for i=1,#unitCache do
-	local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(589), nil, "PLAYER")
+	if FireHack then
+		for i=1,#unitCache do
+		local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(589), nil, "PLAYER")
 
-		if not debuff or debuff - GetTime() < 5.5 then
-		
-			-- Checks 1
-			if mts_immuneEvents(unitCache[i])
-			and not UnitIsUnit("target", unitCache[i])
-			and UnitAffectingCombat(unitCache[i])
-			and UnitCanAttack("player", unitCache[i])
-			and not UnitIsPlayer(unitCache[i]) then
+			if not debuff or debuff - GetTime() < 5.5 then
+			
+				-- Checks 1
+				if mts_immuneEvents(unitCache[i])
+				and not UnitIsUnit("target", unitCache[i])
+				and UnitAffectingCombat(unitCache[i])
+				and UnitCanAttack("player", unitCache[i])
+				and not UnitIsPlayer(unitCache[i]) then
+								
+					--Checks 2
+					if ProbablyEngine.parser.can_cast(589, unitCache[i], false) then
 							
-				--Checks 2
-				if ProbablyEngine.parser.can_cast(589, unitCache[i], false) then
-						
-					--Checks 3
-					if mts_infront(unitCache[i])
-					and LineOfSight(unitCache[i], "player") then
-						ProbablyEngine.dsl.parsedTarget = unitCache[i]
-						return true
+						--Checks 3
+						if mts_infront(unitCache[i])
+						and LineOfSight(unitCache[i], "player") then
+							ProbablyEngine.dsl.parsedTarget = unitCache[i]
+							return true
+						end
+							
 					end
-						
-				end
-			end	
+				end	
+			end
 		end
 	end
 	return false
 end
 
 function mts_SWD()
-	for i=1,#unitCache do
-		local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(589), nil, "PLAYER")
-		
-		if not debuff or debuff - GetTime() < 5.5 then
-		
-			-- Checks 1
-			if mts_immuneEvents(unitCache[i])
-			and not UnitIsUnit("target", unitCache[i])
-			and ProbablyEngine.condition["health"](unitCache[i]) <= 20
-			and UnitAffectingCombat(unitCache[i])
-			and UnitCanAttack("player", unitCache[i])
-			and not UnitIsPlayer(unitCache[i]) then
+	if FireHack then
+		for i=1,#unitCache do
+			local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(589), nil, "PLAYER")
+			
+			if not debuff or debuff - GetTime() < 5.5 then
+			
+				-- Checks 1
+				if mts_immuneEvents(unitCache[i])
+				and not UnitIsUnit("target", unitCache[i])
+				and ProbablyEngine.condition["health"](unitCache[i]) <= 20
+				and UnitAffectingCombat(unitCache[i])
+				and UnitCanAttack("player", unitCache[i])
+				and not UnitIsPlayer(unitCache[i]) then
+							
+					--Checks 2
+					if ProbablyEngine.parser.can_cast(589, unitCache[i], false) then
 						
-				--Checks 2
-				if ProbablyEngine.parser.can_cast(589, unitCache[i], false) then
-					
-					--Checks 3
-					if mts_infront(unitCache[i])
-					and LineOfSight(unitCache[i], "player") then
-						ProbablyEngine.dsl.parsedTarget = unitCache[i]
-						return true
+						--Checks 3
+						if mts_infront(unitCache[i])
+						and LineOfSight(unitCache[i], "player") then
+							ProbablyEngine.dsl.parsedTarget = unitCache[i]
+							return true
+						end
+						
 					end
-					
-				end
-			end	
+				end	
+			end
 		end
 	end
 	return false
 end
 
 function mts_MoonFire()
-	for i=1,#unitCache do
-		local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(164812), nil, "PLAYER")
-		
-		if not debuff or debuff - GetTime() < 5.5 then
+	if FireHack then
+		for i=1,#unitCache do
+			local _,_,_,_,_,_,debuff = UnitDebuff(unitCache[i], GetSpellInfo(164812), nil, "PLAYER")
 			
-			-- Checks 1
-			if mts_immuneEvents(unitCache[i])
-			and not UnitIsUnit("target", unitCache[i])
-			and ProbablyEngine.condition["health"](unitCache[i]) <= 20
-			and UnitAffectingCombat(unitCache[i])
-			and UnitCanAttack("player", unitCache[i])
-			and not UnitIsPlayer(unitCache[i]) then
+			if not debuff or debuff - GetTime() < 5.5 then
+				
+				-- Checks 1
+				if mts_immuneEvents(unitCache[i])
+				and not UnitIsUnit("target", unitCache[i])
+				and ProbablyEngine.condition["health"](unitCache[i]) <= 20
+				and UnitAffectingCombat(unitCache[i])
+				and UnitCanAttack("player", unitCache[i])
+				and not UnitIsPlayer(unitCache[i]) then
+							
+					--Checks 2
+					if ProbablyEngine.parser.can_cast(164812, unitCache[i], false) then
 						
-				--Checks 2
-				if ProbablyEngine.parser.can_cast(164812, unitCache[i], false) then
-					
-					--Checks 3
-					if mts_infront(unitCache[i])
-					and LineOfSight(unitCache[i], "player") then
-						ProbablyEngine.dsl.parsedTarget = unitCache[i]
-						return true
+						--Checks 3
+						if mts_infront(unitCache[i])
+						and LineOfSight(unitCache[i], "player") then
+							ProbablyEngine.dsl.parsedTarget = unitCache[i]
+							return true
+						end
+						
 					end
-					
-				end
-			end	
+				end	
+			end
 		end
 	end
 	return false
 end
 
--- Call cache manager and throttle
 C_Timer.NewTicker(0.1, (function()
-	if ProbablyEngine.config.read('button_states', 'MasterToggle', false) then
-		if ProbablyEngine.module.player.combat then cache() end
+	if FireHack then
+		if ProbablyEngine.config.read('button_states', 'MasterToggle', false)
+		and ProbablyEngine.module.player.combat then
+			cache() 
+		end
 	end
 end), nil)

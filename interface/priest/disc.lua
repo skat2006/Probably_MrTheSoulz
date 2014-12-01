@@ -26,6 +26,32 @@ mts_configPriestDisc = {
 			{ type = "checkbox", text = "Feathers", key = "Feathers", default = true, desc =
 			 "This checkbox enables or disables the use of automatic feathers to move faster."},
 
+			-- Pain Suppression
+			{ type = "dropdown",text = "Pain Suppression", key = "PainSuppression", list = {
+		    	{
+		          text = "Lowest",
+		          key = "Lowest"
+		        },{
+		          text = "Tank",
+		          key = "Tank"
+		    	},{
+		    	  text = "Focus",
+		          key = "Focus"
+		    	}}, default = "Lowest", desc = "Select Who to use Pain Suppression on." },
+			
+			-- Pain Suppression // Target
+			{ type = "dropdown",text = "Pain Suppression", key = "PainSuppressionTG", list = {
+		    	{
+		          text = "Allways",
+		          key = "Allways"
+		        },{
+		          text = "Boss",
+		          key = "Boss"
+		    	}}, default = "Lowest", desc = "Select When to use Pain Suppression." },
+			
+			-- Pain Suppression // health
+			{ type = "spinner", text = "Pain Suppression", key = "PainSuppressionHP", default = 25},
+
 		-- Focus/Tank
 		{ type = 'rule' },
 		{ type = 'header', text = 'Focus/Tank settings:', align = "center" },

@@ -142,10 +142,11 @@ end
 
 -- Check if user is unclocked and how
 local function UnlockerInfo()
-	if ProbablyEngine.pmethod == nil then
+	if ProbablyEngine.pmethod == nil
+	and ProbablyEngine.protected.method == nil then
 		return "|cffC41F3BYou're not Unlocked, please use an unlocker."
 	else 
-		return "|cff00FF96You're Unlocked, Using: ".. ProbablyEngine.pmethod
+		return "|cff00FF96You're Unlocked, Using: ".. (ProbablyEngine.pmethod or ProbablyEngine.protected.method)
 	end
 end
 

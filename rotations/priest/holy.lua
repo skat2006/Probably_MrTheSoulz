@@ -15,7 +15,7 @@ local ignoreDebuffs = {
 -- Prayer of Healing
 -- THX woe!
 local function PoH()
-	local minHeal = (GetSpellBonusDamage(2) * 2.21664) * (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
+	local minHeal = (GetSpellBonusDamage(2) * 2.21664) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
 	local GetRaidRosterInfo, min, subgroups, member = GetRaidRosterInfo, math.min, {}, {}
 	local lowest, lowestHP, _, subgroup = false, 0
  
