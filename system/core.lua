@@ -5,7 +5,7 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
-mts_Version = "0.13.10"
+mts_Version = "0.13.11"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mts_peRecomemded = "6.0.3r11"
 
