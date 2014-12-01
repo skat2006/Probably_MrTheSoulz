@@ -1,4 +1,5 @@
 local logo = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:15:15|t"
+local fetch = ProbablyEngine.interface.fetchKey
 
 local InfoWindow
 local mts_OpenInfoWindow = false
@@ -50,7 +51,23 @@ mts_info = {
 			{ type = "text", text = "Overall Status: ", size = 11, offset = -11 },
 			{ key = 'current_Status', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
 
+		{ type = 'spacer' },{ type = 'spacer' },{ type = 'spacer' },{ type = 'spacer' },{ type = 'spacer' },
+		
+		-- Advanced Status
+		{ type = 'rule' },
+		{ type = 'header', text = "|cff9482C9MrTheSoulz Advanced Status:", align = "center"},
 		{ type = 'spacer' },
+
+			{ type = "text", text = "Unit Cache Status: ", size = 11, offset = -11 },
+			{ key = 'current_cacheStatus', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+
+			{ type = "text", text = "Smart AoE Status: ", size = 11, offset = -11 },
+			{ key = 'current_smartAoEStatus', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+
+			{ type = "text", text = "Movement Status: ", size = 11, offset = -11 },
+			{ key = 'current_movementStatus', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+
+		{ type = 'spacer' },{ type = 'spacer' },{ type = 'spacer' },{ type = 'spacer' },{ type = 'spacer' },
 
 		-- Spec Info
 		{ type = 'rule' },
@@ -76,15 +93,6 @@ mts_info = {
 			{ type = 'spacer' },{ type = 'spacer' },
 			{ 
 				type = "button", 
-				text = "Show Thanks", 
-				width = 480, 
-				height = 20,
-				callback = function()
-					mts_ThanksGUI()
-				end
-			},
-			{ 
-				type = "button", 
 				text = "Close", 
 				width = 480, 
 				height = 20,
@@ -97,31 +105,40 @@ mts_info = {
 	}
 }
 
-mts_Thanks = {
-	key = "mtsThanks",
-	title = logo.."MrTheSoulz Config",
-	subtitle = "Thanks GUI",
-	color = "9482C9",
-	width = 250,
-	height = 350,
-	config = {
+-- Check if possivel to smart AoE
+local function SmartAoEInfo()
+	if FireHack or oexecute then
+		if fetch('mtsconf', 'Firehack') then
+			return "|cff00FF96Able"
+		else 
+			return "|cffC41F3BDisabled in Settings"
+		end
+	else 
+		return "|cffC41F3BUnable"
+	end
+end
 
-		{ type = 'rule' },
-		{ type = 'header', text = "|cff9482C9MrTheSoulz Special Thanks to:", align = "center"},
-		{ type = 'spacer' },
+-- Check if possivel to smart cache
+local function CacheInfo()
+	if FireHack then
+		return "|cff00FF96Using Unlocker object manager "
+	else 
+		return "|cffC41F3BUsing Raid/Party Targets (FALLBACK)"
+	end
+end
 
-			{ type = 'text', text = "Conscious Shell who donated: 100.00 USD" },
-			{ type = 'text', text = "Nicholas D Perdue who donated: 20.00 EUR" },
-			{ type = 'text', text = "saga3180 who donated: GameTime" },
-			{ type = 'text', text = "Phelps who answersed all my noob questions, payed my FH and helped alot." },
-			{ type = 'text', text = "People in the PE IRC who are always willing to help." },
-			{ type = 'text', text = "People who submited bug report's." },
-			{ type = "button", text = "Close", width = 230, height = 20, callback = function() mts_ThanksGUI() end}
-
-		
-	}
-}
-
+-- Check if possivel to move
+local function MovementInfo()
+	if FireHack then
+		if fetch('mtsconf', 'AutoMove') then
+			return "|cff00FF96Able"
+		else
+			return "|cffC41F3BDisabled in Settings"
+		end
+	else 
+		return "|cffC41F3BUnable"
+	end
+end
 
 -- Return the currect keybinds for the currect spec
 local function mts_ClassInfo()
@@ -175,31 +192,15 @@ local function mts_updateLiveInfo()
 	InfoWindow.elements.current_Unlocker:SetText(UnlockerInfo())
 	InfoWindow.elements.current_PEStatus:SetText(PEVersionInfo())
 	InfoWindow.elements.current_Status:SetText(mtsInfoStatus())
+	
+	-- Advanced Status
+	InfoWindow.elements.current_movementStatus:SetText(MovementInfo())
+	InfoWindow.elements.current_cacheStatus:SetText(CacheInfo())
+	InfoWindow.elements.current_smartAoEStatus:SetText(SmartAoEInfo())
 
 	-- Spec info
 	InfoWindow.elements.current_spec:SetText(select(2, GetSpecializationInfo(GetSpecialization())) or "None")
 	InfoWindow.elements.current_keybinds:SetText(mts_ClassInfo())
-end
-
-function mts_ThanksGUI()
-	if not mts_OpenThanksWindow then
-		ThanksWindow = ProbablyEngine.interface.buildGUI(mts_Thanks)
-		mts_OpenThanksWindow = true
-		mts_ShowingThanksWindow = true
-		ThanksWindow.parent:SetEventListener('OnClose', function()
-			mts_OpenThanksWindow = false
-			mts_ShowingThanksWindow = false
-		end)
-	
-	elseif mts_OpenThanksWindow == true and mts_ShowingThanksWindow == true then
-		ThanksWindow.parent:Hide()
-		mts_ShowingThanksWindow = false
-	
-	elseif mts_OpenThanksWindow == true and mts_ShowingThanksWindow == false then
-		ThanksWindow.parent:Show()
-		mts_ShowingThanksWindow = true
-	end
-
 end
 
 function mts_InfoGUI()
