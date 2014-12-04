@@ -5,7 +5,7 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
-mts_Version = "0.13.11"
+mts_Version = "0.13.12"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mts_peRecomemded = "6.0.3r11"
 
@@ -76,12 +76,52 @@ local function mts_Distance(a, b)
 end
 
 --[[-----------------------------------------------
+** Automated Unit Caching **
+DESC: Checks if units around and caches them so they can
+be later used for other stuff.
+
+Build By: Mirakuru
+Modified by: MTS
+---------------------------------------------------]]
+local function cache()
+    local totalObjects = ObjectCount()
+    local specID = GetSpecializationInfo(GetSpecialization())
+    wipe(mts_unitCache)
+    if FireHack then
+      for i=1, totalObjects do
+      local object = ObjectWithIndex(i)
+        if ObjectExists(object) then
+          if ObjectIsType(object, ObjectTypes.Unit)
+          and mts_Distance("player", object) <= 40
+          and ProbablyEngine.condition["alive"](object) then
+            table.insert(mts_unitCache, object)
+          end
+        end
+      end
+    else -- Cache Raid/Party Targets
+      local groupType = IsInRaid() and "raid" or "party"
+      for i = 1, GetNumGroupMembers() do
+      local target = groupType..i.."target"
+        if ProbablyEngine.condition["alive"](target)
+        and UnitAffectingCombat(target)
+        and not UnitIsPlayer(target) then
+          if ProbablyEngine.condition["mts_Distance"](target) <= 40 then
+            table.insert(mts_unitCache, target)
+          end
+        end
+      end
+   end
+end
+
+--[[-----------------------------------------------
 ** Automated moving/facing. **
 DESC: This code will try to move or face a unit if said unit 
 meets the requirements (LoS, mts_Distance etc...)
 
 Build by: MTS
 ---------------------------------------------------]]
+
+-- Return The Correct needed ranged according to spec.
 local function mts_rangeNeeded(unit)
   local _SpecID =  GetSpecializationInfo(GetSpecialization())
   local ranged = {
@@ -123,6 +163,7 @@ local function mts_rangeNeeded(unit)
   end
 end
 
+-- Move to unit if distance.
 local function mts_MoveTo(unit, ds)
   if FireHack then
   local aX, aY, aZ = ObjectPosition(unit)
@@ -137,6 +178,7 @@ local function mts_MoveTo(unit, ds)
   end
 end
 
+-- Face unit.
 local function mts_FaceTo(unit)
   if FireHack then
     if not mts_infront(unit) then
@@ -280,46 +322,6 @@ local function mts_autoTarget()
     end
   end
 end
-
---[[-----------------------------------------------
-** Automated Unit Caching **
-DESC: Checks if units around and caches them so they can
-be later used for other stuff.
-
-Build By: Mirakuru
-Modified by: MTS
----------------------------------------------------]]
-local function cache()
-    local totalObjects = ObjectCount()
-    local specID = GetSpecializationInfo(GetSpecialization())
-    wipe(mts_unitCache)
-    if FireHack then
-      for i=1, totalObjects do
-      local object = ObjectWithIndex(i)
-        if ObjectExists(object) then
-          if ObjectIsType(object, ObjectTypes.Unit)
-          and mts_Distance("player", object) <= 40
-          and ProbablyEngine.condition["alive"](object) then
-            table.insert(mts_unitCache, object)
-          end
-        end
-      end
-    else -- Cache Raid/Party Targets
-      local groupType = IsInRaid() and "raid" or "party"
-      for i = 1, GetNumGroupMembers() do
-      local target = groupType..i.."target"
-        if ProbablyEngine.condition["alive"](target)
-        and UnitAffectingCombat(target)
-        and not UnitIsPlayer(target) then
-          if ProbablyEngine.condition["mts_Distance"](target) <= 40 then
-            table.insert(mts_unitCache, target)
-          end
-        end
-      end
-   end
-end
-
-
 
                                                     --[[ Lib ]]
 --[[------------------------------------------------------------------------------------------------------------]]

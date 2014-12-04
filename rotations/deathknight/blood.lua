@@ -58,26 +58,6 @@ local inCombat = {
 		{ "49222", "!player.buff(49222)" }, -- bone shield
 		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
 
-	-- Auto Targets
-		{ "/cleartarget", {
-			(function() return fetch('mtsconfDkBlood','AutoTargets') end),
-			(function() return UnitIsFriend("player","target") end)
-			}},
-
-		{ "/target [target=focustarget, harm, nodead]", { -- Use Tank Target
-			(function() return fetch('mtsconfDkBlood','AutoTarget') end),
-			"target.range > 40"
-			 }}, 
-		{ "/targetenemy [noexists]", { -- target enemire if no target
-			(function() return fetch('mtsconfDkBlood','AutoTarget') end),
-			"!target.exists" 
-			}},
-		{ "/targetenemy [dead]", { -- target enemire if current is dead.
-			(function() return fetch('mtsconfDkBlood','AutoTarget') end), 
-			"target.exists", 
-			"target.dead" 
-			}},
-
 	-- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
 		{ "49576", "modifier.control" }, -- Death Grip

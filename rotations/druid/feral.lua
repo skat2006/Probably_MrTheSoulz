@@ -42,28 +42,6 @@ local inCombat = {
 	  	{ "Typhoon", {"modifier.alt", "target.exists"}, "target" },
 	  	{ "Mass Entanglement", "modifier.shift" },
 
-  	-- Auto Targets
-		{ "/cleartarget", {
-			(function() return fetch('mtsconfDruidFeral','AutoTarget') end), 
-			(function() return UnitIsFriend("player","target") end)
-			}},
-
-		{ "/target [target=focustarget, harm, nodead]", { -- Use Tank Target
-			 (function() return fetch('mtsconfDruidFeral','AutoTarget') end), 
-			 "target.range > 40" 
-			 }},
-		
-		{ "/targetenemy [noexists]", {  -- target enemire if no target
-			(function() return fetch('mtsconfDruidFeral','AutoTarget') end),
-			"!target.exists" 
-			}},
-		
-		{ "/targetenemy [dead]", { -- target enemire if current is dead.
-			(function() return fetch('mtsconfDruidFeral','AutoTarget') end),
-			"target.exists", 
-			"target.dead" 
-			}},
-
   	-- Survival
 	  	{ "Renewal", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'Renewal')) end) }, -- Renewal
 	  	{ "Cenarion Ward", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'CenarionWard')) end) }, -- Cenarion Ward

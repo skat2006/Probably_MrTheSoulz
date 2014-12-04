@@ -53,26 +53,6 @@ local inCombat = {
 			{ "7744", "player.state.sleep" },
 		-- Goblins
 			{ "69041", "player.moving" },
-	
-	--Auto target
-		{ "/cleartarget", {
-			(function() return fetch('mtsconfDkUnholy','AutoTargets') end),
-			(function() return UnitIsFriend("player","target") end)
-			}},
-
-		{ "/target [target=focustarget, harm, nodead]", { -- Use Tank Target
-			(function() return fetch('mtsconfDkUnholy','AutoTarget') end),
-			"target.range > 40"
-			 }}, 
-		{ "/targetenemy [noexists]", { -- target enemire if no target
-			(function() return fetch('mtsconfDkUnholy','AutoTarget') end),
-			"!target.exists" 
-			}},
-		{ "/targetenemy [dead]", { -- target enemire if current is dead.
-			(function() return fetch('mtsconfDkUnholy','AutoTarget') end), 
-			"target.exists", 
-			"target.dead" 
-			}},
 
 	-- Buffs
 		{ "48263", { -- Blood

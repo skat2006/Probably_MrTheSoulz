@@ -53,25 +53,6 @@ local inCombat = {
 			"toggle.mouseoverdots",
 			"!player.moving"
 			}, "mouseover"},
-  
-  -- Auto Target
-    { "/cleartarget", {
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
-			(function() return UnitIsFriend("player","target") end)
-			}},
-		{ "/target [target=focustarget, harm, nodead]", {  -- Use Tank Target
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
-			"target.range > 40" 
-			}},
-		{ "/targetenemy [noexists]", {  -- target enemire if no target
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end), 
-			"!target.exists" 
-			}},
-		{ "/targetenemy [dead]", { -- target enemire if current is dead.
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
-			"target.exists", 
-			"target.dead" 
-			}},
 	
   -- LoOk aT It GOoZ!!! // Needs to add tank...
 	{ "121536", {
@@ -176,32 +157,6 @@ local outCombat = {
 		"!player.buff(6788)", 
 		(function() return fetch('mtsconfPriestShadow', 'feather') end)
 	}, "player" },
-	
-	-- Auto Target
-		{ "/cleartarget", {
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
-			(function() return UnitIsFriend("player","target") end),
-			"tank.combat"
-			}},
-		{ "/target [target=focustarget, harm, nodead]", {  -- Use Tank Target
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
-			"target.range > 40",
-			"tank.combat"
-			}},
-		{ "/targetenemy [noexists]", {  -- target enemire if no target
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end), 
-			"!target.exists",
-			"tank.combat"
-			}},
-		{ "/targetenemy [dead]", { -- target enemire if current is dead.
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
-			"target.exists", 
-			"target.dead",
-			"tank.combat"
-			}},
-	
-	-- dot to start if tank is in combat
-		{ "589", "tank.combat", "target" },
 	
 	-- buffs
 		{ "21562", {-- Fortitude

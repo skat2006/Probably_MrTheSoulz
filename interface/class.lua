@@ -14,10 +14,6 @@ local mts_configPriestDisc = {
 		{ type = 'rule' },
 		{ type = 'header', text = "General settings:", align = "center" },
 
-			-- AutoTargets
-			{ type = "checkbox", text = "AutoTargets", key = "AutoTargets", default = true, desc =
-			 "This checkbox enables or disables the use of automatic targets."},
-
 			-- Dispels
 			{ type = "checkbox", text = "Dispels", key = "Dispels", default = true, desc =
 			 "This checkbox enables or disables the use of automatic dispels of everything it can dispel."},

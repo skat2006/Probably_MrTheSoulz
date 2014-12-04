@@ -24,7 +24,6 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 				local ignore = false
 				for k = 1, #ignoreDebuffs do
 					if debuffName == ignoreDebuffs[k] then
-						print("cant dispell, blacklisted...")
 						ignore = true
 						break
 					end
@@ -85,28 +84,6 @@ local inCombat = {
 		{ "120517", "modifier.lcontrol", "player" }, --Halo
 		{ "110744", "modifier.lcontrol", "player" }, --Divine Star
 	
-	-- Auto Targets
-		{ "/cleartarget", {
-			(function() return fetch('mtsconfPriestHoly','AutoTargets') end),
-			(function() return UnitIsFriend("player","target") end)
-			}},
-
-		{ "/target [target=focustarget, harm, nodead]", {  -- Use Tank Target
-			(function() return fetch('mtsconfPriestHoly','AutoTargets') end),
-			"target.range > 40" 
-			}},
-		
-		{ "/targetenemy", {  -- target enemire if no target
-			(function() return fetch('mtsconfPriestHoly','AutoTargets') end), 
-			"!target.exists" 
-			}},
-		
-		{ "/targetenemy", { -- target enemire if current is dead.
-			(function() return fetch('mtsconfPriestHoly','AutoTargets') end),
-			"target.exists", 
-			"target.dead" 
-			}}, 
-	
 	-- PW:S
 		{ "129250" },
 	
@@ -151,21 +128,11 @@ local inCombat = {
 		    { "527", {
 		    	"player.debuff(146595)",
 		    	"@coreHealing.needsDispelled('Mark of Arrogance')"
-		    	}, nil },
-		    
-		    { "527", 
-		    	"@coreHealing.needsDispelled('Corrosive Blood')",
-		    	nil },
-		 	
-		 	{ "527", 
-		 		"@coreHealing.needsDispelled('Harden Flesh')", 
-		 		nil },
-		 	
+		    }, nil },
+		    { "527", "@coreHealing.needsDispelled('Corrosive Blood')",nil },
+		 	{ "527", "@coreHealing.needsDispelled('Harden Flesh')", nil },
 		 	{ "527", "@coreHealing.needsDispelled('Torment')", nil },
-		 	
-		 	{ "527", 
-		 		"@coreHealing.needsDispelled('Breath of Fire')", 
-		 		nil },
+		 	{ "527", "@coreHealing.needsDispelled('Breath of Fire')", nil },
 	 	
 	 	-- Dispell ALl
 	 	{{ -- Dispell all?
@@ -174,7 +141,6 @@ local inCombat = {
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion
-		
 		{ "123040", { --Mindbender
 			"player.mana < 75", 
 			"target.spell(123040).range",
@@ -185,7 +151,6 @@ local inCombat = {
 		{ "34861",  -- Circle of Healing
 			"@coreHealing.needsHealing(95, 3)", 
 			"lowest" },
-		
 		{ "121135", { -- cascade
 			"@coreHealing.needsHealing(95, 3)", 
 			"!player.moving"
@@ -199,7 +164,6 @@ local inCombat = {
 			"modifier.party", 
 			"!modifier.raid"
 			}, "lowest" },
-		
 		{ "2061", { -- Flash heal // Surge of light
 			"lowest.health < 100",
 			"player.buff(114255)",
@@ -211,22 +175,18 @@ local inCombat = {
 			"lowest.health <= 80", 
 			"player.buff(27827)" -- Player Dead
 			}, "lowest" },
-		
 		{ "2061", { --Flash Heal
 			"lowest.health < 100", 
 			"player.buff(27827)" -- Player Dead
 			}, "lowest" },
-		
 		{ "34861", { -- Circle of Healing
 			"@coreHealing.needsHealing(95, 3)", 
 			"player.buff(27827)" -- Player Dead
 			}, "lowest"},
-		
 		{ "121135", { -- cascade
 			"@coreHealing.needsHealing(95, 3)", 
 			"player.buff(27827)"
 			}},
-		
 		{ "596", { --Prayer of Healing
 			"@coreHealing.needsHealing(95, 3)", 
 			"player.buff(27827)", -- Player Dead
@@ -245,16 +205,13 @@ local inCombat = {
 				(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityTank')) end),
 				"focus.spell(88684).range"
 				}, "focus" },
-			
 			{ "88684", { -- Holy Word Serenity
 				(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityTank')) end),
 				"tank.spell(88684).range"
 				}, "tank" },
-			
 			{ "88684", -- Holy Word Serenity
 				(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityPlayer')) end), 
 				"player" }, 
-			
 			{ "88684", -- Holy Word Serenity
 				(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityRaid')) end),
 				"lowest" }, 
@@ -265,18 +222,15 @@ local inCombat = {
 				"focus.spell(2061).range",
 				"!player.moving"
 				}, "focus" },
-			
 			{ "2061", { --Flash Heal
 				(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealTank')) end),
 				"tank.spell(2061).range",
 				"!player.moving"
 				}, "tank" },
-			
 			{ "2061", { --Flash Heal
 				(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealPlayer')) end),
 				"!player.moving"
 				}, "player" },
-			
 			{ "2061", { --Flash Heal
 				(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealRaid')) end),
 				"!player.moving"
@@ -285,7 +239,6 @@ local inCombat = {
 	{{-- AOE
    		-- Prayer of Healing
    			{ "596", (function() return PoH() end)},
-
 		-- Divine Hymn
 			{ "64843", { -- Divine Hymn
 				"@coreHealing.needsHealing(50, 3)", 
@@ -309,19 +262,16 @@ local inCombat = {
 			"!focus.debuff(6788).any", 
 			"focus.spell(17).range"
 			}, "focus" },
-		
 		{ "17", {  --Power Word: Shield
 			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'ShieldTank')) end),
 			"!tank.debuff(6788).any",
 			"tank.spell(17).range"
 			}, "tank" },
-		
 		{ "17", { --Power Word: Shield
 			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'ShieldPlayer')) end),
 			"!player.debuff(6788).any", 
 			"!player.buff(17).any"
 			}, "player" }, 
-		
 		{ "17", { --Power Word: Shield
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'ShieldRaid')) end),
 		 	"!lowest.debuff(6788).any", 
@@ -334,18 +284,15 @@ local inCombat = {
 			"!focus.buff(139)", 
 			"focus.spell(139).range"
 			}, "focus" },
-		
 		{ "139", { --renew
 			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'RenewTank')) end),
 			"!tank.buff(139)", 
 			"tank.spell(139).range"
 			}, "tank" },
-		
 		{ "139", { --renew
 			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'RenewPlayer')) end), 
 			"!player.buff(139)"
 			}, "player" },
-		
 		{ "139", { --renew
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'RenewRaid')) end),
 			"!lowest.buff(139)"
@@ -357,7 +304,6 @@ local inCombat = {
 			"focus.spell(33076).range",
 			"!player.moving"
 			}, "focus" },
-		
 		{ "33076", { --Prayer of Mending
 			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'PrayerofMendingTank')) end),
 			"tank.spell(33076).range",
@@ -371,14 +317,12 @@ local inCombat = {
 			"focus.spell(32546).range",
 			"!player.moving"
 			}, "focus" },
-		
 		{ "32546", {
 			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'BindingHealTank')) end),
 			"player.health <= 60", 
 			"tank.spell(32546).range",
 			"!player.moving"
 			}, "tank" },
-		
 		{ "32546", {
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'BindingHealRaid')) end),
 			"player.health < 60",
@@ -391,18 +335,15 @@ local inCombat = {
 			"focus.spell(2060).range",
 			"!player.moving"
 			}, "focus" },
-		
 		{ "2060", { -- Heal
 			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'HealTank')) end), 
 			"tank.spell(2060).range",
 			"!player.moving"
 			}, "tank" },
-		
 		{ "2060", { -- Heal	
 			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'Heal')) end),
 			"!player.moving"
 			}, "player" },
-		
 		{ "2060", { -- Heal	
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'HealRaid')) end),
 			"!player.moving"
@@ -435,67 +376,13 @@ local solo = {
 			"!player.buff(588)"
 			}},
 	
-	-- Auto Targets
-		{ "/cleartarget", {
-			(function() return fetch('mtsconfPriestHoly','AutoTargets') end),
-			(function() return UnitIsFriend("player","target") end)
-			}},
-
-		{ "/target [target=focustarget, harm, nodead]", {  -- Use Tank Target
-			(function() return fetch('mtsconfPriestHoly','AutoTargets') end),
-			"target.range > 40" 
-			}},
-		
-		{ "/targetenemy", {  -- target enemire if no target
-			(function() return fetch('mtsconfPriestHoly','AutoTargets') end), 
-			"!target.exists" 
-			}},
-		
-		{ "/targetenemy", { -- target enemire if current is dead.
-			(function() return fetch('mtsconfPriestHoly','AutoTargets') end),
-			"target.exists", 
-			"target.dead" 
-			}}, 
-	
 	-- LoOk aT It GOoZ!!!
-		{ "121536", {
-			(function() return fetch('mtsconfPriestHoly', 'Feathers') end), 
-			"focus.moving",
-			"focus.distance <= 40",
-			"focus.distance >= 10",
-			"!focus.buff(121557)", 
-			"player.spell(121536).charges >= 2" 
-		}, "focus.ground" },
-		{ "121536", {
-			(function() return fetch('mtsconfPriestHoly', 'Feathers') end), 
-			"tank.moving",
-			"tank.distance <= 40",
-			"tank.distance >= 10",
-			"!tank.buff(121557)", 
-			"player.spell(121536).charges >= 2" 
-		}, "tank.ground" },	
 		{ "121536", {
 			(function() return fetch('mtsconfPriestHoly', 'Feathers') end), 
 			"player.movingfor > 2", 
 			"!player.buff(121557)", 
 			"player.spell(121536).charges >= 1" 
 		}, "player.ground" },
-		{ "17", {
-			"talent(2, 1)", 
-			"focus.moving",
-			"focus.distance <= 40",
-			"focus.distance >= 10",
-			"!focus.buff(6788)", 
-			(function() return fetch('mtsconfPriestHoly', 'Feathers') end)
-		}, "focus" },
-		{ "17", {
-			"talent(2, 1)", 
-			"tank.moving",
-			"tank.distance <= 40",
-			"tank.distance >= 10", 
-			"!tank.buff(6788)", 
-			(function() return fetch('mtsconfPriestHoly', 'Feathers') end)
-		}, "tank" },
 		{ "17", {
 			"talent(2, 1)", 
 			"player.movingfor > 2", 

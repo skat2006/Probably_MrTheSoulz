@@ -62,26 +62,6 @@ local inCombat = {
 		{ "105593", "modifier.control", "target" }, -- Fist of Justice
 		{ "853", "modifier.control", "target" }, -- Hammer of Justice
 		{ "114158", "modifier.shift", "target.ground" }, -- Light´s Hammer
-	
-	-- Auto Targets
-		{ "/cleartarget", {
-			(function() return fetch('mtsconfPalaProt','AutoTarget') end), 
-			(function() return UnitIsFriend("player","target") end)
-			}},
-
-		{ "/target [target=focustarget, harm, nodead]", { -- Use Tank Target
-			(function() return fetch('mtsconfPalaProt','AutoTarget') end),
-			"target.range > 40"
-			 }}, 
-		{ "/targetenemy [noexists]", { -- target enemire if no target
-			(function() return fetch('mtsconfPalaProt','AutoTarget') end),
-			"!target.exists" 
-			}},
-		{ "/targetenemy [dead]", { -- target enemire if current is dead.
-			(function() return fetch('mtsconfPalaProt','AutoTarget') end), 
-			"target.exists", 
-			"target.dead" 
-			}},
 
 	-- Hands
 		--{ "6940", { "lowest.health <= 80", "!player.health <= 40" }, "lowest" }, -- Hand of Sacrifice
