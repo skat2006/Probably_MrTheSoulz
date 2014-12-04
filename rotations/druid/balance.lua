@@ -1,5 +1,5 @@
 --[[ ///---INFO---////
-// Druid Guard //
+// Druid Balance //
 Thank You For Using My ProFiles
 I Hope Your Enjoy Them
 MTS
@@ -62,7 +62,7 @@ local inCombat = {
 	
 	{{ -- Auto Dotting	
 		{ "164812", (function() return mts_MoonFire() end) }, -- moonfire
-	}, {"toggle.dotEverything", "player.firehack", "modifier.multitarget"} },
+	}, {"toggle.dotEverything", "player.firehack" } },
 	
 	-- Auto Target
 		{ "/target [target=focustarget, harm, nodead]", {
@@ -100,13 +100,14 @@ local inCombat = {
 		{ "78674"}, --Starsurge
 		{ "2912", "balance.moon"}, --StarFire
 		{ "5176", "balance.sun"},  --Wrath
+		{ "2912" }, --StarFire Filler
   
 }
 
 local outCombat = {
 
 	--	keybinds
-		{ "5185", "player.health < 75"}, --Full Healh ooc
+		{ "5185", "player.health < 85"}, --Full Healh ooc
 	
 	-- Rebirth
 		{ "20484", { 
@@ -134,4 +135,7 @@ local outCombat = {
 
 }
 
-ProbablyEngine.rotation.register_custom(102, mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Boomkin|r]", inCombat, outCombat, exeOnLoad, lib)
+ProbablyEngine.rotation.register_custom(
+	102, 
+	mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Boomkin|r]", 
+	inCombat, outCombat, exeOnLoad, lib)

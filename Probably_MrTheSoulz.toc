@@ -6,28 +6,15 @@
 ## Author: MrTheSoulz
 
 system\core.lua
-system\Lib.lua
-system\movement.lua
 system\tracker.lua
-system\conditions.lua
 system\dots.lua
 interface\minimap.lua
 interface\splash.lua
 interface\alert.lua
-interface\gui.lua
+interface\class.lua
 interface\status.lua
 interface\info.lua
 interface\config.lua
-interface\dk\blood.lua
-interface\dk\unholy.lua
-interface\druid\feral.lua
-interface\druid\guard.lua
-interface\druid\resto.lua
-interface\pala\holy.lua
-interface\pala\prot.lua
-interface\priest\disc.lua
-interface\priest\holy.lua
-interface\priest\shadow.lua
 rotations\paladin\protection.lua
 rotations\paladin\holy.lua
 rotations\druid\resto.lua

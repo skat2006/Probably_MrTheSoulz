@@ -12,48 +12,6 @@ local ignoreDebuffs = {
 	'Displaced Energy'
 }
 
--- Prayer of Healing
--- THX woe!
-local function PoH()
-	local minHeal = (GetSpellBonusDamage(2) * 2.21664) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
-	local GetRaidRosterInfo, min, subgroups, member = GetRaidRosterInfo, math.min, {}, {}
-	local lowest, lowestHP, _, subgroup = false, 0
- 
-	local start, groupMembers = 0, GetNumGroupMembers()
- 
-	if IsInRaid() then
-		start = 1
-	elseif groupMembers > 0 then
-		groupMembers = groupMembers - 1
-	end
- 
-	for i = start, groupMembers do
-		_, _, subgroup, _, _, _, _, _, _, _, _ = GetRaidRosterInfo(i)
- 
-		if not subgroups[subgroup] then
-			subgroups[subgroup] = 0
-			member[subgroup] = ProbablyEngine.raid.roster[i].unit
-		end
- 
-		subgroups[subgroup] = subgroups[subgroup] + min(minHeal, ProbablyEngine.raid.roster[i].healthMissing)
-	end
- 
-	for i = 1, #subgroups do
-		if subgroups[i] > minHeal * 3 
-		and subgroups[i] > lowestHP then
-			lowest = i
-			lowestHP = subgroups[i]
-		end
-	end
- 
-	if lowest then
-		ProbablyEngine.dsl.parsedTarget = member[lowest]
-		return true
-	end
- 
-	return false
-end
-
 --[[ Dispell function ]]
 local function Dispell()
 local prefix = (IsInRaid() and 'raid') or 'party'
@@ -152,12 +110,35 @@ local inCombat = {
 	-- PW:S
 		{ "129250" },
 	
-	--[[ LoOk aT It GOoZ!!! // Needs to add tank... ]]
+	-- LoOk aT It GOoZ!!!
 		{ "121536", {
+			(function() return fetch('mtsconfPriestHoly', 'Feathers') end), 
+			"focus.moving",
+			"focus.distance <= 40",
+			"focus.distance >= 10",
+			"!focus.buff(121557)", 
+			"player.spell(121536).charges >= 2" 
+		}, "focus.ground" },
+		{ "121536", {
+			(function() return fetch('mtsconfPriestHoly', 'Feathers') end), 
 			"player.movingfor > 2", 
-			(function() return fetch('mtsconfPriestHoly','Feathers') end),
-			"!player.buff(121557)", "player.spell(121536).charges >= 1" 
-			}, "player.ground" },
+			"!player.buff(121557)", 
+			"player.spell(121536).charges >= 1" 
+		}, "player.ground" },
+		{ "17", {
+			"talent(2, 1)", 
+			"focus.moving",
+			"focus.distance <= 40",
+			"focus.distance >= 10",
+			"!focus.buff(6788)", 
+			(function() return fetch('mtsconfPriestHoly', 'Feathers') end)
+		}, "focus" },
+		{ "17", {
+			"talent(2, 1)", 
+			"player.movingfor > 2", 
+			"!player.buff(6788)", 
+			(function() return fetch('mtsconfPriestHoly', 'Feathers') end)
+		}, "player" },
 
   	-- HEALTHSTONE 
 		{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'Healthstone')) end) },
@@ -476,18 +457,56 @@ local solo = {
 			"target.dead" 
 			}}, 
 	
-	--[[ LoOk aT It GOoZ!!! // Needs to add tank... ]]
+	-- LoOk aT It GOoZ!!!
 		{ "121536", {
+			(function() return fetch('mtsconfPriestHoly', 'Feathers') end), 
+			"focus.moving",
+			"focus.distance <= 40",
+			"focus.distance >= 10",
+			"!focus.buff(121557)", 
+			"player.spell(121536).charges >= 2" 
+		}, "focus.ground" },
+		{ "121536", {
+			(function() return fetch('mtsconfPriestHoly', 'Feathers') end), 
+			"tank.moving",
+			"tank.distance <= 40",
+			"tank.distance >= 10",
+			"!tank.buff(121557)", 
+			"player.spell(121536).charges >= 2" 
+		}, "tank.ground" },	
+		{ "121536", {
+			(function() return fetch('mtsconfPriestHoly', 'Feathers') end), 
 			"player.movingfor > 2", 
-			(function() return fetch('mtsconfPriestHoly','Feathers') end),
-			"!player.buff(121557)", "player.spell(121536).charges >= 1" 
-			}, "player.ground" },
+			"!player.buff(121557)", 
+			"player.spell(121536).charges >= 1" 
+		}, "player.ground" },
+		{ "17", {
+			"talent(2, 1)", 
+			"focus.moving",
+			"focus.distance <= 40",
+			"focus.distance >= 10",
+			"!focus.buff(6788)", 
+			(function() return fetch('mtsconfPriestHoly', 'Feathers') end)
+		}, "focus" },
+		{ "17", {
+			"talent(2, 1)", 
+			"tank.moving",
+			"tank.distance <= 40",
+			"tank.distance >= 10", 
+			"!tank.buff(6788)", 
+			(function() return fetch('mtsconfPriestHoly', 'Feathers') end)
+		}, "tank" },
+		{ "17", {
+			"talent(2, 1)", 
+			"player.movingfor > 2", 
+			"!player.buff(6788)", 
+			(function() return fetch('mtsconfPriestHoly', 'Feathers') end)
+		}, "player" },
 
   	-- HEALTHSTONE 
 		{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'Healthstone')) end) },
  
   	-- Dispel's
-	 	-- Dispell ALl
 	 	{{ -- Dispell all?
 			{ "527", (function() return Dispell() end) },-- Dispel Everything
 		}, (function() return fetch('mtsconfPriestHoly','Dispels') end) },
@@ -546,14 +565,14 @@ local solo = {
 			}, "player" },
 	
 	{{-- Auto Dotting
-		{ "32379", (function() return mts_SWD() end) },
+		{ "32379", "@mtsLib.SWD" },
 		{{-- AoE FH
-			{ "589", (function() return mts_SWP() end) }, -- SWP 
+			{ "589", "@mtsLib.SWP" }, -- SWP 
 		}, "target.area(10).enemies >= 3" },
 		{{-- AoE forced
-			{ "589", (function() return mts_SWP() end) }, -- SWP 
+			{ "589", "@mtsLib.SWP" }, -- SWP 
 		}, "modifier.multitarget" },
-	}, {"toggle.dotEverything", "player.firehack"} },
+	}, {"toggle.dotEverything"} },
 	
 	-- DPS
 		-- AoE FH
@@ -634,12 +653,35 @@ local outCombat = {
 			"!player.buff(588)"
 			}},
 	
-	--[[ LoOk aT It GOoZ!!! // Needs to add tank... ]]
+	-- LoOk aT It GOoZ!!!
 		{ "121536", {
+			(function() return fetch('mtsconfPriestHoly', 'Feathers') end), 
+			"focus.moving",
+			"focus.distance <= 40",
+			"focus.distance >= 10",
+			"!focus.buff(121557)", 
+			"player.spell(121536).charges >= 2" 
+		}, "focus.ground" },
+		{ "121536", {
+			(function() return fetch('mtsconfPriestHoly', 'Feathers') end), 
 			"player.movingfor > 2", 
-			(function() return fetch('mtsconfPriestHoly','Feathers') end),
-			"!player.buff(121557)", "player.spell(121536).charges >= 1" 
-			}, "player.ground" },
+			"!player.buff(121557)", 
+			"player.spell(121536).charges >= 1" 
+		}, "player.ground" },
+		{ "17", {
+			"talent(2, 1)", 
+			"focus.moving",
+			"focus.distance <= 40",
+			"focus.distance >= 10",
+			"!focus.buff(6788)", 
+			(function() return fetch('mtsconfPriestHoly', 'Feathers') end)
+		}, "focus" },
+		{ "17", {
+			"talent(2, 1)", 
+			"player.movingfor > 2", 
+			"!player.buff(6788)", 
+			(function() return fetch('mtsconfPriestHoly', 'Feathers') end)
+		}, "player" },
 
 }
 

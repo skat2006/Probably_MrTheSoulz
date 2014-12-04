@@ -33,14 +33,14 @@ local inCombat = {
     { "Mind Sear", "modifier.shift" },
 
 	{{-- Auto Dotting
-		{ "32379", (function() return mts_SWD() end) },
+		{ "32379", "@mtsLib.SWD" },
 		{{-- AoE FH
-			{ "589", (function() return mts_SWP() end) }, -- SWP 
+			{ "589", "@mtsLib.SWP" }, -- SWP 
 		}, "target.area(10).enemies >= 3" },
 		{{-- AoE forced
-			{ "589", (function() return mts_SWP() end) }, -- SWP 
+			{ "589", "@mtsLib.SWP" }, -- SWP 
 		}, "modifier.multitarget" },
-	}, {"toggle.dotEverything", "player.firehack"} },
+	}, {"toggle.dotEverything"} },
   
   -- Mouse-Over
 		{ "589", { -- SWP
@@ -169,13 +169,13 @@ local outCombat = {
 		"player.movingfor > 2", 
 		"!player.buff(121557)", 
 		"player.spell(121536).charges >= 1" 
-		}, "player.ground" },
+	}, "player.ground" },
 	{ "17", {
 		"talent(2, 1)", 
 		"player.movingfor > 2", 
 		"!player.buff(6788)", 
 		(function() return fetch('mtsconfPriestShadow', 'feather') end)
-		}, "player" },
+	}, "player" },
 	
 	-- Auto Target
 		{ "/cleartarget", {

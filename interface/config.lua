@@ -13,7 +13,7 @@ local _Header = {
 	center = true 
 }
 
-mts_config = {
+local mts_config = {
 	key = "mtsconf",
 	profiles = true,
 	title = logo.."MrTheSoulz Config",
@@ -60,6 +60,10 @@ mts_config = {
 		-- AutoMove
 		{ type = "checkbox", text = "Auto Moving", key = "AutoMove", default = false, desc =
 		"Follows your current target if its an enemie.\nChecks for LoS and range."},
+
+		-- Auto Face
+		{ type = "checkbox", text = "Auto Face", key = "AutoFace", default = false, desc =
+		"Face your current target.\nChecks for LoS and range."},
 
 	}
 }
