@@ -28,6 +28,52 @@ local holyNova_cache_dura = 0.3
 --[[------------------------------------------------------------------------------------------------------------]]
 --[[------------------------------------------------------------------------------------------------------------]]
 
+--[[-----------------------------------------------
+** Infront **
+DESC: Checks if unit is infront.
+Replaces PE build in one beacuse PE's is over sensitive.
+
+Build By: Mirakuru
+Modified by: MTS
+---------------------------------------------------]]
+
+local function mts_infront(unit)
+  if FireHack then
+    local aX, aY, aZ = ObjectPosition(unit)
+    local bX, bY, bZ = ObjectPosition('player')
+    local playerFacing = GetPlayerFacing()
+    local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
+    return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
+  elseif oexecute then
+    local aX, aY, aZ = opos(unit)
+    local bX, bY, bZ = opos('player')
+    local playerFacing = GetPlayerFacing()
+    local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
+    return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
+  end
+end
+
+--[[-----------------------------------------------
+** mts_Distance **
+DESC: Sometimes PE's behaves baddly,
+So here we go...
+
+Build By: MTS
+---------------------------------------------------]]
+local function mts_Distance(a, b)
+  if UnitExists(a) and UnitIsVisible(a) and UnitExists(b) and UnitIsVisible(b) then
+    if FireHack then
+      local ax, ay, az = ObjectPosition(a)
+      local bx, by, bz = ObjectPosition(b)
+      return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - ((UnitCombatReach(a)) + (UnitCombatReach(b)))
+    elseif oexecute then
+      local ax, ay, az = opos(a)
+      local bx, by, bz = opos(b)
+      return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - 6
+    end
+  end
+    return 0
+end
 
 --[[-----------------------------------------------
 ** Automated moving/facing. **
@@ -36,53 +82,74 @@ meets the requirements (LoS, mts_Distance etc...)
 
 Build by: MTS
 ---------------------------------------------------]]
+local function mts_rangeNeeded(unit)
+  local _SpecID =  GetSpecializationInfo(GetSpecialization())
+  local ranged = {
+    62,     -- arcane mage
+    63,     -- fire mage
+    64,     -- frost mage
+    65,     -- holy paladin
+    102,    -- balance druid
+    105,    -- restoration druid
+    253,    -- beast mastery hunter
+    254,    -- marksmanship hunter
+    255,    -- survival hunter
+    256,    -- discipline priest
+    257,    -- holy priest
+    258,    -- shadow priest
+    262,    -- elemental shaman
+    263,    -- enhancement shaman
+    264,    -- restoration shaman
+    265,    -- affliction warlock
+    266,    -- demonology warlock
+    267,    -- destruction warlock
+    270,    -- mistweaver monk
+  }
+  if unit == nil then unit = 'target' end
+  for i=1,#ranged do
+    if _SpecID == ranged[i] then
+        if FireHack then
+            return (30 + (ObjectPosition('player') + UnitCombatReach(unit)))
+        else
+            return 30
+        end
+    else 
+        if FireHack then
+            return (6 + (ObjectPosition('player') + UnitCombatReach(unit)))
+        else
+            return 6
+        end
+    end
+  end
+end
+
 local function mts_MoveTo(unit, ds)
   if FireHack then
   local aX, aY, aZ = ObjectPosition(unit)
   local bX, bY, bZ = ObjectPosition('player')
-  local playerReach = UnitCombatReach('player')
-  local unitReach = UnitCombatReach(unit)
-  
     --(Over sensitive...)if TraceLine(bX, bY, bZ, aX, aY, aZ, 0xFFFFFFFF) then 
-      if not (mts_Distance(unit, "player") <= (playerReach+unitReach) + ds) then
+      if not mts_Distance("player", unit) <= ((ObjectPosition('player') + UnitCombatReach(unit)) + ds) then
         MoveTo(aX, aY, aZ)
       end
     --end
   elseif oexecute then -- Offspring dosent have MoveTo :(
-    --local aX, aY, aZ = opos(unit)
-    --local bX, bY, bZ = opos('player')
-      --if not (mts_Distance(unit, "player") <= (playerReach+unitReach) + ds) then
-        --MoveTo(aX, aY, aZ)
-      --end
+    
   end
 end
 
 local function mts_FaceTo(unit)
   if FireHack then
-  local playerReach = UnitCombatReach('player')
-  local unitReach = UnitCombatReach(unit)
-    if not UnitInfront(unit) then
-      if (mts_Distance(unit, "player") <= playerReach+unitReach) then 
+    if not mts_infront(unit) then
+      if mts_Distance("player", unit) <= (UnitCombatReach('player') + UnitCombatReach(unit))
+      or mts_rangeNeeded(unit) >= 30 then
         FaceUnit(unit)
       end
     end
   elseif oexecute then
-    if not UnitInfront(unit) then
-      if (mts_Distance(unit, "player") <= 6) then 
+    if not mts_infront(unit) then
+      if mts_Distance("player", unit) <= 6 then 
         FaceUnit(unit)
       end
-    end
-  end
-end
-
-local function mts_rangeNeeded()
-  local _SpecID =  GetSpecializationInfo(GetSpecialization())
-  local ranged = {256, 257}
-  for i=1,#ranged do
-    if _SpecID == ranged[i] then
-      return 30
-    else 
-      return 6 
     end
   end
 end
@@ -191,53 +258,6 @@ local function mts_immuneEvents(unit)
     else
         return true
     end
-end
-
---[[-----------------------------------------------
-** Infront **
-DESC: Checks if unit is infront.
-Replaces PE build in one beacuse PE's is over sensitive.
-
-Build By: Mirakuru
-Modified by: MTS
----------------------------------------------------]]
-
-local function mts_infront(unit)
-  if FireHack then
-    local aX, aY, aZ = ObjectPosition(unit)
-    local bX, bY, bZ = ObjectPosition('player')
-    local playerFacing = GetPlayerFacing()
-    local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
-    return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
-  elseif oexecute then
-    local aX, aY, aZ = opos(unit)
-    local bX, bY, bZ = opos('player')
-    local playerFacing = GetPlayerFacing()
-    local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
-    return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
-  end
-end
-
---[[-----------------------------------------------
-** mts_Distance **
-DESC: Sometimes PE's behaves baddly,
-So here we go...
-
-Build By: MTS
----------------------------------------------------]]
-local function mts_Distance(a, b)
-  if UnitExists(a) and UnitIsVisible(a) and UnitExists(b) and UnitIsVisible(b) then
-    if FireHack then
-      local ax, ay, az = ObjectPosition(a)
-      local bx, by, bz = ObjectPosition(b)
-      return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - ((UnitCombatReach(a)) + (UnitCombatReach(b)))
-    elseif oexecute then
-      local ax, ay, az = opos(a)
-      local bx, by, bz = opos(b)
-      return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - 6
-    end
-  end
-    return 0
 end
 
 --[[-----------------------------------------------
