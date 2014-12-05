@@ -147,6 +147,13 @@ local inCombat = {
 					"target.boss"
 				}, "lowest" },
 
+	-- For Archangel
+		{ "14914", { --Holy Fire
+			"player.mana > 20",
+			"target.spell(14914).range",
+			"target.infront"
+		}, "target" },
+
 	-- Surge of light
 		{ "2061", {-- Flash Heal
 			"lowest.health < 100",
@@ -155,19 +162,40 @@ local inCombat = {
 		}, "lowest" },
 
 	{{ -- spirit shell
-		-- Heal
-		{ "2060", {
-			"lowest.health >= 40",
-			"!player.moving"
-		}, "lowest" }, 
+		-- Prayer of Healing
+   		{ "596", "@mtsLib.PoH" },
 		-- Flash Heal
 		{ "!2061", {
 			"lowest.health <= 40",
 			"!player.moving"
 		}, "lowest" },
-		-- Prayer of Healing
-   		{ "596", "@mtsLib.PoH" },
+		-- Heal
+		{ "2060", {
+			"lowest.health >= 40",
+			"!player.moving"
+		}, "lowest" }, 
 	}, "player.buff(109964)"},
+
+	{{-- AOE
+		{ "62618", {  -- Power word Barrier // w/t CD's and on tank
+			"@coreHealing.needsHealing(50, 5)", 
+			"modifier.party", 
+			"!player.moving", 
+			"modifier.cooldowns" 
+		}, "tank.ground" },
+		{ "121135", { -- cascade
+			"@coreHealing.needsHealing(95, 3)", 
+				"!player.moving"
+		}, "lowest"},
+		{ "33076", { --Prayer of Mending
+			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PrayerofMendingTank')) end),
+			"@coreHealing.needsHealing(90, 3)",
+			"!player.moving", 
+			"tank.spell(17).range" 
+		}, "tank" },
+ 		{ "596", "@mtsLib.PoH" },-- Prayer of Healing
+   		{ "132157", "@mtsLib.holyNova", nil }, -- Holy Nova
+	}, "modifier.multitarget" },
 	
 	-- Penance	
 		{ "!47540", {
@@ -190,6 +218,11 @@ local inCombat = {
 			"tank.spell(17).range",
 			"!modifier.last" 
 		}, "tank" },
+		{ "17", {  --Power Word: Shield
+			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'ShieldRaid')) end),
+			"!lowest.debuff(6788).any", 
+			"!lowest.buff(17).any", 
+		}, "lowest" },
 		{ "17", {
 			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'ShieldPlayer')) end),
 			"!player.debuff(6788).any", 
@@ -217,46 +250,7 @@ local inCombat = {
 			"!player.moving"
 		}, "lowest" },
 	}, "!player.casting.percent >= 50" },
-	
-	-- For Archangel
-		{ "14914", { --Holy Fire
-			"player.mana > 20",
-			"target.spell(14914).range",
-			"target.infront"
-		}, "target" }, 
 
-	{{-- AOE
-		-- Power word Barrier
-			{ "62618", {  -- Power word Barrier // w/t CD's and on tank
-				"@coreHealing.needsHealing(50, 5)", 
-				"modifier.party", 
-				"!player.moving", 
-				"modifier.cooldowns" 
-			}, "tank.ground" },
-			{ "121135", { -- cascade
-				"@coreHealing.needsHealing(95, 5)", 
-				"!player.moving"
-			}, "lowest"},
-		--Prayer of Mending
-			{ "33076", { 
-				(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PrayerofMendingTank')) end),
-				"@coreHealing.needsHealing(90, 3)",
-				"!player.moving", 
-				"tank.spell(17).range" 
-				}, "tank" },
-		-- Prayer of Healing
-   			{ "596", "@mtsLib.PoH" },
-   		-- Holy nova
-   			{ "132157", "@mtsLib.holyNova", nil }, -- Holy Nova
-	}, "modifier.multitarget" },
-	
-	-- shields 
-		{ "17", {  --Power Word: Shield
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'ShieldRaid')) end),
-			"!lowest.debuff(6788).any", 
-			"!lowest.buff(17).any", 
-		}, "lowest" },
-	
 	-- heal
 		{ "2060", { -- Heal
 			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'HealTank')) end),
@@ -311,42 +305,10 @@ local solo = {
 	-- LoOk aT It GOoZ!!!
 		{ "121536", {
 			(function() return fetch('mtsconfPriestDisc', 'Feathers') end), 
-			"focus.moving",
-			"focus.distance <= 40",
-			"focus.distance >= 10",
-			"!focus.buff(121557)", 
-			"player.spell(121536).charges >= 2" 
-		}, "focus.ground" },
-		{ "121536", {
-			(function() return fetch('mtsconfPriestDisc', 'Feathers') end), 
-			"tank.moving",
-			"tank.distance <= 40",
-			"tank.distance >= 10",
-			"!tank.buff(121557)", 
-			"player.spell(121536).charges >= 2" 
-		}, "tank.ground" },
-		{ "121536", {
-			(function() return fetch('mtsconfPriestDisc', 'Feathers') end), 
 			"player.movingfor > 2", 
 			"!player.buff(121557)", 
 			"player.spell(121536).charges >= 1" 
 		}, "player.ground" },
-		{ "17", {
-			"talent(2, 1)", 
-			"focus.moving",
-			"focus.distance <= 40",
-			"focus.distance >= 10",
-			"!focus.buff(6788)", 
-			(function() return fetch('mtsconfPriestDisc', 'Feathers') end)
-		}, "focus" },
-		{ "17", {
-			"talent(2, 1)", 
-			"tank.moving",
-			"tank.distance <= 40",
-			"tank.distance >= 10", 
-			"!tank.buff(6788)", 
-			(function() return fetch('mtsconfPriestDisc', 'Feathers') end)
-		}, "tank" },
 		{ "17", {
 			"talent(2, 1)", 
 			"player.movingfor > 2", 

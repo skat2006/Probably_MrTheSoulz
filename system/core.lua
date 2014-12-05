@@ -171,7 +171,7 @@ local function mts_MoveTo(unit, ds)
     if FireHack then
     local aX, aY, aZ = ObjectPosition(unit)
     local bX, bY, bZ = ObjectPosition('player')
-      if not (mts_Distance("player", unit) <= ((ObjectPosition('player') + UnitCombatReach(unit)) + ds)) then
+      if mts_Distance("player", unit) >= ((ObjectPosition('player') + UnitCombatReach(unit)) + ds) then
         MoveTo(aX, aY, aZ)
       end
     --elseif oexecute then -- Offspring dosent have MoveTo :(
@@ -316,8 +316,8 @@ local function mts_autoTarget()
   if UnitExists("target")
     and not UnitIsFriend("player","target")
     and not UnitIsDeadOrGhost("target") 
-    and not mts_immuneEvents("target") then
-        -- do nothing
+    and mts_immuneEvents("target") then
+        return false
   end
   for i=1,#mts_unitCache do
     if mts_immuneEvents(mts_unitCache[i]) then
@@ -573,7 +573,67 @@ ProbablyEngine.library.register('mtsLib', {
         end
       end
             return false
-    end
+    end,
+
+   --[[-----------------------------------------------
+    ** Mass Dispel **
+    DESC: Checks if units around player needs to be dispelled.
+    UNUSED AND UNTESTED!
+
+    Build By: MTS
+    ---------------------------------------------------
+    MassDispell = function()
+    local prefix = (IsInRaid() and 'raid') or 'party'
+    local total = 0        
+        for i = -1, GetNumGroupMembers() - 1 do
+        local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
+            if IsSpellInRange('Mass Dispell', unit) then
+                for j = 1, 40 do
+                local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(unit, j)
+                    if dispelType and dispelType == 'Magic' or dispelType == 'Disease' then
+                        if mts_Distance('player', unit) then
+                            total = total + 1
+                        end
+                    end
+                    if total >= 5 then
+                        print("Mass Dispelled: "..debuffName.." on: "..unit.." total units:"..total)
+                        ProbablyEngine.dsl.parsedTarget = unit
+                        return true
+                    end
+                end
+            end
+        end
+            return false
+    end,]]
+
+    --[[-----------------------------------------------
+    ** Power word Barrier **
+    DESC: Checks if units around tank have enough missing heal to use this.
+    ToDo: Would be cool if i could predict a big AoE and use this to lower
+    its raid damage.
+    UNUSED AND UNTESTED!
+
+    Build By: MTS
+    ---------------------------------------------------
+    PWBarrier = function()
+    local minHeal = (GetSpellBonusDamage(2) * 1.125) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
+    local total = 0
+    local prefix = (IsInRaid() and 'raid') or 'party'
+      for i=1,#mts_unitCache do
+      local incomingHeals = UnitGetIncomingHeals(mts_unitCache[i]) or 0
+      local absorbs = UnitGetTotalHealAbsorbs(mts_unitCache[i]) or 0
+      local health = UnitHealth(mts_unitCache[i]) + incomingHeals - absorbs
+      local maxHealth = UnitHealthMax(mts_unitCache[i])
+      local healthMissing = max(0, maxHealth - health)
+        if healthMissing > minHeal 
+          and UnitIsFriend("player", mts_unitCache[i]) then
+          if mts_Distance("focus", mts_unitCache[i]) <= 12 then
+            total = total + 1
+          end
+        end
+      end
+        return total > 3
+    end,]]
  
 })
 
