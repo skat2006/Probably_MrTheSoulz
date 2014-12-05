@@ -63,7 +63,7 @@ local inCombat = {
 		{ "109964", "modifier.lshift" }, --Spirit Shell
 
 	-- Dispel's
-  		{{-- Dont if..
+  		{{-- Dont interrumpt if castbar more then 50%
 	  		-- SoO Stuff
 			    { "!527", {
 			    	"player.debuff(146595)",
@@ -77,7 +77,7 @@ local inCombat = {
 		 	{{ -- Dispell all?
 				{ "!527", (function() return Dispell() end) },-- Dispel Everything
 			}, (function() return fetch('mtsconfPriestDisc','Dispels') end) },
-		}, "!player.casting("}, 
+		}, "!casting.percent >= 50" }, 
 
    	-- buffs
 		{ "81700", "player.buff(81661).count = 5" }, -- Archangel
@@ -165,7 +165,8 @@ local inCombat = {
 		{ "!47540", {
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PenanceRaid')) end),
 			"!player.casting(2061)",
-			"!player.moving"
+			"!player.moving",
+			"!casting.percent >= 50"
 		}, "lowest" }, 
 	
 	--Power Word: Shield
@@ -185,7 +186,7 @@ local inCombat = {
 			"!player.buff(17).any" 
 		}, "player" },
 	
-	-- Flash Heal
+	{{-- Flash Heal // dont interrumpt if castbar more then 50%
 		{ "!2061", {
 			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end),
 			"focus.spell(2061).range",
@@ -204,6 +205,7 @@ local inCombat = {
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealRaid')) end),
 			"!player.moving"
 		}, "lowest" },
+	}, "!casting.percent >= 50" },
 	
 	-- For Archangel
 		{ "14914", { --Holy Fire
@@ -410,8 +412,7 @@ local outCombat = {
 	
 	-- buffs
 		{ "21562", {-- Fortitude
-			"!player.buff(21562).any",
-			"!player.buff(588)"
+			"buffs.stamina"
 			}}, 
 		
 		{ "81700", {--Archangel
@@ -441,6 +442,12 @@ local outCombat = {
 	}, "modifier.multitarget" },
 	
 	-- Heals
+		-- Surge of light
+		{ "2061", {-- Flash Heal
+			"lowest.health < 100",
+			"player.buff(114255)",
+			"!player.moving"
+		}, "lowest" }, 
 		{ "!47540", { --Penance
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PenanceRaid')) end),
 			"!player.casting(2061)",

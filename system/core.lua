@@ -84,10 +84,9 @@ Build By: Mirakuru
 Modified by: MTS
 ---------------------------------------------------]]
 local function cache()
-    local totalObjects = ObjectCount()
-    local specID = GetSpecializationInfo(GetSpecialization())
     wipe(mts_unitCache)
     if FireHack then
+    local totalObjects = ObjectCount()
       for i=1, totalObjects do
       local object = ObjectWithIndex(i)
         if ObjectExists(object) then
@@ -103,7 +102,6 @@ local function cache()
       for i = 1, GetNumGroupMembers() do
       local target = groupType..i.."target"
         if ProbablyEngine.condition["alive"](target)
-        and UnitAffectingCombat(target)
         and not UnitIsPlayer(target) then
           if ProbablyEngine.condition["mts_Distance"](target) <= 40 then
             table.insert(mts_unitCache, target)
@@ -272,7 +270,7 @@ local function mts_hasDebuffTable(unit, spells)
   end
 end
 
-function mts_CheckSpecialTarget(unit)
+local function mts_CheckSpecialTarget(unit)
     if not UnitExists(unit) then
         return false
     elseif UnitGUID(unit) then
@@ -311,14 +309,13 @@ Build By: MTS & StinkyTwitch
 local function mts_autoTarget()
   if UnitExists("target")
     and not UnitIsFriend("player","target")
-    and not UnitIsDeadOrGhost("target") then
+    and not UnitIsDeadOrGhost("target") 
+    and not mts_immuneEvents("target") then
         -- do nothing
   end
   for i=1,#mts_unitCache do
     if mts_immuneEvents(mts_unitCache[i]) then
-      if mts_infront(mts_unitCache[i]) then
         return Macro("/target "..mts_unitCache[i])
-      end
     end
   end
 end
@@ -482,8 +479,6 @@ ProbablyEngine.library.register('mtsLib', {
       local _,_,_,_,_,_,debuff = UnitDebuff(mts_unitCache[i], GetSpellInfo(589), nil, "PLAYER")
         if not debuff then
           if mts_immuneEvents(mts_unitCache[i])
-          --and not UnitIsUnit("target", mts_unitCache[i])
-          and UnitAffectingCombat(mts_unitCache[i])
           and UnitCanAttack("player", mts_unitCache[i])
           and not UnitIsPlayer(mts_unitCache[i]) then
             if ProbablyEngine.parser.can_cast(589, mts_unitCache[i], false) then
@@ -509,7 +504,6 @@ ProbablyEngine.library.register('mtsLib', {
       for i=1,#mts_unitCache do
         if mts_immuneEvents(mts_unitCache[i])
         and ProbablyEngine.condition["health"](mts_unitCache[i]) <= 20
-        and UnitAffectingCombat(mts_unitCache[i])
         and UnitCanAttack("player", mts_unitCache[i])
         and not UnitIsPlayer(mts_unitCache[i]) then
           if ProbablyEngine.parser.can_cast(32379, mts_unitCache[i], false) then
@@ -537,7 +531,6 @@ ProbablyEngine.library.register('mtsLib', {
           if mts_immuneEvents(mts_unitCache[i])
           and not UnitIsUnit("target", mts_unitCache[i])
           and ProbablyEngine.condition["health"](mts_unitCache[i]) <= 20
-          and UnitAffectingCombat(mts_unitCache[i])
           and UnitCanAttack("player", mts_unitCache[i])
           and not UnitIsPlayer(mts_unitCache[i]) then
             if ProbablyEngine.parser.can_cast(164812, mts_unitCache[i], false) then
@@ -563,7 +556,6 @@ ProbablyEngine.library.register('mtsLib', {
       for i=1,#mts_unitCache do
         if mts_immuneEvents(mts_unitCache[i])
         and ProbablyEngine.condition["health"](mts_unitCache[i]) <= 35
-        and UnitAffectingCombat(mts_unitCache[i])
         and UnitCanAttack("player", mts_unitCache[i])
         and not UnitIsPlayer(mts_unitCache[i]) then
           if ProbablyEngine.parser.can_cast(32379, mts_unitCache[i], false) then

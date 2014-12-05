@@ -61,7 +61,7 @@ local inCombat = {
 		{ "108238", "player.health < 60", "player"}, --Instant renewal when less than 40% health
 	
 	{{ -- Auto Dotting	
-		{ "164812", (function() return mts_MoonFire() end) }, -- moonfire
+		{ "164812", "@mtsLib.MoonFire" }, -- moonfire
 	}, {"toggle.dotEverything", "player.firehack" } },
 	
 	-- Auto Target
@@ -80,7 +80,7 @@ local inCombat = {
 			}},
 
 	{{ -- AoE smart
-		{ "48505", "player.area(8).enemies >= 4", "target" }, -- Starfall  // FH SMARTH AoE
+		{ "48505", "player.area(8).enemies >= 4", "target" }, -- Starfall  // FH SMART AoE
 	}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end)}},
 
 	-- AoE

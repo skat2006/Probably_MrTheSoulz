@@ -113,10 +113,6 @@ local mts_configPriestHoly = {
 		{ type = 'header', text = "General settings:", align = "center" },
 		{ type = 'spacer' },
 
-			-- AutoTargets
-			{ type = "checkbox", text = "AutoTargets", key = "AutoTargets", default = true, desc =
-			 "This checkbox enables or disables the use of automatic targets."},
-
 			-- Dispels
 			{ type = "checkbox", text = "Dispels", key = "Dispels", default = true, desc =
 			 "This checkbox enables or disables the use of automatic dispels of everything it can dispel."},
@@ -235,13 +231,6 @@ local mts_configPriestShadow = {
 		{ type = 'rule' },
 		{ type = 'header', text = "General settings:", align = "center" },
 
-		{ 
-			type = "checkbox", 
-			text = "AutoTargets", 
-			key = "AutoTargets", 
-			default = true, 
-			desc = "This checkbox enables or disables the use of automatic targets."
-		},
 		{
 			type = "checkbox",
 			default = true,
@@ -331,10 +320,6 @@ local mts_configPalaHoly = {
       -- Run Faster
       { type = "checkbox", text = "Run Faster", key = "RunFaster", default = false , desc =
        "This checkbox enables or disables the use of Unholy presence while out of combat to move faster."},
-
-      -- Auto Target
-      { type = "checkbox", text = "Auto Target", key = "AutoTarget", default = true , desc =
-       "This checkbox enables or disables the use of automatic Targets."},
 
       -- Crusader Strike
       { type = "checkbox", text = "Crusader Strike", key = "CrusaderStrike", default = true , desc =
@@ -519,10 +504,6 @@ local mts_configPalaProt = {
       -- Run Faster
       { type = "checkbox", text = "Run Faster", key = "RunFaster", default = false , desc =
        "This checkbox enables or disables the use of Speed of Light to move faster."},
-
-       -- Auto Target
-      { type = "checkbox", text = "Auto Target", key = "AutoTarget", default = true , desc =
-       "This checkbox enables or disables the use of automatic Targets."},
       
        -- Buff Might//Kinds
       { type = "dropdown",text = "Buff:", key = "Buff", list = {
@@ -612,10 +593,6 @@ local mts_configDruidFeral = {
 			{ type = "checkbox", text = "Prowl", key = "Prowl", default = false, desc =
 			 "This checkbox enables or disables the use of automatic Prowl when out of combat."},
 
-			 -- Auto Target
-			{ type = "checkbox", text = "Auto Target", key = "AutoTarget", default = true, desc =
-			 "This checkbox enables or disables the use of automatic Targets."},
-
 		-- Player
 		{ type = 'rule' },
 		{ type = 'header', text = "Player settings:", align = "center"},
@@ -660,10 +637,6 @@ local mts_configDruidGuard = {
 			 -- Bear
 			{ type = "checkbox", text = "Bear Form", key = "Bear", default = true, desc =
 			 "This checkbox enables or disables the use of automatic Cat form."},
-
-			 -- Auto Target
-			{ type = "checkbox", text = "Auto Target", key = "AutoTarget", default = true, desc =
-			 "This checkbox enables or disables the use of automatic Targets."},
 
 		-- Player
 		{ type = 'rule' },
@@ -757,10 +730,6 @@ local mts_configDkBlood = {
 			{ type = "checkbox", text = "Run Faster", key = "RunFaster", default = false , desc =
 			 "This checkbox enables or disables the use of Unholy presence while out of combat to move faster."},
 
-			 -- Auto Target
-			{ type = "checkbox", text = "Auto Target", key = "AutoTarget", default = true , desc =
-			 "This checkbox enables or disables the use of Unholy presence while out of combat to move faster."},
-
 		-- Focus
 		{ type = 'rule' },
 		{ type = 'header', text = 'Player settings:', align = "center"},
@@ -812,10 +781,6 @@ local mts_configDkUnholy = {
 		    	  text = "Frost",
 		          key = "Frost"
 		    	}}, default = "Unholy", desc = "Select What Presence to use." },
-
-			 -- Auto Target
-			{ type = "checkbox", text = "Auto Target", key = "AutoTarget", default = true, desc =
-			 "This checkbox enables or disables the use of Unholy presence while out of combat to move faster."},
 
 		-- Focus
 		{ type = 'rule' },
