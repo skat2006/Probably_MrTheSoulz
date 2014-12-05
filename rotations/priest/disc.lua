@@ -6,12 +6,13 @@ MTS
 ]]--
 
 local fetch = ProbablyEngine.interface.fetchKey
+
 local ignoreDebuffs = {
 	'Mark of Arrogance',
 	'Displaced Energy'
 }
 
---Dispell function
+-- Dispell function
 local function Dispell()
 local prefix = (IsInRaid() and 'raid') or 'party'
 	for i = -1, GetNumGroupMembers() - 1 do
@@ -28,6 +29,7 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 					end
 				end
 					if not ignore then
+						--print("Dispelled: "..debuffName.." on: "..unit)
 						ProbablyEngine.dsl.parsedTarget = unit
 						return true
 					end
@@ -55,29 +57,13 @@ local inCombat = {
 	
   	--keybinds
 		{ "32375", "modifier.rcontrol", "player.ground" }, --Mass Dispel
-	 	{ "62618", "modifier.rshift", "tank.ground" }, --Power Word: Barrier
 	 	{ "48045", "modifier.ralt", "tank" }, -- Mind Sear
-	 	{ "121135", "modifier.lcontrol", "player" },  --Cascade
-		{ "120517", "modifier.lcontrol", "player" }, --Halo
-		{ "110744", "modifier.lcontrol", "player" }, --Divine Star
-		{ "109964", "modifier.lshift" }, --Spirit Shell
 
 	-- Dispel's
   		{{-- Dont interrumpt if castbar more then 50%
-	  		-- SoO Stuff
-			    { "!527", {
-			    	"player.debuff(146595)",
-			    	"@coreHealing.needsDispelled('Mark of Arrogance')"
-			    }, nil },
-			    { "!527", "@coreHealing.needsDispelled('Corrosive Blood')",nil },
-			 	{ "!527", "@coreHealing.needsDispelled('Harden Flesh')", nil },
-			 	{ "!527", "@coreHealing.needsDispelled('Torment')", nil },
-			 	{ "!527", "@coreHealing.needsDispelled('Breath of Fire')", nil },
 		 	-- Dispell ALl
-		 	{{ -- Dispell all?
 				{ "!527", (function() return Dispell() end) },-- Dispel Everything
-			}, (function() return fetch('mtsconfPriestDisc','Dispels') end) },
-		}, "!casting.percent >= 50" }, 
+		}, "!player.casting.percent >= 50", (function() return fetch('mtsconfPriestDisc','Dispels') end)  },  
 
    	-- buffs
 		{ "81700", "player.buff(81661).count = 5" }, -- Archangel
@@ -113,77 +99,102 @@ local inCombat = {
   	-- Aggro
 		{ "586", "target.threat >= 80" }, -- Fade
 
-  	-- CD's
-		{ "10060", "modifier.cooldowns" }, --Power Infusion
+  	-- CD's --Power Infusion
+		{ "10060", {
+			"modifier.cooldowns",
+			"player.mana < 80"
+		}},
+		{ "109964", { -- Spirit Shell
+			"modifier.cooldowns",
+			"@coreHealing.needsHealing(50, 5)"
+		}},
 		
-	--Pain Suppression	
-		-- ALL
-			{ "33206", { 
-				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Focus' end),
-				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Allways' end),
-				(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
-			}, "focus" },
-			{ "33206", {
-				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Tank' end),
-				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Allways' end),
-				(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
-			}, "tank" },
-			{ "33206", {
-				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Lowest' end),
-				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Allways' end),
-				(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
-			}, "lowest" },
-		
-		-- Boss
-			{ "33206", { 
-				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Focus' end),
-				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Boss' end),
-				(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
-				"target.boss"
-			}, "focus" },
-			{ "33206", {
-				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Tank' end),
-				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Boss' end),
-				(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
-				"target.boss"
-			}, "tank" },
-			{ "33206", {
-				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Lowest' end),
-				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Boss' end),
-				(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
-				"target.boss"
-			}, "lowest" },
+		--Pain Suppression	
+			-- ALL
+				{ "33206", { 
+					(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Focus' end),
+					(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Allways' end),
+					(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
+				}, "focus" },
+				{ "33206", {
+					(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Tank' end),
+					(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Allways' end),
+					(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
+				}, "tank" },
+				{ "33206", {
+					(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Lowest' end),
+					(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Allways' end),
+					(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
+				}, "lowest" },
+			
+			-- Boss
+				{ "33206", { 
+					(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Focus' end),
+					(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Boss' end),
+					(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
+					"target.boss"
+				}, "focus" },
+				{ "33206", {
+					(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Tank' end),
+					(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Boss' end),
+					(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
+					"target.boss"
+				}, "tank" },
+				{ "33206", {
+					(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Lowest' end),
+					(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Boss' end),
+					(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
+					"target.boss"
+				}, "lowest" },
 
 	-- Surge of light
 		{ "2061", {-- Flash Heal
 			"lowest.health < 100",
 			"player.buff(114255)",
 			"!player.moving"
+		}, "lowest" },
+
+	{{ -- spirit shell
+		-- Heal
+		{ "2060", {
+			"lowest.health >= 40",
+			"!player.moving"
 		}, "lowest" }, 
+		-- Flash Heal
+		{ "!2061", {
+			"lowest.health <= 40",
+			"!player.moving"
+		}, "lowest" },
+		-- Prayer of Healing
+   		{ "596", "@mtsLib.PoH" },
+	}, "player.buff(109964)"},
 	
 	-- Penance	
 		{ "!47540", {
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PenanceRaid')) end),
 			"!player.casting(2061)",
 			"!player.moving",
-			"!casting.percent >= 50"
+			"!player.casting.percent >= 50"
 		}, "lowest" }, 
 	
 	--Power Word: Shield
 		{ "17", { 
 			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'ShieldTank')) end),
 			"!focus.debuff(6788).any", 
-			"focus.spell(17).range"
+			"focus.spell(17).range",
+			"!modifier.last" 
 		}, "focus" }, 
 		{ "17", {
 			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'ShieldTank')) end),
 			"!tank.debuff(6788).any", 
-			"tank.spell(17).range"
+			"tank.spell(17).range",
+			"!modifier.last" 
 		}, "tank" },
 		{ "17", {
 			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'ShieldPlayer')) end),
 			"!player.debuff(6788).any", 
-			"!player.buff(17).any" 
+			"!player.buff(17).any",
+			"!modifier.last" 
 		}, "player" },
 	
 	{{-- Flash Heal // dont interrumpt if castbar more then 50%
@@ -205,7 +216,7 @@ local inCombat = {
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealRaid')) end),
 			"!player.moving"
 		}, "lowest" },
-	}, "!casting.percent >= 50" },
+	}, "!player.casting.percent >= 50" },
 	
 	-- For Archangel
 		{ "14914", { --Holy Fire
@@ -217,11 +228,15 @@ local inCombat = {
 	{{-- AOE
 		-- Power word Barrier
 			{ "62618", {  -- Power word Barrier // w/t CD's and on tank
-				"@coreHealing.needsHealing(50, 3)", 
+				"@coreHealing.needsHealing(50, 5)", 
 				"modifier.party", 
 				"!player.moving", 
 				"modifier.cooldowns" 
 			}, "tank.ground" },
+			{ "121135", { -- cascade
+				"@coreHealing.needsHealing(95, 5)", 
+				"!player.moving"
+			}, "lowest"},
 		--Prayer of Mending
 			{ "33076", { 
 				(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PrayerofMendingTank')) end),

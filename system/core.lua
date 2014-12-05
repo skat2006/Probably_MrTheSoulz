@@ -38,18 +38,20 @@ Modified by: MTS
 ---------------------------------------------------]]
 
 local function mts_infront(unit)
-  if FireHack then
-    local aX, aY, aZ = ObjectPosition(unit)
-    local bX, bY, bZ = ObjectPosition('player')
-    local playerFacing = GetPlayerFacing()
-    local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
-    return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
-  elseif oexecute then
-    local aX, aY, aZ = opos(unit)
-    local bX, bY, bZ = opos('player')
-    local playerFacing = GetPlayerFacing()
-    local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
-    return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
+  if UnitExists(unit) and UnitIsVisible(unit) then
+    if FireHack then
+      local aX, aY, aZ = ObjectPosition(unit)
+      local bX, bY, bZ = ObjectPosition('player')
+      local playerFacing = GetPlayerFacing()
+      local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
+      return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
+    elseif oexecute then
+      local aX, aY, aZ = opos(unit)
+      local bX, bY, bZ = opos('player')
+      local playerFacing = GetPlayerFacing()
+      local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
+      return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
+    end
   end
 end
 
@@ -60,7 +62,7 @@ So here we go...
 
 Build By: MTS
 ---------------------------------------------------]]
-local function mts_Distance(a, b)
+function mts_Distance(a, b)
   if UnitExists(a) and UnitIsVisible(a) and UnitExists(b) and UnitIsVisible(b) then
     if FireHack then
       local ax, ay, az = ObjectPosition(a)
@@ -144,51 +146,55 @@ local function mts_rangeNeeded(unit)
     270,    -- mistweaver monk
   }
   if unit == nil then unit = 'target' end
-  for i=1,#ranged do
-    if _SpecID == ranged[i] then
-        if FireHack then
-            return (30 + (ObjectPosition('player') + UnitCombatReach(unit)))
-        else
-            return 30
+  if UnitExists(unit) then
+      for i=1,#ranged do
+        if _SpecID == ranged[i] then
+            if FireHack then
+                return (30 + (ObjectPosition('player') + UnitCombatReach(unit)))
+            else
+                return 30
+            end
+        else 
+            if FireHack then
+                return (6 + (ObjectPosition('player') + UnitCombatReach(unit)))
+            else
+                return 6
+            end
         end
-    else 
-        if FireHack then
-            return (6 + (ObjectPosition('player') + UnitCombatReach(unit)))
-        else
-            return 6
-        end
+      end
     end
-  end
 end
 
 -- Move to unit if distance.
 local function mts_MoveTo(unit, ds)
-  if FireHack then
-  local aX, aY, aZ = ObjectPosition(unit)
-  local bX, bY, bZ = ObjectPosition('player')
-    --(Over sensitive...)if TraceLine(bX, bY, bZ, aX, aY, aZ, 0xFFFFFFFF) then 
-      if not mts_Distance("player", unit) <= ((ObjectPosition('player') + UnitCombatReach(unit)) + ds) then
+  if UnitExists(unit) then
+    if FireHack then
+    local aX, aY, aZ = ObjectPosition(unit)
+    local bX, bY, bZ = ObjectPosition('player')
+      if not (mts_Distance("player", unit) <= ((ObjectPosition('player') + UnitCombatReach(unit)) + ds)) then
         MoveTo(aX, aY, aZ)
       end
-    --end
-  elseif oexecute then -- Offspring dosent have MoveTo :(
-    
+    --elseif oexecute then -- Offspring dosent have MoveTo :(
+      -- Do nothing
+    end
   end
 end
 
 -- Face unit.
 local function mts_FaceTo(unit)
-  if FireHack then
-    if not mts_infront(unit) then
-      if mts_Distance("player", unit) <= (UnitCombatReach('player') + UnitCombatReach(unit))
-      or mts_rangeNeeded(unit) >= 30 then
-        FaceUnit(unit)
+  if UnitExists(unit) then
+    if FireHack then
+      if not mts_infront(unit) then
+        if mts_Distance("player", unit) <= (UnitCombatReach('player') + UnitCombatReach(unit))
+        or mts_rangeNeeded(unit) >= 30 then
+          FaceUnit(unit)
+        end
       end
-    end
-  elseif oexecute then
-    if not mts_infront(unit) then
-      if mts_Distance("player", unit) <= 6 then 
-        FaceUnit(unit)
+    elseif oexecute then
+      if not mts_infront(unit) then
+        if mts_Distance("player", unit) <= 6 then 
+          oface(unit)
+        end
       end
     end
   end
@@ -644,14 +650,11 @@ ProbablyEngine.listener.register("PLAYER_ENTERING_WORLD", function(...)
       if FireHack or oexecute then
         if ProbablyEngine.config.read('button_states', 'MasterToggle', false)
         and ProbablyEngine.module.player.combat then
-          if UnitExists("target")
-          and not UnitIsFriend("player", "target") then
-            if fetch('mtsconf', 'AutoMove') then
-              mts_MoveTo('target', mts_rangeNeeded())
-            end
-            if fetch('mtsconf', 'AutoFace') then
-             mts_FaceTo('target')
-            end
+          if fetch('mtsconf', 'AutoMove') then
+            mts_MoveTo('target', mts_rangeNeeded())
+          end
+          if fetch('mtsconf', 'AutoFace') then
+            mts_FaceTo('target')
           end
         end
       end
