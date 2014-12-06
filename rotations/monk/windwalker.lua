@@ -20,12 +20,12 @@ local inCombat = {
 
 	-- Keybinds
 		{ "pause", "modifier.shift" },
-		{ "Leg Sweep", "modifier.control" }, -- Leg Sweep
-		{ "Touch of Karma", "modifier.alt" }, -- Touch of Karma
+		{ "119381", "modifier.control" }, -- Leg Sweep
+		{ "122470", "modifier.alt" }, -- Touch of Karma
 
 	-- SEF on mouseover // Needs Futher Logic...
   		{ "137639",  {"toggle.autosef","!mouseover.debuff(138130)","!player.buff(137639).count = 2", "@mtsLib.mouseNotEqualTarget()"} , "mouseover" },
-  		{ "/cancelaura "..n, { "target.debuff(Storm, Earth, and Fire)", "toggle.autosef" }, "target"},
+  		{ "/cancelaura "..n, { "target.debuff(137639)", "toggle.autosef" }, "target"}, -- Storm, Earth, and Fire
 
 	-- Auto Target
 		{ "/cleartarget", {
@@ -37,75 +37,75 @@ local inCombat = {
    		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
 	-- Survival
-		{ "Expel Harm", { "player.health <= 80", "player.chi < 4" }},
+		{ "115072", { "player.health <= 80", "player.chi < 4" }}, -- Expel Harm
 		{ "115098", "player.health <= 75" }, -- Chi Wave
 		{ "115203", { -- Forifying Brew at < 30% health and when DM & DH buff is not up
 		  "player.health < 30",
-		  "!player.buff(Diffuse Magic)", --DM
-		  "!player.buff(Dampen Harm)"}}, --DH
+		  "!player.buff(122783)", -- Diffuse Magic
+		  "!player.buff(122278)"}}, -- Dampen Harm
 		{ "#5512", "player.health < 40" }, -- Healthstone
 
 	-- Interrupts
 	  	{ "115078", { -- Paralysis when SHS, and Quaking Palm are all on CD
-	     	"!target.debuff(Spear Hand Strike)",
-	     	"player.spell(Spear Hand Strike).cooldown > 0",
-	     	"player.spell(Quaking Palm).cooldown > 0",
-	     	"!modifier.last(Spear Hand Strike)",
+	     	"!target.debuff(116705)", -- Spear Hand Strike
+	     	"player.spell(116705).cooldown > 0", -- Spear Hand Strike
+	     	"player.spell(107079).cooldown > 0", -- Quaking Palm
+	     	"!modifier.last(116705)", -- Spear Hand Strike
 	     	"target.interruptsAt(50)", 
 	     	"modifier.interrupts"}},
-	  	{ "Ring of Peace", { -- Ring of Peace when SHS is on CD
-	     	"!target.debuff(Spear Hand Strike)",
-	     	"player.spell(Spear Hand Strike).cooldown > 0",
-	     	"!modifier.last(Spear Hand Strike)",
+	  	{ "116844", { -- Ring of Peace when SHS is on CD
+	     	"!target.debuff(116705)", -- Spear Hand Strike
+	     	"player.spell(116705).cooldown > 0", -- Spear Hand Strike
+	     	"!modifier.last(116705)", -- Spear Hand Strike
 	     	"target.interruptsAt(50)", 
 	     	"modifier.interrupts"}},
-	  	{ "Leg Sweep", { -- Leg Sweep when SHS is on CD
+	  	{ "119381", { -- Leg Sweep when SHS is on CD
 	     	"player.spell(116705).cooldown > 0",
 	     	"target.range <= 5",
 	     	"!modifier.last(116705)",
 	     	"target.interruptsAt(50)", 
 	     	"modifier.interrupts"}},
-	  	{ "Charging Ox Wave", { -- Charging Ox Wave when SHS is on CD
+	  	{ "119392", { -- Charging Ox Wave when SHS is on CD
 	     	"player.spell(116705).cooldown > 0",
 	     	"target.range <= 30",
 	     	"!modifier.last(116705)",
 	     	"target.interruptsAt(50)", 
 	     	"modifier.interrupts"}},
-	  	{ "Quaking Palm", { -- Quaking Palm when SHS is on CD
-	     	"!target.debuff(Spear Hand Strike)",
-	     	"player.spell(Spear Hand Strike).cooldown > 0",
-	     	"!modifier.last(Spear Hand Strike)",
+	  	{ "107079", { -- Quaking Palm when SHS is on CD
+	     	"!target.debuff(116705)", -- Spear Hand Strike
+	     	"player.spell(116705).cooldown > 0", -- Spear Hand Strike
+	     	"!modifier.last(116705)", -- Spear Hand Strike
 	     	"target.interruptsAt(50)",
 	     	"modifier.interrupts"}},
-	  	{ "Spear Hand Strike", {"target.interruptsAt(50)", "modifier.interrupts"} }, -- Spear Hand Strike
+	  	{ "116705", {"target.interruptsAt(50)", "modifier.interrupts"} }, -- Spear Hand Strike
 
 	-- Cooldowns
 		{ "115288", {"player.energy <= 30","modifier.cooldowns"} }, -- Energizing Brew
 		{ "123904", "modifier.cooldowns" }, -- Invoke Xuen, the White Tiger
 
 	-- FREEDOOM!
-		{ "Nimble Brew", "player.state.disorient" }, -- Nimble Brew = Nimble Brew
-		{ "Nimble Brew", "player.state.fear" },
-		{ "Nimble Brew", "player.state.stun" },
-		{ "Nimble Brew", "player.state.root" },
-		{ "Nimble Brew", "player.state.horror" },
-		{ "Nimble Brew", "player.state.snare" },
-		{ "Tiger's Lust", "player.state.disorient" }, -- Tiger's Lust = Tiger's Lust
-		{ "Tiger's Lust", "player.state.stun" },
-		{ "Tiger's Lust", "player.state.root" },
-		{ "Tiger's Lust", "player.state.snare" },
+		{ "137562", "player.state.disorient" }, -- Nimble Brew = 137562
+		{ "137562", "player.state.fear" },
+		{ "137562", "player.state.stun" },
+		{ "137562", "player.state.root" },
+		{ "137562", "player.state.horror" },
+		{ "137562", "player.state.snare" },
+		{ "116841", "player.state.disorient" }, -- Tiger's Lust = 116841
+		{ "116841", "player.state.stun" },
+		{ "116841", "player.state.root" },
+		{ "116841", "player.state.snare" },
 
 	-- Ranged
-		{ "Tiger's Lust", { "target.range >= 15", "player.moving" }},-- Tiger's Lust if the target is at least 15 yards away and we are moving
-		{ "Zen Sphere", {"!target.debuff(Zen Sphere)","target.range >= 15"} }, -- 40 yard range!
+		{ "116841", { "target.range >= 15", "player.moving" }},-- Tiger's Lust if the target is at least 15 yards away and we are moving
+		{ "124081", {"!target.debuff(124081)","target.range >= 15"} }, -- Zen Sphere. 40 yard range!
 		{ "115098", "target.range >= 15" }, -- Chi Wave (40yrd range!)
-		{ "Chi Burst", "target.range >= 15" }, -- Chi Burst (40yrd range!)
+		{ "123986", "target.range >= 15" }, -- Chi Burst (40yrd range!)
 		{ "117952", { "target.range > 5", "target.range <= 40", "!player.moving" }}, -- Crackling Jade Lightning
-		{ "Expel Harm", {"player.chi < 4", "target.range >= 15"} }, -- Expel Harm
+		{ "115072", {"player.chi < 4", "target.range >= 15"} }, -- Expel Harm
 		
 
 	-- buffs
-		{ "115080", "player.buff(Death Note)" }, -- Touch of Death
+		{ "115080", "player.buff(121125)" }, -- Touch of Death, Death Note
 		{ "116740", {"player.buff(125195).count >= 10", "!player.buff(116740)"} }, -- Tigereye Brew
 
 	-- Procs
@@ -135,20 +135,20 @@ local inCombat = {
 local outCombat = {
 
  	{ "116781", { -- Legacy of the White Tiger
-	  	"!player.buff(Legacy of the White Tiger).any",
-	  	"!player.buff(Leader of the Pack).any",
-	  	"!player.buff(Arcane Brilliance).any",
-	  	"!player.buff(Dalaran Brilliance).any",
-	  	"!player.buff(Bellowing Roar).any",
-	  	"!player.buff(Furious Howl).any",
-	  	"!player.buff(Terrifying Roar).any",
-	  	"!player.buff(Fearless Roar).any",
-	  	"!player.buff(Still Water).any"}},
-  	{ "Legacy of the Emperor", {
-  		"!player.buff(Legacy of the Emperor).any",
-  		"!player.buff(Mark of the Wild).any",
-  		"!player.buff(Blessing of Kings).any",
-  		"!player.buff(Embrace of the Shale Spider).any",
+	  	"!player.buff(116781).any", -- Legacy of the White Tiger
+	  	"!player.buff(17007).any", -- Leader of the Pack
+	  	"!player.buff(1459).any", -- Arcane Brilliance
+	  	"!player.buff(61316).any", -- Dalaran Brilliance
+	  	"!player.buff(97229).any", -- Bellowing Roar
+	  	"!player.buff(24604).any", -- Furious Howl
+	  	"!player.buff(90309).any", -- Terrifying Roar
+	  	"!player.buff(126373).any", -- Fearless Roar
+	  	"!player.buff(126309).any"}}, -- Still Water
+  	{ "115921", { -- Legacy of the Emperor
+  		"!player.buff(115921).any", -- Legacy of the Emperor
+  		"!player.buff(1126).any", -- Mark of the Wild
+  		"!player.buff(20217).any", -- Blessing of Kings
+  		"!player.buff(90363).any", -- Embrace of the Shale Spider
   		"!player.buff(Blessing of the Forgotten Kings).any"}}
   
 }
