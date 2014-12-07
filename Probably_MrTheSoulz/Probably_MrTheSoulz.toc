@@ -1,0 +1,39 @@
+## Interface: 50400
+## Title: Probably |r[|cffC41F3BMrTheSoulz|r]
+## Notes: A MrTheSoulz Profiles For PE.
+## Dependencies: Probably
+## Interface: 60000
+## Author: MrTheSoulz
+
+system\core.lua
+system\tracker.lua
+system\dots.lua
+interface\minimap.lua
+interface\splash.lua
+interface\alert.lua
+interface\class.lua
+interface\status.lua
+interface\info.lua
+interface\config.lua
+rotations\paladin\protection.lua
+rotations\paladin\holy.lua
+rotations\druid\resto.lua
+rotations\druid\guard.lua
+rotations\druid\feral.lua
+rotations\druid\balance.lua
+rotations\deathknight\blood.lua
+rotations\deathknight\frost.lua
+rotations\deathknight\unholy.lua
+rotations\monk\windwalker.lua
+rotations\monk\mistweaver.lua
+rotations\warrior\fury.lua
+rotations\warrior\prot.lua
+rotations\priest\disc.lua
+rotations\priest\shadow.lua
+rotations\priest\holy.lua
+rotations\warlock\destro.lua
+rotations\hunter\bm.lua
+rotations\mage\arcane.lua
+rotations\mage\frost.lua
+rotations\shaman\resto.lua
+rotations\shaman\ele.lua
