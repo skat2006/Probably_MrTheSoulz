@@ -119,16 +119,6 @@ local inCombat = {
 			"target.spell(123040).range",
 			 "modifier.cooldowns"
 			 }, "target" },
-	
-	-- Use on cd
-		{ "34861",  -- Circle of Healing
-			"@coreHealing.needsHealing(95, 3)", 
-			"lowest" },
-		{ "121135", { -- cascade
-			"@coreHealing.needsHealing(95, 3)", 
-			"!player.moving"
-			}, "lowest"},
-
 	-- Proc's
 		{ "596", { -- Prayer of healing // Divine Insigt
 			"@coreHealing.needsHealing(95, 3)",
@@ -168,23 +158,27 @@ local inCombat = {
 			}, "lowest" },
 
 	{{-- AOE
-   		-- Prayer of Healing
-   			{ "596", "@mtsLib.PoH" },
+   		{ "596", "@mtsLib.PoH" },-- Prayer of Healing
+   		{ "34861", "@coreHealing.needsHealing(90, 3)", "lowest"}, -- Circle of Healing
+		{ "121135", { -- cascade
+			"@coreHealing.needsHealing(95, 3)", 
+			"!player.moving"
+		}, "lowest"},
 		-- Divine Hymn
 			{ "64843", { -- Divine Hymn
 				"@coreHealing.needsHealing(50, 3)", 
 				"modifier.party" 
-				}},
+			}},
 			{ "64843", { -- Divine Hymn
 				"@coreHealing.needsHealing(60, 5)", 
 				"modifier.raid", 
 				"!modifier.members > 10" 
-				}},
+			}},
 			{ "64843", {  -- Divine Hymn
 				"@coreHealing.needsHealing(60, 8)", 
 				"modifier.raid", 
 				"modifier.members > 10" 
-				}},
+			}},
 	}, "modifier.multitarget" },
 
 	{{-- Heal Fast Bitch!!
@@ -494,25 +488,25 @@ local outCombat = {
 	-- heals
 		{ "139", {  --renew
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'RenewRaid')) end),
-			"!lowest.buff(139)"}, 
-			"lowest" },	
+			"!lowest.buff(139)"
+		}, "lowest" },	
 			
 		{ "2061", {  --Flash Heal
 			"!player.moving", 
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealRaid')) end),
-			}, "lowest" },
+		}, "lowest" },
 			
 		{ "2060", { -- Heal
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'HealRaid')) end),
 			"!player.moving"
-			}, "lowest" },
+		}, "lowest" },
 		
 	-- buffs
 		{ "21562", { -- Fortitude
 			(function() return fetch('mtsconfPriestHoly','Buff') end),
 			"!player.buff(21562).any",
 			"!player.buff(588)"
-			}},
+		}},
 	
 	-- LoOk aT It GOoZ!!!
 		{ "121536", {
