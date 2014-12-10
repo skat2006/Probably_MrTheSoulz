@@ -4,16 +4,7 @@ local ConfigWindow
 local mts_OpenConfigWindow = false
 local mts_ShowingConfigWindow = false
 
-local _Header = { 
-	type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",
-	width = 200, 
-	height = 100, 
-	offset = 90, 
-	y = 42, 
-	center = true 
-}
-
-mts_config = {
+local mts_config = {
 	key = "mtsconf",
 	profiles = true,
 	title = logo.."MrTheSoulz Config",
@@ -24,7 +15,14 @@ mts_config = {
 	config = {
 		{ type = 'header',text = 'MrTheSoulz Pack'},
 		{ type = 'rule' },
-		_Header,
+		{ 
+			type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",
+			width = 200, 
+			height = 100, 
+			offset = 90, 
+			y = 42, 
+			center = true 
+		},
 		
 		{ type = 'rule' },
 		{ type = 'header', text = "MrTheSoulzs Pack General settings:"},
@@ -35,7 +33,7 @@ mts_config = {
 
 		-- Taunts
 		{ type = "checkbox", text = "Taunts", key = "Taunts", default = false, desc =
-		"This checkbox enables or disables MrTheSoulz Pack using smarth auto taunts."},
+		"This checkbox enables or disables MrTheSoulz Pack using smart automatic taunts."},
 
 		-- Whispers
 		{ type = "checkbox", text = "Whispers", key = "Whispers", default = false, desc =
@@ -60,6 +58,14 @@ mts_config = {
 		-- AutoMove
 		{ type = "checkbox", text = "Auto Moving", key = "AutoMove", default = false, desc =
 		"Follows your current target if its an enemie.\nChecks for LoS and range."},
+
+		-- Auto Face
+		{ type = "checkbox", text = "Auto Face", key = "AutoFace", default = false, desc =
+		"Face your current target.\nChecks for LoS and range."},
+
+		-- AutoTargets
+		{ type = "checkbox", text = "AutoTargets", key = "AutoTargets", default = true, desc =
+		"This checkbox enables or disables the use of automatic targets."},
 
 	}
 }

@@ -33,14 +33,14 @@ local inCombat = {
     { "Mind Sear", "modifier.shift" },
 
 	{{-- Auto Dotting
-		{ "32379", (function() return mts_SWD() end) },
+		{ "32379", "@mtsLib.SWD" },
 		{{-- AoE FH
-			{ "589", (function() return mts_SWP() end) }, -- SWP 
+			{ "589", "@mtsLib.SWP" }, -- SWP 
 		}, "target.area(10).enemies >= 3" },
 		{{-- AoE forced
-			{ "589", (function() return mts_SWP() end) }, -- SWP 
+			{ "589", "@mtsLib.SWP" }, -- SWP 
 		}, "modifier.multitarget" },
-	}, {"toggle.dotEverything", "player.firehack"} },
+	}, {"toggle.dotEverything"} },
   
   -- Mouse-Over
 		{ "589", { -- SWP
@@ -53,25 +53,6 @@ local inCombat = {
 			"toggle.mouseoverdots",
 			"!player.moving"
 			}, "mouseover"},
-  
-  -- Auto Target
-    { "/cleartarget", {
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
-			(function() return UnitIsFriend("player","target") end)
-			}},
-		{ "/target [target=focustarget, harm, nodead]", {  -- Use Tank Target
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
-			"target.range > 40" 
-			}},
-		{ "/targetenemy [noexists]", {  -- target enemire if no target
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end), 
-			"!target.exists" 
-			}},
-		{ "/targetenemy [dead]", { -- target enemire if current is dead.
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
-			"target.exists", 
-			"target.dead" 
-			}},
 	
   -- LoOk aT It GOoZ!!! // Needs to add tank...
 	{ "121536", {
@@ -169,39 +150,13 @@ local outCombat = {
 		"player.movingfor > 2", 
 		"!player.buff(121557)", 
 		"player.spell(121536).charges >= 1" 
-		}, "player.ground" },
+	}, "player.ground" },
 	{ "17", {
 		"talent(2, 1)", 
 		"player.movingfor > 2", 
 		"!player.buff(6788)", 
 		(function() return fetch('mtsconfPriestShadow', 'feather') end)
-		}, "player" },
-	
-	-- Auto Target
-		{ "/cleartarget", {
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
-			(function() return UnitIsFriend("player","target") end),
-			"tank.combat"
-			}},
-		{ "/target [target=focustarget, harm, nodead]", {  -- Use Tank Target
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
-			"target.range > 40",
-			"tank.combat"
-			}},
-		{ "/targetenemy [noexists]", {  -- target enemire if no target
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end), 
-			"!target.exists",
-			"tank.combat"
-			}},
-		{ "/targetenemy [dead]", { -- target enemire if current is dead.
-			(function() return fetch('mtsconfPriestShadow','AutoTargets') end),
-			"target.exists", 
-			"target.dead",
-			"tank.combat"
-			}},
-	
-	-- dot to start if tank is in combat
-		{ "589", "tank.combat", "target" },
+	}, "player" },
 	
 	-- buffs
 		{ "21562", {-- Fortitude

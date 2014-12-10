@@ -100,26 +100,6 @@ local inCombat = {
 			(function() return fetch("mtsconfPalaHoly", "seal") == 'Command' end),
 			}, nil },
 
-	-- Auto Targets
-		{ "/cleartarget", {
-			(function() return fetch('mtsconfPalaHoly','AutoTarget') end), 
-			(function() return UnitIsFriend("player","target") end)
-			}},
-
-		{ "/target [target=focustarget, harm, nodead]", { -- Use Tank Target
-			(function() return fetch('mtsconfPalaHoly','AutoTarget') end),
-			"target.range > 40"
-			 }}, 
-		{ "/targetenemy [noexists]", { -- target enemire if no target
-			(function() return fetch('mtsconfPalaHoly','AutoTarget') end),
-			"!target.exists" 
-			}},
-		{ "/targetenemy [dead]", { -- target enemire if current is dead.
-			(function() return fetch('mtsconfPalaHoly','AutoTarget') end), 
-			"target.exists", 
-			"target.dead" 
-			}},
-
 	-- keybinds
 		{ "114158", "modifier.shift", "target.ground"}, -- Light´s Hammer
 		{ "!/focus [target=mouseover]", "modifier.alt" }, -- Mouseover Focus

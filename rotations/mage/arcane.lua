@@ -2,7 +2,6 @@ local fetch = ProbablyEngine.interface.fetchKey
 
 local lib = function()
 
-  ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
   ProbablyEngine.toggle.create('alter', 'Interface\\ICONS\\spell_mage_altertime', 'Alter Time', 'Toggle the usage of Alter Time and Arcane Power.')
   ProbablyEngine.toggle.create('def', 'Interface\\ICONS\\creatureportrait_creature_iceblock', 'Survival', 'Ice Block when Shit gets serious')
   
@@ -11,11 +10,6 @@ end
 
 
 local inCombat = {
-
-  -- auto targets
-    { "/target [target=focustarget, harm, nodead]", "target.range > 40" },
-    { "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
-    { "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
   -- keybinds
     { "113724", "modifier.alt", "target.ground" }, -- Ring of Frost
@@ -68,4 +62,7 @@ local outCombat = {
 
 }
 
-ProbablyEngine.rotation.register_custom(62, mts_Icon.."|r[|cff69CCF0MTS|r][Testing Mage-Arcade|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(
+  62, 
+  mts_Icon.."|r[|cff69CCF0MTS|r][Testing Mage-Arcade|r]", 
+  inCombat, outCombat, lib)
