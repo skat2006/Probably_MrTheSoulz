@@ -9,21 +9,10 @@ local Battle_Print = false
 local Glad_Print = false
 
 local exeOnLoad = function()
-
-	ProbablyEngine.toggle.create(
-		'autotarget', 
-		'Interface\\Icons\\Ability_spy.png', 
-		'Auto Target', 
-		'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create('tc', 
 		'Interface\\Icons\\ability_deathwing_bloodcorruption_death', 
 		'Threat Control', 
 		'')
-	ProbablyEngine.toggle.create(
-		'defcd', 
-		'Interface\\Icons\\Inv_shield_55.png', 
-		'Defensive Cooldowns & Heals', 
-		'Enable or Disable Defensive & Healing Cooldowns.')
 	
 end
 
@@ -43,9 +32,12 @@ local inCombat_Defensive = {
 		{ "100", { "modifier.alt", "target.spell(100).range" }, "target"}, -- Charge
 
 	-- Interrupt
-		{ "6552", {"target.interruptsAt(50)", "modifier.interrupts"}, "target" }, -- Pummel
-  		{ "Disrupting Shout", "modifier.interrupts", "target.range <= 8" },
-  		{ "114028", {"target.interruptsAt(50)","modifier.interrupts"}, "target" }, -- Mass Spell Reflection
+		{ "6552", "target.interruptsAt(50)", "target" }, -- Pummel
+  		{ "Disrupting Shout", {
+  			"modifier.interrupts", 
+  			"target.range <= 8"
+  		} },
+  		{ "114028", "target.interruptsAt(50)", "target" }, -- Mass Spell Reflection
 	
 	-- Cooldowns
 		{ "Bloodbath", "modifier.cooldowns"  },
@@ -54,23 +46,24 @@ local inCombat_Defensive = {
   		{ "Skull Banner", "modifier.cooldowns"  },
   		{ "Bladestorm", "target.range <= 8", "modifier.cooldowns" },
   		{ "Berserker Rage", "modifier.cooldowns" },
-  		{ "#gloves" },
 	
-	--[[ Items
-		{ "#5512" }, --Healthstone
-		{ "#76097", "player.health < 30", "@mtsLib.checkItem(HealthPot)" }, -- Master Health Potion
-		{ "#86125", { "modifier.cooldowns","@mtsLib.checkItem(KafaPress)" }}, -- Kafa Press]]
+	-- Items
+		{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrProt', 'Healthstone')) end) }, --Healthstone
+		{ "#gloves" },
 	
 	-- Threat Control w/ Toggle
     	{ "Taunt", "toggle.tc", "target.threat < 100" },
   		{ "Taunt", "toggle.tc", "mouseover.threat < 100", "mouseover" },
 
     -- Def Cooldowns
-  		{ "Rallying Cry", { "player.health < 10", "toggle.defcd"}},  
-  		{ "Last Stand", {"player.health < 20", "toggle.defcd" }},
-  		{ "Shield Wall", { "player.health < 30", "toggle.defcd" }},
-  		{ "Shield Block", {"!player.buff(Shield Block)", "toggle.defcd"} },
-  		{ "Shield Barrier", { "!player.buff(Shield Barrier)", "player.rage > 80", "toggle.defcd" }},
+  		{ "Rallying Cry", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrProt', 'RallyingCry')) end) },  
+  		{ "Last Stand", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrProt', 'LastStand')) end) },
+  		{ "Shield Wall", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrProt', 'ShieldWall')) end) },
+  		{ "Shield Block", "!player.buff(Shield Block)" },
+  		{ "Shield Barrier", { 
+  			"!player.buff(Shield Barrier)",
+  			(function() return mts_dynamicEval("player.rage <= " .. fetch('mtsconfigWarrProt', 'ShieldBarrier')) end)
+  		}},
 
   	-- Self Heals
   		{ "Impending Victory", "player.health <= 85" },
@@ -81,11 +74,20 @@ local inCombat_Defensive = {
   		{"Shield Slam", "player.buff(Sword and Board)", "target"},
 
 	-- AoE
-		{ "Thunder Clap", {"modifier.multitarget", "taget.buff(Deep Wounds)" }},
+		{ "Thunder Clap", {
+			"modifier.multitarget", 
+			"taget.buff(Deep Wounds)" 
+		}},
 
 	-- Rotation normal
-		{"Heroic Strike", {"player.rage > 75", "target.health >=20"}, "target"},
-		{"Execute", {"player.rage > 75", "target.health <=20"}, "target"},
+		{"Heroic Strike", {
+			"player.rage > 75", 
+			"target.health >=20"
+		}, "target"},
+		{"Execute", {
+			"player.rage > 75", 
+			"target.health <=20"
+		}, "target"},
 		{"Shield Slam"},
 		{"Revenge"},
 		{"Devastate"},
@@ -148,7 +150,7 @@ local outCombat = {
 
 ProbablyEngine.rotation.register_custom(
 	73, 
-	mts_Icon.."|r[|cff9482C9MTS|r][|cffF58CBAWarrior-Prot|r]", 
+	mts_Icon.."|r[|cff9482C9MTS|r][|cffC79C6EWarrior-Prot|r]", 
 	{-- Dyn Change CR
 		{ inCombat_Battle, "player.stance = 1" },
 		{ inCombat_Defensive, "player.stance = 2" },
