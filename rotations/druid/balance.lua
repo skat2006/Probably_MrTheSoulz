@@ -63,7 +63,7 @@ local inCombat = {
 
 	{{ -- AoE smart
 		{ "48505", "player.area(8).enemies >= 4", "target" }, -- Starfall  // FH SMART AoE
-	}, (function() return fetch('mtsconf','Firehack') },
+	}, (function() return fetch('mtsconf','Firehack') end) },
 
 	-- AoE
 		{ "164812", "target.debuff(Moonfire).duration <= 2", "target"}, --Moonfire
