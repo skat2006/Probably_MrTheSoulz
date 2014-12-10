@@ -7,19 +7,6 @@ MTS
 ]]
 
 local fetch = ProbablyEngine.interface.fetchKey
-local _darkSimSpells = {
--- siege of orgrimmar
-"Froststorm Bolt","Arcane Shock","Rage of the Empress","Chain Lightning",
--- pvp
-"Hex","Mind Control","Cyclone","Polymorph","Pyroblast","Tranquility","Divine Hymn","Hymn of Hope","Ring of Frost","Entangling Roots"
-}
-
-function DarkSimUnit(unit)
-	for index,spellName in pairs(_darkSimSpells) do
-		if ProbablyEngine.condition["casting"](unit, spellName) then return true end
-	end
-		return false
-end
 
 local exeOnLoad = function()
 
@@ -31,27 +18,6 @@ local exeOnLoad = function()
 end
 
 local inCombat = {
-
-	--Racials
-        -- Dwarves
-			{ "20594", "player.health <= 65" },
-		-- Humans
-			{ "59752", "player.state.charm" },
-			{ "59752", "player.state.fear" },
-			{ "59752", "player.state.incapacitate" },
-			{ "59752", "player.state.sleep" },
-			{ "59752", "player.state.stun" },
-		-- Draenei
-			{ "28880", "player.health <= 70", "player" },
-		-- Gnomes
-			{ "20589", "player.state.root" },
-			{ "20589", "player.state.snare" },
-		-- Forsaken
-			{ "7744", "player.state.fear" },
-			{ "7744", "player.state.charm" },
-			{ "7744", "player.state.sleep" },
-		-- Goblins
-			{ "69041", "player.moving" },
 
 	-- buffs
 		{ "48263", "player.seal != 1", nil }, -- Blood
@@ -94,8 +60,8 @@ local inCombat = {
 		{ "108194", { "target.interruptsAt(50)", "!modifier.last(47528)" }, "target" }, -- Asphyxiate
 
 	-- Spell Steal
-		{ "77606", (function() return DarkSimUnit('target') end), "target" }, -- Dark Simulacrum
-		{ "77606", (function() return DarkSimUnit('focus') end), "focus" },  -- Dark Simulacrum
+		{ "77606", "@mtsLib.DarkSimUnit('target')", "target" }, -- Dark Simulacrum
+		{ "77606", "@mtsLib.DarkSimUnit('focus')", "focus" },  -- Dark Simulacrum
 
 	-- Plague Leech
 		{ "123693", {

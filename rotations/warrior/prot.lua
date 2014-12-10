@@ -5,6 +5,9 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
+local Battle_Print = false
+local Glad_Print = false
+
 local exeOnLoad = function()
 
 	ProbablyEngine.toggle.create(
@@ -12,12 +15,10 @@ local exeOnLoad = function()
 		'Interface\\Icons\\Ability_spy.png', 
 		'Auto Target', 
 		'Automatically target the nearest enemy when target dies or does not exist')
-	
 	ProbablyEngine.toggle.create('tc', 
 		'Interface\\Icons\\ability_deathwing_bloodcorruption_death', 
 		'Threat Control', 
 		'')
-	
 	ProbablyEngine.toggle.create(
 		'defcd', 
 		'Interface\\Icons\\Inv_shield_55.png', 
@@ -26,39 +27,10 @@ local exeOnLoad = function()
 	
 end
 
-local Shared = {
-	
+local inCombat_Defensive = {
+
 	-- Buffs
 		{ "Battle Shout", "!player.buff(Battle Shout)" },
-
-	-- Stances
-		{ "2487", "player.seal != 1", nil  }, -- Battle Stance
-		
-		
-}
-
-local inCombat = {
-
-	--Racials
-        -- Dwarves
-			{ "20594", "player.health <= 65" },
-		-- Humans
-			{ "59752", "player.state.charm" },
-			{ "59752", "player.state.fear" },
-			{ "59752", "player.state.incapacitate" },
-			{ "59752", "player.state.sleep" },
-			{ "59752", "player.state.stun" },
-		-- Draenei
-			{ "28880", "player.health <= 70", "player" },
-		-- Gnomes
-			{ "20589", "player.state.root" },
-			{ "20589", "player.state.snare" },
-		-- Forsaken
-			{ "7744", "player.state.fear" },
-			{ "7744", "player.state.charm" },
-			{ "7744", "player.state.sleep" },
-		-- Goblins
-			{ "69041", "player.moving" },
 
 	-- Freedoom
 		{ "Will of the Forsaken", "player.state.fear" },
@@ -88,11 +60,6 @@ local inCombat = {
 		{ "#5512" }, --Healthstone
 		{ "#76097", "player.health < 30", "@mtsLib.checkItem(HealthPot)" }, -- Master Health Potion
 		{ "#86125", { "modifier.cooldowns","@mtsLib.checkItem(KafaPress)" }}, -- Kafa Press]]
-
-    -- Auto Target
-    	{ "/cleartarget", (function() return UnitIsFriend("player","target") end) },
-    	{ "/TargetNearestEnemy", "!target.exists" },
-        { "/TargetNearestEnemy", { "target.exists", "target.dead" } },
 	
 	-- Threat Control w/ Toggle
     	{ "Taunt", "toggle.tc", "target.threat < 100" },
@@ -128,6 +95,48 @@ local inCombat = {
 		{ "57755", "player.range > 10", "target" } -- Heroic Throw
 }
 
+local inCombat_Gladiator = {
+
+	{ "/run print('[MTS] This stance is not yet supported! :(')", 
+		(function() 
+			if Glad_Print == false then 
+				Glad_Print = true 
+				return true 
+			end
+			return false
+		end) 
+	},
+	{"71", {
+		"player.stance != 2",
+		(function() 
+			Glad_Print = false
+			return true 
+		end)
+	} },
+
+}
+
+local inCombat_Battle = {
+
+	{ "/run print('[MTS] This stance is not yet supported! :(')", 
+		(function() 
+			if Battle_Print == false then 
+				Battle_Print = true 
+				return true 
+			end
+			return false
+		end)
+	},
+	{"71", {
+		"player.stance != 2",
+		(function() 
+			Battle_Print = false 
+			return true
+		end)
+	} },
+
+}
+
 local outCombat = {
 	
 	-- keybinds
@@ -137,9 +146,12 @@ local outCombat = {
 
 }
 
-for _, Shared in pairs(Shared) do
-  inCombat[#inCombat + 1] = Shared
-  outCombat[#outCombat + 1] = Shared
-end
-
-ProbablyEngine.rotation.register_custom(73, mts_Icon.."|r[|cff9482C9MTS|r][|cffF58CBAWarrior-Prot|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(
+	73, 
+	mts_Icon.."|r[|cff9482C9MTS|r][|cffF58CBAWarrior-Prot|r]", 
+	{-- Dyn Change CR
+		{ inCombat_Battle, "player.stance = 1" },
+		{ inCombat_Defensive, "player.stance = 2" },
+		{ inCombat_Gladiator, "player.stance = 3" }
+	},  
+	outCombat, exeOnLoad)

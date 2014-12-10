@@ -487,12 +487,12 @@ ProbablyEngine.library.register('mtsLib', {
           if mts_immuneEvents(mts_unitCache[i])
           and UnitCanAttack("player", mts_unitCache[i])
           and not UnitIsPlayer(mts_unitCache[i]) then
-            if ProbablyEngine.parser.can_cast(589, mts_unitCache[i], false) then
+            --if ProbablyEngine.parser.can_cast(589, mts_unitCache[i], false) then
               if mts_infront(mts_unitCache[i]) then
                 ProbablyEngine.dsl.parsedTarget = mts_unitCache[i]
                 return true
               end           
-            end
+            --end
           end   
         end
       end
@@ -512,12 +512,12 @@ ProbablyEngine.library.register('mtsLib', {
         and ProbablyEngine.condition["health"](mts_unitCache[i]) <= 20
         and UnitCanAttack("player", mts_unitCache[i])
         and not UnitIsPlayer(mts_unitCache[i]) then
-          if ProbablyEngine.parser.can_cast(32379, mts_unitCache[i], false) then
+          --if ProbablyEngine.parser.can_cast(32379, mts_unitCache[i], false) then
             if mts_infront(mts_unitCache[i]) then
               ProbablyEngine.dsl.parsedTarget = mts_unitCache[i]
               return true
             end
-          end
+          --end
         end
       end
         return false
@@ -539,12 +539,12 @@ ProbablyEngine.library.register('mtsLib', {
           and ProbablyEngine.condition["health"](mts_unitCache[i]) <= 20
           and UnitCanAttack("player", mts_unitCache[i])
           and not UnitIsPlayer(mts_unitCache[i]) then
-            if ProbablyEngine.parser.can_cast(164812, mts_unitCache[i], false) then
+            --if ProbablyEngine.parser.can_cast(164812, mts_unitCache[i], false) then
               if mts_infront(mts_unitCache[i]) then
                 ProbablyEngine.dsl.parsedTarget = mts_unitCache[i]
                 return true
               end           
-            end
+            --end
           end   
         end
       end
@@ -564,14 +564,47 @@ ProbablyEngine.library.register('mtsLib', {
         and ProbablyEngine.condition["health"](mts_unitCache[i]) <= 35
         and UnitCanAttack("player", mts_unitCache[i])
         and not UnitIsPlayer(mts_unitCache[i]) then
-          if ProbablyEngine.parser.can_cast(32379, mts_unitCache[i], false) then
+          --if ProbablyEngine.parser.can_cast(32379, mts_unitCache[i], false) then
             if mts_infront(mts_unitCache[i])then
               ProbablyEngine.dsl.parsedTarget = mts_unitCache[i]
               return true
             end
-          end
+          --end
         end
       end
+            return false
+    end,
+
+    --[[-----------------------------------------------
+    ** DarkSim **
+    DESC: copys a spell from a unit.
+
+    Build By: FORGOTTEN
+    Modifyed by: MTS
+    ---------------------------------------------------]]
+    DarkSimUnit = function(unit)
+      local _darkSimSpells = {
+        -- siege of orgrimmar
+        "Froststorm Bolt",
+        "Arcane Shock",
+        "Rage of the Empress",
+        "Chain Lightning",
+        -- pvp
+        "Hex",
+        "Mind Control",
+        "Cyclone",
+        "Polymorph",
+        "Pyroblast",
+        "Tranquility",
+        "Divine Hymn",
+        "Hymn of Hope",
+        "Ring of Frost",
+        "Entangling Roots"
+      }
+        for index,spellName in pairs(_darkSimSpells) do
+            if ProbablyEngine.condition["casting"](unit, spellName) 
+                then return true end
+        end
             return false
     end,
 
@@ -676,6 +709,49 @@ function mts_dynamicEval(condition, spell)
 	return ProbablyEngine.dsl.parse(condition, spell or '')
 end
 
+--[[-----------------------------------------------
+    ** Racials **
+    DESC: Checks what race player is and if racial meats
+    conditions.     
+    UNUSED AND UNTESTED!
+
+    Build By: MTS
+    ---------------------------------------------------]]
+function mts_Racials()
+    local race = UnitRace("player")
+    if race == Humman then
+        if ProbablyEngine.dsl.parse("player.state.fear")
+        or ProbablyEngine.dsl.parse("player.state.charm")
+        or ProbablyEngine.dsl.parse("player.state.incapacitate")
+        or ProbablyEngine.dsl.parse("player.state.sleep")
+        or ProbablyEngine.dsl.parse("player.state.stun") then
+            CastSpellByID("59752")
+        end
+    elseif race == Dwarf then
+        if ProbablyEngine.dsl.parse("player.health <= 65") then
+            CastSpellByID("20594", "player")
+        end
+    elseif race == Undead then
+        if ProbablyEngine.dsl.parse("player.state.fear")
+        or ProbablyEngine.dsl.parse("player.state.charm")
+        or ProbablyEngine.dsl.parse("player.state.sleep") then
+            CastSpellByID("7744")
+        end
+    elseif race == Gnome then
+        if ProbablyEngine.dsl.parse("player.state.root")
+        or ProbablyEngine.dsl.parse("player.state.snare") then
+            CastSpellByID("20589")
+        end
+    elseif race == Goblin then
+         if ProbablyEngine.dsl.parse("player.moving") then
+            CastSpellByID("69041")
+        end
+    elseif race == Draenei then
+        if ProbablyEngine.dsl.parse("player.health <= 70") then
+            CastSpellByID("28880", "player")
+        end
+    end
+end
 
                                                 --[[ Execute ]]
 --[[------------------------------------------------------------------------------------------------------------]]

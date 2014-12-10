@@ -24,27 +24,9 @@ local exeOnLoad = function()
 end
 
 local inCombat = {
-
-	--Racials
-        -- Dwarves
-			{ "20594", "player.health <= 65" },
-		-- Humans
-			{ "59752", "player.state.charm" },
-			{ "59752", "player.state.fear" },
-			{ "59752", "player.state.incapacitate" },
-			{ "59752", "player.state.sleep" },
-			{ "59752", "player.state.stun" },
-		-- Draenei
-			{ "28880", "player.health <= 70", "player" },
-		-- Gnomes
-			{ "20589", "player.state.root" },
-			{ "20589", "player.state.snare" },
-		-- Forsaken
-			{ "7744", "player.state.fear" },
-			{ "7744", "player.state.charm" },
-			{ "7744", "player.state.sleep" },
-		-- Goblins
-			{ "69041", "player.moving" },
+		
+	-- Bird form // ???
+	    --{ "player.form = 4" },  
 			
 	-- Interrupts
 		{ "78675", "target.interruptsAt(50)" }, -- Solar Beam
@@ -56,13 +38,13 @@ local inCombat = {
 		{ "112071", "modifier.cooldowns" }, --Celestial Alignment
  
 	--Defensive
-		{ "Barkskin", "player.health <= 80", "player" },
+		{ "Barkskin", "player.health <= 50", "player" },
 		{ "#5512", "player.health < 40"}, --Healthstone when less than 40% health
 		{ "108238", "player.health < 60", "player"}, --Instant renewal when less than 40% health
 	
 	{{ -- Auto Dotting	
-		{ "164812", "@mtsLib.MoonFire" }, -- moonfire
-	}, {"toggle.dotEverything", "player.firehack" } },
+		{ "164812", (function() return mts_MoonFire() end) }, -- moonfire
+	}, "toggle.dotEverything" },
 	
 	-- Auto Target
 		{ "/target [target=focustarget, harm, nodead]", {
@@ -81,11 +63,11 @@ local inCombat = {
 
 	{{ -- AoE smart
 		{ "48505", "player.area(8).enemies >= 4", "target" }, -- Starfall  // FH SMART AoE
-	}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end)}},
+	}, (function() return fetch('mtsconf','Firehack') },
 
 	-- AoE
 		{ "164812", "target.debuff(Moonfire).duration <= 2", "target"}, --Moonfire
-		{ "48505", "modifier.multitarget", "target" }, -- Starfire
+		{ "48505", "modifier.multitarget", "target" }, -- Starfall
 	
 	-- Proc's
 		{ "78674", "player.buff(Shooting Stars)", "target" }, --Starsurge with Shooting Stars Proc
@@ -93,11 +75,12 @@ local inCombat = {
 		{ "164812", "player.buff(Lunar Peak)", "target" }, --MoonFire on proc
 	
 	-- Rotation
+		{ "78674", "player.spell(78674).charges >= 2" }, --StarSurge with more then 2 charges
+		{ "78674", "player.buff(112071}" }, --StarSurge with Celestial Alignment buff
 		{ "164812", "target.debuff(Moonfire).duration <= 2"}, --MoonFire
 		{ "164815", "target.debuff(Sunfire).duration <= 2"}, --SunFire
 		{ "2912", "player.buff(Lunar Empowerment).count >= 1" }, --Starfire with Lunar Empowerment
 		{ "5176", "player.buff(Solar Empowerment).count >= 1" }, --Wrath with Solar Empowerment
-		{ "78674"}, --Starsurge
 		{ "2912", "balance.moon"}, --StarFire
 		{ "5176", "balance.sun"},  --Wrath
 		{ "2912" }, --StarFire Filler
@@ -107,7 +90,7 @@ local inCombat = {
 local outCombat = {
 
 	--	keybinds
-		{ "5185", "player.health < 85"}, --Full Healh ooc
+	--	{ "5185", "player.health < 85"}, --Full Healh ooc
 	
 	-- Rebirth
 		{ "20484", { 
