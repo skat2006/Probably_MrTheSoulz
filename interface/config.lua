@@ -13,10 +13,14 @@ local mts_config = {
 	width = 250,
 	height = 500,
 	config = {
-		{ type = 'header',text = 'MrTheSoulz Pack'},
+		{ 
+			type = 'header',
+			text = 'MrTheSoulz Pack'
+		},
 		{ type = 'rule' },
 		{ 
-			type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",
+			type = "texture",
+			texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",
 			width = 200, 
 			height = 100, 
 			offset = 90, 
@@ -25,47 +29,87 @@ local mts_config = {
 		},
 		
 		{ type = 'rule' },
-		{ type = 'header', text = "MrTheSoulzs Pack General settings:"},
-
-		-- Splash
-		{ type = "checkbox", text = "Splash", key = "Splash", default = true, desc = 
-		"This checkbox enables or disables MrTheSoulz splash when you choose the profile."},
-
-		-- Taunts
-		{ type = "checkbox", text = "Taunts", key = "Taunts", default = false, desc =
-		"This checkbox enables or disables MrTheSoulz Pack using smart automatic taunts."},
-
-		-- Whispers
-		{ type = "checkbox", text = "Whispers", key = "Whispers", default = false, desc =
-		"This checkbox enables or disables MrTheSoulz Pack using Whispers when a special event occurs."},
-
-		-- Alerts
-		{ type = "checkbox", text = "Alerts", key = "Alerts", default = true, desc =
-		"This checkbox enables or disables MrTheSoulz Pack using Alerts when a special event occurs."},
-
-		-- Sounds
-		{ type = "checkbox", text = "Sounds", key = "Sounds", default = true, desc =
-		"This checkbox enables or disables MrTheSoulz Pack using sounds."},
-
-		-- Smart AoE
-		{ type = "checkbox", text = "Smart AoE", key = "Firehack", default = true, desc =
-		"This checkbox enables or disables MrTheSoulz Pack using Firehacks features like smart aoe and other fancy stuff."},
-
-		-- LiveGUI
-		{ type = "checkbox", text = "LiveGUI", key = "LiveGUI", default = true, desc =
-		"This checkbox enables or disables MrTheSoulz Pack Displaying LiveGUI at Start."},
-
-		-- AutoMove
-		{ type = "checkbox", text = "Auto Moving", key = "AutoMove", default = false, desc =
-		"Follows your current target if its an enemie.\nChecks for LoS and range."},
-
-		-- Auto Face
-		{ type = "checkbox", text = "Auto Face", key = "AutoFace", default = false, desc =
-		"Face your current target.\nChecks for LoS and range."},
-
-		-- AutoTargets
-		{ type = "checkbox", text = "AutoTargets", key = "AutoTargets", default = true, desc =
-		"This checkbox enables or disables the use of automatic targets."},
+		{ 
+			type = 'header', 
+			text = "MrTheSoulzs Pack General settings:"
+		},
+			{ 
+				type = "checkbox", 
+				text = "Splash", 
+				key = "Splash", 
+				default = true, 
+				desc =  "This checkbox enables or disables MrTheSoulz splash when you choose the profile."
+			},
+			{ 
+				type = "checkbox", 
+				text = "Taunts", 
+				key = "Taunts", 
+				default = false, 
+				desc = "This checkbox enables or disables MrTheSoulz Pack using smart automatic taunts."
+			},
+			{ 
+				type = "checkbox", 
+				text = "Whispers", 
+				key = "Whispers", 
+				default = false, 
+				desc = "This checkbox enables or disables MrTheSoulz Pack using Whispers when a special event occurs."
+			},
+			{ 
+				type = "checkbox", 
+				text = "Alerts", 
+				key = "Alerts", 
+				default = true, 
+				desc = "This checkbox enables or disables MrTheSoulz Pack using Alerts when a special event occurs."
+			},
+			{ 
+				type = "checkbox", 
+				text = "Sounds", 
+				key = "Sounds", 
+				default = true, 
+				desc ="This checkbox enables or disables MrTheSoulz Pack using sounds."
+			},
+			{ 
+				type = "checkbox", 
+				text = "Smart AoE", 
+				key = "Firehack", 
+				default = true, 
+				desc ="This checkbox enables or disables MrTheSoulz Pack using Firehacks features like smart aoe and other fancy stuff."
+			},
+			{ 
+				type = "checkbox", 
+				text = "LiveGUI", 
+				key = "LiveGUI", 
+				default = true, 
+				desc ="This checkbox enables or disables MrTheSoulz Pack Displaying LiveGUI at Start."
+			},
+			{ 
+				type = "checkbox", 
+				text = "Auto Moving", 
+				key = "AutoMove", 
+				default = false, 
+				desc = "Follows your current target if its an enemie.\nChecks for LoS and range."
+			},
+			{ 
+				type = "checkbox", 
+				text = "Auto Facing", 
+				key = "AutoFace", 
+				default = false, 
+				desc ="Face your current target.\nChecks for LoS and range."
+			},
+			{ 
+				type = "checkbox", 
+				text = "Auto Targets", 
+				key = "AutoTarget", 
+				default = true, 
+				desc = "This checkbox enables or disables the use of automatic targets."
+			},
+			{ 
+				type = "checkbox", 
+				text = "Advanced Caching", 
+				key = "AdvancedCache", 
+				default = true, 
+				desc = "This checkbox enables or disables the use of Advanced unit caching, this provides a more reliable way for stuff like auto doting, auto target, etc... THIS USES MORE RESOURCES!, DISABLED IF LAGGING."
+			},
 
 	}
 }

@@ -167,15 +167,6 @@ local inCombat = {
 	}, "modifier.cooldowns" },
 	
 	-- Dispel
-		{ "4987", { 
-			"player.buff(Gift of the Titans)",
-			"@coreHealing.needsDispelled('Mark of Arrogance')" 
-			}, nil },
-		{ "4987", "@coreHealing.needsDispelled('Shadow Word: Bane')", nil },
-		{ "4987", "@coreHealing.needsDispelled('Corrosive Blood')", nil },
-		{ "4987", "@coreHealing.needsDispelled('Harden Flesh')", nil },
-		{ "4987", "@coreHealing.needsDispelled('Torment')", nil },
-		{ "4987", "@coreHealing.needsDispelled('Breath of Fire')", nil },
 		{{ -- Dispell all?
 			{ "4987", (function() return Dispell() end) },-- Dispel Everything
 		}, (function() return fetch('mtsconfPalaHoly','Dispels') end) },

@@ -5,7 +5,7 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
-mts_Version = "0.1.1.0"
+mts_Version = "0.1.1.1"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mts_peRecomemded = "6.0.3r11"
 
@@ -85,9 +85,10 @@ be later used for other stuff.
 Build By: Mirakuru
 Modified by: MTS
 ---------------------------------------------------]]
-local function cache()
+local function mts_unitCacheFun()
     wipe(mts_unitCache)
-    if FireHack then
+    if FireHack 
+    and fetch('mtsconf', 'AdvancedCache') then
     local totalObjects = ObjectCount()
       for i=1, totalObjects do
       local object = ObjectWithIndex(i)
@@ -782,33 +783,29 @@ ProbablyEngine.listener.register("PLAYER_ENTERING_WORLD", function(...)
 
     Build By: MTS
     ---------------------------------------------------]]
-    C_Timer.NewTicker(0.5, (function()
+    C_Timer.NewTicker(0.1, (function()
+      --No Point in Trying any of these if not using an advanced unlocker
       if FireHack or oexecute then
         if ProbablyEngine.config.read('button_states', 'MasterToggle', false)
         and ProbablyEngine.module.player.combat then
+          
+          -- Can we move?
           if fetch('mtsconf', 'AutoMove') then
             mts_MoveTo('target', mts_rangeNeeded())
           end
+          -- Can we face?
           if fetch('mtsconf', 'AutoFace') then
             mts_FaceTo('target')
           end
+          -- Can we target?
+          if fetch('mtsconf', 'AutoTarget') then
+            mts_autoTarget()
+          end
+          -- Cache Units
+          mts_unitCacheFun()
+
         end
       end
     end), nil)
-
-    --[[-----------------------------------------------
-    ** Ticker **
-    DESC: Refresh unit cache & autoTarget.
-
-    Build By: MTS
-    ---------------------------------------------------]]
-    C_Timer.NewTicker(0.1, (function()
-        if ProbablyEngine.config.read('button_states', 'MasterToggle', false)
-        and ProbablyEngine.module.player.combat then
-            mts_autoTarget()
-            cache()
-        end
-    end), nil)
-
 
 end)
