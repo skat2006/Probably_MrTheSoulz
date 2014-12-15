@@ -1098,7 +1098,14 @@ local mts_configDruidGuard = {
 				text = "Bear Form", 
 				key = "Bear", 
 				default = true, 
-				desc = "This checkbox enables or disables the use of automatic Cat form."
+				desc = "This checkbox enables or disables the use of automatic Bear form."
+			},
+			{ 
+				type = "checkbox", 
+				text = "Bear Form OCC", 
+				key = "BearOCC", 
+				default = true, 
+				desc = "This checkbox enables or disables the use of automatic Bear form while out of combat."
 			},
 
 		-- Player

@@ -15,36 +15,27 @@ local exeOnLoad = function()
 end
 
 local inCombat = {
-
-	--Racials
-        -- Dwarves
-			{ "20594", "player.health <= 65" },
-		-- Humans
-			{ "59752", "player.state.charm" },
-			{ "59752", "player.state.fear" },
-			{ "59752", "player.state.incapacitate" },
-			{ "59752", "player.state.sleep" },
-			{ "59752", "player.state.stun" },
-		-- Draenei
-			{ "28880", "player.health <= 70", "player" },
-		-- Gnomes
-			{ "20589", "player.state.root" },
-			{ "20589", "player.state.snare" },
-		-- Forsaken
-			{ "7744", "player.state.fear" },
-			{ "7744", "player.state.charm" },
-			{ "7744", "player.state.sleep" },
-		-- Goblins
-			{ "69041", "player.moving" },
 	
 	--	keybinds
 		{ "77761", "modifier.rshift" }, -- Stampeding Roar
 		{ "5211", "modifier.lcontrol" }, -- Mighty Bash
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
 		-- Rebirth
-			{ "!/cancelform", { "player.form > 0", "player.spell(20484).cooldown < .001", "modifier.lshift" }, nil }, -- remove bear form
-			{ "20484", { "modifier.lshift", "!target.alive" }, "target" }, -- Rebirth
-			{ "!/cast Bear Form", { "!player.casting", "!player.form = 1", "modifier.last(20484)", "modifier.lshift" }, nil }, -- bear form
+			-- Rebirth
+			{ "!/cancelform", { -- remove bear form
+				"player.form > 0", 
+				"player.spell(20484).cooldown < .001", 
+				"modifier.lshift" 
+			}, --[[NO TARGET]] }, 
+			{ "20484", { -- Rebirth
+				"modifier.lshift", 
+				"!target.alive" 
+			}, "target" }, 
+			{ "!/cast Bear Form", {  -- bear form
+				"!player.casting", "!player.form = 1", 
+				"modifier.last(20484)", 
+				"modifier.lshift" 
+			}, --[[NO TARGET]] },
 		
 	--	Buffs
 		{ "/cancelaura Bear Form", { -- Cancel player form
@@ -54,7 +45,8 @@ local inCombat = {
 			"!player.buff(1126).any",   -- Mark of the Wild
 			"!player.buff(90363).any",  -- embrace of the Shale Spider
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
-  			"!player.buff(5215)" }},-- Not in Stealth
+  			"!player.buff(5215)" -- Not in Stealth
+  		} --[[NO TARGET]] },
 		{ "1126", {  -- Mark of the Wild
 			"!player.buff(20217).any", -- kings
 			"!player.buff(115921).any", -- Legacy of the Emperor
@@ -62,31 +54,14 @@ local inCombat = {
 			"!player.buff(90363).any",  -- embrace of the Shale Spider
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
 			"!player.buff(5215)",-- Not in Stealth
-			"player.form = 0" }}, -- Player not in form
-  		{ "5487", { -- bearform
+			"player.form = 0" -- Player not in form
+		} --[[NO TARGET]] }, 
+		{ "5487", { -- Bear Form
   			"player.form != 1", -- Stop if bear
   			"!modifier.lalt", -- Stop if pressing left alt
-  			"!player.buff(5215)"}}, -- Not in Stealth
-
-	-- Auto Target
-		{ "/cleartarget", {
-			(function() return fetch('mtsconfDruidGuard','AutoTarget') end), 
-			(function() return UnitIsFriend("player","target") end)
-			}},
-
-		{ "/target [target=focustarget, harm, nodead]", { -- Use Tank Target
-			(function() return fetch('mtsconfDruidGuard','AutoTarget') end),
-			"target.range > 40"
-			 }}, 
-		{ "/targetenemy [noexists]", { -- target enemire if no target
-			(function() return fetch('mtsconfDruidGuard','AutoTarget') end),
-			"!target.exists" 
-			}},
-		{ "/targetenemy [dead]", { -- target enemire if current is dead.
-			(function() return fetch('mtsconfDruidGuard','AutoTarget') end), 
-			"target.exists", 
-			"target.dead" 
-			}},
+  			"!player.buff(5215)", -- Not in Stealth
+  			(function() return fetch('mtsconfDruidGuard','Bear') end),
+  		} --[[NO TARGET]] },
 
 	-- Interrupts
 		{ "106839", "modifier.interrupt", "target"},	-- Skull Bash
@@ -106,12 +81,12 @@ local inCombat = {
 		{ "62606", { -- Savage Defense
 			"!player.buff", 
 			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'SavageDefense')) end) 
-			} },
+		} --[[NO TARGET]] },
 		{ "22842", { -- Frenzied Regeneration
 			"!player.buff",
 			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'FrenziedRegeneration')) end),
 			"player.rage >= 20"
-			} },
+		} --[[NO TARGET]] },
 		{ "22812",  (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'Barkskin')) end) }, -- Barkskin
 		{ "102351",  (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'CenarionWard')) end), "player" }, -- Cenarion Ward
 		{ "61336",  (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'SurvivalInstincts')) end) }, -- Survival Instincts
@@ -153,9 +128,20 @@ local outCombat = {
 		{ "5211", "modifier.lcontrol" }, -- Mighty Bash
 		{ "!/focus [target=mouseover]", "modifier.ralt" }, -- Focus
 		-- Rebirth
-			{ "!/cancelform", { "player.form > 0", "player.spell(20484).cooldown < .001", "modifier.lshift" }, nil }, -- remove bear form
-			{ "20484", { "modifier.lshift", "!target.alive" }, "target" }, -- Rebirth
-			{ "!/cast Bear Form", { "!player.casting", "!player.form = 1", "modifier.last(20484)", "modifier.lshift" }, nil }, -- bear form
+			{ "!/cancelform", { -- remove bear form
+				"player.form > 0", 
+				"player.spell(20484).cooldown < .001", 
+				"modifier.lshift" 
+			}, --[[NO TARGET]] }, 
+			{ "20484", { -- Rebirth
+				"modifier.lshift", 
+				"!target.alive" 
+			}, "target" }, 
+			{ "!/cast Bear Form", {  -- bear form
+				"!player.casting", "!player.form = 1", 
+				"modifier.last(20484)", 
+				"modifier.lshift" 
+			}, --[[NO TARGET]] },
 		
 	-- Buffs
   		{ "/cancelaura Bear Form", { -- Cancel player form
@@ -165,7 +151,8 @@ local outCombat = {
 			"!player.buff(1126).any",   -- Mark of the Wild
 			"!player.buff(90363).any",  -- embrace of the Shale Spider
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
-  			"!player.buff(5215)" }},-- Not in Stealth
+  			"!player.buff(5215)" -- Not in Stealth
+  		} --[[NO TARGET]] },
 		{ "1126", {  -- Mark of the Wild
 			"!player.buff(20217).any", -- kings
 			"!player.buff(115921).any", -- Legacy of the Emperor
@@ -173,8 +160,18 @@ local outCombat = {
 			"!player.buff(90363).any",  -- embrace of the Shale Spider
 			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
 			"!player.buff(5215)",-- Not in Stealth
-			"player.form = 0" }}, -- Player not in form
+			"player.form = 0" -- Player not in form
+		} --[[NO TARGET]] }, 
+		{ "5487", { -- Bear Form
+  			"player.form != 1", -- Stop if bear
+  			"!modifier.lalt", -- Stop if pressing left alt
+  			"!player.buff(5215)", -- Not in Stealth
+  			(function() return fetch('mtsconfDruidGuard','BearOOC') end),
+  		} --[[NO TARGET]] },
 
 }
 
-ProbablyEngine.rotation.register_custom(104, mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Guardian|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(
+	104, 
+	mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Guardian|r]", 
+	inCombat, outCombat, exeOnLoad)
