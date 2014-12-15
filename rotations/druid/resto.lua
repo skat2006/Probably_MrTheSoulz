@@ -61,17 +61,9 @@ local inCombat = {
 			"player.form = 0" 
 		}, nil },
 
-	-- Dispel
-		{ "88423", { "player.buff(Gift of the Titans)", "@coreHealing.needsDispelled('Mark of Arrogance')" }, nil },
-		{ "88423", "@coreHealing.needsDispelled('Shadow Word: Bane')", nil },
-		{ "88423", "@coreHealing.needsDispelled('Corrosive Blood')", nil },
-		{ "88423", "@coreHealing.needsDispelled('Harden Flesh')", nil },
-		{ "88423", "@coreHealing.needsDispelled('Torment')", nil },
-		{ "88423", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{ "88423", {
-			(function() return fetch('mtsconfDruidResto','Dispels') end),
-			(function() return Dispell() end) 
-			}},
+	{{-- Dispel
+		{ "88423", (function() return Dispell() end) },
+	}, (function() return fetch('mtsconfDruidResto','Dispels') end) },
 
 	-- Cooldowns
 		{ "29166", { "player.mana < 80", "modifier.cooldowns"}, "player" }, -- Inervate
@@ -131,13 +123,13 @@ local inCombat = {
 
 	-- Wild Mushroom	
 		{ "145205", { -- Wild Mushroom	
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfDruidResto', 'WildMushroomTank')) end),
+			(function() return mts_WildMushroom() == 'focus' end),
 			"!player.totem(145205)"
-			}, "focus" },
+		}, "focus" },
 		{ "145205", { -- Wild Mushroom
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfDruidResto', 'WildMushroomTank')) end),
+			(function() return mts_WildMushroom() == 'player' end),
 			"!player.totem(145205)"
-			}, "tank" },
+		}, "player" },
 	
 	-- Regrowth	
 		{ "8936", {  -- Regrowth

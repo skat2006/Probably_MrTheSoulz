@@ -158,7 +158,6 @@ local inCombat = {
 			}, "lowest" },
 
 	{{-- AOE
-   		--{ "596", "@mtsLib.PoH" },-- Prayer of Healing
    		{ "34861", "@coreHealing.needsHealing(90, 3)", "lowest"}, -- Circle of Healing
 		{ "121135", { -- cascade
 			"@coreHealing.needsHealing(95, 3)", 
@@ -179,6 +178,8 @@ local inCombat = {
 				"modifier.raid", 
 				"modifier.members > 10" 
 			}},
+		{ "596", "@mtsLib.PoH" },-- Prayer of Healing
+   		{ "155245", "@mtsLib.ClarityOfPurpose", "lowest" },-- Clarity Of Purpose
 	}, "modifier.multitarget" },
 
 	{{-- Heal Fast Bitch!!
@@ -464,11 +465,30 @@ local outCombat = {
 			(function() return fetch("mtsconfPriestHoly", "Chakra") == 'Chastise' end),
 			}, nil },
 
-	-- AoE
-		-- Prayer of Healing
-   			{ "596", "@mtsLib.PoH" },
-		
-		{ "34861", "@coreHealing.needsHealing(90, 3)", "lowest"}, -- Circle of Healing
+	{{-- AOE
+   		{ "34861", "@coreHealing.needsHealing(90, 3)", "lowest"}, -- Circle of Healing
+		{ "121135", { -- cascade
+			"@coreHealing.needsHealing(95, 3)", 
+			"!player.moving"
+		}, "lowest"},
+		-- Divine Hymn
+			{ "64843", { -- Divine Hymn
+				"@coreHealing.needsHealing(50, 3)", 
+				"modifier.party" 
+			}},
+			{ "64843", { -- Divine Hymn
+				"@coreHealing.needsHealing(60, 5)", 
+				"modifier.raid", 
+				"!modifier.members > 10" 
+			}},
+			{ "64843", {  -- Divine Hymn
+				"@coreHealing.needsHealing(60, 8)", 
+				"modifier.raid", 
+				"modifier.members > 10" 
+			}},
+		{ "596", "@mtsLib.PoH" },-- Prayer of Healing
+   		{ "155245", "@mtsLib.ClarityOfPurpose", "lowest" },-- Clarity Of Purpose
+	}, "modifier.multitarget" },
 		
 	-- shields 
 		{ "17", { --Power Word: Shield

@@ -22,6 +22,12 @@ local holyNova_cache_time = 0
 local holyNova_cache_count = 0
 local holyNova_cache_dura = 0.3
 
+-- WildMushroom
+local WildMushroom_cache_time = 0
+local WildMushroom_playerCache_count = 0
+local WildMushroom_focusCache_count = 0
+local WildMushroom_cache_dura = 0.3
+
 
 
 
@@ -700,6 +706,28 @@ ProbablyEngine.library.register('mtsLib', {
       end
         return total > 3
     end,
+
+    -- Clarity of Purpose
+    ClarityOfPurpose = function()
+      local minHeal = (GetSpellBonusDamage(2) * 1.125) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
+      local total = 0
+      local prefix = (IsInRaid() and 'raid') or 'party'
+      local lowest = ProbablyEngine.raid.lowestHP
+
+      for i=1,#mts_unitCache do
+      local incomingHeals = UnitGetIncomingHeals(mts_unitCache[i]) or 0
+      local absorbs = UnitGetTotalHealAbsorbs(mts_unitCache[i]) or 0
+      local health = UnitHealth(mts_unitCache[i]) + incomingHeals - absorbs
+      local maxHealth = UnitHealthMax(mts_unitCache[i])
+      local healthMissing = max(0, maxHealth - health)
+        if healthMissing > minHeal and UnitIsFriend("player", mts_unitCache[i]) then
+          if mts_Distance(lowest, mts_unitCache[i]) <= 10 then
+            total = total + 1
+          end
+        end
+      end
+        return total > 3
+    end,
  
 })
 
@@ -784,6 +812,47 @@ function mts_Racials()
             CastSpellByID("28880", "player")
         end
     end
+end
+
+function mts_WildMushroom()
+  local minHeal = (GetSpellBonusDamage(2) * 1.125) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
+  local playerTotal = 0
+  local focusTotal = 0
+  local prefix = (IsInRaid() and 'raid') or 'party'
+  local WildMushroom_cache_time_c = WildMushroom_cache_time
+      
+      for i=1,#mts_unitCache do
+      local incomingHeals = UnitGetIncomingHeals(mts_unitCache[i]) or 0
+      local absorbs = UnitGetTotalHealAbsorbs(mts_unitCache[i]) or 0
+      local health = UnitHealth(mts_unitCache[i]) + incomingHeals - absorbs
+      local maxHealth = UnitHealthMax(mts_unitCache[i])
+      local healthMissing = max(0, maxHealth - health)
+        
+        if healthMissing > minHeal and UnitIsFriend("player", mts_unitCache[i]) then
+          if mts_Distance("player", mts_unitCache[i]) <= 12 then
+            playerTotal = playerTotal + 1
+          end
+        end
+        if healthMissing > minHeal and UnitIsFriend("player", mts_unitCache[i]) then
+            if UnitExists('focus') then
+              if mts_Distance("focus", mts_unitCache[i]) <= 12 then
+                focusTotal = focusTotal + 1
+              end
+            end
+        end
+      
+      end
+
+      print('player: '..playerTotal..' focus: '..focusTotal)
+        
+      if playerTotal > focusTotal then
+        if playerTotal > 2 then
+            return 'player'
+        end
+      else
+            return 'focus'
+      end
+
 end
 
                                                 --[[ Execute ]]

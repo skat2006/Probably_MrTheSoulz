@@ -412,10 +412,12 @@ local outCombat = {
 		}, "player" },
 	
 	{{-- AOE
-		-- Prayer of Healing
-   			{ "596", "@mtsLib.PoH" },
-   		-- Holy nova
-   			{ "132157", "@mtsLib.holyNova", nil }, -- Holy Nova
+		{ "121135", { -- cascade
+			"@coreHealing.needsHealing(95, 3)", 
+				"!player.moving"
+		}, "lowest"},
+ 		{ "596", "@mtsLib.PoH" },-- Prayer of Healing
+   		{ "132157", "@mtsLib.holyNova", nil }, -- Holy Nova
 	}, "modifier.multitarget" },
 	
 	-- Heals
