@@ -69,14 +69,14 @@ local inCombat = {
 		{ "81209", {--Serenity
 			"player.chakra != 1",
 			(function() return fetch("mtsconfPriestHoly", "Chakra") == 'Chastise' end),
-			}, nil },
+		}, nil },
 
   	-- buffs
 		{ "21562", { -- Fortitude
 			(function() return fetch('mtsconfPriestHoly','Buff') end),
 			"!player.buff(21562).any",
 			"!player.buff(588)"
-			}},
+		}},
 
   	--[[ keybinds ]]
 		{ "32375", "modifier.rcontrol", "player.ground" }, --Mass Dispel
@@ -158,7 +158,7 @@ local inCombat = {
 			}, "lowest" },
 
 	{{-- AOE
-   		{ "596", "@mtsLib.PoH" },-- Prayer of Healing
+   		--{ "596", "@mtsLib.PoH" },-- Prayer of Healing
    		{ "34861", "@coreHealing.needsHealing(90, 3)", "lowest"}, -- Circle of Healing
 		{ "121135", { -- cascade
 			"@coreHealing.needsHealing(95, 3)", 
@@ -525,7 +525,11 @@ local outCombat = {
 }
 
 	
-ProbablyEngine.rotation.register_custom(257, mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Holy|r]", {
-	{ inCombat, "modifier.party" },
-	{ solo, "!modifier.party" },
-},  outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(
+	257, 
+	mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Holy|r]", 
+	{-- Dyn Change CR
+		{ inCombat, "modifier.party" },
+		{ solo, "!modifier.party" },
+	}, 
+ 	outCombat, exeOnLoad)
