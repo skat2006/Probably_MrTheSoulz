@@ -5,7 +5,7 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
-mts_Version = "0.1.1.1"
+mts_Version = "0.1.2.0"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mts_peRecomemded = "6.0.3r11"
 
@@ -17,6 +17,7 @@ local _queueSpell = nil
 local _queueTime = 0
 local _dotCount = 0
 
+-- Holy Nova Cache
 local holyNova_cache_time = 0
 local holyNova_cache_count = 0
 local holyNova_cache_dura = 0.3
@@ -29,100 +30,11 @@ local holyNova_cache_dura = 0.3
 --[[------------------------------------------------------------------------------------------------------------]]
 
 --[[-----------------------------------------------
-** Infront **
-DESC: Checks if unit is infront.
-Replaces PE build in one beacuse PE's is over sensitive.
-
-Build By: Mirakuru
-Modified by: MTS
----------------------------------------------------]]
-
-local function mts_infront(unit)
-  if UnitExists(unit) and UnitIsVisible(unit) then
-    if FireHack then
-      local aX, aY, aZ = ObjectPosition(unit)
-      local bX, bY, bZ = ObjectPosition('player')
-      local playerFacing = GetPlayerFacing()
-      local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
-      return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
-    elseif oexecute then
-      local aX, aY, aZ = opos(unit)
-      local bX, bY, bZ = opos('player')
-      local playerFacing = GetPlayerFacing()
-      local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
-      return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
-    end
-  end
-end
-
---[[-----------------------------------------------
-** mts_Distance **
-DESC: Sometimes PE's behaves baddly,
-So here we go...
+** Im a Ranged? **
+DESC: Checks what range do i need.
 
 Build By: MTS
 ---------------------------------------------------]]
-function mts_Distance(a, b)
-  if UnitExists(a) and UnitIsVisible(a) and UnitExists(b) and UnitIsVisible(b) then
-    if FireHack then
-      local ax, ay, az = ObjectPosition(a)
-      local bx, by, bz = ObjectPosition(b)
-      return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - ((UnitCombatReach(a)) + (UnitCombatReach(b)))
-    elseif oexecute then
-      local ax, ay, az = opos(a)
-      local bx, by, bz = opos(b)
-      return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - 6
-    end
-  end
-    return 0
-end
-
---[[-----------------------------------------------
-** Automated Unit Caching **
-DESC: Checks if units around and caches them so they can
-be later used for other stuff.
-
-Build By: Mirakuru
-Modified by: MTS
----------------------------------------------------]]
-local function mts_unitCacheFun()
-    wipe(mts_unitCache)
-    if FireHack 
-    and fetch('mtsconf', 'AdvancedCache') then
-    local totalObjects = ObjectCount()
-      for i=1, totalObjects do
-      local object = ObjectWithIndex(i)
-        if ObjectExists(object) then
-          if ObjectIsType(object, ObjectTypes.Unit)
-          and mts_Distance("player", object) <= 40
-          and ProbablyEngine.condition["alive"](object) then
-            table.insert(mts_unitCache, object)
-          end
-        end
-      end
-    else -- Cache Raid/Party Targets
-      local groupType = IsInRaid() and "raid" or "party"
-      for i = 1, GetNumGroupMembers() do
-      local target = groupType..i.."target"
-        if ProbablyEngine.condition["alive"](target)
-        and not UnitIsPlayer(target) then
-          if ProbablyEngine.condition["mts_Distance"](target) <= 40 then
-            table.insert(mts_unitCache, target)
-          end
-        end
-      end
-   end
-end
-
---[[-----------------------------------------------
-** Automated moving/facing. **
-DESC: This code will try to move or face a unit if said unit 
-meets the requirements (LoS, mts_Distance etc...)
-
-Build by: MTS
----------------------------------------------------]]
-
--- Return The Correct needed ranged according to spec.
 local function mts_rangeNeeded(unit)
   local _SpecID =  GetSpecializationInfo(GetSpecialization())
   local ranged = {
@@ -146,56 +58,172 @@ local function mts_rangeNeeded(unit)
     267,    -- destruction warlock
     270,    -- mistweaver monk
   }
+
   if unit == nil then unit = 'target' end
   if UnitExists(unit) then
       for i=1,#ranged do
+        -- If its a ranged
         if _SpecID == ranged[i] then
-            if FireHack then
-                return (30 + (ObjectPosition('player') + UnitCombatReach(unit)))
-            else
-                return 30
-            end
-        else 
-            if FireHack then
-                return (6 + (ObjectPosition('player') + UnitCombatReach(unit)))
-            else
-                return 6
-            end
+            -- If we're using FH // 30 + Player's and Unit's combat range
+            if FireHack then return (30 + (ObjectPosition('player') + UnitCombatReach(unit)))
+            -- Other unlockers dont have UnitCombatReach
+            else return 30 end
+        else
+            -- If we're using FH // 6 + Player's and Unit's combat range
+            if FireHack then return (6 + (ObjectPosition('player') + UnitCombatReach(unit)))
+            -- Other unlockers dont have UnitCombatReach
+            else return 6 end
         end
       end
     end
 end
 
+--[[-----------------------------------------------
+** Infront **
+DESC: Checks if unit is infront.
+Replaces PE build in one beacuse PE's is over sensitive.
+
+Build By: Mirakuru
+Modified by: MTS
+---------------------------------------------------]]
+local function mts_infront(unit)
+  
+  if UnitExists(unit) and UnitIsVisible(unit) then
+    
+    if FireHack then
+      local aX, aY, aZ = ObjectPosition(unit)
+      local bX, bY, bZ = ObjectPosition('player')
+      local playerFacing = GetPlayerFacing()
+      local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
+      return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
+   
+    elseif oexecute then
+      local aX, aY, aZ = opos(unit)
+      local bX, bY, bZ = opos('player')
+      local playerFacing = GetPlayerFacing()
+      local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
+      return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
+    
+    end
+  end
+end
+
+--[[-----------------------------------------------
+** mts_Distance **
+DESC: Sometimes PE's behaves badly,
+So here we go...
+
+Build By: MTS
+---------------------------------------------------]]
+function mts_Distance(a, b)
+  
+  if UnitExists(a) and UnitIsVisible(a) and UnitExists(b) and UnitIsVisible(b) then
+    
+    if FireHack then
+      local ax, ay, az = ObjectPosition(a)
+      local bx, by, bz = ObjectPosition(b)
+      return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - ((UnitCombatReach(a)) + (UnitCombatReach(b)))
+   
+    elseif oexecute then
+      local ax, ay, az = opos(a)
+      local bx, by, bz = opos(b)
+      return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - 6
+    
+    end
+  
+  end
+    return 0
+end
+
+--[[-----------------------------------------------
+** Automated Unit Caching **
+DESC: Checks if units around and caches them so they can
+be later used for other stuff.
+
+Build By: Mirakuru
+Modified by: MTS
+---------------------------------------------------]]
+local function mts_unitCacheFun()
+  -- Wipe Chace before refresh otherwise it just adds to the cache...
+  wipe(mts_unitCache)
+    -- Disable advanced caching If it lags...
+    if fetch('mtsconf', 'AdvancedCache') then
+      -- If we're using FireHack...  
+      if FireHack then
+        local totalObjects = ObjectCount()
+        for i=1, totalObjects do
+          local object = ObjectWithIndex(i)
+          if ObjectExists(object) then
+            if ObjectIsType(object, ObjectTypes.Unit)
+            and mts_Distance("player", object) <= 40
+            and ProbablyEngine.condition["alive"](object) then
+              table.insert(mts_unitCache, object)
+            end
+          end
+        end
+      -- If we're using Offspring...  
+      -- WAITING FOR OFFSPRING TO GET OBJECT MANAGER!!! 
+      --[[elseif oexecute then
+        local totalObjects = ObjectCount()
+        for i=1, totalObjects do
+          local object = ObjectWithIndex(i)
+          if ObjectExists(object) then
+            if ObjectIsType(object, ObjectTypes.Unit)
+            and mts_Distance("player", object) <= 40
+            and ProbablyEngine.condition["alive"](object) then
+              table.insert(mts_unitCache, object)
+            end
+          end
+        end]]
+      end
+    else -- Cache Raid/Party Targets
+      local groupType = IsInRaid() and "raid" or "party"
+      for i = 1, GetNumGroupMembers() do
+      local target = groupType..i.."target"
+        if ProbablyEngine.condition["alive"](target)
+        and not UnitIsPlayer(target) then
+          if ProbablyEngine.condition["mts_Distance"](target) <= 40 then
+            table.insert(mts_unitCache, target)
+          end
+        end
+      end
+   end
+end
+
+--[[-----------------------------------------------
+** Automated moving/facing. **
+DESC: This code will try to move or face a unit if said unit 
+meets the requirements (LoS, mts_Distance etc...)
+
+Build by: MTS
+---------------------------------------------------]]
+
 -- Move to unit if distance.
 local function mts_MoveTo(unit, ds)
-  if UnitExists(unit) then
-    if FireHack then
-    local aX, aY, aZ = ObjectPosition(unit)
-    local bX, bY, bZ = ObjectPosition('player')
-      if mts_Distance("player", unit) >= ((ObjectPosition('player') + UnitCombatReach(unit)) + ds) then
-        MoveTo(aX, aY, aZ)
+  if unit and unit ~= "player" and UnitID(unit) ~= 76585 and UnitExists(unit) and UnitIsVisible(unit) and LineOfSight then
+    if ds == nil then ds = 6 end
+    if mts_Distance("player", unit) >= ds then
+      if LineOfSight('player', unit) then
+        if FireHack then
+          local aX, aY, aZ = ObjectPosition(unit)
+          local bX, bY, bZ = ObjectPosition('player')
+            MoveTo(aX, aY, aZ)
+        elseif oexecute then -- Offspring dosent have MoveTo :(
+          print('Offspring does not support moving! :C')
+        end
       end
-    --elseif oexecute then -- Offspring dosent have MoveTo :(
-      -- Do nothing
     end
   end
 end
 
 -- Face unit.
 local function mts_FaceTo(unit)
-  if UnitExists(unit) then
-    if FireHack then
-      if not mts_infront(unit) then
-        if mts_Distance("player", unit) <= (UnitCombatReach('player') + UnitCombatReach(unit))
-        or mts_rangeNeeded(unit) >= 30 then
-          FaceUnit(unit)
-        end
-      end
-    elseif oexecute then
-      if not mts_infront(unit) then
-        if mts_Distance("player", unit) <= 6 then 
-          oface(unit)
-        end
+  if unit and unit ~= "player"  and UnitID(unit) ~= 76585 and UnitExists(unit) and UnitIsVisible(unit) and LineOfSight then
+    if LineOfSight('player', unit) and mts_Distance("player", unit) <= 6 and not mts_infront(unit) then
+      if FireHack then
+        FaceUnit(unit)
+      elseif oexecute then
+        oface(unit)
       end
     end
   end
@@ -287,9 +315,11 @@ local function mts_CheckSpecialTarget(unit)
     end
  
     for i=1, #mts_SpecialTargets do
+      if fetch('mtsconf', 'ForceSpecialTargets') then
         if targets_guid == mts_SpecialTargets[i] then
             return true
         end
+      end
     end
  
     return false
@@ -396,6 +426,8 @@ ProbablyEngine.library.register('mtsLib', {
     ** Priest - Prayer of Healing **
     DESC: Uses Unit cache to verify if enough people need healing
     and are in range of Holy Nova.
+    We cache this count because PE cicles (therefore calling it) too fast and we dont 
+    want to do all these checks alot (Saving FPS).
     ToDo: Change the amount of units that need to be around when in raid.
 
     Build By: Mirakuru
@@ -615,7 +647,7 @@ ProbablyEngine.library.register('mtsLib', {
     UNUSED AND UNTESTED!
 
     Build By: MTS
-    ---------------------------------------------------
+    ---------------------------------------------------]]
     MassDispell = function()
     local prefix = (IsInRaid() and 'raid') or 'party'
     local total = 0        
@@ -638,7 +670,7 @@ ProbablyEngine.library.register('mtsLib', {
             end
         end
             return false
-    end,]]
+    end,
 
     --[[-----------------------------------------------
     ** Power word Barrier **
@@ -648,7 +680,7 @@ ProbablyEngine.library.register('mtsLib', {
     UNUSED AND UNTESTED!
 
     Build By: MTS
-    ---------------------------------------------------
+    ---------------------------------------------------]]
     PWBarrier = function()
     local minHeal = (GetSpellBonusDamage(2) * 1.125) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
     local total = 0
@@ -667,7 +699,7 @@ ProbablyEngine.library.register('mtsLib', {
         end
       end
         return total > 3
-    end,]]
+    end,
  
 })
 
@@ -775,37 +807,45 @@ ProbablyEngine.listener.register("PLAYER_ENTERING_WORLD", function(...)
     -- Status GUI
         mts_showLive()
 
+end)
 
+ProbablyEngine.listener.register("ACTIVE_TALENT_GROUP_CHANGED", function(...)
 
-    --[[-----------------------------------------------
-    ** Ticker **
-    DESC: MoveTo & Face.
-
-    Build By: MTS
-    ---------------------------------------------------]]
-    C_Timer.NewTicker(0.1, (function()
-      --No Point in Trying any of these if not using an advanced unlocker
-      if FireHack or oexecute then
-        if ProbablyEngine.config.read('button_states', 'MasterToggle', false)
-        and ProbablyEngine.module.player.combat then
-          
-          -- Can we move?
-          if fetch('mtsconf', 'AutoMove') then
-            mts_MoveTo('target', mts_rangeNeeded())
-          end
-          -- Can we face?
-          if fetch('mtsconf', 'AutoFace') then
-            mts_FaceTo('target')
-          end
-          -- Can we target?
-          if fetch('mtsconf', 'AutoTarget') then
-            mts_autoTarget()
-          end
-          -- Cache Units
-          mts_unitCacheFun()
-
-        end
-      end
-    end), nil)
+    -- Reload when player changes spec to avoid key nils.
+        ReloadUI()
 
 end)
+
+
+--[[-----------------------------------------------
+** Ticker **
+DESC: MoveTo & Face.
+
+Build By: MTS
+ ---------------------------------------------------]]
+C_Timer.NewTicker(0.1, (function()
+  --No Point in Trying any of these if not using an advanced unlocker
+  if FireHack or oexecute then
+    
+    if ProbablyEngine.config.read('button_states', 'MasterToggle', false)
+    and ProbablyEngine.module.player.combat then
+
+      -- Can we move?
+      if fetch('mtsconf', 'AutoMove') then
+        mts_MoveTo('target', mts_rangeNeeded())
+      end
+      -- Can we face?
+      if fetch('mtsconf', 'AutoFace') then
+        mts_FaceTo('target')
+      end
+      -- Can we target?
+      if fetch('mtsconf', 'AutoTarget') then
+        mts_autoTarget()
+      end
+      -- Cache Units
+      mts_unitCacheFun()
+    
+    end
+
+  end
+end), nil)

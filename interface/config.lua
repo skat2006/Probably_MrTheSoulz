@@ -110,6 +110,13 @@ local mts_config = {
 				default = true, 
 				desc = "This checkbox enables or disables the use of Advanced unit caching, this provides a more reliable way for stuff like auto doting, auto target, etc... THIS USES MORE RESOURCES!, DISABLED IF LAGGING."
 			},
+			{ 
+				type = "checkbox", 
+				text = "Force Special Targets", 
+				key = "ForceSpecialTargets", 
+				default = true, 
+				desc = "This checkbox enables or disables Forcing Auto Targets on special cases, like adds you really should kill."
+			},
 
 	}
 }

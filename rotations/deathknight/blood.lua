@@ -28,6 +28,7 @@ local inCombat = {
 		{ "42650", "modifier.alt" }, -- Army of the Dead
 		{ "49576", "modifier.control" }, -- Death Grip
 		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
+		{ "152280", "modifier.shift", "target.ground" }, -- Defile
 
 	-- items
 		{ "#5512", "player.health < 70"}, --healthstone
@@ -38,9 +39,21 @@ local inCombat = {
 		{ "48743", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'DeathPact')) end) }, -- Death Pact
 		{ "48982", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'RuneTap')) end) }, -- rune tap
 		{ "108196", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'DeathSiphon')) end) },-- Death Siphon
-		{ "49039", { "player.state.fear", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //fear
-		{ "49039", { "player.state.sleep", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //sleep
-		{ "49039", { "player.state.charm", "player.runicpower >= 40", "player.spell.exists(49039)" }}, -- Lichborne //charm
+		{ "49039", {  -- Lichborne //fear
+			"player.state.fear", 
+			"player.runicpower >= 40", 
+			"player.spell.exists(49039)" 
+		} --[[NO TARGET]] },
+		{ "49039", { -- Lichborne //sleep
+			"player.state.sleep", 
+			"player.runicpower >= 40", 
+			"player.spell.exists(49039)" 
+		} --[[NO TARGET]] },
+		{ "49039", { -- Lichborne //charm
+			"player.state.charm", 
+			"player.runicpower >= 40", 
+			"player.spell.exists(49039)" 
+		} --[[NO TARGET]] },
 		
 	-- Cooldowns
 		{ "49028", { "modifier.cooldowns", "!toggle.DRW" }, "target" }, -- Dancing Rune Weapon
@@ -55,9 +68,9 @@ local inCombat = {
 		{ "#gloves"},
 
 	-- Interrupts
-		{ "47528", { "target.interruptsAt(50)", "modifier.interrupts" }, "target" }, -- Mind freeze
-		{ "47476", { "target.interruptsAt(50)", "modifier.interrupts", "!player.modifier.last(47528)"}, "target" }, -- Strangulate
-		{ "108194", { "target.interruptsAt(50)", "!modifier.last(47528)" }, "target" }, -- Asphyxiate
+		{ "47528", "target.interruptsAt(50)", "target" }, -- Mind freeze
+		{ "47476", "target.interruptsAt(50)", "target" }, -- Strangulate
+		{ "108194", "target.interruptsAt(50)", "target" }, -- Asphyxiate
 
 	-- Spell Steal
 		{ "77606", "@mtsLib.DarkSimUnit('target')", "target" }, -- Dark Simulacrum
@@ -70,7 +83,8 @@ local inCombat = {
 			"player.runes(unholy).count = 0",-- With 0 Unholy Runes
 			"player.runes(frost).count = 0",-- With 0 Frost Runes
 			"player.runes(death).count = 0",-- With 0 Death Runes
-			"!modifier.last"}}, 
+			"!modifier.last"
+		} --[[NO TARGET]] }, 
 
 	-- Diseases
 		{ "77575", "target.debuff(55095).duration < 2" }, -- Outbreak
@@ -80,29 +94,52 @@ local inCombat = {
 		{ "48721", { -- Blood Boil // blood
 			"player.runes(blood).count > 1",
 			"target.debuff(55095).duration < 3", 
-			"target.debuff(55078).duration <3" }},
+			"target.debuff(55078).duration <3" 
+		} --[[NO TARGET]] },
 		{ "48721", {  -- Blood Boil // death
 			"player.runes(death).count > 1",
 			"target.debuff(55095).duration < 3", 
-			"target.debuff(55078).duration <3" }},
+			"target.debuff(55078).duration <3" 
+		} --[[NO TARGET]] },
 
-	{{-- can use FH
+	{{-- AoE smart
+		{ "50842","player.area(10).enemies > 4"}, -- Blood Boil
+		{ "43265", {
+			"target.range < 7",
+			"player.area(10).enemies > 4"
+		}, "target.ground" }, -- Death and Decay
+		{ "152280", {
+			"target.range < 7",
+			"player.area(10).enemies > 4"
+		}, "target.ground" }, -- Defile
+	}, {
+		"player.firehack", 
+		(function() return fetch('mtsconf','Firehack') end)
+	} --[[NO TARGET]] },
 
-		-- AoE smart
-			{ "50842","player.area(10).enemies > 4"}, -- Blood Boil
-
-	}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
-
-	-- AoE
-		{ "50842",	{"modifier.multitarget","target.range <= 10" }}, -- Blood Boil
+	{{-- AoE
+		{ "50842",	"target.range <= 10" },-- Blood Boil
+		{ "43265", "target.range < 7", "target.ground" }, -- Death and Decay
+		{ "152280", "target.range < 7", "target.ground" }, -- Defile
+	}, "modifier.multitarget", },
 
 	-- Rotation
-		{ "50842",	{"player.buff(Crimson Scourge)","target.range <= 10" }}, -- Blood Boil
+		{ "50842", { -- Blood Boil
+			"player.buff(Crimson Scourge)",
+			"target.range <= 10" 
+		}}, 
 		{ "47541", "player.runicpower >= 90", "target" }, -- Death Coil // Full runic
-		{ "49998", { "player.buff(77513).duration <= 1" }, "target" }, -- Death Strike
+		{ "49998", "player.buff(77513).duration <= 1", "target" }, -- Death Strike
 		{ "114866", "target.health <= 35", "target" }, -- Soul Reaper
-		{ "50842",	{ "target.range <= 10", "!target.health <= 35" }}, -- Blood Boil
-		{ "50842",	{ "player.runes(blood).count = 1", "target.range <= 10", "target.health <= 35" }}, -- Blood Boil //35 % health if SR
+		{ "50842",	{ -- Blood Boil
+			"target.range <= 10", 
+			"!target.health <= 35" 
+		} --[[NO TARGET]] }, 
+		{ "50842",	{ -- Blood Boil //35 % health if SR
+			"player.runes(blood).count = 1", 
+			"target.range <= 10", 
+			"target.health <= 35" 
+		} --[[NO TARGET]] }, 
 		{ "47541", "player.runicpower >= 30", "target" }, -- Death Coil
 
 	-- Blood Tap
@@ -114,7 +151,7 @@ local inCombat = {
 	    "player.buff(Blood Charge).count >= 5",
 	    "player.runes(death).count = 0",
 	    "!modifier.last"
-	  }},
+	  } --[[NO TARGET]] },
 
 }
 
