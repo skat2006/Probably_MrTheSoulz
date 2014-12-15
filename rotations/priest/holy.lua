@@ -29,7 +29,6 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 					end
 				end
 					if not ignore then
-						print("Dispelled: "..debuffName.." on:"..unit)
 						ProbablyEngine.dsl.parsedTarget = unit
 						return true
 					end

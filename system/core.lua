@@ -17,17 +17,6 @@ local _queueSpell = nil
 local _queueTime = 0
 local _dotCount = 0
 
--- Holy Nova Cache
-local holyNova_cache_time = 0
-local holyNova_cache_count = 0
-local holyNova_cache_dura = 0.3
-
--- WildMushroom
-local WildMushroom_cache_time = 0
-local WildMushroom_playerCache_count = 0
-local WildMushroom_focusCache_count = 0
-local WildMushroom_cache_dura = 0.3
-
 
 
 
@@ -443,10 +432,7 @@ ProbablyEngine.library.register('mtsLib', {
       local minHeal = (GetSpellBonusDamage(2) * 1.125) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
       local total = 0
       local prefix = (IsInRaid() and 'raid') or 'party'
-      local holyNova_cache_time_c = holyNova_cache_time
-      if holyNova_cache_time_c and ((holyNova_cache_time_c + holyNova_cache_dura) > GetTime()) then
-        return holyNova_cache_count > 3
-      end
+
       for i=1,#mts_unitCache do
       local incomingHeals = UnitGetIncomingHeals(mts_unitCache[i]) or 0
       local absorbs = UnitGetTotalHealAbsorbs(mts_unitCache[i]) or 0
@@ -460,8 +446,6 @@ ProbablyEngine.library.register('mtsLib', {
           end
         end
       end
-        holyNova_cache_count = total
-        holyNova_cache_time = GetTime()
         return total > 3
     end,
 

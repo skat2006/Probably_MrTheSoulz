@@ -114,7 +114,8 @@ local inCombat = {
   		}, "target"},
   		{ "22568", { -- Ferocious Bite to refresh Rip when target at <= 25% health.
 		    "target.health < 25", 
-		    "target.debuff(1079).duration < 5" 
+		    "target.debuff(1079).duration < 5", -- RIP
+		    "player.combopoints = 5"
 		}, "target"},
 	  	{ "1079", { -- Rip // bellow 25% if target does not have debuff
 			"target.health < 25", 
@@ -128,12 +129,13 @@ local inCombat = {
 		}, "target"},
 		{ "22568", { -- Ferocious Bite // Max Combo and Rip or Savage Roar do not need refreshed
 		   	"player.combopoints = 5", 
-		    "target.debuff(1079).duration > 7", 
-		    "player.buff(52610).duration > 4" 
-		}, "target"},{ "22568", { -- Ferocious Bite // Max Combo and Rip or Savage Roar GLYPH do not need refreshed
+		    "target.debuff(1079).duration > 7", -- RIP
+		    "player.buff(52610).duration > 4" -- Savage Roar GLYPH
+		}, "target"},
+		{ "22568", { -- Ferocious Bite // Max Combo and Rip or Savage Roar GLYPH do not need refreshed
 		   	"player.combopoints = 5", 
-		    "target.debuff(1079).duration > 7", 
-		    "player.buff(174544).duration > 4" 
+		    "target.debuff(1079).duration > 7", -- RIP
+		    "player.buff(174544).duration > 4" -- Savage Roar GLYPH
 		}, "target"},
 
   	-- Single Rotation
@@ -152,10 +154,10 @@ local inCombat = {
 				{ "106785", "modifier.multitarget" }, -- Swipe
   			{{ -- Smart AoE
 				{ "106830", { -- Tharsh
-					"player.area(8).enemies >= 4", 
+					"player.area(8).enemies >= 3", 
 					"target.debuff(106830).duration < 5"
 				}, "target" },
-				{ "106785", "player.area(8).enemies >= 11", },-- Swipe // FireHack
+				{ "106785", "player.area(8).enemies >= 3" },-- Swipe // FireHack
 			}, { (function() return fetch('mtsconf','Firehack') end) }},
 
   		-- Shred // Combo Point Building Rotation
