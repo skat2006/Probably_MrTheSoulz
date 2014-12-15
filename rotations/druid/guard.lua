@@ -60,7 +60,7 @@ local inCombat = {
   			"player.form != 1", -- Stop if bear
   			"!modifier.lalt", -- Stop if pressing left alt
   			"!player.buff(5215)", -- Not in Stealth
-  			(function() return fetch('mtsconfDruidGuard','Bear') end),
+  			(function() return fetch('mtsconfDruidGuard', 'Bear') end),
   		} --[[NO TARGET]] },
 
 	-- Interrupts
@@ -166,7 +166,7 @@ local outCombat = {
   			"player.form != 1", -- Stop if bear
   			"!modifier.lalt", -- Stop if pressing left alt
   			"!player.buff(5215)", -- Not in Stealth
-  			(function() return fetch('mtsconfDruidGuard','BearOOC') end),
+  			(function() return fetch('mtsconfDruidGuard', 'BearOCC') end),
   		} --[[NO TARGET]] },
 
 }

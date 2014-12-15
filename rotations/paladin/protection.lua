@@ -77,52 +77,95 @@ local inCombat = {
 
 	-- Seals
 		{{ -- Empowered Seals		
-			{ "31801", { -- seal of truth
-				"player.seal != 1", 
-				"!player.buff(Maraad's Truth).duration > 3", 
-				"player.spell(20271).cooldown <= 1" -- Judment  CD less then 1
-			} --[[  No Target  ]] },
-			{ "20154", { -- seal of Righteousness
-				"player.seal != 2", 
-				"!player.buff(Liadrin's Righteousness).duration > 3", 
-				"player.buff(Maraad's Truth)", 
-				"player.spell(20271).cooldown <= 1" -- Judment  CD less then 1
-			} --[[  No Target  ]] },
-			{ "20165", { -- seal of Insigh
-				"player.seal != 3", 
-				"!player.buff(Uther's Insight).duration > 3", 
-				"player.buff(Maraad's Truth)", 
-				"player.buff(Liadrin's Righteousness)", 
-				"player.spell(20271).cooldown <= 1" -- Judment  CD less then 1
-			} --[[  No Target  ]] },
-			{ "20154", { -- seal of Righteousness
-				"player.seal != 2", 
-				"player.spell(20271).cooldown > 1", -- Judment  CD more then 1
-				"modifier.multitarget" 
-			} --[[  No Target  ]] }, 
-			{ "31801", { -- seal of truth
-				"player.seal != 1", 
-				"player.spell(20271).cooldown > 1", -- Judment  CD more then 1
-				"!modifier.multitarget" 
-			} --[[  No Target  ]] },
-			{ "20271", "!player.buff(Liadrin's Righteousness).duration < 3" }, -- Judment
-			{ "20271", "!player.buff(Maraad's Truth).duration < 3" } -- Judment
+			 -- Cycle Seals for buffs
+				{ "31801", { -- seal of truth
+					"player.seal != 1", 
+					"!player.buff(156990).duration > 3", -- Maraad's Truth
+					"player.spell(20271).cooldown <= 1" -- Judment  CD less then 1
+				} --[[  No Target  ]] },
+				{ "20154", { -- seal of Righteousness
+					"player.seal != 2", 
+					"!player.buff(156989).duration > 3", -- Liadrin's Righteousness
+					"player.buff(156990)", -- Maraad's Truth
+					"player.spell(20271).cooldown <= 1" -- Judment  CD less then 1
+				} --[[  No Target  ]] },
+				{ "20165", { -- seal of Insigh
+					"player.seal != 3", 
+					"!player.buff(156988).duration > 3", -- Uther's Insight
+					"player.buff(156990)", --Maraad's Truth
+					"player.buff(156989)", --Liadrin's Righteousness
+					"player.spell(20271).cooldown <= 1" -- Judment  CD less then 1
+				} --[[  No Target  ]] },
+			-- Judgment
+				{ "20271", "!player.buff(156989).duration < 3" }, -- Judment // Liadrin's Righteousness
+				{ "20271", "!player.buff(156990).duration < 3" }, -- Judment // Maraad's Truth
+				{ "20271", "!player.buff(156988).duration < 3" }, -- Judment // Uther's Insight
+			{{-- Wanted Seal
+				{{ -- Single Target
+					{ "20165", { -- seal of Insigh
+						"player.seal != 3", 
+						(function() return fetch("mtsconfPalaProt", "seal") == 'Insight' end),
+					}, --[[  No Target  ]] }, 
+					{ "20154", { -- seal of Righteousness
+						"player.seal != 2",
+						(function() return fetch("mtsconfPalaProt", "seal") == 'Righteousness' end),
+					}, --[[  No Target  ]] },
+					{ "31801", { -- seal of truth
+						"player.seal != 1",
+						(function() return fetch("mtsconfPalaProt", "seal") == 'Truth' end),
+					}, --[[  No Target  ]] },
+				}, "!modifier.multitarget" },
+				{{ -- MultiTarget
+					{ "20165", { -- seal of Insigh
+						"player.seal != 3", 
+						(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Insight' end),
+					}, --[[  No Target  ]] }, 
+					{ "20154", { -- seal of Righteousness
+						"player.seal != 2",
+						(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Righteousness' end),
+					}, --[[  No Target  ]] },
+					{ "31801", { -- seal of truth
+						"player.seal != 1",
+						(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Truth' end),
+					}, --[[  No Target  ]] },
+				}, "modifier.multitarget" }
+			},{
+				{ "!player.buff(156989).duration < 3" }, -- Judment // Liadrin's Righteousness
+				{ "!player.buff(156990).duration < 3" }, -- Judment // Maraad's Truth
+				{ "!player.buff(156988).duration < 3" }, -- Judment // Uther's Insigh
+			}},
 		}, "talent(7, 1)" },
 
 		{{-- Dont care if talent Empowered Seals
-			{ "20165", { -- seal of Insigh
-				"player.seal != 3", 
-				(function() return fetch("mtsconfPalaProt", "seal") == 'Insight' end),
-			}, --[[  No Target  ]] }, 
-			{ "20154", { -- seal of Righteousness
-				"player.seal != 2",
-				(function() return fetch("mtsconfPalaProt", "seal") == 'Righteousness' end),
-			}, --[[  No Target  ]] },
-			{ "31801", { -- seal of truth
-				"player.seal != 1",
-				(function() return fetch("mtsconfPalaProt", "seal") == 'Truth' end),
-			}, --[[  No Target  ]] },
-		}, "talent(7, 1)" },
+			{{ -- Single Target
+				{ "20165", { -- seal of Insigh
+					"player.seal != 3", 
+					(function() return fetch("mtsconfPalaProt", "seal") == 'Insight' end),
+				}, --[[  No Target  ]] }, 
+				{ "20154", { -- seal of Righteousness
+					"player.seal != 2",
+					(function() return fetch("mtsconfPalaProt", "seal") == 'Righteousness' end),
+				}, --[[  No Target  ]] },
+				{ "31801", { -- seal of truth
+					"player.seal != 1",
+					(function() return fetch("mtsconfPalaProt", "seal") == 'Truth' end),
+				}, --[[  No Target  ]] },
+			}, "!modifier.multitarget" },
+			{{ -- MultiTarget
+				{ "20165", { -- seal of Insigh
+					"player.seal != 3", 
+					(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Insight' end),
+				}, --[[  No Target  ]] }, 
+				{ "20154", { -- seal of Righteousness
+					"player.seal != 2",
+					(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Righteousness' end),
+				}, --[[  No Target  ]] },
+				{ "31801", { -- seal of truth
+					"player.seal != 1",
+					(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Truth' end),
+				}, --[[  No Target  ]] },
+			}, "modifier.multitarget" }
+		}, "!talent(7, 1)" },
 
 	-- run fast
 		{ "85499", { -- Speed of Light

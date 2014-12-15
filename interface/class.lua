@@ -980,6 +980,19 @@ local mts_configPalaProt = {
           key = "Truth"
         }}, default = "Insight", desc = "Select What Seal to use..." },
 
+      -- Seal AoE
+      { type = "dropdown",text = "Seal AoE:", key = "sealAoE", list = {
+        {
+          text = "Insight",
+          key = "Insight"
+        },{
+          text = "Righteousness",
+          key = "Righteousness"
+        },{
+          text = "Truth",
+          key = "Truth"
+        }}, default = "Righteousness", desc = "Select What Seal to use while in AoE..." },
+
     -- Def CD's
     { type = 'rule' },
     { type = 'header', text = 'Defensive Cooldowns Settings:', align = "center"},
@@ -1104,7 +1117,7 @@ local mts_configDruidGuard = {
 				type = "checkbox", 
 				text = "Bear Form OCC", 
 				key = "BearOCC", 
-				default = true, 
+				default = false, 
 				desc = "This checkbox enables or disables the use of automatic Bear form while out of combat."
 			},
 
