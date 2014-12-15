@@ -171,7 +171,7 @@ local inCombat = {
 		{ "85499", { -- Speed of Light
 			"player.movingfor > 3", 
 			(function() return fetch('mtsconfPalaProt','RunFaster') end),
-		}},
+		} --[[  No Target  ]] },
 
 	-- Procs
 		{ "31935", { -- Avenger's Shield
@@ -233,37 +233,37 @@ local outCombat = {
 			"!player.buff(90363).any", 
 			"!player.buff(69378).any",
 			(function() return fetch("mtsconfPalaProt", "Buff") == 'Kings' end),
-			}, nil },
+		}, --[[  No Target  ]] },
 		{ "19740", { -- Blessing of Might
 			"!player.buff(19740).any", 
 			"!player.buff(116956).any", 
 			"!player.buff(93435).any", 
 			"!player.buff(128997).any", 
 			(function() return fetch("mtsconfPalaProt", "Buff") == 'Might' end),
-			}, nil },
+		}, --[[  No Target  ]] },
 		{ "25780", "!player.buff(25780).any" }, -- Fury
 
 	-- Seals
 		{ "20165", { -- seal of Insigh
 			"player.seal != 3", 
 			(function() return fetch("mtsconfPalaProt", "seal") == 'Insight' end),
-			}, nil }, 
+		}, --[[  No Target  ]] }, 
 		
 		{ "20154", { -- seal of Righteousness
 			"player.seal != 2",
 			(function() return fetch("mtsconfPalaProt", "seal") == 'Righteousness' end),
-			}, nil },
+		}, --[[  No Target  ]] },
 		
 		{ "31801", { -- seal of truth
 			"player.seal != 1",
 			(function() return fetch("mtsconfPalaProt", "seal") == 'Truth' end),
-			}, nil },
+		}, --[[  No Target  ]] },
 
 	-- run fast
 		{ "85499", { -- Speed of Light
 			"player.movingfor > 3", 
 			(function() return fetch('mtsconfPalaProt','RunFaster') end),
-			}},
+		} --[[  No Target  ]] },
 
 }
 
