@@ -7,6 +7,7 @@ MTS
 
 local Battle_Print = false
 local Glad_Print = false
+local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
 	ProbablyEngine.toggle.create('tc', 
