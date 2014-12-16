@@ -1,79 +1,65 @@
 local fetch = ProbablyEngine.interface.fetchKey
+local _PeConfig = ProbablyEngine.config
 
-local function mts_MoveTo(unit, ds)
-  if FireHack then
-  local aX, aY, aZ = ObjectPosition(unit)
-  local bX, bY, bZ = ObjectPosition('player')
-  local playerReach = UnitCombatReach('player')
-  local unitReach = UnitCombatReach(unit)
-  
-	--(Over sensitive...)if TraceLine(bX, bY, bZ, aX, aY, aZ, 0xFFFFFFFF) then 
-	  if not (Distance(unit, "player") <= (playerReach+unitReach) + ds) then
-		MoveTo(aX, aY, aZ)
-	  end
-    --end
-  elseif oexecute then -- Offspring dosent have MoveTo :(
-	local aX, aY, aZ = opos(unit)
-	local bX, bY, bZ = opos('player')
-	  if not (Distance(unit, "player") <= (playerReach+unitReach) + ds) then
-		--MoveTo(aX, aY, aZ)
-	  end
+--[[-----------------------------------------------
+** Automated moving/facing. **
+DESC: This code will try to move or face a unit if said unit 
+meets the requirements (LoS, mts_Distance etc...)
+
+Build by: MTS
+---------------------------------------------------]]
+
+-- Move to unit if distance.
+local function mts_MoveTo(unit)
+  if unit and unit ~= "player"  and UnitID(unit) ~= 76585 and UnitExists(unit) and UnitIsVisible(unit) and LineOfSight then
+    if mts_Distance("player", unit) >= 6 then
+      --if not LineOfSight('player', unit) then
+        if FireHack then
+          local aX, aY, aZ = ObjectPosition(unit)
+            MoveTo(aX, aY, aZ)
+        elseif oexecute then -- Offspring dosent have MoveTo :(
+        end
+      --end
+    end
   end
 end
 
+-- Face unit.
 local function mts_FaceTo(unit)
-  if FireHack then
-  local playerReach = UnitCombatReach('player')
-  local unitReach = UnitCombatReach(unit)
-    if not UnitInfront(unit) then
-	  if (Distance(unit, "player") <= playerReach+unitReach) then 
-	    FaceUnit(unit)
-	  end
-	end
-  elseif oexecute then
-	if not UnitInfront(unit) then
-	  if (Distance(unit, "player") <= 6) then 
-		FaceUnit(unit)
-	  end
-	end
+  if unit and unit ~= "player"  and UnitID(unit) ~= 76585 and UnitExists(unit) and UnitIsVisible(unit) and LineOfSight then
+    if LineOfSight('player', unit) and mts_Distance("player", unit) <= 6 and not mts_infront(unit) then
+      if FireHack then
+        FaceUnit(unit)
+      elseif oexecute then
+        oface(unit)
+      end
+    end
   end
 end
 
-local function mts_rangeNeeded()
-  local _SpecID =  GetSpecializationInfo(GetSpecialization())
-  local ranged = {256, 257}
-  for i=1,#ranged do
-	if _SpecID == ranged[i] then
-	  --print("ranged")
-	  return 30
-	else 
-	  --print("melee")
-	  return 6 
-	end
-  end
-end
-		
+--[[-----------------------------------------------
+** Ticker **
+DESC: MoveTo & Face.
 
-C_Timer.NewTicker(0.5, (function()
-	if FireHack then
-	  if ProbablyEngine.config.read('button_states', 'MasterToggle', false)
-	  and ProbablyEngine.module.player.combat
-	  and fetch('mtsconf', 'AutoMove') then
-		if UnitExists("target")
-		and not UnitIsFriend("player", "target") then
-		  mts_MoveTo('target', mts_rangeNeeded())
-		  mts_FaceTo('target')
-		end
-	  end
-	end
-	if oexecute then
-	  if ProbablyEngine.config.read('button_states', 'MasterToggle', false)
-	  and ProbablyEngine.module.player.combat 
-	  and fetch('mtsconf', 'AutoMove') then
-		if UnitExists("target") 
-		and not UnitIsFriend("player", "target") then
-		  mts_FaceTo('target')
-		end
-	  end
-	end
+Build By: MTS
+ ---------------------------------------------------]]
+C_Timer.NewTicker(0.1, (function()
+  --No Point in Trying any of these if not using an advanced unlocker
+  if FireHack or oexecute then
+    
+    if _PeConfig.read('button_states', 'MasterToggle', false)
+    and ProbablyEngine.module.player.combat then
+
+      -- Can we move?
+      if fetch('mtsconf', 'AutoMove') then
+        mts_MoveTo('target')
+      end
+      -- Can we face?
+      if fetch('mtsconf', 'AutoFace') then
+        mts_FaceTo('target')
+      end
+    
+    end
+
+  end
 end), nil)

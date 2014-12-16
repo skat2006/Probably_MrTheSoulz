@@ -1,0 +1,357 @@
+local _queueSpell = nil
+local _queueTime = 0
+local _dotCount = 0
+
+local _darkSimSpells = {
+    -- Siege of Orgrimmar
+    "Froststorm Bolt",
+    "Arcane Shock",
+    "Rage of the Empress",
+    "Chain Lightning",
+    -- PvP
+    "Hex",
+    "Mind Control",
+    "Cyclone",
+    "Polymorph",
+    "Pyroblast",
+    "Tranquility",
+    "Divine Hymn",
+    "Hymn of Hope",
+    "Ring of Frost",
+    "Entangling Roots"
+}
+
+ProbablyEngine.library.register('mtsLib', {
+
+    --[[-----------------------------------------------
+    ** checkQueue **
+    DESC: ...
+    ToDo: Check if we even need this anymore.
+
+    Build By: FORGOTTEN
+    ---------------------------------------------------]]
+    checkQueue = function(spellId)
+        if (GetTime() - _queueTime) > 10 then
+            _queueTime = 0
+            _queueSpell = nil
+        return false
+        else
+        if _queueSpell then
+            if _queueSpell == spellId then
+                if ProbablyEngine.parser.lastCast == GetSpellName(spellId) then
+                    _queueSpell = nil
+                    _queueTime = 0
+                end
+            return true
+            end
+        end
+        end
+        return false
+    end,
+
+    --[[-----------------------------------------------
+    ** CanTaunt **
+    DESC: Checks if it is okay to taunt.
+    ToDo: Finish\Test\Use it...
+
+    Build By: MTS
+    ---------------------------------------------------]]
+    CanTaunt = function()
+        if UnitIsTappedByPlayer("target") 
+            and fetch('mtsconf','Taunts') then
+                return true 
+        end
+            return false
+    end,
+
+    --[[-----------------------------------------------
+    TO BE REMOVED, CAN BE DONE INSIDE THE CR USING:
+    (function() return UnitGUID('target')) ~= (UnitGUID('mouseover') end)
+
+    ** mouseNotEqualTarget **
+    DESC: Checks if mouseover unit is not equal current target.
+    Been used for SEF.
+
+    Build By: MTS
+    ---------------------------------------------------]]
+    mouseNotEqualTarget = function()
+        if (UnitGUID('target')) ~= (UnitGUID('mouseover')) then
+            return true
+        end
+    end,
+
+    --[[-----------------------------------------------
+    ** Priest - Prayer of Healing **
+    DESC: Uses Unit cache to verify if enough people need healing
+    and are in range of Holy Nova.
+    We cache this count because PE cicles (therefore calling it) too fast and we dont 
+    want to do all these checks alot (Saving FPS).
+    ToDo: Change the amount of units that need to be around when in raid.
+
+    Build By: Mirakuru
+    Modified by: MTS
+    ---------------------------------------------------]]
+    holyNova = function()
+      local minHeal = (GetSpellBonusDamage(2) * 1.125) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
+      local total = 0
+      local prefix = (IsInRaid() and 'raid') or 'party'
+
+      for i=1,#mts_unitFriendlyCache do
+      local incomingHeals = UnitGetIncomingHeals(mts_unitFriendlyCache[i].key) or 0
+      local absorbs = UnitGetTotalHealAbsorbs(mts_unitFriendlyCache[i].key) or 0
+      local health = UnitHealth(mts_unitFriendlyCache[i].key) + incomingHeals - absorbs
+      local maxHealth = UnitHealthMax(mts_unitFriendlyCache[i].key)
+      local healthMissing = max(0, maxHealth - health)
+        if healthMissing > minHeal 
+          and UnitIsFriend("player", mts_unitFriendlyCache[i].key) then
+          if mts_Distance("player", mts_unitFriendlyCache[i].key) <= 12 then
+            total = total + 1
+          end
+        end
+      end
+        return total > 3
+    end,
+
+    --[[-----------------------------------------------
+    ** Priest - Prayer of Healing **
+    DESC: Checks if a party group needs to be healed.
+    Bugs: Counts dead people's health.
+
+    Build By: woe
+    ---------------------------------------------------]]
+    PoH = function()
+        local minHeal = GetSpellBonusDamage(2) * 2.21664
+        local GetRaidRosterInfo, min, subgroups, member = GetRaidRosterInfo, math.min, {}, {}
+        local lowest, lowestHP, _, subgroup = false, 0
+     
+        local start, groupMembers = 0, GetNumGroupMembers()
+     
+        if IsInRaid() then
+            start = 1
+        elseif groupMembers > 0 then
+            groupMembers = groupMembers - 1
+        end
+     
+        for i = start, groupMembers do
+            _, _, subgroup, _, _, _, _, _, _, _, _ = GetRaidRosterInfo(i)
+     
+            if not subgroups[subgroup] then
+                subgroups[subgroup] = 0
+                member[subgroup] = ProbablyEngine.raid.roster[i].unit
+            end
+     
+            subgroups[subgroup] = subgroups[subgroup] + min(minHeal, ProbablyEngine.raid.roster[i].healthMissing)
+        end
+     
+        for i = 1, #subgroups do
+            if subgroups[i] > minHeal * 4
+            and subgroups[i] > lowestHP then
+                lowest = i
+                lowestHP = subgroups[i]
+            end
+        end
+     
+        if lowest then
+            _parsedTarget = member[lowest]
+            return true
+        end
+     
+        return false
+    end,
+
+    --[[-----------------------------------------------
+    ** Priest - Shadow Word: Pain **
+    DESC: Uses unit cache to verify if any unit around
+    meets Shadow Word: Pain Conditions.
+
+    Build By: MTS
+    ---------------------------------------------------]]
+    SWP = function()
+      for i=1,#mts_unitFriendlyCache do
+      local _,_,_,_,_,_,debuff = UnitDebuff(mts_unitFriendlyCache[i].key, GetSpellInfo(589), nil, "PLAYER")
+        if not debuff then
+          if mts_immuneEvents(mts_unitFriendlyCache[i].key)
+          and UnitCanAttack("player", mts_unitFriendlyCache[i].key) then
+            --if ProbablyEngine.parser.can_cast(589, mts_unitFriendlyCache[i].key, false) then
+              if mts_infront(mts_unitFriendlyCache[i].key) then
+                _parsedTarget = mts_unitFriendlyCache[i].key
+                return true
+              end           
+            --end
+          end   
+        end
+      end
+        return false
+    end,
+ 
+    --[[-----------------------------------------------
+    ** Priest - Shadow Word: Death **
+    DESC: Uses unit cache to verify if any unit around
+    meets Shadow Word: Death Conditions.
+
+    Build By: MTS
+    ---------------------------------------------------]]
+    SWD = function()
+      for i=1,#mts_unitCache do
+        if mts_immuneEvents(mts_unitCache[i].key)
+        and ProbablyEngine.condition["health"](mts_unitCache[i].key) <= 20
+        and UnitCanAttack("player", mts_unitCache[i].key) then
+          --if ProbablyEngine.parser.can_cast(32379, mts_unitCache[i].key, false) then
+            if mts_infront(mts_unitCache[i].key) then
+              _parsedTarget = mts_unitCache[i].key
+              return true
+            end
+          --end
+        end
+      end
+        return false
+    end,
+
+    --[[-----------------------------------------------
+    ** Druid - MoonFire **
+    DESC: Uses unit cache to verify if any unit around
+    meets MoonFire Conditions.
+
+    Build By: MTS
+    ---------------------------------------------------]]
+    MoonFire = function()
+      for i=1,#mts_unitCache do
+      local _,_,_,_,_,_,debuff = UnitDebuff(mts_unitCache[i].key, GetSpellInfo(164812), nil, "PLAYER")
+        if not debuff or debuff - GetTime() < 5.5 then
+          if mts_immuneEvents(mts_unitCache[i].key)
+          and not UnitIsUnit("target", mts_unitCache[i].key)
+          and ProbablyEngine.condition["health"](mts_unitCache[i].key) <= 20
+          and UnitCanAttack("player", mts_unitCache[i].key) then
+            --if ProbablyEngine.parser.can_cast(164812, mts_unitCache[i].key, false) then
+              if mts_infront(mts_unitCache[i].key) then
+                _parsedTarget = mts_unitCache[i].key
+                return true
+              end           
+            --end
+          end   
+        end
+      end
+        return false
+    end,
+
+    --[[-----------------------------------------------
+    ** Hunter Kill Shot **
+    DESC: Uses unit cache to verify if any unit around
+    meets Kill Shot Conditions.
+
+    Build By: MTS
+    ---------------------------------------------------]]
+    KillShot = function()
+      for i=1,#mts_unitCache do
+        if mts_immuneEvents(mts_unitCache[i].key)
+        and ProbablyEngine.condition["health"](mts_unitCache[i].key) <= 35
+        and UnitCanAttack("player", mts_unitCache[i].key) then
+          --if ProbablyEngine.parser.can_cast(32379, mts_unitCache[i].key, false) then
+            if mts_infront(mts_unitCache[i].key)then
+              _parsedTarget = mts_unitCache[i].key
+              return true
+            end
+          --end
+        end
+      end
+            return false
+    end,
+
+    --[[-----------------------------------------------
+    ** DarkSim **
+    DESC: copys a spell from a unit.
+
+    Build By: FORGOTTEN
+    Modifyed by: MTS
+    ---------------------------------------------------]]
+    DarkSimUnit = function(unit)
+        for index,spellName in pairs(_darkSimSpells) do
+            if ProbablyEngine.condition["casting"](unit, spellName) 
+                then return true end
+        end
+            return false
+    end,
+
+   --[[-----------------------------------------------
+    ** Mass Dispel **
+    DESC: Checks if units around player needs to be dispelled.
+    UNUSED AND UNTESTED!
+
+    Build By: MTS
+    ---------------------------------------------------]]
+    MassDispell = function()
+    local prefix = (IsInRaid() and 'raid') or 'party'
+    local total = 0        
+        for i = -1, GetNumGroupMembers() - 1 do
+        local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
+            if IsSpellInRange('Mass Dispell', unit) then
+                for j = 1, 40 do
+                local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(unit, j)
+                    if dispelType and dispelType == 'Magic' or dispelType == 'Disease' then
+                        if mts_Distance('player', unit) then
+                            total = total + 1
+                        end
+                    end
+                    if total >= 5 then
+                        print("Mass Dispelled: "..debuffName.." on: "..unit.." total units:"..total)
+                        _parsedTarget = unit
+                        return true
+                    end
+                end
+            end
+        end
+            return false
+    end,
+
+    --[[-----------------------------------------------
+    ** Power word Barrier **
+    DESC: Checks if units around tank have enough missing heal to use this.
+    ToDo: Would be cool if i could predict a big AoE and use this to lower
+    its raid damage.
+    UNUSED AND UNTESTED!
+
+    Build By: MTS
+    ---------------------------------------------------]]
+    PWBarrier = function()
+    local minHeal = (GetSpellBonusDamage(2) * 1.125) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
+    local total = 0
+    local prefix = (IsInRaid() and 'raid') or 'party'
+      for i=1,#mts_unitFriendlyCache do
+      local incomingHeals = UnitGetIncomingHeals(mts_unitFriendlyCache[i].key) or 0
+      local absorbs = UnitGetTotalHealAbsorbs(mts_unitFriendlyCache[i].key) or 0
+      local health = UnitHealth(mts_unitFriendlyCache[i].key) + incomingHeals - absorbs
+      local maxHealth = UnitHealthMax(mts_unitFriendlyCache[i].key)
+      local healthMissing = max(0, maxHealth - health)
+        if healthMissing > minHeal 
+          and UnitIsFriend("player", mts_unitFriendlyCache[i].key) then
+          if mts_Distance("focus", mts_unitFriendlyCache[i].key) <= 12 then
+            total = total + 1
+          end
+        end
+      end
+        return total > 3
+    end,
+
+    -- Clarity of Purpose
+    ClarityOfPurpose = function()
+      local minHeal = (GetSpellBonusDamage(2) * 1.125) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
+      local total = 0
+      local prefix = (IsInRaid() and 'raid') or 'party'
+      local lowest = ProbablyEngine.raid.lowestHP
+
+      for i=1,#mts_unitFriendlyCache do
+      local incomingHeals = UnitGetIncomingHeals(mts_unitFriendlyCache[i].key) or 0
+      local absorbs = UnitGetTotalHealAbsorbs(mts_unitFriendlyCache[i].key) or 0
+      local health = UnitHealth(mts_unitFriendlyCache[i].key) + incomingHeals - absorbs
+      local maxHealth = UnitHealthMax(mts_unitFriendlyCache[i].key)
+      local healthMissing = max(0, maxHealth - health)
+        if healthMissing > minHeal and UnitIsFriend("player", mts_unitFriendlyCache[i].key) then
+          if mts_Distance(lowest, mts_unitFriendlyCache[i].key) <= 10 then
+            total = total + 1
+          end
+        end
+      end
+        return total > 3
+    end,
+ 
+})

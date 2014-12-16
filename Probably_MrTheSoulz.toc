@@ -7,7 +7,9 @@
 
 system\core.lua
 system\tracker.lua
-system\dots.lua
+system\movement.lua
+system\unitCache.lua
+system\lib.lua
 interface\minimap.lua
 interface\splash.lua
 interface\alert.lua

@@ -25,6 +25,31 @@ local function mts_CanAlert(txt)
 	end
 end
 
+ProbablyEngine.listener.register("PLAYER_ENTERING_WORLD", function(...)
+
+    --(WORKAROUND) // Create Config Keys
+        mts_ConfigGUI()-- Open
+        mts_ConfigGUI()-- Close
+        
+    --(WORKAROUND) // Create Class Keys
+        mts_ClassGUI() -- Open
+        mts_ClassGUI() -- Close
+        
+    -- Splash
+        mts_Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
+    
+    -- Status GUI
+        mts_showLive()
+
+end)
+
+ProbablyEngine.listener.register("ACTIVE_TALENT_GROUP_CHANGED", function(...)
+
+    -- Reload when player changes spec to avoid key nils.
+        ReloadUI()
+
+end)
+
 								--[[   !!!Combat Alert Tracker!!!   ]]
 						     --[[   Used For Spiting Alerts & sounds   ]]
 --[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
