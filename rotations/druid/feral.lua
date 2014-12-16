@@ -13,6 +13,12 @@ local exeOnLoad = function()
 end
 
 local inCombat = {
+	
+	-- rake // prowl with glyph
+		{ "1822", {
+			"player.buff(5215)", -- prowl
+			"player.glyph(127540)" -- Savage Roar
+		}, "target" }, 
 
   	--	keybinds
   		{{ -- Shift
@@ -138,20 +144,11 @@ local inCombat = {
 		    "player.buff(174544).duration > 4" -- Savage Roar GLYPH
 		}, "target"},
 
-  	-- Single Rotation
-  		{ "1822", "target.debuff(155722).duration <= 4", "target" }, -- rake
-  		{ "155625", { -- MoonFire // Lunar Inspiration (TALENT)
-  			"target.debuff(155625).duration <= 4",
-  			"talent(7, 1)"
-  		}, "target" },
-
-  		-- AOE
-  			-- AoE FALLBACK
-				{ "106830", { -- Tharsh
-					"modifier.multitarget", 
-					"target.debuff(106830).duration < 5"
-				}, "target" },
-				{ "106785", "modifier.multitarget" }, -- Swipe
+  	-- AOE
+  			{{-- AoE FALLBACK
+				{ "106830", "target.debuff(106830).duration < 5", "target" }, -- Tharsh
+				{ "106785" }, -- Swipe
+			}, "modifier.multitarget" },
   			{{ -- Smart AoE
 				{ "106830", { -- Tharsh
 					"player.area(8).enemies >= 3", 
@@ -159,6 +156,13 @@ local inCombat = {
 				}, "target" },
 				{ "106785", "player.area(8).enemies >= 3" },-- Swipe // FireHack
 			}, { (function() return fetch('mtsconf','Firehack') end) }},
+
+  	-- Single Rotation
+  		{ "1822", "target.debuff(155722).duration <= 4", "target" }, -- rake
+  		{ "155625", { -- MoonFire // Lunar Inspiration (TALENT)
+  			"target.debuff(155625).duration <= 4",
+  			"talent(7, 1)"
+  		}, "target" },
 
   		-- Shred // Combo Point Building Rotation
 	    	{ "5221", "player.buff(Clearcasting)", "target"  }, -- Shred

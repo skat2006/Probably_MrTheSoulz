@@ -6,10 +6,6 @@ local mts_OpenInfoWindow = false
 local mts_ShowingInfoWindow = false
 local mts_InfoUpdating = false
 
-local ThanksWindow
-local mts_OpenThanksWindow = false
-local mts_ShowingThanksWindow = false
-
 local _Header = { 
 	type = "texture",texture = "Interface\\AddOns\\Probably_MrTheSoulz\\media\\splash.blp",
 	width = 200, 
@@ -19,7 +15,7 @@ local _Header = {
 	center = true 
 }
 
-mts_info = {
+local mts_info = {
 	key = "mtsinfo",
 	title = logo.."MrTheSoulz Config",
 	subtitle = "General Settings",
