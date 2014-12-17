@@ -198,8 +198,23 @@ ProbablyEngine.library.register('mtsLib', {
     MoonFire = function()
       for i=1,#mts_unitCache do
         local _,_,_,_,_,_,debuff = UnitDebuff(mts_unitCache[i].key, GetSpellInfo(164812), nil, "PLAYER")
-          if not debuff or debuff - GetTime() < 5.5 then
-            if mts_immuneEvents(mts_unitCache[i].key)and not UnitIsUnit("target", mts_unitCache[i].key) and UnitCanAttack("player", mts_unitCache[i].key) then
+          if not debuff or debuff - GetTime() < 2 then
+            if UnitCanAttack("player", mts_unitCache[i].key) then
+              if mts_infront(mts_unitCache[i].key) then
+                ProbablyEngine.dsl.parsedTarget = mts_unitCache[i].key
+                return true
+              end           
+            end   
+          end
+      end
+        return false
+    end,
+
+    SunFire = function()
+      for i=1,#mts_unitCache do
+        local _,_,_,_,_,_,debuff = UnitDebuff(mts_unitCache[i].key, GetSpellInfo(164815), nil, "PLAYER")
+          if not debuff or debuff - GetTime() < 2 then
+            if UnitCanAttack("player", mts_unitCache[i].key) then
               if mts_infront(mts_unitCache[i].key) then
                 ProbablyEngine.dsl.parsedTarget = mts_unitCache[i].key
                 return true

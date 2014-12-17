@@ -10,12 +10,6 @@ local fetch = ProbablyEngine.interface.fetchKey
 local exeOnLoad = function()
 
   ProbablyEngine.toggle.create(
-	'mouseoverdots', 
-	'Interface\\Icons\\INV_Helmet_131.png',
-	'MouseOver Doting', 
-	'Mouseover to to anything thats not doted.')
-
-  ProbablyEngine.toggle.create(
 	'dotEverything', 
 	'Interface\\Icons\\Ability_creature_cursed_05.png', 
 	'Dot All The Things!', 
@@ -43,7 +37,8 @@ local inCombat = {
 		{ "108238", "player.health < 60", "player"}, --Instant renewal when less than 40% health
 	
 	{{ -- Auto Dotting	
-		{ "164812", (function() return mts_MoonFire() end) }, -- moonfire
+		{ "164812", "@mtsLib.MoonFire" }, -- moonfire
+		{ "164815", "@mtsLib.SunFire" }, --SunFire
 	}, "toggle.dotEverything" },
 	
 	-- Auto Target
@@ -66,7 +61,6 @@ local inCombat = {
 	}, (function() return fetch('mtsconf','Firehack') end) },
 
 	-- AoE
-		{ "164812", "target.debuff(Moonfire).duration <= 2", "target"}, --Moonfire
 		{ "48505", "modifier.multitarget", "target" }, -- Starfall
 	
 	-- Proc's
