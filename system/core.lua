@@ -82,14 +82,13 @@ DESC: Checks if unit can/should be targeted.
 Build By: MTS & StinkyTwitch
 ---------------------------------------------------]]
 local function mts_autoTarget()
-  if UnitExists("target")
-    and not UnitIsFriend("player","target")
-    and not UnitIsDeadOrGhost("target") then
-        return false
-  end
-  for i=1,#mts_unitCache do
-        return Macro("/target "..mts_unitCache[i].key)
-  end
+    for i=1,#mts_unitCache do
+        if UnitExists("target") and not UnitIsFriend("player", "target") and not UnitIsDeadOrGhost("target") then
+            -- Do nothing
+        else
+            return Macro("/target "..mts_unitCache[i].key)
+        end
+    end
 end
                                                     --[[ Commands ]]
 --[[------------------------------------------------------------------------------------------------------------]]

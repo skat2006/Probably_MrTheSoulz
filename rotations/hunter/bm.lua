@@ -41,10 +41,6 @@ local inCombat = {
 			"!pet.alive",
 			"toggle.resspet"
 		} },
-  		{ "!/cast [@pet,dead] Revive Pet; Call Pet 1", {
-			"!pet.exists",
-			"toggle.resspet"
-		} },
   		{ "53271", "player.state.stun" }, -- Mastrer's Call
    		{ "53271", "player.state.root" }, -- Mastrer's Call
    		{ "53271", "player.state.snare" }, -- Mastrer's Call
@@ -112,7 +108,7 @@ local inCombat = {
 				{"2643","player.area(35).enemies > 4", "target"}, -- Multi-Shot
 				{"13813", nil, "target.ground"}, --Explosive Trap
 
-		}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
+		}, (function() return fetch('mtsconf','Firehack') end)},
 
 		-- Rotation
 			{ "53351" },--Kill Shot

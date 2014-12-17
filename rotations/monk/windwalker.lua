@@ -121,7 +121,7 @@ local inCombat = {
 			-- AoE smart
 				{ "101546","player.area(8).enemies >= 3"}, -- Spinning Crane Kick // FH Smarth
 
-		}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
+		}, (function() return fetch('mtsconf','Firehack') end) },
 			
 		-- AoE
 			{ "101546", "modifier.multitarget" }, -- Spinning Crane Kick

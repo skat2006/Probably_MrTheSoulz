@@ -44,7 +44,7 @@ local inCombat = {
 
    	 	{"Fire and Brimstone","player.area(10).enemies >= 3", "target"}, -- smarth
 
-  	}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
+  	}, (function() return fetch('mtsconf','Firehack') end) },
 		
 	-- AoE
 		{"Fire and Brimstone", "modifier.multitarget", "target"},

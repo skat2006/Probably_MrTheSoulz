@@ -36,7 +36,7 @@ local inCombat = {
       { "1449", "target.area(10).enemies >= 5" },--Arcane Explosion
       { "120", "target.area(10).enemies >= 5" },--Cone of Cold
 
-  }, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
+  }, (function() return fetch('mtsconf','Firehack') end) },
 
   -- AoE
     { "1449", "modifier.multitarget"},--Arcane Explosion

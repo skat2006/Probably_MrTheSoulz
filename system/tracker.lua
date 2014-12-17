@@ -6,6 +6,7 @@ MTS
 ]]
 
 local fetch = ProbablyEngine.interface.fetchKey
+local mts_inWorld = false
 
 local function mts_CanWhisper(txt)
 	if fetch('mtsconf','Whispers') then
@@ -41,12 +42,16 @@ ProbablyEngine.listener.register("PLAYER_ENTERING_WORLD", function(...)
     -- Status GUI
         mts_showLive()
 
+    mts_inWorld = true
+
 end)
 
 ProbablyEngine.listener.register("ACTIVE_TALENT_GROUP_CHANGED", function(...)
 
     -- Reload when player changes spec to avoid key nils.
-        ReloadUI()
+    	if mts_inWorld then
+        	ReloadUI()
+        end
 
 end)
 

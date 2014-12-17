@@ -27,7 +27,7 @@ end
 -- Face unit.
 local function mts_FaceTo(unit)
   if unit and unit ~= "player"  and UnitID(unit) ~= 76585 and UnitExists(unit) and UnitIsVisible(unit) and LineOfSight then
-    if LineOfSight('player', unit) and mts_Distance("player", unit) <= 6 and not mts_infront(unit) then
+    if LineOfSight('player', unit) and not mts_infront(unit) then
       if FireHack then
         FaceUnit(unit)
       elseif oexecute then

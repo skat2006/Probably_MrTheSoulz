@@ -155,7 +155,7 @@ local inCombat = {
 					"target.debuff(106830).duration < 5"
 				}, "target" },
 				{ "106785", "player.area(8).enemies >= 3" },-- Swipe // FireHack
-			}, { (function() return fetch('mtsconf','Firehack') end) }},
+			}, (function() return fetch('mtsconf','Firehack') end) },
 
   	-- Single Rotation
   		{ "1822", "target.debuff(155722).duration <= 4", "target" }, -- rake

@@ -49,7 +49,7 @@ local inCombat = {
 			{ "120", "target.area(10).enemies >= 5" },--Cone of Cold
 			{ "10", "target.area(10).enemies >= 5", "target.ground" },--Blizzard
 
-	}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
+	}, (function() return fetch('mtsconf','Firehack') end) },
 
 	
 	-- AoE // FallBack

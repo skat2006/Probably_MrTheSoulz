@@ -113,7 +113,7 @@ local inCombat = {
 			-- AoE smart
 				{ "77758", "player.area(8).enemies >= 3", "target" }, -- Thrash  // FH SMARTH AoE
 
-		}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end) }},
+		}, (function() return fetch('mtsconf','Firehack') end) },
 
 			
 		{ "77758", "target.debuff(77758).duration <= 4" }, -- Thrash

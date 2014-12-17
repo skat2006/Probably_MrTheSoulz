@@ -98,7 +98,7 @@ local inCombat = {
 		"target.area(10).enemies >= 4", 
 		"modifier.cooldowns"  
 		} }, 
-  }, {"player.firehack", (function() return fetch('mtsconf','Firehack') end)}},
+  }, (function() return fetch('mtsconf','Firehack') end) },
   
   -- AoE
     { "48045", "modifier.multitarget", "target" }, -- Mind Sear

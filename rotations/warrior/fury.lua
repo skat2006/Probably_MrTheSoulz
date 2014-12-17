@@ -93,7 +93,7 @@ local inCombat = {
 	    	-- AoE smart
 	     	{ "1680", "player.area(8).enemies > 3" }, -- Whirlwind
 
-	  	}, {"player.firehack", (function() return fetch('mtsconf','Firehack') end),}},
+	  	}, (function() return fetch('mtsconf','Firehack') end) },
 
 
 	-- AoE

@@ -35,6 +35,7 @@ rotations\priest\shadow.lua
 rotations\priest\holy.lua
 rotations\warlock\destro.lua
 rotations\hunter\bm.lua
+rotations\hunter\mm.lua
 rotations\mage\arcane.lua
 rotations\mage\frost.lua
 rotations\shaman\resto.lua
