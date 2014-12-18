@@ -73,8 +73,9 @@ local inCombat = {
 	-- Survival
 		{ "#5512", "player.health < 60" }, --Healthstone
 	
-	-- AOE
+	{{-- AOE
 		{ "48438", "@coreHealing.needsHealing(85, 3)", "lowest" }, -- Wildgrowth
+	}, "modifier.multitarget" },
 
 	-- Incarnation: Tree of Life	
 		{ "8936", { "player.buff(16870)", "!lowest.buff", "lowest.health < 80", "player.buff(33891)" }, "lowest" }, -- Regrowth
@@ -136,7 +137,7 @@ local inCombat = {
 			"lowest.health < 50", 
 			"!lowest.buff(8936)", 
 			"!player.moving" 
-			}, "lowest" },	
+		}, "lowest" },	
 
 	-- Genesis
 		{ "145518", { -- Genesis

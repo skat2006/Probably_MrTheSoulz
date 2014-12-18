@@ -144,15 +144,15 @@ local inCombat = {
 		{ "633", (function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'LayonHands')) end), "lowest" }, 
 		
 	-- Flash of Light
-		{ "19750", { -- tank
+		{ "!19750", { -- tank
 			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'FlashofLightTank')) end), 
 			"!player.moving" 
 			}, "tank" },
-		{ "19750", { -- focus
+		{ "!19750", { -- focus
 			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'FlashofLightTank')) end), 
 			"!player.moving" 
 			}, "focus" },
-		{ "19750", { -- lowest
+		{ "!19750", { -- lowest
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'FlashofLight')) end), 
 			"!player.moving" 
 			}, "lowest" },
@@ -198,36 +198,59 @@ local inCombat = {
 				}, "lowest" }, 
 		}, "player.buff(114250).count = 3" }
 	}, "talent(3, 1)" },		
-	
+
 	-- Infusion of Light // proc
 		{ "82327", { -- Holy Radiance - Party
 			"@coreHealing.needsHealing(80, 3)", 
 			"player.buff(54149)",
 			"!player.moving"
-			}, "lowest" }, 
+		}, "lowest" }, 
 		{ "82326", { -- Holy Light
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'HolyLightIL')) end),
 			"player.buff(54149)",
 			"!player.moving" 
-			}, "lowest" },
+		}, "lowest" },
 
+	{{-- AoE
 	-- Light of Dawn
 		{ "85222", { -- party
 			"@coreHealing.needsHealing(90, 3)", 
 			"player.holypower >= 3",
 			"modifier.party" 
-			}, "lowest" },
+		}, "lowest" },
 		{ "85222", { -- raid
 			"@coreHealing.needsHealing(90, 5)", 
 			"player.holypower >= 3", 
 			"modifier.raid", 
 			"!modifier.members > 10" 
-			}, "lowest" }, 
+		}, "lowest" }, 
 		{ "85222", { -- raid 25
 			"@coreHealing.needsHealing(90, 8)", 
 			"player.holypower >= 3", 
 			"modifier.members > 10" 
-			}, "lowest" },
+		}, "lowest" },
+
+	-- Holy Radiance 
+		{ "82327", { -- Holy Radiance - Party
+			"@coreHealing.needsHealing(80, 3)", 
+			"!modifier.last",
+			"!player.moving", 
+			"modifier.party" 
+		}, "lowest" }, 
+		{ "82327", { -- Holy Radiance - Raid 10
+			"@coreHealing.needsHealing(90, 5)", 
+			"!modifier.last", 
+			"!player.moving", 
+			"modifier.raid", 
+			"!modifier.members > 10" 
+		}, "lowest" }, 
+		{ "82327", { -- Holy Radiance 10+
+			"@coreHealing.needsHealing(90, 8)", 
+			"!modifier.last", 
+			"!player.moving", 
+			"modifier.members > 10" 
+		}, "lowest" }, 
+	}, "modifier.multitarget" },
 
 	-- Eternal Flame // talent
 		{ "114163", { 
@@ -304,40 +327,19 @@ local inCombat = {
 			"!lowest.buff(Sacred Shield)" 
 			}, "lowest" },
 
-	-- Holy Radiance 
-		{ "82327", { -- Holy Radiance - Party
-			"@coreHealing.needsHealing(80, 3)", 
-			"!modifier.last",
-			"!player.moving", 
-			"modifier.party" 
-			}, "lowest" }, 
-		{ "82327", { -- Holy Radiance - Raid 10
-			"@coreHealing.needsHealing(90, 5)", 
-			"!modifier.last", 
-			"!player.moving", 
-			"modifier.raid", 
-			"!modifier.members > 10" 
-			}, "lowest" }, 
-		{ "82327", { -- Holy Radiance 10+
-			"@coreHealing.needsHealing(90, 8)", 
-			"!modifier.last", 
-			"!player.moving", 
-			"modifier.members > 10" 
-			}, "lowest" }, 
-
 	-- Holy Light
 		{ "82326", { 
 			(function() return mts_dynamicEval("tank.health < " .. fetch('mtsconfPalaHoly', 'HolyLightTank')) end),
 			"!player.moving" 
-			}, "tank" },
+		}, "tank" },
 		{ "82326", { 
 			(function() return mts_dynamicEval("focus.health < " .. fetch('mtsconfPalaHoly', 'HolyLightTank')) end),
 			"!player.moving" 
-			}, "focus" },
+		}, "focus" },
 		{ "82326", { 
 			(function() return mts_dynamicEval("lowest.health < " .. fetch('mtsconfPalaHoly', 'HolyLight')) end),
 			"!player.moving" 
-			}, "lowest" },
+		}, "lowest" },
 
 } 
 
