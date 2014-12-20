@@ -36,7 +36,7 @@ mts_configMonkMm = {
 				width = 50,
 				min = 0,
 				max = 100,
-				default = 95,
+				default = 100,
 				step = 5
 			},
 			
