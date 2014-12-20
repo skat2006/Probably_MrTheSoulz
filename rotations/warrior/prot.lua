@@ -71,28 +71,25 @@ local inCombat_Defensive = {
   		{ "Victory Rush", "player.health <= 85" },
 
   	-- Proc's
-  		{"Heroic Strike", "player.buff(Ultimatum)", "target"},
-  		{"Shield Slam", "player.buff(Sword and Board)", "target"},
+  		{ "Heroic Strike", "player.buff(Ultimatum)", "target"},
+  		{ "Shield Slam", "player.buff(Sword and Board)", "target"},
 
 	-- AoE
-		{ "Thunder Clap", {
-			"modifier.multitarget", 
-			"taget.buff(Deep Wounds)" 
-		}},
+		{ "Thunder Clap", "modifier.multitarget" },
 
 	-- Rotation normal
-		{"Heroic Strike", {
+		{ "Heroic Strike", {
 			"player.rage > 75", 
 			"target.health >=20"
 		}, "target"},
-		{"Execute", {
+		{ "Execute", {
 			"player.rage > 75", 
 			"target.health <=20"
 		}, "target"},
-		{"Shield Slam"},
-		{"Revenge"},
-		{"Devastate"},
-		{"Thunder Clap", "taget.debuff(Deep Wounds).duration < 2" },
+		{ "Shield Slam"},
+		{ "Revenge"},
+		{ "Devastate"},
+		{ "Thunder Clap", "taget.debuff(Deep Wounds).duration < 2" },
 		
 	-- Ranged
 		{ "57755", "player.range > 10", "target" } -- Heroic Throw
@@ -100,22 +97,19 @@ local inCombat_Defensive = {
 
 local inCombat_Gladiator = {
 
-	{ "/run print('[MTS] This stance is not yet supported! :(')", 
-		(function() 
-			if Glad_Print == false then 
-				Glad_Print = true 
-				return true 
-			end
-			return false
-		end) 
-	},
-	{"71", {
-		"player.stance != 2",
-		(function() 
-			Glad_Print = false
-			return true 
-		end)
-	} },
+	-- AoE
+		{ "Thunder Clap", "modifier.multitarget" },
+
+	-- ST
+		{ "Shield Charge", "!player.buff(Shield Charge)" },
+		{ "Shield Charge", "spell(Shield Charge).charges >= 2" },
+		{ "Heroic Strike", "player.buff(Shield Charge)" },
+		{ "Heroic Strike", "player.buff(Ultimatum)" },
+		{ "Heroic Strike", "player.rage >= 95" },
+		{ "Shield Slam" },
+		{ "Revenge" },
+		{ "Execute" },
+		{ "Devastate" }
 
 }
 
