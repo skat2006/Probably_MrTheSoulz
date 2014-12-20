@@ -374,13 +374,13 @@ local solo = {
 			"player.mana > 20", 
 			"target.spell(47540).range", 
 			"!player.moving",
-			"target.infront"
+			--"target.infront"
 		}, "target" },
 		{ "585", {  --Smite
 			"player.mana > 20", 
 			"!player.moving", 
 			"target.spell(585).range",
-			"target.infront"
+			--"target.infront"
 		}, "target" },
 
 }
