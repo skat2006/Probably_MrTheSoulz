@@ -71,38 +71,47 @@ local inCombat = {
 
 	-- AoE	
 		{{-- Smart AoE [[ Firehack ]]
+			{ "82939", "player.area(35).enemies > 4", "target.ground" }, -- Explosive Trap
 			{ "2643", "player.area(35).enemies > 4", "target" }, -- Multi-Shot
 			{ "Barrage" },
 		}, (function() return fetch('mtsconf','Firehack') end) },
 		{{-- Fallback Aoe
-			{ "2643", "player.area(35).enemies > 4", "target" }, -- Multi-Shot
+			{ "82939", nil, "target.ground" }, -- Explosive Trap
+			{ "2643" }, -- Multi-Shot
 			{ "Barrage" },
 		}, "modifier.multitarget" },
 
 	-- SINGLE TARGET
-	    {{-- Careful Aim // 80% heaçth
-			{ "Aimed Shot" },
-			{ "Focusing Shot", "player.timetomax > 4" },
-			{ "Steady Shot" },
-		}, "target.health >= 80" },
-		{{-- Careful Aim // Buff Rapid Fire
-			{ "Aimed Shot" },
-			{ "Focusing Shot", "player.timetomax > 4" },
-			{ "Steady Shot" },
-		}, "player.buff(Rapid Fire)" },
-		{ "A Murder of Crows" },
-	    { "Dire Beast", "player.timetomax > 3" },
+	    { "A Murder of Crows" },
 	    { "Glaive Toss" },
-	    { "Powershot", "player.timetomax > 2.5" },
-	    { "Barrage" },
-	    { "Steady Shot", "player.timetomax > player.spell(Rapid Fire).cooldown" },
-	    { "Focusing Shot", { "player.focus < 50" }},
-	    { "Steady Shot", { "player.buff(Steady Focus)", "player.timetomax > 5" }},
-	    { "Aimed Shot", "player.spell(Focusing Shot).exists" },
-	    { "Aimed Shot", "player.focus > 80" },
-	    { "Aimed Shot", { "player.buff(34720)", "player.focus > 60" }},
-	    { "Focusing Shot", "player.focus < 50" },
-	    { "Steady Shot" },
+	    { "Chimaera Shot" }, 
+		    {{-- Careful Aim // 80% heaçth
+				{ "Aimed Shot", "player.focus >= 35", "target" },
+				{ "Focusing Shot", "player.timetomax > 4", "target" },
+				{ "Steady Shot" },
+			}, "target.health >= 80" },
+			{{-- Careful Aim // Buff Rapid Fire
+				{ "Aimed Shot", "player.focus >= 35", "target" },
+				{ "Focusing Shot", "player.timetomax > 4", "target" },
+				{ "Steady Shot" },
+			}, "player.buff(Rapid Fire)" },
+		    { "Dire Beast", "player.timetomax > 3" },
+		    { "Powershot", "player.timetomax > 2.5", "target" },
+		    { "Barrage" },
+		    { "Steady Shot", "player.timetomax > player.spell(Rapid Fire).cooldown", "target" },
+		    { "Focusing Shot", "player.focus < 50", "target" },
+		    { "Steady Shot", { 
+		    	"player.buff(Steady Focus)", 
+		    	"player.timetomax > 5" 
+		    }, "target" },
+		    { "Aimed Shot", "player.spell(Focusing Shot).exists", "target" },
+		    { "Aimed Shot", "player.focus > 80", "target" },
+		    { "Aimed Shot", { 
+		    	"player.buff(34720)", 
+		    	"player.focus > 60" 
+		    }, "target" },
+		    { "Focusing Shot", "player.focus < 50", "target" },
+		    { "Steady Shot" },
 
 }
 
