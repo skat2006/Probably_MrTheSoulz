@@ -21,6 +21,11 @@ local _darkSimSpells = {
     "Entangling Roots"
 }
 
+local ignoreDebuffs = {
+	'Mark of Arrogance',
+	'Displaced Energy'
+}
+
 ProbablyEngine.library.register('mtsLib', {
 
     --[[-----------------------------------------------
@@ -337,6 +342,61 @@ ProbablyEngine.library.register('mtsLib', {
             end
         end
         return total > 3
+    end,
+
+    Dispell = function(spell, dtype)
+		if firehack then
+			for i=1,#mts_unitFriendlyCache do
+				if IsSpellInRange(spell, mts_unitFriendlyCache[i].key) then
+					for j = 1, 40 do
+						local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(mts_unitFriendlyCache[i].key, j)
+							if dispelType and dispelType == dtype then
+								local ignore = false
+									for k = 1, #ignoreDebuffs do
+										if debuffName == ignoreDebuffs[k] then
+											ignore = true
+											break
+										end
+									end
+									if not ignore then
+										ProbablyEngine.dsl.parsedTarget = mts_unitFriendlyCache[i].key
+										return true
+									end
+							end
+							if not debuffName then
+								break
+							end
+					end
+				end
+			end
+		else
+			local prefix = (IsInRaid() and 'raid') or 'party'
+				for i = -1, GetNumGroupMembers() - 1 do
+					local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
+						if IsSpellInRange(spell, unit) then
+							for j = 1, 40 do
+								local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(unit, j)
+									if dispelType and dispelType == dtype then
+										local ignore = false
+											for k = 1, #ignoreDebuffs do
+												if debuffName == ignoreDebuffs[k] then
+													ignore = true
+													break
+												end
+											end
+										if not ignore then
+											ProbablyEngine.dsl.parsedTarget = unit
+											return true
+										end
+									end
+									if not debuffName then
+										break
+									end
+							end
+						end
+			end
+			return false
+		end
     end,
  
 })

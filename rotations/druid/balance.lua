@@ -1,10 +1,3 @@
---[[ ///---INFO---////
-// Druid Balance //
-Thank You For Using My ProFiles
-I Hope Your Enjoy Them
-MTS
-]]
-
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
@@ -40,21 +33,6 @@ local inCombat = {
 		{ "164812", "@mtsLib.MoonFire" }, -- moonfire
 		{ "164815", "@mtsLib.SunFire" }, --SunFire
 	}, "toggle.dotEverything" },
-	
-	-- Auto Target
-		{ "/target [target=focustarget, harm, nodead]", {
-			"target.range > 40", "!target.exists",
-			"toggle.autotarget"
-			} },
-		{ "/targetenemy [noexists]", { 
-			"toggle.autotarget", 
-			"!target.exists" 
-			}},
-   		{ "/targetenemy [dead]", { 
-			"toggle.autotarget", 
-			"target.exists", 
-			"target.dead" 
-			}},
 
 	{{ -- AoE smart
 		{ "48505", "player.area(8).enemies >= 4", "target" }, -- Starfall  // FH SMART AoE
@@ -115,4 +93,4 @@ local outCombat = {
 ProbablyEngine.rotation.register_custom(
 	102, 
 	mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Boomkin|r]", 
-	inCombat, outCombat, exeOnLoad, lib)
+	inCombat, outCombat, exeOnLoad)

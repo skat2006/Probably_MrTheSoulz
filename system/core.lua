@@ -5,7 +5,7 @@ I Hope Your Enjoy Them
 MTS
 ]]
 
-mts_Version = "0.1.3.1"
+mts_Version = "0.1.3.2"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mts_peRecomemded = "6.0.3r11"
 
@@ -47,49 +47,7 @@ local mts_ImmuneAuras = {
     143593,     -- Defensive Stance (General Nazgrim)
 }
 
-local ranged = {
-    62,         -- arcane mage
-    63,         -- fire mage
-    64,         -- frost mage
-    65,         -- holy paladin
-    102,        -- balance druid
-    105,        -- restoration druid
-    253,        -- beast mastery hunter
-    254,        -- marksmanship hunter
-    255,        -- survival hunter
-    256,        -- discipline priest
-    257,        -- holy priest
-    258,        -- shadow priest
-    262,        -- elemental shaman
-    263,        -- enhancement shaman
-    264,        -- restoration shaman
-    265,        -- affliction warlock
-    266,        -- demonology warlock
-    267,        -- destruction warlock
-    270,        -- mistweaver monk
-  }
 
-
-
-                                                --[[ Local Functions ]]
---[[------------------------------------------------------------------------------------------------------------]]
---[[------------------------------------------------------------------------------------------------------------]]
-
---[[-----------------------------------------------
-** Automated Targets **
-DESC: Checks if unit can/should be targeted.
-
-Build By: MTS & StinkyTwitch
----------------------------------------------------]]
-local function mts_autoTarget()
-    for i=1,#mts_unitCache do
-        if UnitExists("target") and not UnitIsFriend("player", "target") and not UnitIsDeadOrGhost("target") then
-            -- Do nothing
-        else
-            return Macro("/target "..mts_unitCache[i].key)
-        end
-    end
-end
                                                     --[[ Commands ]]
 --[[------------------------------------------------------------------------------------------------------------]]
 --[[------------------------------------------------------------------------------------------------------------]]
@@ -142,32 +100,6 @@ function mts_immuneEvents(unit, spells)
 end
 
 --[[-----------------------------------------------
-** Im a Ranged? **
-DESC: Checks what range do i need.
-
-Build By: MTS
----------------------------------------------------]]
-function mts_rangeNeeded(unit)
-  local _SpecID =  GetSpecializationInfo(GetSpecialization())
-  if UnitExists(unit) then
-      for i=1,#ranged do
-        -- If its a ranged
-        if _SpecID == ranged[i] then
-            -- If we're using FH // 30 + Player's and Unit's combat range
-            if FireHack then return (30 + (ObjectPosition('player') + UnitCombatReach(unit)))
-            -- Other unlockers dont have UnitCombatReach
-            else return 30 end
-        else
-            -- If we're using FH // 6 + Player's and Unit's combat range
-            if FireHack then return (6 + (ObjectPosition('player') + UnitCombatReach(unit)))
-            -- Other unlockers dont have UnitCombatReach
-            else return 6 end
-        end
-      end
-    end
-end
-
---[[-----------------------------------------------
 ** Infront **
 DESC: Checks if unit is infront.
 Replaces PE build in one beacuse PE's is over sensitive.
@@ -217,6 +149,10 @@ function mts_Distance(a, b)
       local ax, ay, az = opos(a)
       local bx, by, bz = opos(b)
       return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - 6
+
+    -- Fallback to PE's
+    else
+        return ProbablyEngine.condition["distance"](b)
     
     end
   
@@ -310,31 +246,3 @@ function mts_WildMushroom()
       end
 
 end
-
-                                                --[[ Execute ]]
---[[------------------------------------------------------------------------------------------------------------]]
---[[------------------------------------------------------------------------------------------------------------]]
-
-
-
---[[-----------------------------------------------
-** Ticker **
-DESC: MoveTo & Face.
-
-Build By: MTS
- ---------------------------------------------------]]
-C_Timer.NewTicker(0.1, (function()
-  --No Point in Trying any of these if not using an advanced unlocker
-  if FireHack or oexecute then
-    
-    if _PeConfig.read('button_states', 'MasterToggle', false)
-    and ProbablyEngine.module.player.combat then
-      -- Can we target?
-      if fetch('mtsconf', 'AutoTarget') then
-        mts_autoTarget()
-      end
-    
-    end
-
-  end
-end), nil)

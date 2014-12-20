@@ -50,6 +50,10 @@ end
 
 local inCombat = {
 	
+	{{ -- Dispell all?
+		{ "4987", (function() return Dispell() end) },-- Dispel Everything
+	}, (function() return fetch('mtsconfPalaHoly','Dispels') end) },
+
 	--Racials
         -- Dwarves
 			{ "20594", "player.health <= 65" },
@@ -81,24 +85,24 @@ local inCombat = {
 			"!player.buff(90363).any", 
 			"!player.buff(69378).any",
 			(function() return fetch("mtsconfPalaHoly", "Buff") == 'Kings' end),
-			}, nil },
+		}, nil },
 		{ "19740", { -- Blessing of Might
 			"!player.buff(19740).any", 
 			"!player.buff(116956).any", 
 			"!player.buff(93435).any", 
 			"!player.buff(128997).any", 
 			(function() return fetch("mtsconfPalaHoly", "Buff") == 'Might' end),
-			}, nil }, 
+		}, nil }, 
 	
 	-- Seals
 		{ "20165", { -- seal of Insigh
 			"player.seal != 2", 
 			(function() return fetch("mtsconfPalaHoly", "seal") == 'Insight' end),
-			}, nil }, 
+		}, nil }, 
 		{ "105361", { -- seal of Command
 			"player.seal != 1",
 			(function() return fetch("mtsconfPalaHoly", "seal") == 'Command' end),
-			}, nil },
+		}, nil },
 
 	-- keybinds
 		{ "114158", "modifier.shift", "target.ground"}, -- Light´s Hammer
@@ -109,17 +113,26 @@ local inCombat = {
 		{ "#trinket1", (function() return mts_dynamicEval("player.mana <= " .. fetch('mtsconfPalaHoly', 'Trinket1')) end), nil }, -- Trinket 1
 		{ "#trinket2", (function() return mts_dynamicEval("player.mana <= " .. fetch('mtsconfPalaHoly', 'Trinket2')) end), nil }, -- Trinket 2
 
+	{{-- Beacon of Faith
+		{ "156910", {
+			"!player.buff(53563)",
+			"!player.buff(156910)"
+		}, "player" },
+	}, "talent(7,1)" },
+
 	-- Beacon of light
 		{ "53563", {
 			(function() return fetch("mtsconfPalaHoly", "Beacon") == 'Tank' end),
-			"!tank.buff(53563)", 
+			"!tank.buff(53563)",
+			"!tank.buff(156910)",
 			"tank.spell(53563).range" 
-			}, "tank" },
+		}, "tank" },
 		{ "53563", {
 			(function() return fetch("mtsconfPalaHoly", "Beacon") == 'Focus' end),
-			"!focus.buff(53563)", 
+			"!focus.buff(53563)",
+			"!focus.buff(156910)",
 			"focus.spell(53563).range" 
-			}, "focus" }, 
+		}, "focus" }, 
 
 	-- Interrupts
 		{ "96231", {"modifier.interrupts", "target.range <= 6"}, "target" }, -- Rebuke
@@ -128,34 +141,105 @@ local inCombat = {
 		{ "6940", { -- Hand of Sacrifice
 			"tank.spell(6940).range",
 			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'HandofSacrifice')) end)
-			}, "tank" },
+		}, "tank" },
 		{ "6940", { -- Hand of Sacrifice
 			"focus.spell(6940).range",
 			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'HandofSacrifice')) end)
-			}, "focus" },
+		}, "focus" },
 
 	-- Survival     
 		{ "498", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPalaHoly', 'Healthstone')) end), nil }, -- Divine Protection
 		{ "642", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPalaHoly', 'Healthstone')) end), nil }, -- Divine Shield
 
 	-- Lay on Hands
-		{ "633", (function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'LayonHandsTank')) end), "tank" }, 
-		{ "633", (function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'LayonHandsTank')) end), "focus" }, 
-		{ "633", (function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'LayonHands')) end), "lowest" }, 
+		{ "!633", (function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'LayonHandsTank')) end), "tank" }, 
+		{ "!633", (function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'LayonHandsTank')) end), "focus" }, 
+		{ "!633", (function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'LayonHands')) end), "lowest" }, 
 		
+	-- Infusion of Light // proc
+		{{-- AoE
+			{ "82327", { -- Holy Radiance - Party
+				"@coreHealing.needsHealing(80, 3)", 
+				"player.buff(54149)",
+				"!player.moving"
+			}, "lowest" }, 
+		}, "modifier.multitarget" }, 
+		{ "82326", { -- Holy Light
+			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'HolyLightIL')) end),
+			"player.buff(54149)",
+			"!player.moving" 
+		}, "lowest" },
+
+	-- Holy Shock
+		{ "20473", (function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'HolyShockTank')) end), "tank" }, 
+		{ "20473", (function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'HolyShockTank')) end), "focus" }, 
+		{ "20473", (function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'HolyShock')) end), "lowest" }, 
+
+	{{-- AoE
+	-- Light of Dawn
+		{ "85222", { -- party
+			"@coreHealing.needsHealing(90, 3)", 
+			"player.holypower >= 3",
+			"modifier.party" 
+		}, "lowest" },
+		{ "85222", { -- raid
+			"@coreHealing.needsHealing(90, 5)", 
+			"player.holypower >= 3", 
+			"modifier.raid", 
+			"!modifier.members > 10" 
+		}, "lowest" }, 
+		{ "85222", { -- raid 25
+			"@coreHealing.needsHealing(90, 8)", 
+			"player.holypower >= 3", 
+			"modifier.members > 10" 
+		}, "lowest" },
+	-- Holy Radiance 
+		{ "82327", { -- Holy Radiance - Party
+			"@coreHealing.needsHealing(80, 3)", 
+			"!modifier.last",
+			"!player.moving", 
+			"modifier.party" 
+		}, "lowest" }, 
+		{ "82327", { -- Holy Radiance - Raid 10
+			"@coreHealing.needsHealing(90, 5)", 
+			"!modifier.last", 
+			"!player.moving", 
+			"modifier.raid", 
+			"!modifier.members > 10" 
+		}, "lowest" }, 
+		{ "82327", { -- Holy Radiance 10+
+			"@coreHealing.needsHealing(90, 8)", 
+			"!modifier.last", 
+			"!player.moving", 
+			"modifier.members > 10" 
+		}, "lowest" }, 
+	}, "modifier.multitarget" },
+
+	{{-- Beacon of Insight
+		{ "157007", nil, "lowest" },
+		{ "19750", { -- flash of light
+			"lowest.health <= 40", 
+			"!player.moving" 
+		}, "lowest" },
+		{ "82326", { -- Holy Light
+			"lowest.health < 80",
+			"!player.moving" 
+		}, "lowest" },
+	}, "talent(7,2)" },
+
 	-- Flash of Light
 		{ "!19750", { -- tank
 			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'FlashofLightTank')) end), 
 			"!player.moving" 
-			}, "tank" },
+		}, "tank" },
 		{ "!19750", { -- focus
 			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'FlashofLightTank')) end), 
 			"!player.moving" 
-			}, "focus" },
+		}, "focus" },
 		{ "!19750", { -- lowest
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'FlashofLight')) end), 
 			"!player.moving" 
-			}, "lowest" },
+		}, "lowest" },
 
 	{{-- Cooldowns
 		{ "#gloves" }, -- gloves
@@ -165,11 +249,6 @@ local inCombat = {
 		{ "31842", "@coreHealing.needsHealing(90, 4)", nil }, -- Divine Favor
 		{ "105809", "talent(5, 1)", nil }, -- Holy Avenger
 	}, "modifier.cooldowns" },
-	
-	-- Dispel
-		{{ -- Dispell all?
-			{ "4987", (function() return Dispell() end) },-- Dispel Everything
-		}, (function() return fetch('mtsconfPalaHoly','Dispels') end) },
 	
 	-- Execution Sentence // Talent
 		{ "114157", (function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'ExecutionSentenceTank')) end), "tank" },
@@ -197,135 +276,84 @@ local inCombat = {
 				"!player.moving" 
 				}, "lowest" }, 
 		}, "player.buff(114250).count = 3" }
-	}, "talent(3, 1)" },		
+	}, "talent(3, 1)" },
 
-	-- Infusion of Light // proc
-		{ "82327", { -- Holy Radiance - Party
-			"@coreHealing.needsHealing(80, 3)", 
-			"player.buff(54149)",
-			"!player.moving"
-		}, "lowest" }, 
-		{ "82326", { -- Holy Light
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'HolyLightIL')) end),
-			"player.buff(54149)",
-			"!player.moving" 
+	{{-- Sacred Shield // Talent
+		{ "148039", { 
+			"player.spell(148039).charges >= 1", 
+			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'SacredShieldTank')) end), 
+			"!tank.buff(148039)", -- SS
+			"tank.range < 40" 
+		}, "tank" },
+		{ "148039", { 
+			"player.spell(148039).charges >= 1", 
+			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'SacredShieldTank')) end), 
+			"!focus.buff(148039)", 
+			"focus.range < 40" 
+		}, "focus" },
+		{ "148039", { -- Sacred Shield
+			"player.spell(148039).charges >= 2", 
+			"player.health <= 100", 
+			"!player.buff(148039)" 
+		}, "player" },
+		{ "148039", { -- Sacred Shield
+			"player.spell(148039).charges >= 2", 
+			"lowest.health <= 100", 
+			"!lowest.buff(148039)" 
 		}, "lowest" },
+	}, "talent(3,3)" },
 
-	{{-- AoE
-	-- Light of Dawn
-		{ "85222", { -- party
-			"@coreHealing.needsHealing(90, 3)", 
-			"player.holypower >= 3",
-			"modifier.party" 
-		}, "lowest" },
-		{ "85222", { -- raid
-			"@coreHealing.needsHealing(90, 5)", 
-			"player.holypower >= 3", 
-			"modifier.raid", 
-			"!modifier.members > 10" 
-		}, "lowest" }, 
-		{ "85222", { -- raid 25
-			"@coreHealing.needsHealing(90, 8)", 
-			"player.holypower >= 3", 
-			"modifier.members > 10" 
-		}, "lowest" },
-
-	-- Holy Radiance 
-		{ "82327", { -- Holy Radiance - Party
-			"@coreHealing.needsHealing(80, 3)", 
-			"!modifier.last",
-			"!player.moving", 
-			"modifier.party" 
-		}, "lowest" }, 
-		{ "82327", { -- Holy Radiance - Raid 10
-			"@coreHealing.needsHealing(90, 5)", 
-			"!modifier.last", 
-			"!player.moving", 
-			"modifier.raid", 
-			"!modifier.members > 10" 
-		}, "lowest" }, 
-		{ "82327", { -- Holy Radiance 10+
-			"@coreHealing.needsHealing(90, 8)", 
-			"!modifier.last", 
-			"!player.moving", 
-			"modifier.members > 10" 
-		}, "lowest" }, 
-	}, "modifier.multitarget" },
-
-	-- Eternal Flame // talent
+	{{-- Eternal Flame // talent
 		{ "114163", { 
 			"player.holypower >= 3", 
 			"!tank.buff(114163)", 
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'EternalFlameTank')) end)
-			}, "tank" },
+		}, "tank" },
 		{ "114163", { 
 			"player.holypower >= 3", 
 			"!focus.buff(114163)", 
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'EternalFlameTank')) end)
-			}, "focus" },
+		}, "focus" },
 		{ "114163", { 
 			"player.holypower >= 1", 
 			"!lowest.buff(114163)", 
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'EternalFlame')) end)
-			}, "lowest" },
+		}, "lowest" },
+	}, "talent(3,2)" },
 
 	-- Word of Glory
 		{ "85673", {
 			"player.holypower >= 3", 
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'WordofGloryTank')) end)
-			}, "tank"  },
+		}, "tank"  },
 		{ "85673", {
 			"player.holypower >= 3", 
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'WordofGloryTank')) end) 
-			}, "focus"  },
+		}, "focus"  },
 		{ "85673", {
 			"player.holypower >= 3", 
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'WordofGlory')) end)
-			}, "lowest"  },
-
-	-- Holy Shock
-		{ "20473", (function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'HolyShockTank')) end), "tank" }, 
-		{ "20473", (function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'HolyShockTank')) end), "focus" }, 
-		{ "20473", (function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'HolyShock')) end), "lowest" }, 
+		}, "lowest"  },
 		
 	-- Crusader Strike
 		{ "35395", {
 			"target.range <= 6", 
 			(function() return fetch('mtsconfPalaHoly', 'CrusaderStrike') end) 
-			}, "target" },
+		}, "target" },
 
 	-- Holy Prism // Talent
 		{ "114165", { -- Holy Prism
 			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'HolyPrismTank')) end), 
 			"!player.moving" 
-			}, "tank"},
+		}, "tank"},
 		{ "114165", { -- Holy Prism
 			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'HolyPrismTank')) end), 
 			"!player.moving" 
-			}, "focus"},
+		}, "focus"},
 		{ "114165", { -- Holy Prism
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'HolyPrism')) end), 
 			"!player.moving" 
-			}, "lowest"},
-
-	-- Sacred Shield // Talent
-		{ "Sacred Shield", { 
-			"player.spell(Sacred Shield).charges >= 1", 
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'SacredShieldTank')) end), 
-			"!tank.buff(Sacred Shield)", 
-			"tank.spell(Sacred Shield).range" 
-			}, "tank" },
-		{ "Sacred Shield", { 
-			"player.spell(Sacred Shield).charges >= 1", 
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'SacredShieldTank')) end), 
-			"!focus.buff(Sacred Shield)", 
-			"focus.spell(Sacred Shield).range" 
-			}, "focus" },
-		{ "Sacred Shield", { -- Sacred Shield
-			"player.spell(Sacred Shield).charges >= 2", 
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'SacredShield')) end), 
-			"!lowest.buff(Sacred Shield)" 
-			}, "lowest" },
+		}, "lowest"},
 
 	-- Holy Light
 		{ "82326", { 
@@ -370,23 +398,32 @@ local outCombat = {
 		{ "20165", { -- seal of Insigh
 			"player.seal != 2", 
 			(function() return fetch("mtsconfPalaHoly", "seal") == 'Insight' end),
-			}, nil }, 
+		}, nil }, 
 		{ "105361", { -- seal of Command
 			"player.seal != 1",
 			(function() return fetch("mtsconfPalaHoly", "seal") == 'Command' end),
-			}, nil },
+		}, nil },
+
+	{{-- Beacon of Faith
+		{ "156910", {
+			"!player.buff(53563)",
+			"!player.buff(156910)"
+		}, "player" },
+	}, "talent(7,1)" },
 
 	-- Beacon of light
 		{ "53563", {
 			(function() return fetch("mtsconfPalaHoly", "Beacon") == 'Tank' end),
-			"!tank.buff(53563)", 
+			"!tank.buff(53563)",
+			"!tank.buff(156910)",
 			"tank.spell(53563).range" 
-			}, "tank" },
+		}, "tank" },
 		{ "53563", {
 			(function() return fetch("mtsconfPalaHoly", "Beacon") == 'Focus' end),
-			"!focus.buff(53563)", 
+			"!focus.buff(53563)",
+			"!focus.buff(156910)",
 			"focus.spell(53563).range" 
-			}, "focus" }, 
+		}, "focus" }, 
 
 	-- hands
 		{ "1044", "player.state.root" }, -- Hand of Freedom
@@ -394,17 +431,57 @@ local outCombat = {
 	-- Start
 		{ "20473", "lowest.health < 100", "lowest" }, -- Holy Shock
 
+	{{-- AoE
+	-- Light of Dawn
+		{ "85222", { -- party
+			"@coreHealing.needsHealing(90, 3)", 
+			"player.holypower >= 3",
+			"modifier.party" 
+		}, "lowest" },
+		{ "85222", { -- raid
+			"@coreHealing.needsHealing(90, 5)", 
+			"player.holypower >= 3", 
+			"modifier.raid", 
+			"!modifier.members > 10" 
+		}, "lowest" }, 
+		{ "85222", { -- raid 25
+			"@coreHealing.needsHealing(90, 8)", 
+			"player.holypower >= 3", 
+			"modifier.members > 10" 
+		}, "lowest" },
+	-- Holy Radiance 
+		{ "82327", { -- Holy Radiance - Party
+			"@coreHealing.needsHealing(80, 3)", 
+			"!modifier.last",
+			"!player.moving", 
+			"modifier.party" 
+		}, "lowest" }, 
+		{ "82327", { -- Holy Radiance - Raid 10
+			"@coreHealing.needsHealing(90, 5)", 
+			"!modifier.last", 
+			"!player.moving", 
+			"modifier.raid", 
+			"!modifier.members > 10" 
+		}, "lowest" }, 
+		{ "82327", { -- Holy Radiance 10+
+			"@coreHealing.needsHealing(90, 8)", 
+			"!modifier.last", 
+			"!player.moving", 
+			"modifier.members > 10" 
+		}, "lowest" }, 
+	}, "modifier.multitarget" },
+
 	-- Holy Light
 		{ "82326", { 
 			(function() return mts_dynamicEval("lowest.health < " .. fetch('mtsconfPalaHoly', 'HolyLightOCC')) end),
 			"!player.moving" 
-			}, "lowest" },
+		}, "lowest" },
 
 }
 
 ProbablyEngine.rotation.register_custom(
-65,
-mts_Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Holy|r]", 
-inCombat, 
-outCombat, 
-lib)
+	65,
+	mts_Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Holy|r]", 
+	inCombat, 
+	outCombat, 
+	lib)
