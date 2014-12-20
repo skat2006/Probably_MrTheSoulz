@@ -151,7 +151,7 @@ local inCombat = {
 		{ "14914", { --Holy Fire
 			"player.mana > 20",
 			"target.spell(14914).range",
-			"target.infront"
+			--"target.infront"
 		}, "target" },
 
 	-- Surge of light
