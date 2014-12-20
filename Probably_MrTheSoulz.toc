@@ -28,6 +28,7 @@ interface\class\priest\holy.lua
 interface\class\priest\disc.lua
 interface\class\priest\shadow.lua
 interface\class\warrior\prot.lua
+interface\class\monk\mm.lua
 rotations\paladin\protection.lua
 rotations\paladin\holy.lua
 rotations\druid\resto.lua

@@ -64,11 +64,13 @@ local function mts_MoveTo(unit)
 				        	-- If Player is ranged
 				        	if _SpecID == ranged[i] then
 				        		if mts_Distance("player", unit) >= 30 then
+				        			mtsAlert:message('Moving to: '..unit) 
 				            		MoveTo(aX, aY, aZ)
 				            	end
 				        	-- If player is melee
 				        	else
 				            	if mts_Distance("player", unit) >= 6 then
+				            		mtsAlert:message('Moving to: '..unit) 
 				            		MoveTo(aX, aY, aZ)
 				            	end
 				            end
@@ -85,8 +87,10 @@ local function mts_FaceTo(unit)
 	  	if unit and unit ~= "player" and UnitExists(unit) and UnitIsVisible(unit) and LineOfSight then
 	    	if LineOfSight('player', unit) and not mts_infront(unit) then
 	      		if FireHack then
+	      			mtsAlert:message('Facing: '..unit) 
 	        		FaceUnit(unit)
 	      		elseif oexecute then
+	      			mtsAlert:message('Facing: '..unit) 
 	        		oface(unit)
 	      		end
 	    	end
@@ -105,6 +109,7 @@ local function mts_autoTarget(unit)
 	    if UnitExists("target") and not UnitIsFriend("player", "target") and not UnitIsDeadOrGhost("target") then
 	        -- Do nothing
 	    else
+	    	mtsAlert:message('Targeting: '..unit) 
 	        return Macro("/target "..unit)
 	    end
 	end

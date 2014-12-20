@@ -11,36 +11,28 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 	-- Check wich spec the player is to return the currect window.	
 	if _SpecID == 250 and not _OpenClassWindow then -- DK Blood
 		_CurrentSpec = mts_BuildGUI(mts_configDkBlood)
-
 	elseif _SpecID == 252 and not _OpenClassWindow  then -- DK Unholy
 		_CurrentSpec = mts_BuildGUI(mts_configDkUnholy)
-
 	elseif _SpecID == 103 and not _OpenClassWindow  then -- Druid Feral
 		_CurrentSpec = mts_BuildGUI(mts_configDruidFeral)
-
 	elseif _SpecID == 104 and not _OpenClassWindow  then -- Druid Guardian
 		_CurrentSpec = mts_BuildGUI(mts_configDruidGuard)
-
 	elseif _SpecID == 105 and not _OpenClassWindow  then -- Druid Resto
 		_CurrentSpec = mts_BuildGUI(mts_configDruidResto)
-
 	elseif _SpecID == 257 and not _OpenClassWindow  then -- Priest holy
 		_CurrentSpec = mts_BuildGUI(mts_configPriestHoly)
-
 	elseif _SpecID == 258 and not _OpenClassWindow  then -- Priest Shadow
 		_CurrentSpec = mts_BuildGUI(mts_configPriestShadow)
-	
 	elseif _SpecID == 256 and not _OpenClassWindow  then -- Priest Disc
 		_CurrentSpec = mts_BuildGUI(mts_configPriestDisc)
-
 	elseif _SpecID == 66 and not _OpenClassWindow  then -- Pala Prot
 		_CurrentSpec = mts_BuildGUI(mts_configPalaProt)
-
 	elseif _SpecID == 65 and not _OpenClassWindow  then -- Pala Holy
 		_CurrentSpec = mts_BuildGUI(mts_configPalaHoly)	
-
 	elseif _SpecID == 73 and not _OpenClassWindow  then -- Warrior Protection
-		_CurrentSpec = mts_BuildGUI(mts_configWarrProt)	
+		_CurrentSpec = mts_BuildGUI(mts_configWarrProt)
+	elseif _SpecID == 270 and not _OpenClassWindow  then -- Monk Mistweaver
+		_CurrentSpec = mts_BuildGUI(mts_configMonkMm)	
 	end
 
 	-- If no window been created, create one...
