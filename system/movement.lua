@@ -122,7 +122,7 @@ DESC: MoveTo & Face.
 Build By: MTS
  ---------------------------------------------------]]
 C_Timer.NewTicker(0.1, (function()
-  	if FireHack or oexecute then
+  	if (FireHack or oexecute) and mts_CurrentCR then
 	    if _PeConfig.read('button_states', 'MasterToggle', false) and ProbablyEngine.module.player.combat then
 	    	for i=1,#mts_unitCache do
 		        mts_MoveTo(mts_unitCache[i].key)

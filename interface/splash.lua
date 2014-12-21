@@ -23,6 +23,7 @@ function mts_Splash(message)
 		mtsSplash:Show()
 		PlaySoundFile("Sound\\Interface\\Levelup.Wav")
 	end
+	mts_CurrentCR = true
 end
 
 mtsSplash = CreateFrame("Frame", nil,UIParent)

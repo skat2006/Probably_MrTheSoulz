@@ -320,5 +320,7 @@ function mts_cacheGUI()
 end
 
 C_Timer.NewTicker(0.1, (function()
-    mts_unitCacheFun()
+    if mts_CurrentCR then
+        mts_unitCacheFun()
+    end
 end), nil)

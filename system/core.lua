@@ -8,6 +8,7 @@ MTS
 mts_Version = "0.1.3.2"
 mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
 mts_peRecomemded = "6.0.3r11"
+mts_CurrentCR = false
 
 local fetch = ProbablyEngine.interface.fetchKey
 local _parse = ProbablyEngine.dsl.parse

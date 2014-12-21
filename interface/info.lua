@@ -33,18 +33,69 @@ local mts_info = {
 
 		-- General Status
 		{ type = 'rule' },
-		{ type = 'header', text = "|cff9482C9MrTheSoulz General Status:", align = "center"},
+		{ 
+			type = 'header', 
+			text = "|cff9482C9MrTheSoulz General Status:", 
+			align = "center"
+		},
 		{ type = 'spacer' },
 
-			{ type = "text", text = "Unlocker Status: ", size = 11, offset = -11 },
-			{ key = 'current_Unlocker', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
-
-			{ type = "text", text = "PE Version Status: ", size = 11, offset = -11 },
-			{ key = 'current_PEStatus', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
-
-			{ type = "text", text = "Overall Status: ", size = 11, offset = -11 },
-			{ key = 'current_Status', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
-
+			{ 
+				type = "text", 
+				text = "Unlocker Status: ", 
+				size = 11, 
+				offset = -11 
+			},
+			{ 
+				key = 'current_Unlocker', 
+				type = "text", 
+				text = "Random", 
+				size = 11, 
+				align = "right", 
+				offset = 0 
+			},
+			{ 
+				type = "text", 
+				text = "PE Version Status: ", 
+				size = 11, 
+				offset = -11 
+			},
+			{ 
+				key = 'current_PEStatus', 
+				type = "text", 
+				text = "Random", 
+				size = 11, 
+				align = "right", 
+				offset = 0 
+			},
+			{ 
+				type = "text", 
+				text = "Using MTS Profiles: ", 
+				size = 11, 
+				offset = -11 
+			},
+			{ 
+				key = 'current_MTSProfiles', 
+				type = "text", 
+				text = "Random", 
+				size = 11, 
+				align = "right", 
+				offset = 0 
+			},
+			{ 
+				type = "text", 
+				text = "Overall Status: ", 
+				size = 11, 
+				offset = -11 
+			},
+			{ 
+				key = 'current_Status', 
+				type = "text", 
+				text = "Random", 
+				size = 11, 
+				align = "right", 
+				offset = 0 
+			},
 			{ 
 				type = "button", 
 				text = "Test Unlocker (If you jump, it works)", 
@@ -149,10 +200,20 @@ end
 -- current status
 local function mtsInfoStatus()
 	if ProbablyEngine.version == mts_peRecomemded
-	and (ProbablyEngine.pmethod ~= nil or ProbablyEngine.protected.method ~= nil) then
+	and (ProbablyEngine.pmethod ~= nil or ProbablyEngine.protected.method ~= nil) 
+	and mts_CurrentCR then
 		return "|cff00FF96Okay!"
 	else 
 		return "|cffC41F3BOuch, something is not right..."
+	end
+end
+
+-- Using MTS Profiles?
+local function mtsProfiles()
+	if mts_CurrentCR then
+		return "|cff00FF96Currently using MTS Profiles"
+	else 
+		return "|cffC41F3BNot using MTS Profiles"
 	end
 end
 
@@ -162,6 +223,7 @@ local function mts_updateLiveInfo()
 	InfoWindow.elements.current_Unlocker:SetText(UnlockerInfo())
 	InfoWindow.elements.current_PEStatus:SetText(PEVersionInfo())
 	InfoWindow.elements.current_Status:SetText(mtsInfoStatus())
+	InfoWindow.elements.current_MTSProfiles:SetText(mtsProfiles())
 	-- Advanced Status
 	InfoWindow.elements.current_movementStatus:SetText(MovementInfo())
 	InfoWindow.elements.current_cacheStatus:SetText(CacheInfo())
