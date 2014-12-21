@@ -110,7 +110,7 @@ local mts_config = {
 
 function mts_ConfigGUI()
 	if fetch('mtsconf', 'Sounds') then
-		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\menu.mp3")
+		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3")
 	end
 
 	-- If a frame has not been created, create one...

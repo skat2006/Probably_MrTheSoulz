@@ -49,7 +49,7 @@ local mts_info = {
 			{ 
 				key = 'current_Unlocker', 
 				type = "text", 
-				text = "Random", 
+				text = "Loading...", 
 				size = 11, 
 				align = "right", 
 				offset = 0 
@@ -63,7 +63,7 @@ local mts_info = {
 			{ 
 				key = 'current_PEStatus', 
 				type = "text", 
-				text = "Random", 
+				text = "Loading...", 
 				size = 11, 
 				align = "right", 
 				offset = 0 
@@ -77,7 +77,7 @@ local mts_info = {
 			{ 
 				key = 'current_MTSProfiles', 
 				type = "text", 
-				text = "Random", 
+				text = "Loading...", 
 				size = 11, 
 				align = "right", 
 				offset = 0 
@@ -91,7 +91,7 @@ local mts_info = {
 			{ 
 				key = 'current_Status', 
 				type = "text", 
-				text = "Random", 
+				text = "Loading...", 
 				size = 11, 
 				align = "right", 
 				offset = 0 
@@ -112,10 +112,10 @@ local mts_info = {
 		{ type = 'spacer' },
 
 			{ type = "text", text = "Smart AoE Status: ", size = 11, offset = -11 },
-			{ key = 'current_smartAoEStatus', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+			{ key = 'current_smartAoEStatus', type = "text", text = "Loading...", size = 11, align = "right", offset = 0 },
 
 			{ type = "text", text = "Movement Status: ", size = 11, offset = -11 },
-			{ key = 'current_movementStatus', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+			{ key = 'current_movementStatus', type = "text", text = "Loading...", size = 11, align = "right", offset = 0 },
 
 		{ type = 'rule' },
 		{ type = 'header', text = "|cff9482C9MrTheSoulz Pack Information:", align = "center"},
@@ -221,7 +221,7 @@ end
 
 function mts_InfoGUI()
 	if fetch('mtsconf', 'Sounds') then
-		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\menu.mp3")
+		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3")
 	end
 
 	if not mts_OpenInfoWindow then

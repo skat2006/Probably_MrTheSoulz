@@ -17,43 +17,61 @@ local mts_live = {
 
 		-- Current Spell
 		{ type = "text", text = "Queued: ", size = 11, offset = -11 },
-		{ key = 'current_Queue', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+		{ key = 'current_Queue', type = "text", text = "Loading...", size = 11, align = "right", offset = 0 },
 
 		-- Current Spell
 		{ type = "text", text = "Last Used: ", size = 11, offset = -11 },
-		{ key = 'current_spell', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+		{ key = 'current_spell', type = "text", text = "Loading...", size = 11, align = "right", offset = 0 },
 
 		-- AoE
 		{ type = "text", text = "AoE: ", size = 11, offset = -11 },
-		{ key = 'current_AoE', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+		{ key = 'current_AoE', type = "text", text = "Loading...", size = 11, align = "right", offset = 0 },
 
 		-- Interrupts
 		{ type = "text", text = "Interrupts: ", size = 11, offset = -11 },
-		{ key = 'current_Interrupts', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+		{ key = 'current_Interrupts', type = "text", text = "Loading...", size = 11, align = "right", offset = 0 },
 
 		-- Cooldowns
 		{ type = "text", text = "Cooldowns: ", size = 11, offset = -11 },
-		{ key = 'current_Cooldowns', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
+		{ key = 'current_Cooldowns', type = "text", text = "Loading...", size = 11, align = "right", offset = 0 },
 
 		{ type = "spacer" },
-
-		-- Class GUI
-		{ type = "button", text = "Class Settings", width = 180, height = 20,
+		{ 
+			type = "button", 
+			text = "Class Settings", 
+			width = 180, 
+			height = 20,
 			callback = function()
 				mts_ClassGUI()
-			end},
-
-		-- General GUI
-		{ type = "button", text = "General Settings", width = 180, height = 20,
+			end
+		},
+		{ 
+			type = "button", 
+			text = "General Settings", 
+			width = 180, 
+			height = 20,
 			callback = function()
 				mts_ConfigGUI()
-			end},
-
-		-- Info GUI
-		{ type = "button", text = "Information", width = 180, height = 20,
+			end
+		},
+		{ 
+			type = "button", 
+			text = "Information", 
+			width = 180, 
+			height = 20,
 			callback = function()
 				mts_InfoGUI()
-			end},
+			end
+		},
+		{ 
+			type = "button", 
+			text = "Unit Cache", 
+			width = 180, 
+			height = 20,
+			callback = function()
+				mts_cacheGUI()
+			end
+		},
 
 	}
 }

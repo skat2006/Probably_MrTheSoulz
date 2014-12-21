@@ -223,7 +223,7 @@ local mts_cacheInfo = {
                     { 
                         key = 'current_CacheStatus', 
                         type = "text", 
-                        text = "Random", 
+                        text = "Loading...", 
                         size = 11, 
                         offset = 11 
                     },
@@ -237,7 +237,7 @@ local mts_cacheInfo = {
 					{ 
 						key = 'current_Cache1Total', 
 						type = "text", 
-						text = "Random", 
+						text = "Loading...", 
 						size = 11, 
 						offset = 0 
 					},
@@ -250,7 +250,7 @@ local mts_cacheInfo = {
 					{ 
 						key = 'current_Cache1', 
 						type = "text", 
-						text = "Random", 
+						text = "Loading...", 
 						size = 11, 
 						offset = 36 
 					},
@@ -264,7 +264,7 @@ local mts_cacheInfo = {
 					{ 
 						key = 'current_Cache2Total', 
 						type = "text", 
-						text = "Random", 
+						text = "Loading...", 
 						size = 11, 
 						offset = 0 
 					},
@@ -277,7 +277,7 @@ local mts_cacheInfo = {
 					{ 
 						key = 'current_Cache2', 
 						type = "text", 
-						text = "Random", 
+						text = "Loading...", 
 						size = 11, 
 						offset = 36 
 					},

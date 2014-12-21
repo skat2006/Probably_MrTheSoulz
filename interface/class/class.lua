@@ -39,7 +39,7 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 	end
 
 	if fetch('mtsconf', 'Sounds') then
-		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\menu.mp3")
+		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3")
 	end
 
 	-- If no window been created, create one...
