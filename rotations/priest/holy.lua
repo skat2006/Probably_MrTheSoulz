@@ -43,6 +43,7 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 end 
 
 local exeOnLoad = function()
+mts_Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
 	
 	ProbablyEngine.toggle.create(
 	'dotEverything', 

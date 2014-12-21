@@ -10,6 +10,7 @@ local Glad_Print = false
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
+mts_Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
 	ProbablyEngine.toggle.create('tc', 
 		'Interface\\Icons\\ability_deathwing_bloodcorruption_death', 
 		'Threat Control', 

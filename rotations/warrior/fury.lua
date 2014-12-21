@@ -8,6 +8,7 @@ MTS
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
+mts_Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
 
 	
 	
