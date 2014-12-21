@@ -22,6 +22,7 @@ interface\class\dk\unholy.lua
 interface\class\druid\resto.lua
 interface\class\druid\guard.lua
 interface\class\druid\feral.lua
+interface\class\druid\Balance.lua
 interface\class\paladin\holy.lua
 interface\class\paladin\prot.lua
 interface\class\priest\holy.lua

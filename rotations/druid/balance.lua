@@ -11,9 +11,6 @@ local exeOnLoad = function()
 end
 
 local inCombat = {
-		
-	-- Bird form // ???
-	    --{ "player.form = 4" },  
 			
 	-- Interrupts
 		{ "78675", "target.interruptsAt(50)" }, -- Solar Beam
@@ -59,7 +56,71 @@ local inCombat = {
   
 }
 
+local inCombatNoForm = {
+	
+	{ "768", { -- catform
+  		"player.form != 2",
+  		"!modifier.lalt", -- Stop if pressing left alt
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidBalance','Form') == Cat end),
+  	} --[[NO TARGET]] },
+  	{ "787", { -- Travel
+  		"player.form != 3", 
+  		"!modifier.lalt", -- Stop if pressing left alt
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidBalance','Form') == Travel end),
+  	} --[[NO TARGET]] },
+  	{ "5487", { -- bear
+  		"player.form != 1",
+  		"!modifier.lalt", -- Stop if pressing left alt
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidBalance','Form') == Bear end),
+  	} --[[NO TARGET]] },
+  	{ "24858", { -- boomkin
+  		"!player.buff(24858)", 
+  		"!modifier.lalt", -- Stop if pressing left alt
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidBalance','Form') == Boomkin end),
+  	} --[[NO TARGET]] },
+
+}
+
 local outCombat = {
+
+	{ "768", { -- catform
+  		"player.form != 2",
+  		"!modifier.lalt", -- Stop if pressing left alt
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidBalance','FormOCC') == Cat end),
+  	} --[[NO TARGET]] },
+  	{ "787", { -- Travel
+  		"player.form != 3", 
+  		"!modifier.lalt", -- Stop if pressing left alt
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidBalance','FormOCC') == Travel end),
+  	} --[[NO TARGET]] },
+  	{ "5487", { -- bear
+  		"player.form != 1",
+  		"!modifier.lalt", -- Stop if pressing left alt
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidBalance','FormOCC') == Bear end),
+  	} --[[NO TARGET]] },
+  	{ "24858", { -- boomkin
+  		"!player.buff(24858)", 
+  		"!modifier.lalt", -- Stop if pressing left alt
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidBalance','FormOCC') == Boomkin end),
+  	} --[[NO TARGET]] },
+
+		{ "1126", {  -- Mark of the Wild
+			"!player.buff(20217).any", -- kings
+			"!player.buff(115921).any", -- Legacy of the Emperor
+			"!player.buff(1126).any",   -- Mark of the Wild
+			"!player.buff(90363).any",  -- embrace of the Shale Spider
+			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
+			"!player.buff(5215)",-- Not in Stealth
+			"player.form = 0" 
+		}  --[[NO TARGET]] }, -- Player not in form
 
 	--	keybinds
 	--	{ "5185", "player.health < 85"}, --Full Healh ooc
@@ -68,29 +129,12 @@ local outCombat = {
 		{ "20484", { 
 			"modifier.lshift", 
 			"!target.alive" 
-			}, "target" }, -- Rebirth
-		
-	-- Buffs
-  		{ -- Cancel player form
-  			"player.form > 0",  -- Is in any form
-  			"!player.buff(20217).any", -- kings
-			"!player.buff(115921).any", -- Legacy of the Emperor
-			"!player.buff(1126).any",   -- Mark of the Wild
-			"!player.buff(90363).any",  -- embrace of the Shale Spider
-			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
-  			"!player.buff(5215)" },-- Not in Stealth
-		{ "1126", {  -- Mark of the Wild
-			"!player.buff(20217).any", -- kings
-			"!player.buff(115921).any", -- Legacy of the Emperor
-			"!player.buff(1126).any",   -- Mark of the Wild
-			"!player.buff(90363).any",  -- embrace of the Shale Spider
-			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
-			"!player.buff(5215)",-- Not in Stealth
-			"player.form = 0" }}, -- Player not in form
-
+		}, "target" }, -- Rebirth
 }
 
-ProbablyEngine.rotation.register_custom(
-	102, 
-	mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Boomkin|r]", 
-	inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(102, mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Boomkin|r]", 
+		{-- Dyn Change CR
+		 	{ inCombat, "player.buff(24858)" },
+		 	{ inCombatNoForm, "player.form = 0" },
+		},
+	outCombat, exeOnLoad)

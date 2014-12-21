@@ -1,10 +1,3 @@
---[[ ///---INFO---////
-// Druid Guard //
-Thank You For Using My ProFiles
-I Hope Your Enjoy Them
-MTS
-]]
-
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
@@ -13,7 +6,7 @@ local exeOnLoad = function()
 end
 
 local inCombat = {
-	
+
 	-- rake // prowl with glyph
 		{ "1822", {
 			"player.buff(5215)", -- prowl
@@ -65,36 +58,6 @@ local inCombat = {
   	--Interrupts
 	  	{ "106839", "modifier.interrupt", "target"},	-- Skull Bash
 		{ "5211", "modifier.interrupt", "target" }, -- Mighty Bash
-
-  	-- Cat && MotW
-  		{ "/cancelaura Cat Form", { -- Cancel player form
-  			"player.form > 0",  -- Is in any fom
-  			"!player.buff(20217).any", -- kings
-			"!player.buff(115921).any", -- Legacy of the Emperor
-			"!player.buff(1126).any",   -- Mark of the Wild
-			"!player.buff(90363).any",  -- embrace of the Shale Spider
-			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
-  			"!player.buff(5215)",-- Not in Stealth
-  			(function() return fetch('mtsconfDruidFeral','Cat') end)
-  		} --[[NO TARGET]] },
-
-		{ "1126", {  -- Mark of the Wild
-			"!player.buff(20217).any", -- kings
-			"!player.buff(115921).any", -- Legacy of the Emperor
-			"!player.buff(1126).any",   -- Mark of the Wild
-			"!player.buff(90363).any",  -- embrace of the Shale Spider
-			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
-			"!player.buff(5215)",-- Not in Stealth
-			"player.form = 0", -- Player not in form
-			(function() return fetch('mtsconfDruidFeral','Buffs') end)
-		} --[[NO TARGET]] }, 
-
-  		{ "768", { -- catform
-  			"player.form != 2", -- Stop if cat
-  			"!modifier.lalt", -- Stop if pressing left alt
-  			"!player.buff(5215)", -- Not in Stealth
-  			(function() return fetch('mtsconfDruidFeral','Cat') end)
-  		} --[[NO TARGET]] },
 
   	--Cooldowns
 	  	{ "106737", {  --Force of Nature
@@ -171,28 +134,58 @@ local inCombat = {
   
 }
 
+local inCombatNoForm = {
+	
+	{ "768", { -- catform
+  		"player.form != 2", -- Stop if cat
+  		"!modifier.lalt", -- Stop if pressing left alt
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidFeral','Form') == Cat end),
+  	} --[[NO TARGET]] },
+  	{ "787", { -- Travel
+  		"player.form != 3", -- Stop if cat
+  		"!modifier.lalt", -- Stop if pressing left alt
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidFeral','Form') == Travel end),
+  	} --[[NO TARGET]] },
+  	{ "5487", { -- catform
+  		"player.form != 1", -- Stop if cat
+  		"!modifier.lalt", -- Stop if pressing left alt
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidFeral','Form') == Bear end),
+  	} --[[NO TARGET]] },
+
+}
+
 local outCombat = {
 	
-	--	keybinds
-	  	{ "Ursol's Vortex", {"modifier.shift", "target.exists"}, "mouseover.ground" }, -- Ursol's Vortex
-	  	{ "Disorienting Roar", "modifier.shift" },
-	  	{ "Mighty Bash", {"modifier.control", "target.exists"}, "target" },
-	  	{ "Typhoon", {"modifier.alt", "target.exists"}, "target" },
-	  	{ "Mass Entanglement", "modifier.shift" },
+	{ "768", { -- catform
+  		"player.form != 2", -- Stop if cat
+  		"!modifier.lalt", -- Stop if pressing left alt
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidFeral','FormOCC') == Cat end),
+  	} --[[NO TARGET]] },
+  	{ "787", { -- Travel
+  		"player.form != 3", -- Stop if cat
+  		"!modifier.lalt", -- Stop if pressing left alt
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidFeral','FormOCC') == Travel end),
+  	} --[[NO TARGET]] },
+  	{ "5487", { -- catform
+  		"player.form != 1", -- Stop if cat
+  		"!modifier.lalt", -- Stop if pressing left alt
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidFeral','FormOCC') == Bear end),
+  	} --[[NO TARGET]] },
+
+  	{ "5215", { -- Stealth
+  		"player.form = 2", -- If cat
+  		"!player.buff(5215)", -- Not in Stealth
+  		(function() return fetch('mtsconfDruidFeral','Prowl') end),
+  	} --[[NO TARGET]] },
 
 	-- buff
 		-- Cat && MotW
-  		{ "/cancelaura Cat Form", { -- Cancel player form
-  			"player.form > 0",  -- Is in any fom
-  			"!player.buff(20217).any", -- kings
-			"!player.buff(115921).any", -- Legacy of the Emperor
-			"!player.buff(1126).any",   -- Mark of the Wild
-			"!player.buff(90363).any",  -- embrace of the Shale Spider
-			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
-  			"!player.buff(5215)",-- Not in Stealth
-  			(function() return fetch('mtsconfDruidFeral','CatOOC') end)
-  		} --[[NO TARGET]] },
-
 		{ "1126", {  -- Mark of the Wild
 			"!player.buff(20217).any", -- kings
 			"!player.buff(115921).any", -- Legacy of the Emperor
@@ -202,23 +195,20 @@ local outCombat = {
 			"!player.buff(5215)",-- Not in Stealth
 			"player.form = 0", -- Player not in form
 			(function() return fetch('mtsconfDruidFeral','Buffs') end),
-		} --[[NO TARGET]] }, 
+		} --[[NO TARGET]] },
 
-  		{ "768", { -- catform
-  			"player.form != 2", -- Stop if cat
-  			"!modifier.lalt", -- Stop if pressing left alt
-  			"!player.buff(5215)", -- Not in Stealth
-  			(function() return fetch('mtsconfDruidFeral','CatOOC') end),
-  		} --[[NO TARGET]] },
-  		{ "5215", { -- Stealth
-  			"player.form = 2", -- If cat
-  			"!player.buff(5215)", -- Not in Stealth
-  			(function() return fetch('mtsconfDruidFeral','Prowl') end),
-  		} --[[NO TARGET]] },
+	--	keybinds
+	  	{ "Ursol's Vortex", {"modifier.shift", "target.exists"}, "mouseover.ground" }, -- Ursol's Vortex
+	  	{ "Disorienting Roar", "modifier.shift" },
+	  	{ "Mighty Bash", {"modifier.control", "target.exists"}, "target" },
+	  	{ "Typhoon", {"modifier.alt", "target.exists"}, "target" },
+	  	{ "Mass Entanglement", "modifier.shift" },
 
 }
 
-ProbablyEngine.rotation.register_custom(
-	103, 
-	mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Feral|r]", 
-	inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(103, mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Feral|r]", 
+		{ -- Change CR Dyn
+			{inCombat, "player.form = 2"},
+			{inCombatNoForm, "player.form = 0"}
+		}, 
+	outCombat, exeOnLoad)

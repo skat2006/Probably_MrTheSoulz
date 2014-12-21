@@ -1,10 +1,10 @@
 local logo = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:15:15|t"
 
-mts_configDruidFeral = {
-	key = "mtsconfDruidFeral",
+mts_configDruidBalance = {
+	key = "mtsconfDruidBalance",
 	profiles = true,
 	title = logo.."MrTheSoulz Config",
-	subtitle = "Druid Feral Settings",
+	subtitle = "Druid Balance Settings",
 	color = "FF7D0A",
 	width = 250,
 	height = 500,
@@ -36,11 +36,15 @@ mts_configDruidFeral = {
 			          key = "Travel"
 			        },
 			        {
+			          text = "Boomkin",
+			          key = "Boomkin"
+			        },
+			        {
 			          text = "MANUAL",
 			          key = "MANUAL"
 			        }
 			    }, 
-		    	default = "Cat", 
+		    	default = "Boomkin", 
 		    	desc = "Select What form to use while in of combat" 
 		    },
 			{ 
@@ -61,37 +65,17 @@ mts_configDruidFeral = {
 			          key = "Travel"
 			        },
 			        {
+			          text = "Boomkin",
+			          key = "Boomkin"
+			        },
+			        {
 			          text = "MANUAL",
 			          key = "MANUAL"
 			        }
 			    }, 
-		    	default = "Cat", 
+		    	default = "Boomkin", 
 		    	desc = "Select What form to use while out of combat" 
 		    },
-
-			-- Prowl
-			{ type = "checkbox", text = "Prowl", key = "Prowl", default = false, desc =
-			 "This checkbox enables or disables the use of automatic Prowl when out of combat."},
-
-		-- Player
-		{ type = 'rule' },
-		{ type = 'header', text = "Player settings:", align = "center"},
-
-			-- Tiger's Fury
-			{ type = "spinner", text = "Tigers Fury", key = "TigersFury", default = 35},
-
-			-- Renewal
-			{ type = "spinner", text = "Renewal", key = "Renewal", default = 30},
-
-			-- Cenarion Ward
-			{ type = "spinner", text = "Cenarion Ward", key = "CenarionWard", default = 75},
-
-			-- Survival Instincts
-			{ type = "spinner", text = "Survival Instincts", key = "SurvivalInstincts", default = 75},
-
-			-- Healing Touch
-			{ type = "spinner", text = "Healing Touch", key = "HealingTouch", default = 70, Desc=
-			"When player as buff (Predatory Swiftness)."},		
 
 	}
 }

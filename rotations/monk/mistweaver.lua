@@ -355,8 +355,8 @@ local outCombat = {
 
 
 ProbablyEngine.rotation.register_custom(270, mts_Icon.."|r[|cff9482C9MTS|r][|cff00FF96Monk-Mistweaver|r]", 
-	{-- Change CR dyn
-		{ inCombatSerpente, "player.stance = 1" },
-		{ inCombatCrane, "player.stance = 2" },
-	},
+		{-- Change CR dyn
+			{ inCombatSerpente, "player.stance = 1" },
+			{ inCombatCrane, "player.stance = 2" },
+		},
   	outCombat, exeOnLoad)

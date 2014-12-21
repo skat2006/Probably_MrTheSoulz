@@ -19,6 +19,8 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 		_CurrentSpec = mts_BuildGUI(mts_configDruidGuard)
 	elseif _SpecID == 105 and not _OpenClassWindow  then -- Druid Resto
 		_CurrentSpec = mts_BuildGUI(mts_configDruidResto)
+	elseif _SpecID == 102 and not _OpenClassWindow  then -- Druid Balance
+		_CurrentSpec = mts_BuildGUI(mts_configDruidBalance)
 	elseif _SpecID == 257 and not _OpenClassWindow  then -- Priest holy
 		_CurrentSpec = mts_BuildGUI(mts_configPriestHoly)
 	elseif _SpecID == 258 and not _OpenClassWindow  then -- Priest Shadow
