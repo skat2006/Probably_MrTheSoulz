@@ -320,10 +320,6 @@ local function mts_updateCacheInfo()
 end
 
 function mts_cacheGUI()
-    if fetch('mtsconf', 'Sounds') then
-        PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3")
-    end
-
     if not mts_OpenCacheWindow then
         mts_cacheWindow = ProbablyEngine.interface.buildGUI(mts_cacheInfo)
         mts_cacheWindowUpdating = true

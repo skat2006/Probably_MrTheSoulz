@@ -38,10 +38,6 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 		_CurrentSpec = mts_BuildGUI(mts_configMonkMm)	
 	end
 
-	if fetch('mtsconf', 'Sounds') then
-		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3")
-	end
-
 	-- If no window been created, create one...
 	if not _OpenClassWindow and _CurrentSpec ~= nil then
 		_OpenClassWindow = true

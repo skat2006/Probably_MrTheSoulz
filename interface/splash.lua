@@ -21,7 +21,8 @@ function mts_Splash(message)
 		mtsSplash.time = GetTime()
 		mtsStart:Show()
 		mtsSplash:Show()
-		PlaySoundFile("Sound\\Interface\\Levelup.Wav")
+		--PlaySoundFile("Sound\\Interface\\Levelup.Wav")
+		PlaySound("UnwrapGift", "master");
 	end
 	mts_CurrentCR = true
 end

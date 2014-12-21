@@ -109,10 +109,6 @@ local mts_config = {
 }
 
 function mts_ConfigGUI()
-	if fetch('mtsconf', 'Sounds') then
-		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3")
-	end
-
 	-- If a frame has not been created, create one...
 	if not mts_OpenConfigWindow then
 		ConfigWindow = ProbablyEngine.interface.buildGUI(mts_config)
