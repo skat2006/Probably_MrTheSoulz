@@ -146,7 +146,7 @@ local mts_cacheInfo = {
 				{ 
 					type = 'text', 
 					text = "|cff9482C9Cache Options:", 
-					size = 20, 
+					size = 15, 
 					offset = 0 
 				},
 					{ 
@@ -213,11 +213,25 @@ local mts_cacheInfo = {
 						default = 40,
 						step = 5
 					},
+                { type = 'rule' },{ type = 'spacer' },
+                { 
+                    type = 'text', 
+                    text = "|cff9482C9Unit Cache Status:", 
+                    size = 15, 
+                    offset = 0 
+                },
+                    { 
+                        key = 'current_CacheStatus', 
+                        type = "text", 
+                        text = "Random", 
+                        size = 11, 
+                        offset = 11 
+                    },
 				{ type = 'rule' },{ type = 'spacer' },
 				{ 
 					type = 'text', 
 					text = "|cff9482C9Unit Cache:", 
-					size = 20, 
+					size = 15, 
 					offset = 0 
 				},
 					{ 
@@ -244,7 +258,7 @@ local mts_cacheInfo = {
 				{ 
 					type = 'text', 
 					text = "|cff9482C9Friendly Unit Cache:", 
-					size = 20, 
+					size = 15, 
 					offset = 0 
 				},
 					{ 
@@ -276,6 +290,23 @@ local mts_OpenCacheWindow = false
 local mts_ShowingCacheWindow = false
 local mts_cacheWindowUpdating = false
 
+-- Check if possivel to smart cache
+local function CacheInfo()
+    if mts_CurrentCR then
+        if fetch("cacheInfo", "AC") then
+            if FireHack then
+                return "|cff00FF96Using Unlocker object manager."
+            else
+                return "|cffC41F3BUsing Raid/Party Targets.\nUnlocker Dosent have Object manager"
+            end
+        else 
+            return "|cffC41F3BUsing Raid/Party Targets."
+        end
+    else
+        return "|cffC41F3Disabled, Not using MTS Profiles."
+    end
+end
+
 local function mts_updateCacheInfo()
     for i=1,#mts_unitCache do
 		mts_cacheWindow.elements.current_Cache1Total:SetText("|cff0070DETotal:|r "..unitCacheTotal)
@@ -285,6 +316,7 @@ local function mts_updateCacheInfo()
 		mts_cacheWindow.elements.current_Cache2Total:SetText("|cff0070DETotal:|r "..unitCacheFriendlyTotal)
         mts_cacheWindow.elements.current_Cache2:SetText("|cff00FF96NAME:|r "..mts_unitFriendlyCache[s].name.."\n |--> |cff0070DEGUID:|r "..mts_unitFriendlyCache[s].key.."\n |--> |cff0070DEDistance:|r "..mts_unitFriendlyCache[s].distance.."\n |--> |cff0070DEHealth:|r "..mts_unitFriendlyCache[s].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts_unitFriendlyCache[s].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts_unitFriendlyCache[s].actualHealth)
     end
+    mts_cacheWindow.elements.current_CacheStatus:SetText(CacheInfo())
 end
 
 function mts_cacheGUI()

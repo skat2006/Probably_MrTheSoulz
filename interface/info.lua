@@ -111,9 +111,6 @@ local mts_info = {
 		{ type = 'header', text = "|cff9482C9MrTheSoulz Advanced Status:", align = "center"},
 		{ type = 'spacer' },
 
-			{ type = "text", text = "Unit Cache Status: ", size = 11, offset = -11 },
-			{ key = 'current_cacheStatus', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
-
 			{ type = "text", text = "Smart AoE Status: ", size = 11, offset = -11 },
 			{ key = 'current_smartAoEStatus', type = "text", text = "Random", size = 11, align = "right", offset = 0 },
 
@@ -156,14 +153,7 @@ local function SmartAoEInfo()
 	end
 end
 
--- Check if possivel to smart cache
-local function CacheInfo()
-	if FireHack then
-		return "|cff00FF96Using Unlocker object manager "
-	else 
-		return "|cffC41F3BUsing Raid/Party Targets (FALLBACK)"
-	end
-end
+
 
 -- Check if possivel to move
 local function MovementInfo()
@@ -226,7 +216,6 @@ local function mts_updateLiveInfo()
 	InfoWindow.elements.current_MTSProfiles:SetText(mtsProfiles())
 	-- Advanced Status
 	InfoWindow.elements.current_movementStatus:SetText(MovementInfo())
-	InfoWindow.elements.current_cacheStatus:SetText(CacheInfo())
 	InfoWindow.elements.current_smartAoEStatus:SetText(SmartAoEInfo())
 end
 
