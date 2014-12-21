@@ -169,6 +169,10 @@ local function mts_updateLiveInfo()
 end
 
 function mts_InfoGUI()
+	if fetch('mtsconf', 'Sounds') then
+		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\menu.mp3")
+	end
+
 	if not mts_OpenInfoWindow then
 		InfoWindow = ProbablyEngine.interface.buildGUI(mts_info)
 		mts_InfoUpdating = true

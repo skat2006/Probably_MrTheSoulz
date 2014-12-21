@@ -1,4 +1,5 @@
 local mts_BuildGUI = ProbablyEngine.interface.buildGUI
+local fetch = ProbablyEngine.interface.fetchKey
 local _CurrentSpec = nil
 
 local ClassWindow
@@ -35,6 +36,10 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 		_CurrentSpec = mts_BuildGUI(mts_configWarrProt)
 	elseif _SpecID == 270 and not _OpenClassWindow  then -- Monk Mistweaver
 		_CurrentSpec = mts_BuildGUI(mts_configMonkMm)	
+	end
+
+	if fetch('mtsconf', 'Sounds') then
+		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\menu.mp3")
 	end
 
 	-- If no window been created, create one...

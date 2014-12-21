@@ -1,4 +1,5 @@
 local logo = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:15:15|t"
+local fetch = ProbablyEngine.interface.fetchKey
 
 local ConfigWindow
 local mts_OpenConfigWindow = false
@@ -108,7 +109,10 @@ local mts_config = {
 }
 
 function mts_ConfigGUI()
-	
+	if fetch('mtsconf', 'Sounds') then
+		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\menu.mp3")
+	end
+
 	-- If a frame has not been created, create one...
 	if not mts_OpenConfigWindow then
 		ConfigWindow = ProbablyEngine.interface.buildGUI(mts_config)
