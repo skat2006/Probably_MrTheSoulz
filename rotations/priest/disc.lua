@@ -357,55 +357,46 @@ local All = {
 ProbablyEngine.rotation.register_custom(
 	256, 
 	mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", 
-	{-- Dyn In-Combat Change CR
-		 	{ All },
-		 	-- Mana
-			 	{ "123040", { --Mindbender
-					"player.mana < 100",
-					"target.range <= 40"
-				}, "target" },
-				{ "34433", { --Shadowfiend
-					"player.mana < 100",
-					"target.range <= 40"
-				}, "target" },
-				{ "129250", { -- PW:Solance
-					"target.spell(129250).range",
-					"talent(3,3)"
-				}, "target" },
-		{{--Party/Raid CR
-			-- Keybinds
-				{ "32375", "modifier.control", "player.ground" }, --Mass Dispel
-				{ "62618", "modifier.shift", "tank.ground" },-- Power word Barrier // w/t CD's and on tank // PArty
-			-- Cooldowns
-				{ Cooldowns, "modifier.cooldowns" },
-			-- Flash Heal // dont interrumpt if castbar more then 50%
-				{ FlashHeal, "!player.casting.percent >= 50" },
-		 	-- BorrowedTime // Passive Buff
-		 		{ BorrowedTime, "player.buff(59889).duration <= 2" },
-		 	-- SpiritShell // Talent
-		 		{ SpiritShell, "player.buff(109964)" },
-		 	-- Attonement
-			 	{ Attonement, {
+	{ ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ In-Combat
+		 	------------------------------------------------------------------------------------------------------------------------------------- All in combat
+		 		{ All },																									-- Shared across all
+		 	------------------------------------------------------------------------------------------------------------------ Mana
+			 	{ "123040", { ----------------------------------------------------------- Mindbender
+					"player.mana < 85",				-- Need mana
+					"target.range <= 40"			-- Spell in range
+				}, "target" },--------------------------------------------------
+				{ "34433", { ----------------------------------------------------------- Shadowfiend
+					"player.mana < 85",				-- Need mana
+					"target.range <= 40"			-- Spell in range
+				}, "target" },--------------------------------------------------
+				{ "129250", { ----------------------------------------------------------- PW:Solance
+					"target.spell(129250).range",	-- Spell in range
+					"talent(3,3)"					-- Got talent
+				}, "target" },------------------------------------------------------------------------------------------
+		{{ ------------------------------------------------------------------------------------------------------------------------------------- Party/Raid CR
+				{ "32375", "modifier.control", "player.ground" }, 															-- Mass Dispel
+				{ "62618", "modifier.shift", "tank.ground" },																-- Power word Barrier // w/t CD's and on tank // PArty
+				{ Cooldowns, "modifier.cooldowns" },																		-- Cooldowns
+				{ FlashHeal, "!player.casting.percent >= 50" },																-- Flash Heal // dont interrumpt if castbar more then 50%
+		 		{ BorrowedTime, "player.buff(59889).duration <= 2" },														-- BorrowedTime // Passive Buff
+		 		{ SpiritShell, "player.buff(109964)" },																		-- SpiritShell // Talent
+			 	{ Attonement, {----------------------------------------------------------------------------------------------- Attonement
 			 		(function() return mts_dynamicEval("lowest.health >= " .. fetch('mtsconfPriestDisc', 'Attonement')) end),
 					(function() return mts_infront('target') end),
 					--"!player.buff(81661).count = 5",
 					"!player.mana < 20",
 					"target.range <= 30",
-			 	}},
-			-- AoE Heals
-		 		{ AoE, "modifier.multitarget" },
-			-- Normal Heals
-				{ Normal}
+			 	}}, ----------------------------------------------------------------------------------------------------------
+		 		{ AoE, "modifier.multitarget" },																			-- AoE Heals
+				{ Normal}																									-- Normal Heals
 		}, "modifier.party" },
-		
-		{{-- Solo CR
+		{{ ------------------------------------------------------------------------------------------------------------------------------------- Solo CR
 			{ FlashHeal, "!player.casting.percent >= 50" },
 			{ Solo },
 			{ Attonement },
 		}, "!modifier.party" },
-
 	},  
-	{ -- Dyn Out-Combat Change CR
+	{ ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ Out-Combat
 		{ All },
 		{ FlashHeal, "!player.casting.percent >= 50" },
 		{outCombat}
