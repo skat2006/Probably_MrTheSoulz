@@ -1,3 +1,5 @@
+local fetch = ProbablyEngine.interface.fetchKey
+
 local _queueSpell = nil
 local _queueTime = 0
 local _dotCount = 0
@@ -62,8 +64,15 @@ ProbablyEngine.library.register('mtsLib', {
     Build By: MTS
     ---------------------------------------------------]]
     CanTaunt = function()
-      if UnitIsTappedByPlayer("target") and fetch('mtsconf','Taunts') then
-        return true 
+      for i=1,#mts_unitCache do
+        if UnitIsTappedByPlayer(mts_unitCache[i].key) and fetch('mtsconf','Taunts') then
+          if not mts_immuneEvents(mts_unitCache[i].key)  then
+            if mts_infront(mts_unitCache[i].key) then
+              ProbablyEngine.dsl.parsedTarget = mts_unitCache[i].key
+              return true 
+            end
+          end
+        end
       end
       return false
     end,
@@ -163,7 +172,7 @@ ProbablyEngine.library.register('mtsLib', {
       for i=1,#mts_unitFriendlyCache do
         local _,_,_,_,_,_,debuff = UnitDebuff(mts_unitFriendlyCache[i].key, GetSpellInfo(589), nil, "PLAYER")
           if not debuff then
-            if mts_immuneEvents(mts_unitFriendlyCache[i].key) and UnitCanAttack("player", mts_unitFriendlyCache[i].key) then
+            if not mts_immuneEvents(mts_unitFriendlyCache[i].key) and UnitCanAttack("player", mts_unitFriendlyCache[i].key) then
               if mts_infront(mts_unitFriendlyCache[i].key) then
                 ProbablyEngine.dsl.parsedTarget = mts_unitFriendlyCache[i].key
                 return true
@@ -183,7 +192,7 @@ ProbablyEngine.library.register('mtsLib', {
     ---------------------------------------------------]]
     SWD = function()
       for i=1,#mts_unitCache do
-        if mts_immuneEvents(mts_unitCache[i].key) and mts_unitCache[i].health <= 20 and UnitCanAttack("player", mts_unitCache[i].key) then
+        if not mts_immuneEvents(mts_unitCache[i].key) and mts_unitCache[i].health <= 20 and UnitCanAttack("player", mts_unitCache[i].key) then
           if mts_infront(mts_unitCache[i].key) then
             ProbablyEngine.dsl.parsedTarget = mts_unitCache[i].key
             return true
