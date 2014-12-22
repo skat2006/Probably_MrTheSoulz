@@ -1,7 +1,7 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
-local lib = function()
-mts_Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
+local exeOnLoad = function()
+	mts_Splash("|cff9482C9[MTS]-[|cffF58CBAPaladin-Protection|r]-|cff9482C9Loaded", 5.0)
 	
 end
 
@@ -230,4 +230,4 @@ ProbablyEngine.rotation.register_custom(66, mts_Icon.."|r[|cff9482C9MTS|r][|cffF
 	{
 		{ Heals },	-- Heals
 		{ All },	-- Shared across all
-	}, lib)
+	}, exeOnLoad)
