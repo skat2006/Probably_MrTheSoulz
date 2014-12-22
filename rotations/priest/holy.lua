@@ -87,9 +87,8 @@ local inCombat = {
 	-- PW:S
 		{ "129250" },
 	
-	-- LoOk aT It GOoZ!!!,
-		{ "121536", {
-			(function() return fetch('mtsconfPriestHoly', 'Feathers') end), 
+	{{-- LoOk aT It GOoZ!!!
+		{ "121536", { 
 			"player.movingfor > 2", 
 			"!player.buff(121557)", 
 			"player.spell(121536).charges >= 1" 
@@ -97,9 +96,15 @@ local inCombat = {
 		{ "17", {
 			"talent(2, 1)", 
 			"player.movingfor > 2", 
-			"!player.buff(6788)", 
-			(function() return fetch('mtsconfPriestHoly', 'Feathers') end)
+			"!player.buff(6788)",
 		}, "player" },
+	}, -- We only want to run these on unlockers that can cast on unit.ground
+		(function()
+			if FireHack or oexecute then
+				return fetch('mtsconfPriestHoly', 'Feathers') 
+			end
+		end)  
+	},
 
   	-- HEALTHSTONE 
 		{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'Healthstone')) end) },
@@ -345,9 +350,8 @@ local solo = {
 			"!player.buff(588)"
 			}},
 	
-	-- LoOk aT It GOoZ!!!
-		{ "121536", {
-			(function() return fetch('mtsconfPriestHoly', 'Feathers') end), 
+	{{-- LoOk aT It GOoZ!!!
+		{ "121536", { 
 			"player.movingfor > 2", 
 			"!player.buff(121557)", 
 			"player.spell(121536).charges >= 1" 
@@ -355,9 +359,15 @@ local solo = {
 		{ "17", {
 			"talent(2, 1)", 
 			"player.movingfor > 2", 
-			"!player.buff(6788)", 
-			(function() return fetch('mtsconfPriestHoly', 'Feathers') end)
+			"!player.buff(6788)",
 		}, "player" },
+	}, -- We only want to run these on unlockers that can cast on unit.ground
+		(function()
+			if FireHack or oexecute then
+				return fetch('mtsconfPriestHoly', 'Feathers') 
+			end
+		end)  
+	},
 
   	-- HEALTHSTONE 
 		{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'Healthstone')) end) },
@@ -528,9 +538,8 @@ local outCombat = {
 			"!player.buff(588)"
 		}},
 	
-	-- LoOk aT It GOoZ!!!
-		{ "121536", {
-			(function() return fetch('mtsconfPriestHoly', 'Feathers') end), 
+	{{-- LoOk aT It GOoZ!!!
+		{ "121536", { 
 			"player.movingfor > 2", 
 			"!player.buff(121557)", 
 			"player.spell(121536).charges >= 1" 
@@ -538,9 +547,15 @@ local outCombat = {
 		{ "17", {
 			"talent(2, 1)", 
 			"player.movingfor > 2", 
-			"!player.buff(6788)", 
-			(function() return fetch('mtsconfPriestHoly', 'Feathers') end)
+			"!player.buff(6788)",
 		}, "player" },
+	}, -- We only want to run these on unlockers that can cast on unit.ground
+		(function()
+			if FireHack or oexecute then
+				return fetch('mtsconfPriestHoly', 'Feathers') 
+			end
+		end)  
+	},
 
 }
 
