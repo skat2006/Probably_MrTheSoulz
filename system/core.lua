@@ -91,7 +91,7 @@ function mts_dynamicEval(condition, spell)
 	return _parse(condition, spell or '')
 end
 
-function mts_immuneEvents(unit, spells)
+function mts_immuneEvents(unit)
   for i = 1, 40 do
     local _,_,_,_,_,_,_,_,_,_,spellId = _G['UnitDebuff'](unit, i)
     for k,v in pairs(mts_ImmuneAuras) do
