@@ -77,6 +77,13 @@ mts_configPriestDisc = {
 				key = "PainSuppressionHP", 
 				default = 25
 			},
+			{ 
+				type = "spinner", 
+				text = "Attonement", 
+				key = "Attonement", 
+				default = 90,
+				desc = "If a lowest unit goes bellow HP% then use direct heals."
+			},
 
 		-- Focus/Tank
 		{ type = 'rule' },

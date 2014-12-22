@@ -148,19 +148,29 @@ local inCombat = {
 					"target.boss"
 				}, "lowest" },
 
-	-- For Archangel
-		{ "14914", { --Holy Fire
-			"player.mana > 20",
-			"target.spell(14914).range",
-			--"target.infront"
-		}, "target" },
-
 	-- Surge of light
 		{ "2061", {-- Flash Heal
 			"lowest.health < 100",
 			"player.buff(114255)",
 			"!player.moving"
 		}, "lowest" },
+
+	{{-- Attonement 
+		{ "14914", "target.spell(14914).range", "target" }, --Holy Fire
+		{ "47540", { --Penance
+			"target.spell(47540).range", 
+			"!player.moving",
+		}, "target" },
+		{ "585", {  --Smite
+			"!player.moving", 
+			"target.spell(585).range",
+		}, "target" },
+	}, {
+		(function() return mts_dynamicEval("lowest.health >= " .. fetch('mtsconfPriestDisc', 'Attonement')) end),
+		"!player.buff(81661).count = 5",
+		"!player.mana < 20",
+		--"target.infront"
+	} },
 
 	{{ -- spirit shell
 		-- Prayer of Healing
@@ -176,6 +186,27 @@ local inCombat = {
 			"!player.moving"
 		}, "lowest" }, 
 	}, "player.buff(109964)"},
+
+	{{-- Flash Heal // dont interrumpt if castbar more then 50%
+		{ "!2061", {
+			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end),
+			"focus.spell(2061).range",
+			"!player.moving"
+		}, "focus" },
+		{ "!2061", {
+			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end), 
+			"tank.spell(2061).range",
+			"!player.moving"
+		}, "tank" },
+		{ "!2061", {
+			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealPlayer')) end),
+			"!player.moving"
+		}, "player" },
+		{ "!2061", {
+			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealRaid')) end),
+			"!player.moving"
+		}, "lowest" },
+	}, "!player.casting.percent >= 50" },
 
 	{{-- AOE
 		{ "62618", {  -- Power word Barrier // w/t CD's and on tank
@@ -230,27 +261,6 @@ local inCombat = {
 			"!player.buff(17).any",
 			"!modifier.last" 
 		}, "player" },
-	
-	{{-- Flash Heal // dont interrumpt if castbar more then 50%
-		{ "!2061", {
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end),
-			"focus.spell(2061).range",
-			"!player.moving"
-		}, "focus" },
-		{ "!2061", {
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end), 
-			"tank.spell(2061).range",
-			"!player.moving"
-		}, "tank" },
-		{ "!2061", {
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealPlayer')) end),
-			"!player.moving"
-		}, "player" },
-		{ "!2061", {
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealRaid')) end),
-			"!player.moving"
-		}, "lowest" },
-	}, "!player.casting.percent >= 50" },
 
 	-- heal
 		{ "2060", { -- Heal
@@ -271,20 +281,6 @@ local inCombat = {
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'HealRaid')) end),
 			"!player.moving"
 		}, "lowest" }, 
-
-	--Attonement 
-		{ "47540", { --Penance
-			"player.mana > 20", 
-			"target.spell(47540).range", 
-			"!player.moving",
-			"target.infront" 
-		}, "target" },
-		{ "585", {  --Smite
-			"player.mana > 20", 
-			"!player.moving", 
-			"target.spell(585).range",
-			"target.infront"
-		}, "target" },
 
 }
 
