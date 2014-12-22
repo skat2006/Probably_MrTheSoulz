@@ -183,7 +183,7 @@ local AoE = {
 
 }
 
-local inCombat = {
+local Normal = {
 
 	-- Penance	
 		{ "!47540", {
@@ -240,7 +240,7 @@ local inCombat = {
 
 }
 
-local solo = {
+local Solo = {
 
 	{{-- Auto Dotting
 		{ "32379", "@mtsLib.SWD" },
@@ -387,7 +387,7 @@ ProbablyEngine.rotation.register_custom(
 	256, 
 	mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", 
 	{-- Dyn Change CR
-		{{--Party/Raid
+		{{--Party/Raid CR
 			-- Keybinds
 			{ "32375", "modifier.control", "player.ground" }, --Mass Dispel
 		 	{ "48045", "modifier.alt", "target" }, -- Mind Sear
@@ -464,8 +464,9 @@ ProbablyEngine.rotation.register_custom(
 				"target.range <= 30",
 		 	}},
 		 	{ AoE, "modifier.multitarget" },
-			{ inCombat}
+			{ Normal}
 		}, "modifier.party" },
-		{ solo, "!modifier.party" },
+		-- Solo CR
+		{ Solo, "!modifier.party" },
 	},  
 	outCombat, exeOnLoad)
