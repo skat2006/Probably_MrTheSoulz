@@ -155,11 +155,19 @@ local Cooldowns = {
 
 local AoE = {
 
-	{ "62618", {  -- Power word Barrier // w/t CD's and on tank
-		"@coreHealing.needsHealing(50, 5)", 
+	{ "62618", {  -- Power word Barrier // w/t CD's and on tank // PArty
+		"@coreHealing.needsHealing(50, 3)", 
 		"modifier.party", 
 		"!player.moving", 
-		"modifier.cooldowns" 
+		"modifier.cooldowns",
+		(function() return fetch("mtsconfPriestDisc", "PowerWordBarrier") end)
+	}, "tank.ground" },
+	{ "62618", {  -- Power word Barrier // w/t CD's and on tank // raid
+		"@coreHealing.needsHealing(50, 5)", 
+		"modifier.raid", 
+		"!player.moving", 
+		"modifier.cooldowns",
+		(function() return fetch("mtsconfPriestDisc", "PowerWordBarrier") end)
 	}, "tank.ground" },
 	{ "121135", { -- cascade
 		"@coreHealing.needsHealing(95, 3)", 
@@ -307,7 +315,7 @@ local All = {
 		{ "48045", "modifier.alt", "target" }, -- Mind Sear
 	
 	-- buffs
-		{ "21562", "!player.buffs.stamina" }, -- Fortitude
+		{ "21562", "!player.buffs.stamina.any" }, -- Fortitude
 		{ "81700", "player.buff(81661).count = 5" }, -- Archangel
 	
 	{{-- Dispell ALl // Dont interrumpt if castbar more then 50%

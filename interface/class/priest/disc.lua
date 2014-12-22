@@ -28,6 +28,13 @@ mts_configPriestDisc = {
 			},
 			{ 
 				type = "checkbox", 
+				text = "Power Word Barrier", 
+				key = "PowerWordBarrier", 
+				default = true, 
+				desc = "This checkbox enables or disables the use of automatic Power Word Barrier on tank."
+			},
+			{ 
+				type = "checkbox", 
 				text = "Feathers", 
 				key = "Feathers", 
 				default = true, 
