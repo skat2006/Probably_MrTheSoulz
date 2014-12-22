@@ -69,9 +69,8 @@ local inCombat = {
    	-- buffs
 		{ "81700", "player.buff(81661).count = 5" }, -- Archangel
 	
-	-- LoOk aT It GOoZ!!!
-		{ "121536", {
-			(function() return fetch('mtsconfPriestDisc', 'Feathers') end), 
+	{{-- LoOk aT It GOoZ!!!
+		{ "121536", { 
 			"player.movingfor > 2", 
 			"!player.buff(121557)", 
 			"player.spell(121536).charges >= 1" 
@@ -79,9 +78,15 @@ local inCombat = {
 		{ "17", {
 			"talent(2, 1)", 
 			"player.movingfor > 2", 
-			"!player.buff(6788)", 
-			(function() return fetch('mtsconfPriestDisc', 'Feathers') end)
+			"!player.buff(6788)",
 		}, "player" },
+	}, -- We only want to run these on unlockers that can cast on unit.ground
+		(function()
+			if FireHack or oexecute then
+				return fetch('mtsconfPriestDisc', 'Feathers') 
+			end
+		end)  
+	},
 
   	-- Mana/Survival
 		{ "123040", { --Mindbender
@@ -156,21 +161,27 @@ local inCombat = {
 		}, "lowest" },
 
 	{{-- Attonement 
-		{ "14914", "target.spell(14914).range", "target" }, --Holy Fire
-		{ "47540", { --Penance
-			"target.spell(47540).range", 
-			"!player.moving",
+		{ "14914", { --Holy Fire
+			"player.mana > 20",
+			"target.spell(14914).range",
+			--"target.infront"
 		}, "target" },
-		{ "585", {  --Smite
-			"!player.moving", 
-			"target.spell(585).range",
-		}, "target" },
-	}, {
-		(function() return mts_dynamicEval("lowest.health >= " .. fetch('mtsconfPriestDisc', 'Attonement')) end),
-		"!player.buff(81661).count = 5",
-		"!player.mana < 20",
-		--"target.infront"
-	} },
+		{{
+			{ "47540", { --Penance
+				"target.spell(47540).range", 
+				"!player.moving",
+			}, "target" },
+			{ "585", {  --Smite
+				"!player.moving", 
+				"target.spell(585).range",
+			}, "target" },
+		}, {
+			(function() return mts_dynamicEval("lowest.health >= " .. fetch('mtsconfPriestDisc', 'Attonement')) end),
+			--"!player.buff(81661).count = 5",
+			"!player.mana < 20",
+			--"target.infront"
+		} },
+	}, "target.range <= 30" },
 
 	{{ -- spirit shell
 		-- Prayer of Healing
@@ -299,9 +310,8 @@ local solo = {
    	-- buffs
 		{ "81700", "player.buff(81661).count = 5" }, -- Archangel
 	
-	-- LoOk aT It GOoZ!!!
-		{ "121536", {
-			(function() return fetch('mtsconfPriestDisc', 'Feathers') end), 
+	{{-- LoOk aT It GOoZ!!!
+		{ "121536", { 
 			"player.movingfor > 2", 
 			"!player.buff(121557)", 
 			"player.spell(121536).charges >= 1" 
@@ -309,9 +319,15 @@ local solo = {
 		{ "17", {
 			"talent(2, 1)", 
 			"player.movingfor > 2", 
-			"!player.buff(6788)", 
-			(function() return fetch('mtsconfPriestDisc', 'Feathers') end)
+			"!player.buff(6788)",
 		}, "player" },
+	}, -- We only want to run these on unlockers that can cast on unit.ground
+		(function()
+			if FireHack or oexecute then
+				return fetch('mtsconfPriestDisc', 'Feathers') 
+			end
+		end)  
+	},
 
   	-- Mana/Survival
 		{ "123040", { --Mindbender
@@ -394,9 +410,8 @@ local outCombat = {
 			"player.buff(81661).duration < 5"
 			}},
 	
-	-- LoOk aT It GOoZ!!!
-		{ "121536", {
-			(function() return fetch('mtsconfPriestDisc', 'Feathers') end), 
+	{{-- LoOk aT It GOoZ!!!
+		{ "121536", { 
 			"player.movingfor > 2", 
 			"!player.buff(121557)", 
 			"player.spell(121536).charges >= 1" 
@@ -404,9 +419,15 @@ local outCombat = {
 		{ "17", {
 			"talent(2, 1)", 
 			"player.movingfor > 2", 
-			"!player.buff(6788)", 
-			(function() return fetch('mtsconfPriestDisc', 'Feathers') end)
+			"!player.buff(6788)",
 		}, "player" },
+	}, -- We only want to run these on unlockers that can cast on unit.ground
+		(function()
+			if FireHack or oexecute then
+				return fetch('mtsconfPriestDisc', 'Feathers') 
+			end
+		end)  
+	},
 	
 	{{-- AOE
 		{ "121135", { -- cascade
