@@ -126,28 +126,15 @@ local Normal = {
 
 }
 
-local Interrupts = {
-
-	{ "6552" }, 		-- Pummel
-	{ "114028" }, 		-- Mass Spell Reflection
-
-}
-
-local Procs = {
-	
-	{ "5308", "player.buff(29725)", "target" }, 	-- Proc // Execute, Sudden Death
-	{ "100130", "player.buff(46916)", "target" },	-- Wild Strike to consume Bloodsurge procs.
-
-}
-
-
 ProbablyEngine.rotation.register_custom(72, mts_Icon.."|r[|cff9482C9MTS|r][|cffF58CBAWarrior-Fury|r]", 
 	{-- Incombat
-		{ Interrupts, "target.interruptsAt(50)" },		-- Interrupts
+		{ "6552", "target.interruptsAt(50)" }, 			-- Pummel
+		{ "114028", "target.interruptsAt(50)" }, 		-- Mass Spell Reflection
 		{ All },										-- Shared across all
 		{ Survival },									-- Survival
 		{ Cooldowns, "modifier.cooldowns" },			-- Cooldowns
-		{ Procs },										-- Proc's
+		{ "5308", "player.buff(29725)", "target" }, 	-- Proc // Execute, Sudden Death
+		{ "100130", "player.buff(46916)", "target" },	-- Wild Strike to consume Bloodsurge procs.
 		{ Execute, "target.health <= 20" },				-- Execute
 		{ AoE, "modifier.multitarget" },				-- AoE Forced
 		{ AoE, "player.area(8).enemies >= 3" },			-- AoE

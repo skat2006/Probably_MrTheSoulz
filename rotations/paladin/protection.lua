@@ -190,7 +190,10 @@ It is okay to save a full stack of Bastion of Glory for a large Word of Glory if
   ///---INFO---////  ]]
 local Normal = { 
 		
-	-- Rotation
+		{ "53600", { 				------------------------------ Shield of Righteous
+			"target.spell(53600).range", 	-- Spell in range
+			"player.holypower > 3"			-- 3 Holy Power
+		}, "target" },
 		{ "35395", "target.spell(35395).range", "target" }, 	-- Crusader Strike
 		{ "20271", "target.spell(20271).range", "target" }, 	-- Judgment
 		{ "31935", "target.spell(31935).range", "target" }, 	-- Avenger´s Shield
@@ -219,10 +222,6 @@ ProbablyEngine.rotation.register_custom(66, mts_Icon.."|r[|cff9482C9MTS|r][|cffF
 		{ seals, "!talent(7,1)" },								-- Smart Seals
 		{ Cooldowns, "modifier.cooldowns" },					-- Cooldowns
 		{ "31935", "player.buff(Grand Crusader)", "target" }, 	-- Avenger's Shield // Proc
-		{ "53600", { 				------------------------------ Shield of Righteous
-			"target.spell(53600).range", 	-- Spell in range
-			"player.holypower > 3"			-- 3 Holy Power
-		}, "target" },
 		{ AoE, "modifier.multitarget" },						-- AoE Normal
 		{ AoE, "player.area(8).enemies >= 3" },					-- AoE Smart
 		{ Normal }												-- Normal CR
