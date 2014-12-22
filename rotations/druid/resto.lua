@@ -124,14 +124,7 @@ local inCombat = {
 		{ "774", { "!lowest.buff", "lowest.health < 65" }, "lowest" }, -- Rejuvenation
 
 	-- Wild Mushroom	
-		{ "145205", { -- Wild Mushroom	
-			(function() return mts_WildMushroom() == 'focus' end),
-			"!player.totem(145205)"
-		}, "focus" },
-		{ "145205", { -- Wild Mushroom
-			(function() return mts_WildMushroom() == 'player' end),
-			"!player.totem(145205)"
-		}, "player" },
+		{ "145205", "!player.totem(145205)", "player" }, -- Wild Mushroom
 	
 	-- Regrowth	
 		{ "8936", {  -- Regrowth
