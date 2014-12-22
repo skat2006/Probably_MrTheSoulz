@@ -177,9 +177,9 @@ local inCombat = {
 			}, "target" },
 		}, {
 			(function() return mts_dynamicEval("lowest.health >= " .. fetch('mtsconfPriestDisc', 'Attonement')) end),
+			(function() return mts_infront('target') end),
 			--"!player.buff(81661).count = 5",
 			"!player.mana < 20",
-			--"target.infront"
 		} },
 	}, "target.range <= 30" },
 

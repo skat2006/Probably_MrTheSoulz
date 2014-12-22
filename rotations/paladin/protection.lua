@@ -16,8 +16,9 @@ local inCombat = {
 		--{ "6940", { "lowest.health <= 80", "!player.health <= 40" }, "lowest" }, -- Hand of Sacrifice
 		{ "1044", "player.state.root" }, -- Hand of Freedom
 
-	-- Interrupt
+	{{-- Interrupt
 		{ "96231", "modifier.interrupts", "target" }, -- Rebuke
+	}, (function() return mts_infront('target') end) },
 
 	-- Defensive Cooldowns
 		{ "20925", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'SacredShield')) end), "player" }, -- Sacred Shield
@@ -174,46 +175,52 @@ local inCombat = {
 			(function() return fetch('mtsconfPalaProt','RunFaster') end),
 		} --[[  No Target  ]] },
 
-	-- Procs
-		{ "31935", { -- Avenger's Shield
-			"modifier.multitarget", 
-			"player.buff(Grand Crusader)" 
-		}, "target" }, 
+	{{ -- Main CR
+		-- Procs
+			{ "31935", { -- Avenger's Shield
+				"modifier.multitarget", 
+				"player.buff(Grand Crusader)" 
+			}, "target" }, 
 
-	-- Holy Ditchers
-		{ "53600", { -- Shield of Righteous
-			"target.spell(53600).range", 
-			"player.holypower > 3"
-		}, "target" }, 
+		-- Holy Ditchers
+			{ "53600", { -- Shield of Righteous
+				"target.spell(53600).range", 
+				"player.holypower > 3"
+			}, "target" }, 
 
-	-- AOE Rotation
-		{ "53595", { -- Hammer of the Righteous
-			"target.spell(Crusader Strike).range", 
-			"modifier.multitarget" 
-		}, "target" },
-		{ "31935", "modifier.multitarget", "target" }, -- Avenger's Shield
-		{ "26573", { -- Consecration
-			"modifier.multitarget", 
-			"target.range <= 10", 
-			"!player.moving" 
-		} --[[  No Target  ]] },
-		{ "119072", { -- Holy Wrath
-			"modifier.multitarget", "target.range <= 10"  
-		} --[[  No Target  ]] }, 
-	
-	-- Rotation
-		{ "35395", "target.spell(35395).range", "target" }, -- Crusader Strike
-		{ "20271", "target.spell(20271).range", "target" }, -- Judgment
-		{ "31935", "target.spell(31935).range", "target" }, -- Avenger´s Shield
-		{ "24275", "target.health <= 20", "target" }, -- Hammer of Wrath
-		{ "26573", "target.range <= 6", "ground" }, -- consecration
-		{ "119072", "target.range <= 10" }, -- Holy Wrath
-		{ "114165", { -- Holy Prism
-			"target.spell(114165).range", 
-			"talent(5, 1)" 
-		}, "target"},
-		{ "114157", "target.spell(114157).range", "target" }, -- Execution Sentence
+		-- AOE Rotation
+			{ "53595", { -- Hammer of the Righteous
+				"target.spell(Crusader Strike).range", 
+				"modifier.multitarget" 
+			}, "target" },
+			{ "31935", "modifier.multitarget", "target" }, -- Avenger's Shield
+			{ "26573", { -- Consecration
+				"modifier.multitarget", 
+				"target.range <= 10", 
+				"!player.moving" 
+			} --[[  No Target  ]] },
+			{ "119072", { -- Holy Wrath
+				"modifier.multitarget", "target.range <= 10"  
+			} --[[  No Target  ]] }, 
+		
+		-- Rotation
+			{ "35395", "target.spell(35395).range", "target" }, -- Crusader Strike
+			{ "20271", "target.spell(20271).range", "target" }, -- Judgment
+			{ "31935", "target.spell(31935).range", "target" }, -- Avenger´s Shield
+			{ "24275", "target.health <= 20", "target" }, -- Hammer of Wrath
+			{ "26573", "target.range <= 6", "ground" }, -- consecration
+			{ "119072", "target.range <= 10" }, -- Holy Wrath
+			{ "114165", { -- Holy Prism
+				"target.spell(114165).range", 
+				"talent(5, 1)" 
+			}, "target"},
+			{ "114157", "target.spell(114157).range", "target" }, -- Execution Sentence
+	}, (function() return mts_infront('target') end) },
 
+	-- Target Behind
+		{ "26573", "target.range <= 6", "ground" }, 			-- consecration
+		{ "119072", "target.range <= 10" }, 					-- Holy Wrath
+		{ "114157", "target.spell(114157).range", "target" }, 	-- Execution Sentence
 }
 
 local outCombat = {

@@ -8,11 +8,12 @@ end
 
 local inCombat = {
 
-	-- rake // prowl with glyph
+	{{-- rake // prowl with glyph
 		{ "1822", {
 			"player.buff(5215)", -- prowl
 			"player.glyph(127540)" -- Savage Roar
-		}, "target" }, 
+		}, "target" },
+	}, (function() return mts_infront('target') end) },
 
   	--	keybinds
   		{{ -- Shift
@@ -56,9 +57,10 @@ local inCombat = {
 	  		"player.buff(Predatory Swiftness)"
 	  	}, "lowest" },
 
-  	--Interrupts
+  	{{--Interrupts
 	  	{ "106839", "modifier.interrupt", "target"},	-- Skull Bash
-		{ "5211", "modifier.interrupt", "target" }, -- Mighty Bash
+		{ "5211", "modifier.interrupt", "target" }, 	-- Mighty Bash
+	}, (function() return mts_infront('target') end) },
 
   	--Cooldowns
 	  	{ "106737", {  --Force of Nature
@@ -73,65 +75,71 @@ local inCombat = {
 	-- buffs
 		{ "5217", (function() return mts_dynamicEval("player.energy <= " .. fetch('mtsconfDruidFeral', 'TigersFury')) end) }, -- Tiger's Fury
 
-	-- Proc's
-  		{ "106830", "player.buff(Omen of Clarity)", "target" }, -- Free Thrash
+	{{-- Main CR
+		-- Proc's
+	  		{ "106830", "player.buff(Omen of Clarity)", "target" }, -- Free Thrash
 
-  	-- Finish
-  		{ "52610", { -- Savage Roar
-  			"player.buff(52610).duration <= 4", -- Savage Roar
-  			"player.buff(174544).duration <= 4", -- Savage Roar GLYPH
-  			"player.combopoints <= 2" 
-  		}, "target"},
-  		{ "22568", { -- Ferocious Bite to refresh Rip when target at <= 25% health.
-		    "target.health < 25", 
-		    "target.debuff(1079).duration < 5", -- RIP
-		    "player.combopoints = 5"
-		}, "target"},
-	  	{ "1079", { -- Rip // bellow 25% if target does not have debuff
-			"target.health < 25", 
-			"!target.debuff(1079)", -- stop if target as rip debuff
-			"player.combopoints = 5" 
-		}, "target"},
-		{ "1079", { -- Rip // more then 25% to refresh
-			"target.health > 25", 
-			"target.debuff(1079).duration <= 7", 
-			"player.combopoints = 5" 
-		}, "target"},
-		{ "22568", { -- Ferocious Bite // Max Combo and Rip or Savage Roar do not need refreshed
-		   	"player.combopoints = 5", 
-		    "target.debuff(1079).duration > 7", -- RIP
-		    "player.buff(52610).duration > 4" -- Savage Roar GLYPH
-		}, "target"},
-		{ "22568", { -- Ferocious Bite // Max Combo and Rip or Savage Roar GLYPH do not need refreshed
-		   	"player.combopoints = 5", 
-		    "target.debuff(1079).duration > 7", -- RIP
-		    "player.buff(174544).duration > 4" -- Savage Roar GLYPH
-		}, "target"},
+	  	-- Finish
+	  		{ "52610", { -- Savage Roar
+	  			"player.buff(52610).duration <= 4", -- Savage Roar
+	  			"player.buff(174544).duration <= 4", -- Savage Roar GLYPH
+	  			"player.combopoints <= 2" 
+	  		}, "target"},
+	  		{ "22568", { -- Ferocious Bite to refresh Rip when target at <= 25% health.
+			    "target.health < 25", 
+			    "target.debuff(1079).duration < 5", -- RIP
+			    "player.combopoints = 5"
+			}, "target"},
+		  	{ "1079", { -- Rip // bellow 25% if target does not have debuff
+				"target.health < 25", 
+				"!target.debuff(1079)", -- stop if target as rip debuff
+				"player.combopoints = 5" 
+			}, "target"},
+			{ "1079", { -- Rip // more then 25% to refresh
+				"target.health > 25", 
+				"target.debuff(1079).duration <= 7", 
+				"player.combopoints = 5" 
+			}, "target"},
+			{ "22568", { -- Ferocious Bite // Max Combo and Rip or Savage Roar do not need refreshed
+			   	"player.combopoints = 5", 
+			    "target.debuff(1079).duration > 7", -- RIP
+			    "player.buff(52610).duration > 4" -- Savage Roar GLYPH
+			}, "target"},
+			{ "22568", { -- Ferocious Bite // Max Combo and Rip or Savage Roar GLYPH do not need refreshed
+			   	"player.combopoints = 5", 
+			    "target.debuff(1079).duration > 7", -- RIP
+			    "player.buff(174544).duration > 4" -- Savage Roar GLYPH
+			}, "target"},
 
-  	-- AOE
-  			{{-- AoE FALLBACK
-				{ "106830", "target.debuff(106830).duration < 5", "target" }, -- Tharsh
-				{ "106785" }, -- Swipe
-			}, "modifier.multitarget" },
-  			{{ -- Smart AoE
-				{ "106830", { -- Tharsh
-					"player.area(8).enemies >= 3", 
-					"target.debuff(106830).duration < 5"
-				}, "target" },
-				{ "106785", "player.area(8).enemies >= 3" },-- Swipe // FireHack
-			}, (function() return fetch('mtsconf','Firehack') end) },
+	  	-- AOE
+	  			{{-- AoE FALLBACK
+					{ "106830", "target.debuff(106830).duration < 5", "target" }, -- Tharsh
+					{ "106785" }, -- Swipe
+				}, "modifier.multitarget" },
+	  			{{ -- Smart AoE
+					{ "106830", { -- Tharsh
+						"player.area(8).enemies >= 3", 
+						"target.debuff(106830).duration < 5"
+					}, "target" },
+					{ "106785", "player.area(8).enemies >= 3" },-- Swipe // FireHack
+				}, (function() return fetch('mtsconf','Firehack') end) },
 
-  	-- Single Rotation
-  		{ "1822", "target.debuff(155722).duration <= 4", "target" }, -- rake
-  		{ "155625", { -- MoonFire // Lunar Inspiration (TALENT)
-  			"target.debuff(155625).duration <= 4",
-  			"talent(7, 1)"
-  		}, "target" },
+	  	-- Single Rotation
+	  		{ "1822", "target.debuff(155722).duration <= 4", "target" }, -- rake
+	  		{ "155625", { -- MoonFire // Lunar Inspiration (TALENT)
+	  			"target.debuff(155625).duration <= 4",
+	  			"talent(7, 1)"
+	  		}, "target" },
 
-  		-- Shred // Combo Point Building Rotation
-	    	{ "5221", "player.buff(Clearcasting)", "target"  }, -- Shred
-	    	{ "5221", "player.buff(Berserk)", "target"  }, -- Shred 
-	    	{ "5221", "player.combopoints < 5", "target" }, -- Shred
+	  		-- Shred // Combo Point Building Rotation
+		    	{ "5221", "player.buff(Clearcasting)", "target"  }, -- Shred
+		    	{ "5221", "player.buff(Berserk)", "target"  }, -- Shred 
+		    	{ "5221", "player.combopoints < 5", "target" }, -- Shred
+	}, 
+	{
+		(function() return mts_infront('target') end)},
+		"target.range <= 8"
+	},
   
 }
 
