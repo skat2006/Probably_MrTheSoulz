@@ -109,23 +109,24 @@ Build By: Mirakuru
 Modified by: MTS
 ---------------------------------------------------]]
 function mts_infront(unit)
-  
   if UnitExists(unit) and UnitIsVisible(unit) then
-    
+    -- FireHack
     if FireHack then
       local aX, aY, aZ = ObjectPosition(unit)
       local bX, bY, bZ = ObjectPosition('player')
       local playerFacing = GetPlayerFacing()
       local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
       return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
-   
+    -- Offspring
     elseif oexecute then
       local aX, aY, aZ = opos(unit)
       local bX, bY, bZ = opos('player')
       local playerFacing = GetPlayerFacing()
       local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
       return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
-    
+    -- Fallback to PE's
+    else
+      return ProbablyEngine.condition["infront"](unit)
     end
   end
 end
@@ -138,25 +139,21 @@ So here we go...
 Build By: MTS
 ---------------------------------------------------]]
 function mts_Distance(a, b)
-  
   if UnitExists(a) and UnitIsVisible(a) and UnitExists(b) and UnitIsVisible(b) then
-    
+    -- FireHack
     if FireHack then
       local ax, ay, az = ObjectPosition(a)
       local bx, by, bz = ObjectPosition(b)
       return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - ((UnitCombatReach(a)) + (UnitCombatReach(b)))
-   
+    -- Offspring
     elseif oexecute then
       local ax, ay, az = opos(a)
       local bx, by, bz = opos(b)
       return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - 6
-
     -- Fallback to PE's
     else
         return ProbablyEngine.condition["distance"](b)
-    
     end
-  
   end
     return 0
 end
