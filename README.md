@@ -51,10 +51,10 @@ Scripts:
 ---------------------------------------------------------------
 Instructions:
 ============================
-Close WoW before updating/installing.
-Download PE (http://www.ownedcore.com/forums/worl...-warlords.html (ProbablyEngine Addon - Warlords)) if you dont have it and my Addon.
-Extract both PE and my Addon.
-Move both folders to: "wow\Interface\Addons folder".
-Remove "-master" from the folder names.
-Start game and run your chosen lua unlocker.
-Right click PE 1st button and then select the [MTS] rotation from the list.
+* Close WoW before updating/installing.
+* Download PE (http://www.ownedcore.com/forums/worl...-warlords.html (ProbablyEngine Addon - Warlords)) if you dont have it and my Addon.
+* Extract both PE and my Addon.
+* Move both folders to: "wow\Interface\Addons folder".
+* Remove "-master" from the folder names.
+* Start game and run your chosen lua unlocker.
+* Right click PE 1st button and then select the [MTS] rotation from the list.
