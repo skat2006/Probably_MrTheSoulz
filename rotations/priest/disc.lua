@@ -185,30 +185,6 @@ local AoE = {
 
 local inCombat = {
 
-   	-- buffs
-		{ "81700", "player.buff(81661).count = 5" }, -- Archangel
-
-	{{-- Flash Heal // dont interrumpt if castbar more then 50%
-		{ "!2061", {
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end),
-			"focus.spell(2061).range",
-			"!player.moving"
-		}, "focus" },
-		{ "!2061", {
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end), 
-			"tank.spell(2061).range",
-			"!player.moving"
-		}, "tank" },
-		{ "!2061", {
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealPlayer')) end),
-			"!player.moving"
-		}, "player" },
-		{ "!2061", {
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealRaid')) end),
-			"!player.moving"
-		}, "lowest" },
-	}, "!player.casting.percent >= 50" },
-	
 	-- Penance	
 		{ "!47540", {
 			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PenanceRaid')) end),
@@ -411,61 +387,85 @@ ProbablyEngine.rotation.register_custom(
 	256, 
 	mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", 
 	{-- Dyn Change CR
-		-- Keybinds
-		{ "32375", "modifier.control", "player.ground" }, --Mass Dispel
-	 	{ "48045", "modifier.alt", "target" }, -- Mind Sear
-	 	{{-- Dont interrumpt if castbar more then 50%
-		 	-- Dispell ALl
-			{ "!527", (function() return Dispell() end) },-- Dispel Everything
-		}, "!player.casting.percent >= 50", (function() return fetch('mtsconfPriestDisc','Dispels') end) },
-		{ Cooldowns, "modifier.cooldowns" },
-		-- Surge of light
-		{ "2061", {-- Flash Heal
-			"lowest.health < 100",
-			"player.buff(114255)",
-			"!player.moving"
-		}, "lowest" },
-		{{-- LoOk aT It GOoZ!!!
-			{ "121536", { 
-				"player.movingfor > 2", 
-				"!player.buff(121557)", 
-				"player.spell(121536).charges >= 1" 
-			}, "player.ground" },
-			{ "17", {
-				"talent(2, 1)", 
-				"player.movingfor > 2", 
-				"!player.buff(6788)",
-			}, "player" },
-		}, -- We only want to run these on unlockers that can cast on unit.ground
-			(function()
-				if FireHack or oexecute then
-					return fetch('mtsconfPriestDisc', 'Feathers') 
-				end
-			end)  
-		},
-	 	-- Mana
-	 	{ "123040", { --Mindbender
-			"player.mana < 75",
-			"target.spell(123040).range"
-		}, "target" },
-		{ "34433", { --Shadowfiend
-			"player.mana < 75",
-			"target.spell(34433).range"
-		}, "target" },
-		{ "19236", "player.health <= 20", "player" }, --Desperate Prayer
-		{ "#5512", "player.health <= 35" }, -- Health Stone
-		{ "586", "target.threat >= 80" }, -- Fade
-	 	{ BorrowedTime, "player.buff(59889).duration <= 2" },
-	 	{ SpiritShell, "player.buff(109964)" },
-	 	{ Attonement, {
-	 		(function() return mts_dynamicEval("lowest.health >= " .. fetch('mtsconfPriestDisc', 'Attonement')) end),
-			(function() return mts_infront('target') end),
-			--"!player.buff(81661).count = 5",
-			"!player.mana < 20",
-			"target.range <= 30",
-	 	}},
-	 	{ AoE, "modifier.multitarget" },
-		{ inCombat, "modifier.party" },
+		{{--Party/Raid
+			-- Keybinds
+			{ "32375", "modifier.control", "player.ground" }, --Mass Dispel
+		 	{ "48045", "modifier.alt", "target" }, -- Mind Sear
+		 	{{-- Dont interrumpt if castbar more then 50%
+			 	-- Dispell ALl
+				{ "!527", (function() return Dispell() end) },-- Dispel Everything
+			}, "!player.casting.percent >= 50", (function() return fetch('mtsconfPriestDisc','Dispels') end) },
+			{ Cooldowns, "modifier.cooldowns" },
+			-- Surge of light
+			{ "2061", {-- Flash Heal
+				"lowest.health < 100",
+				"player.buff(114255)",
+				"!player.moving"
+			}, "lowest" },
+			-- buffs
+			{ "81700", "player.buff(81661).count = 5" }, -- Archangel
+			{{-- Flash Heal // dont interrumpt if castbar more then 50%
+				{ "!2061", {
+					(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end),
+					"focus.spell(2061).range",
+					"!player.moving"
+				}, "focus" },
+				{ "!2061", {
+					(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end), 
+					"tank.spell(2061).range",
+					"!player.moving"
+				}, "tank" },
+				{ "!2061", {
+					(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealPlayer')) end),
+					"!player.moving"
+				}, "player" },
+				{ "!2061", {
+					(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealRaid')) end),
+					"!player.moving"
+				}, "lowest" },
+			}, "!player.casting.percent >= 50" },
+			{{-- LoOk aT It GOoZ!!!
+				{ "121536", { 
+					"player.movingfor > 2", 
+					"!player.buff(121557)", 
+					"player.spell(121536).charges >= 1" 
+				}, "player.ground" },
+				{ "17", {
+					"talent(2, 1)", 
+					"player.movingfor > 2", 
+					"!player.buff(6788)",
+				}, "player" },
+			}, -- We only want to run these on unlockers that can cast on unit.ground
+				(function()
+					if FireHack or oexecute then
+						return fetch('mtsconfPriestDisc', 'Feathers') 
+					end
+				end)  
+			},
+		 	-- Mana
+		 	{ "123040", { --Mindbender
+				"player.mana < 75",
+				"target.spell(123040).range"
+			}, "target" },
+			{ "34433", { --Shadowfiend
+				"player.mana < 75",
+				"target.spell(34433).range"
+			}, "target" },
+			{ "19236", "player.health <= 20", "player" }, --Desperate Prayer
+			{ "#5512", "player.health <= 35" }, -- Health Stone
+			{ "586", "target.threat >= 80" }, -- Fade
+		 	{ BorrowedTime, "player.buff(59889).duration <= 2" },
+		 	{ SpiritShell, "player.buff(109964)" },
+		 	{ Attonement, {
+		 		(function() return mts_dynamicEval("lowest.health >= " .. fetch('mtsconfPriestDisc', 'Attonement')) end),
+				(function() return mts_infront('target') end),
+				--"!player.buff(81661).count = 5",
+				"!player.mana < 20",
+				"target.range <= 30",
+		 	}},
+		 	{ AoE, "modifier.multitarget" },
+			{ inCombat}
+		}, "modifier.party" },
 		{ solo, "!modifier.party" },
 	},  
 	outCombat, exeOnLoad)
