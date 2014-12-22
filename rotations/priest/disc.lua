@@ -66,7 +66,7 @@ local BorrowedTime = {
 }
 
 local Attonement = {
-	
+
 	{ "14914", { --Holy Fire
 		"player.mana > 20",
 		"target.spell(14914).range",
@@ -315,7 +315,7 @@ local All = {
 		{ "48045", "modifier.alt", "target" }, -- Mind Sear
 	
 	-- buffs
-		{ "21562", "!player.buffs.stamina.any" }, -- Fortitude
+		{ "21562", "!player.buffs.stamina" }, -- Fortitude
 		{ "81700", "player.buff(81661).count = 5" }, -- Archangel
 	
 	{{-- Dispell ALl // Dont interrumpt if castbar more then 50%
@@ -323,15 +323,15 @@ local All = {
 	}, "!player.casting.percent >= 50", (function() return fetch('mtsconfPriestDisc','Dispels') end) },
 
 	-- Sulvival
-	{ "19236", "player.health <= 20", "player" }, --Desperate Prayer
-	{ "#5512", "player.health <= 35" }, -- Health Stone
-	{ "586", "target.threat >= 80" }, -- Fade
-		-- Surge of light
-		{ "2061", {-- Flash Heal
-			"lowest.health < 100",
-			"player.buff(114255)",
-			"!player.moving"
-		}, "lowest" },
+		{ "19236", "player.health <= 20", "player" }, --Desperate Prayer
+		{ "#5512", "player.health <= 35" }, -- Health Stone
+		{ "586", "target.threat >= 80" }, -- Fade
+			-- Surge of light
+			{ "2061", {-- Flash Heal
+				"lowest.health < 100",
+				"player.buff(114255)",
+				"!player.moving"
+			}, "lowest" },
 
 	{{-- LoOk aT It GOoZ!!!
 		{ "121536", { 
@@ -358,50 +358,43 @@ ProbablyEngine.rotation.register_custom(
 	256, 
 	mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", 
 	{-- Dyn In-Combat Change CR
-		 	
 		 	{ All },
 		 	-- Mana
-		 	{ "123040", { --Mindbender
-				"player.mana < 75",
-				"target.spell(123040).range"
-			}, "target" },
-			{ "34433", { --Shadowfiend
-				"player.mana < 75",
-				"target.spell(34433).range"
-			}, "target" },
-		
+			 	{ "123040", { --Mindbender
+					"player.mana < 100",
+					"target.range <= 40"
+				}, "target" },
+				{ "34433", { --Shadowfiend
+					"player.mana < 100",
+					"target.range <= 40"
+				}, "target" },
+				{ "129250", { -- PW:Solance
+					"target.spell(129250).range",
+					"talent(3,3)"
+				}, "target" },
 		{{--Party/Raid CR
-			
 			-- Keybinds
-			{ "32375", "modifier.control", "player.ground" }, --Mass Dispel
-			
+				{ "32375", "modifier.control", "player.ground" }, --Mass Dispel
 			-- Cooldowns
-			{ Cooldowns, "modifier.cooldowns" },
-			
+				{ Cooldowns, "modifier.cooldowns" },
 			-- Flash Heal // dont interrumpt if castbar more then 50%
-			{ FlashHeal, "!player.casting.percent >= 50" },
-		 	
+				{ FlashHeal, "!player.casting.percent >= 50" },
 		 	-- BorrowedTime // Passive Buff
-		 	{ BorrowedTime, "player.buff(59889).duration <= 2" },
-		 	
+		 		{ BorrowedTime, "player.buff(59889).duration <= 2" },
 		 	-- SpiritShell // Talent
-		 	{ SpiritShell, "player.buff(109964)" },
-		 	
+		 		{ SpiritShell, "player.buff(109964)" },
 		 	-- Attonement
-		 	{ Attonement, {
-		 		(function() return mts_dynamicEval("lowest.health >= " .. fetch('mtsconfPriestDisc', 'Attonement')) end),
-				(function() return mts_infront('target') end),
-				--"!player.buff(81661).count = 5",
-				"!player.mana < 20",
-				"target.range <= 30",
-		 	}},
-		 	
+			 	{ Attonement, {
+			 		(function() return mts_dynamicEval("lowest.health >= " .. fetch('mtsconfPriestDisc', 'Attonement')) end),
+					(function() return mts_infront('target') end),
+					--"!player.buff(81661).count = 5",
+					"!player.mana < 20",
+					"target.range <= 30",
+			 	}},
 			-- AoE Heals
-		 	{ AoE, "modifier.multitarget" },
-			
+		 		{ AoE, "modifier.multitarget" },
 			-- Normal Heals
-			{ Normal}
-		
+				{ Normal}
 		}, "modifier.party" },
 		
 		{{-- Solo CR
