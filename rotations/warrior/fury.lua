@@ -18,9 +18,9 @@ local All = {
 		{ "2487", "player.seal != 1", nil  }, 					-- Battle Stance
 		{ "6544", "modifier.shift", "mouseover.ground" }, 		-- Heroic Leap // FH
 	  	{ "5246", "modifier.control" }, 						-- Intimidating Shout
-		{ "100", { 												-- Charge
-			"modifier.alt", 
-			"target.spell(100).range" 
+		{ "100", { 		------------------------------------------ Charge
+			"modifier.alt", 			-- Holding Alt Key
+			"target.spell(100).range" 	-- Spell in range
 		}, "target"},
 		
 }
@@ -62,7 +62,7 @@ local Cooldowns = {
 	
 	--[[ Items
 		{ "#5512" }, --Healthstone
-		{ "#76097", "player.health < 30", "@mtsLib.checkItem(HealthPot)" }, -- Master Health Potion
+		{ "#76097", { "player.health < 30", "@mtsLib.checkItem(HealthPot)" }}, -- Master Health Potion
 		{ "#86125", { "modifier.cooldowns","@mtsLib.checkItem(KafaPress)" }}, -- Kafa Press]]
 
 }
@@ -82,8 +82,10 @@ Use Wild Strike as needed to consume Bloodsurge procs.
 With 4+ targets, place a higher emphasis on Whirlwind and continue to use it to dump Rage even with max Raging Blow stacks.
   ///---INFO---////  ]]
 local AoE = {
-	
-	{ "1680" }, -- Whirlwind
+
+	{ "23881" }, 									-- Bloodthirst on cooldown to maintain Enrage. Procs Bloodsurge.
+	{ "1680", "player.rage => 80" }, 				-- Whirlwind as a Rage dump and to build Raging Blow stacks.
+	{ "85288" }, 									-- Raging Blow with Raging Blow stacks.
 
 }
 
@@ -95,7 +97,8 @@ Now, use Execute while Enrage or whenever you go above 60 Rage.
 Finally, continue to use Wild Strike while Enrage or to consume Bloodsurge procs.
   ///---INFO---////  ]]
 local Execute = {
-	
+
+	{ "34428" }, 									-- Victory Rush
 	{ "5308", "player.rage => 80", "target" }, 		-- Execute to prevent capping your Rage.
 	{ "23881" }, 									-- Bloodthirst on cooldown to maintain Enrage. Procs Bloodsurge.
 	{ "5308", "player.rage => 60", "target" }, 		-- Execute while Enrage.
@@ -114,6 +117,7 @@ Also, use Wild Strike when Enraged or to consume Bloodsurge procs.
   ///---INFO---////  ]]
 local Normal = {
 
+	{ "34428" }, 									-- Victory Rush
 	{ "100130", "player.rage > 80", "target" },	 	-- Wild Strike to prevent capping your Rage.
 	{ "23881", "!player.buff(Enraged)", "target" }, -- Bloodthirst on cooldown when not Enraged. Procs Bloodsurge.
 	{ "85288" }, 									-- Raging Blow when available.
@@ -122,21 +126,32 @@ local Normal = {
 
 }
 
+local Interrupts = {
+
+	{ "6552" }, 		-- Pummel
+	{ "114028" }, 		-- Mass Spell Reflection
+
+}
+
+local Procs = {
+	
+	{ "5308", "player.buff(29725)", "target" }, 	-- Proc // Execute, Sudden Death
+	{ "100130", "player.buff(46916)", "target" },	-- Wild Strike to consume Bloodsurge procs.
+
+}
+
 
 ProbablyEngine.rotation.register_custom(72, mts_Icon.."|r[|cff9482C9MTS|r][|cffF58CBAWarrior-Fury|r]", 
 	{-- Incombat
-		{ "6552", "target.interruptsAt(50)", "target" }, 		-- Pummel
-	  	{ "114028", "target.interruptsAt(50)", "target" }, 		-- Mass Spell Reflection
-	  	{ "5308", "player.buff(29725)", "target" }, 			-- Proc // Execute, Sudden Death
-	  	{ "100130", "player.buff(46916)", "target" },			-- Proc // Wild Strike, Bloodsurge
-	  	{ "34428" }, 											-- Victory Rush
-		{ All },
-		{ Survival },
-		{ Cooldowns, "modifier.cooldowns" },
-		{ Execute, "target.health <= 20" },
-		{ AoE, "modifier.multitarget" },
-		{ AoE, "player.area(8).enemies >= 3" },
-		{ Normal }
+		{ Interrupts, "target.interruptsAt(50)" },		-- Interrupts
+		{ All },										-- Shared across all
+		{ Survival },									-- Survival
+		{ Cooldowns, "modifier.cooldowns" },			-- Cooldowns
+		{ Procs },										-- Proc's
+		{ Execute, "target.health <= 20" },				-- Execute
+		{ AoE, "modifier.multitarget" },				-- AoE Forced
+		{ AoE, "player.area(8).enemies >= 3" },			-- AoE
+		{ Normal, "target.health >= 20" }				-- Normal CR
 	}, 
 	{ -- Out Combat
 		{ All }
