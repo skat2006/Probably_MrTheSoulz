@@ -69,6 +69,22 @@ local inCombat = {
    	-- buffs
 		{ "81700", "player.buff(81661).count = 5" }, -- Archangel
 	
+	{{ -- Borrowed Time // Power Word: Shield
+		{ "17", { 
+			"!focus.debuff(6788)", 
+			"focus.range <= 40",
+		}, "focus" }, 
+		{ "17", {
+			"!tank.debuff(6788)", 
+			"tank.range <= 40",
+		}, "tank" },
+		{ "17", "!player.debuff(6788)", "player" },
+		{ "17", {
+			"lowest.health < 100",
+			"!lowest.debuff(6788)"
+		}, "lowest" }, 
+	}, "player.buff(59889).duration < 2" },
+
 	{{-- LoOk aT It GOoZ!!!
 		{ "121536", { 
 			"player.movingfor > 2", 
