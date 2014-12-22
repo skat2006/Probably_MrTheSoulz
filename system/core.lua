@@ -161,51 +161,6 @@ function mts_Distance(a, b)
     return 0
 end
 
---[[-----------------------------------------------
-    ** Racials **
-    DESC: Checks what race player is and if racial meats
-    conditions.     
-    UNUSED AND UNTESTED!
-
-    Build By: MTS
-    ---------------------------------------------------]]
-function mts_Racials()
-    local race = UnitRace("player")
-    if race == Humman then
-        if _parse("player.state.fear")
-        or _parse("player.state.charm")
-        or _parse("player.state.incapacitate")
-        or _parse("player.state.sleep")
-        or _parse("player.state.stun") then
-            CastSpellByID("59752")
-        end
-    elseif race == Dwarf then
-        if _parse("player.health <= 65") then
-            CastSpellByID("20594", "player")
-        end
-    elseif race == Undead then
-        if _parse("player.state.fear")
-        or _parse("player.state.charm")
-        or _parse("player.state.sleep") then
-            CastSpellByID("7744")
-        end
-    elseif race == Gnome then
-        if _parse("player.state.root")
-        or _parse("player.state.snare") then
-            CastSpellByID("20589")
-        end
-    elseif race == Goblin then
-         if _parse("player.moving") then
-            CastSpellByID("69041")
-        end
-    elseif race == Draenei then
-        if _parse("player.health <= 70") then
-            CastSpellByID("28880", "player")
-        end
-    end
-end
-
-
 -- TO BE REMOVED
 function mts_WildMushroom()
   local minHeal = (GetSpellBonusDamage(2) * 1.125) + (GetCombatRatingBonus(CR_VERSATILITY_DAMAGE_DONE) + GetVersatilityBonus(CR_VERSATILITY_DAMAGE_DONE))
