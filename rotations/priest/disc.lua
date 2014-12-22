@@ -375,6 +375,7 @@ ProbablyEngine.rotation.register_custom(
 		{{--Party/Raid CR
 			-- Keybinds
 				{ "32375", "modifier.control", "player.ground" }, --Mass Dispel
+				{ "62618", "modifier.shift", "tank.ground" },-- Power word Barrier // w/t CD's and on tank // PArty
 			-- Cooldowns
 				{ Cooldowns, "modifier.cooldowns" },
 			-- Flash Heal // dont interrumpt if castbar more then 50%
