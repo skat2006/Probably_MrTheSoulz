@@ -10,11 +10,7 @@ local n,r = GetSpellInfo(137639)
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
-mts_Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
-
-	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\ability_hunter_snipershot', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
-	ProbablyEngine.toggle.create('autosef', 'Interface\\Icons\\spell_sandstorm', 'Auto SEF', 'Automatically cast SEF on mouseover targets')
-	
+	mts_Splash("|cff9482C9[MTS]-[|cff00FF96Monk-WindWalker|r]-|cff9482C9Loaded", 5.0)
 end
 
 local inCombat = {
@@ -24,18 +20,9 @@ local inCombat = {
 		{ "119381", "modifier.control" }, -- Leg Sweep
 		{ "122470", "modifier.alt" }, -- Touch of Karma
 
-	-- SEF on mouseover // Needs Futher Logic...
-  		{ "137639",  {"toggle.autosef","!mouseover.debuff(138130)","!player.buff(137639).count = 2", "@mtsLib.mouseNotEqualTarget()"} , "mouseover" },
-  		{ "/cancelaura "..n, { "target.debuff(137639)", "toggle.autosef" }, "target"}, -- Storm, Earth, and Fire
-
-	-- Auto Target
-		{ "/cleartarget", {
-			"toggle.autotarget", 
-			(function() return UnitIsFriend("player","target") end)
-			}},
-		{ "/target [target=focustarget, harm, nodead]", {"target.range > 40", "!target.exists","toggle.autotarget"} },
-		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
-   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
+	-- SEF
+  		{ "137639", "@mtsLib.SEF" },
+  		{ "/cancelaura "..n, "target.debuff(137639)", "target"}, -- Storm, Earth, and Fire
 
 	-- Survival
 		{ "115072", { "player.health <= 80", "player.chi < 4" }}, -- Expel Harm
@@ -103,7 +90,6 @@ local inCombat = {
 		{ "123986", "target.range >= 15" }, -- Chi Burst (40yrd range!)
 		{ "117952", { "target.range > 5", "target.range <= 40", "!player.moving" }}, -- Crackling Jade Lightning
 		{ "115072", {"player.chi < 4", "target.range >= 15"} }, -- Expel Harm
-		
 
 	-- buffs
 		{ "115080", "player.buff(121125)" }, -- Touch of Death, Death Note
@@ -116,16 +102,10 @@ local inCombat = {
 	-- Rotation
 		{ "107428", "target.debuff(130320).duration < 3" }, -- Rising Sun Kick
 		{ "113656", "!player.moving" },-- Fists of Fury
-
-		{{-- can use FH
-
-			-- AoE smart
-				{ "101546","player.area(8).enemies >= 3"}, -- Spinning Crane Kick // FH Smarth
-
-		}, (function() return fetch('mtsconf','Firehack') end) },
 			
-		-- AoE
-			{ "101546", "modifier.multitarget" }, -- Spinning Crane Kick
+	-- AoE
+		{ "101546", "modifier.multitarget" }, -- Spinning Crane Kick
+		{ "101546","player.area(8).enemies >= 3"}, -- Spinning Crane Kick // FH Smarth
 
 		{ "100784", "player.chi >= 3" }, -- Blackout Kick
 		{ "100787", "!player.buff(125359)"}, -- Tiger Palm if not w/t Tiger Power
