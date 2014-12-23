@@ -267,13 +267,8 @@ local Normal = {
 local Solo = {
 
 	{{-- Auto Dotting
-		{ "32379", "@mtsLib.SWD" },
-		{{-- AoE FH
-			{ "589", "@mtsLib.SWP" }, -- SWP 
-		}, "target.area(10).enemies >= 3" },
-		{{-- AoE forced
-			{ "589", "@mtsLib.SWP" }, -- SWP 
-		}, "modifier.multitarget" },
+		{ "32379", "@mtsLib.SWD" }, -- SW:D
+		{ "589", "@mtsLib.SWP" }, 	-- SW:P 
 	}, {"toggle.dotEverything"} },
 
   	-- CD's
