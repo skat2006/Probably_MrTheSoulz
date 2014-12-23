@@ -15,7 +15,8 @@ end
 local All = {
 
 		{ "6673", "!player.buff(6673)" }, 						-- Battle Shout
-		{ "2487", "player.seal != 1", nil  }, 					-- Battle Stance
+		{ "6673", "!player.buff(6673)" }, 						-- Commanding Shout
+		{ "2487", "player.seal != 1" }, 						-- Battle Stance
 		{ "6544", "modifier.shift", "mouseover.ground" }, 		-- Heroic Leap // FH
 	  	{ "5246", "modifier.control" }, 						-- Intimidating Shout
 		{ "100", { 		------------------------------------------ Charge
@@ -98,7 +99,6 @@ Finally, continue to use Wild Strike while Enrage or to consume Bloodsurge procs
   ///---INFO---////  ]]
 local Execute = {
 
-	{ "34428" }, 									-- Victory Rush
 	{ "5308", "player.rage >= 80", "target" }, 		-- Execute to prevent capping your Rage.
 	{ "23881" }, 									-- Bloodthirst on cooldown to maintain Enrage. Procs Bloodsurge.
 	{ "5308", "player.rage >= 60", "target" }, 		-- Execute while Enrage.
@@ -117,10 +117,8 @@ Also, use Wild Strike when Enraged or to consume Bloodsurge procs.
   ///---INFO---////  ]]
 local Normal = {
 
-	{ "34428" }, 									-- Victory Rush
 	{ "100130", "player.rage > 80", "target" },	 	-- Wild Strike to prevent capping your Rage.
 	{ "23881", "!player.buff(Enraged)", "target" }, -- Bloodthirst on cooldown when not Enraged. Procs Bloodsurge.
-	{ "85288" }, 									-- Raging Blow when available.
 	{ "100130", "player.buff(Enraged)", "target" }, -- Wild Strike when Enraged.
 	{ "57755", "player.range > 10", "target" } 		-- Heroic Throw
 
@@ -133,8 +131,10 @@ ProbablyEngine.rotation.register_custom(72, mts_Icon.."|r[|cff9482C9MTS|r][|cffF
 		{ All },										-- Shared across all
 		{ Survival },									-- Survival
 		{ Cooldowns, "modifier.cooldowns" },			-- Cooldowns
-		{ "5308", "player.buff(29725)", "target" }, 	-- Proc // Execute, Sudden Death
+		{ "5308", "player.buff(52437)", "target" }, 	-- Proc // Execute, Sudden Death
 		{ "100130", "player.buff(46916)", "target" },	-- Wild Strike to consume Bloodsurge procs.
+		{ "85288" }, 									-- Raging Blow when available.
+		{ "34428" }, 									-- Victory Rush
 		{ Execute, "target.health <= 20" },				-- Execute
 		{ AoE, "modifier.multitarget" },				-- AoE Forced
 		{ AoE, "player.area(8).enemies >= 3" },			-- AoE
