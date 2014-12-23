@@ -84,7 +84,7 @@ With 4+ targets, place a higher emphasis on Whirlwind and continue to use it to 
 local AoE = {
 
 	{ "23881" }, 									-- Bloodthirst on cooldown to maintain Enrage. Procs Bloodsurge.
-	{ "1680", "player.rage => 80" }, 				-- Whirlwind as a Rage dump and to build Raging Blow stacks.
+	{ "1680", "player.rage >= 80" }, 				-- Whirlwind as a Rage dump and to build Raging Blow stacks.
 	{ "85288" }, 									-- Raging Blow with Raging Blow stacks.
 
 }
@@ -99,9 +99,9 @@ Finally, continue to use Wild Strike while Enrage or to consume Bloodsurge procs
 local Execute = {
 
 	{ "34428" }, 									-- Victory Rush
-	{ "5308", "player.rage => 80", "target" }, 		-- Execute to prevent capping your Rage.
+	{ "5308", "player.rage >= 80", "target" }, 		-- Execute to prevent capping your Rage.
 	{ "23881" }, 									-- Bloodthirst on cooldown to maintain Enrage. Procs Bloodsurge.
-	{ "5308", "player.rage => 60", "target" }, 		-- Execute while Enrage.
+	{ "5308", "player.rage >= 60", "target" }, 		-- Execute while Enrage.
 	{ "5308", "player.buff(Enraged)", "target" }, 	-- Execute with >= 60 Rage.
 	{ "100130", "player.buff(Enraged)", "target" }, -- Wild Strike while Enrage or with Bloodsurge procs.
 
