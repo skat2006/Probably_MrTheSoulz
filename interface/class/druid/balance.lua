@@ -25,26 +25,30 @@ mts_configDruidBalance = {
 		      	list = {
 			        {
 			          text = "Cat",
-			          key = "Cat"
+			          key = "2"
 			        },
 			        {
 			          text = "Bear",
-			          key = "Bear"
+			          key = "1"
 			        },
 			        {
 			          text = "Travel",
-			          key = "Travel"
+			          key = "3"
 			        },
 			        {
 			          text = "Boomkin",
-			          key = "Boomkin"
+			          key = "4"
+			        },
+			        {
+			          text = "Normal",
+			          key = "0"
 			        },
 			        {
 			          text = "MANUAL",
 			          key = "MANUAL"
 			        }
 			    }, 
-		    	default = "Boomkin", 
+		    	default = "4", 
 		    	desc = "Select What form to use while in of combat" 
 		    },
 			{ 
@@ -54,26 +58,30 @@ mts_configDruidBalance = {
 		      	list = {
 			        {
 			          text = "Cat",
-			          key = "Cat"
+			          key = "2"
 			        },
 			        {
 			          text = "Bear",
-			          key = "Bear"
+			          key = "1"
 			        },
 			        {
 			          text = "Travel",
-			          key = "Travel"
+			          key = "3"
 			        },
 			        {
 			          text = "Boomkin",
-			          key = "Boomkin"
+			          key = "4"
+			        },
+			        {
+			          text = "Normal",
+			          key = "0"
 			        },
 			        {
 			          text = "MANUAL",
 			          key = "MANUAL"
 			        }
 			    }, 
-		    	default = "Boomkin", 
+		    	default = "4", 
 		    	desc = "Select What form to use while out of combat" 
 		    },
 
