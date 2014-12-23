@@ -25,22 +25,26 @@ mts_configDruidFeral = {
 		      	list = {
 			        {
 			          text = "Cat",
-			          key = "Cat"
+			          key = "2"
 			        },
 			        {
 			          text = "Bear",
-			          key = "Bear"
+			          key = "1"
 			        },
 			        {
 			          text = "Travel",
-			          key = "Travel"
+			          key = "3"
+			        },
+			        {
+			          text = "Normal",
+			          key = "0"
 			        },
 			        {
 			          text = "MANUAL",
 			          key = "MANUAL"
 			        }
 			    }, 
-		    	default = "Cat", 
+		    	default = "2", 
 		    	desc = "Select What form to use while in of combat" 
 		    },
 			{ 
@@ -50,22 +54,26 @@ mts_configDruidFeral = {
 		      	list = {
 			        {
 			          text = "Cat",
-			          key = "Cat"
+			          key = "2"
 			        },
 			        {
 			          text = "Bear",
-			          key = "Bear"
+			          key = "1"
 			        },
 			        {
 			          text = "Travel",
-			          key = "Travel"
+			          key = "3"
+			        },
+			        {
+			          text = "Normal",
+			          key = "0"
 			        },
 			        {
 			          text = "MANUAL",
 			          key = "MANUAL"
 			        }
 			    }, 
-		    	default = "Cat", 
+		    	default = "0", 
 		    	desc = "Select What form to use while out of combat" 
 		    },
 

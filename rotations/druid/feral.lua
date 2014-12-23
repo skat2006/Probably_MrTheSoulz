@@ -6,7 +6,7 @@ mts_Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpe
 	
 end
 
-local inCombat = {
+local CatForm = {
 
 	{{-- rake // prowl with glyph
 		{ "1822", {
@@ -57,17 +57,12 @@ local inCombat = {
 	  		"player.buff(Predatory Swiftness)"
 	  	}, "lowest" },
 
-  	{{--Interrupts
-	  	{ "106839", "modifier.interrupt", "target"},	-- Skull Bash
-		{ "5211", "modifier.interrupt", "target" }, 	-- Mighty Bash
-	}, (function() return mts_infront('target') end) },
-
   	--Cooldowns
 	  	{ "106737", {  --Force of Nature
 	  		"player.spell(106737).charges > 2", 
 	  		"!modifier.last(106737)", 
 	  		"player.spell(106737).exists" 
-	  	} --[[NO TARGET]] },
+	  	}},
 	  	{ "106951", "modifier.cooldowns" }, -- Beserk
 	  	{ "124974", "modifier.cooldowns" }, -- Nature's Vigil
 	  	{ "102543", "modifier.cooldowns" }, -- incarnation
@@ -75,7 +70,6 @@ local inCombat = {
 	-- buffs
 		{ "5217", (function() return mts_dynamicEval("player.energy <= " .. fetch('mtsconfDruidFeral', 'TigersFury')) end) }, -- Tiger's Fury
 
-	{{-- Main CR
 		-- Proc's
 	  		{ "106830", "player.buff(Omen of Clarity)", "target" }, -- Free Thrash
 
@@ -135,66 +129,12 @@ local inCombat = {
 		    	{ "5221", "player.buff(Clearcasting)", "target"  }, -- Shred
 		    	{ "5221", "player.buff(Berserk)", "target"  }, -- Shred 
 		    	{ "5221", "player.combopoints < 5", "target" }, -- Shred
-	}, 
-	{
-		(function() return mts_infront('target') end)},
-		"target.range <= 8"
-	},
   
 }
 
-local inCombatNoForm = {
-	
-	{ "768", { -- catform
-  		"player.form != 2", -- Stop if cat
-  		"!modifier.lalt", -- Stop if pressing left alt
-  		"!player.buff(5215)", -- Not in Stealth
-  		(function() return fetch('mtsconfDruidFeral','Form') == Cat end),
-  	} --[[NO TARGET]] },
-  	{ "787", { -- Travel
-  		"player.form != 3", -- Stop if cat
-  		"!modifier.lalt", -- Stop if pressing left alt
-  		"!player.buff(5215)", -- Not in Stealth
-  		(function() return fetch('mtsconfDruidFeral','Form') == Travel end),
-  	} --[[NO TARGET]] },
-  	{ "5487", { -- catform
-  		"player.form != 1", -- Stop if cat
-  		"!modifier.lalt", -- Stop if pressing left alt
-  		"!player.buff(5215)", -- Not in Stealth
-  		(function() return fetch('mtsconfDruidFeral','Form') == Bear end),
-  	} --[[NO TARGET]] },
 
-}
-
-local outCombat = {
-	
-	{ "768", { -- catform
-  		"player.form != 2", -- Stop if cat
-  		"!modifier.lalt", -- Stop if pressing left alt
-  		"!player.buff(5215)", -- Not in Stealth
-  		(function() return fetch('mtsconfDruidFeral','FormOCC') == Cat end),
-  	} --[[NO TARGET]] },
-  	{ "787", { -- Travel
-  		"player.form != 3", -- Stop if cat
-  		"!modifier.lalt", -- Stop if pressing left alt
-  		"!player.buff(5215)", -- Not in Stealth
-  		(function() return fetch('mtsconfDruidFeral','FormOCC') == Travel end),
-  	} --[[NO TARGET]] },
-  	{ "5487", { -- catform
-  		"player.form != 1", -- Stop if cat
-  		"!modifier.lalt", -- Stop if pressing left alt
-  		"!player.buff(5215)", -- Not in Stealth
-  		(function() return fetch('mtsconfDruidFeral','FormOCC') == Bear end),
-  	} --[[NO TARGET]] },
-
-  	{ "5215", { -- Stealth
-  		"player.form = 2", -- If cat
-  		"!player.buff(5215)", -- Not in Stealth
-  		(function() return fetch('mtsconfDruidFeral','Prowl') end),
-  	} --[[NO TARGET]] },
-
-	-- buff
-		-- Cat && MotW
+ProbablyEngine.rotation.register_custom(103, mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Feral|r]", 
+	{ ------------------------------------------------------------------------------------------------------------------ In Combat
 		{ "1126", {  -- Mark of the Wild
 			"!player.buff(20217).any", -- kings
 			"!player.buff(115921).any", -- Legacy of the Emperor
@@ -204,20 +144,93 @@ local outCombat = {
 			"!player.buff(5215)",-- Not in Stealth
 			"player.form = 0", -- Player not in form
 			(function() return fetch('mtsconfDruidFeral','Buffs') end),
-		} --[[NO TARGET]] },
-
-	--	keybinds
-	  	{ "Ursol's Vortex", {"modifier.shift", "target.exists"}, "mouseover.ground" }, -- Ursol's Vortex
+		}},
+		{ "Ursol's Vortex", {"modifier.shift", "target.exists"}, "mouseover.ground" }, -- Ursol's Vortex
 	  	{ "Disorienting Roar", "modifier.shift" },
 	  	{ "Mighty Bash", {"modifier.control", "target.exists"}, "target" },
 	  	{ "Typhoon", {"modifier.alt", "target.exists"}, "target" },
 	  	{ "Mass Entanglement", "modifier.shift" },
-
-}
-
-ProbablyEngine.rotation.register_custom(103, mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Feral|r]", 
-		{ -- Change CR Dyn
-			{inCombat, "player.form = 2"},
-			{inCombatNoForm, "player.form = 0"}
-		}, 
-	outCombat, exeOnLoad)
+	  	{ "/run CancelShapeshiftForm();", (function() 
+	  		if mts_dynamicEval("player.form = 0") or fetch('mtsconfDruidFeral', 'FormOCC') == 'MANUAL' then
+	  			return false
+	  		elseif mts_dynamicEval("player.form != 0") and fetch('mtsconfDruidFeral', 'FormOCC') == '0' then
+	  			return true
+	  		else
+	  			return mts_dynamicEval("player.form != " .. fetch('mtsconfDruidFeral', 'FormOCC'))
+	  		end
+	  	end) },
+		{ "768", { -- catform
+	  		"player.form != 2", -- Stop if cat
+	  		"!modifier.lalt", -- Stop if pressing left alt
+	  		"!player.buff(5215)", -- Not in Stealth
+	  		(function() return fetch('mtsconfDruidFeral','Form') == '2' end),
+	  	}},
+	  	{ "783", { -- Travel
+	  		"player.form != 3", -- Stop if cat
+	  		"!modifier.lalt", -- Stop if pressing left alt
+	  		"!player.buff(5215)", -- Not in Stealth
+	  		(function() return fetch('mtsconfDruidFeral','Form') == '3' end),
+	  	}},
+	  	{ "5487", { -- catform
+	  		"player.form != 1", -- Stop if cat
+	  		"!modifier.lalt", -- Stop if pressing left alt
+	  		"!player.buff(5215)", -- Not in Stealth
+	  		(function() return fetch('mtsconfDruidFeral','Form') == '1' end),
+	  	}},
+	  	{{ --------------------------------------------------------------------------------- Cat Form
+	  		{ "106839", "modifier.interrupt", "target"},	-- Skull Bash
+			{ "5211", "modifier.interrupt", "target" }, 	-- Mighty Bash
+			{ CatForm },
+		}, "player.form = 2" },
+	}, 
+	{ ------------------------------------------------------------------------------------------------------------------ Out Combat
+		{ "1126", {  -- Mark of the Wild
+			"!player.buff(20217).any", -- kings
+			"!player.buff(115921).any", -- Legacy of the Emperor
+			"!player.buff(1126).any",   -- Mark of the Wild
+			"!player.buff(90363).any",  -- embrace of the Shale Spider
+			"!player.buff(69378).any",  -- Blessing of Forgotten Kings
+			"!player.buff(5215)",-- Not in Stealth
+			"player.form = 0", -- Player not in form
+			(function() return fetch('mtsconfDruidFeral','Buffs') end),
+		}},
+		{ "Ursol's Vortex", {"modifier.shift", "target.exists"}, "mouseover.ground" }, -- Ursol's Vortex
+	  	{ "Disorienting Roar", "modifier.shift" },
+	  	{ "Mighty Bash", {"modifier.control", "target.exists"}, "target" },
+	  	{ "Typhoon", {"modifier.alt", "target.exists"}, "target" },
+	  	{ "Mass Entanglement", "modifier.shift" },
+	  	{ "/run CancelShapeshiftForm();", (function() 
+	  		if mts_dynamicEval("player.form = 0") or fetch('mtsconfDruidFeral', 'FormOCC') == 'MANUAL' then
+	  			return false
+	  		elseif mts_dynamicEval("player.form != 0") and fetch('mtsconfDruidFeral', 'FormOCC') == '0' then
+	  			return true
+	  		else
+	  			return mts_dynamicEval("player.form != " .. fetch('mtsconfDruidFeral', 'FormOCC'))
+	  		end
+	  	end) },
+		{ "768", { -- catform
+	  		"player.form != 2", -- Stop if cat
+	  		"!modifier.lalt", -- Stop if pressing left alt
+	  		"!player.buff(5215)", -- Not in Stealth
+	  		(function() return fetch('mtsconfDruidFeral','FormOCC') == '2' end),
+	  	}},
+	  	{ "783", { -- Travel
+	  		"player.form != 3", -- Stop if cat
+	  		"!modifier.lalt", -- Stop if pressing left alt
+	  		"!player.buff(5215)", -- Not in Stealth
+	  		(function() return fetch('mtsconfDruidFeral','FormOCC') == '3' end),
+	  	}},
+	  	{ "5487", { -- catform
+	  		"player.form != 1", -- Stop if cat
+	  		"!modifier.lalt", -- Stop if pressing left alt
+	  		"!player.buff(5215)", -- Not in Stealth
+	  		(function() return fetch('mtsconfDruidFeral','FormOCC') == '1' end),
+	  	}},
+	  	{{ --------------------------------------------------------------------------------- Cat Form
+	  		{ "5215", { -- Stealth
+		  		"player.form = 2", -- If cat
+		  		"!player.buff(5215)", -- Not in Stealth
+		  		(function() return fetch('mtsconfDruidFeral','Prowl') end),
+		  	}},
+		}, "player.form = 2" },
+	}, exeOnLoad)
