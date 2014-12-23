@@ -151,12 +151,12 @@ ProbablyEngine.rotation.register_custom(103, mts_Icon.."|r[|cff9482C9MTS|r][|cff
 	  	{ "Typhoon", {"modifier.alt", "target.exists"}, "target" },
 	  	{ "Mass Entanglement", "modifier.shift" },
 	  	{ "/run CancelShapeshiftForm();", (function() 
-	  		if mts_dynamicEval("player.form = 0") or fetch('mtsconfDruidFeral', 'FormOCC') == 'MANUAL' then
+	  		if mts_dynamicEval("player.form = 0") or fetch('mtsconfDruidFeral', 'Form') == 'MANUAL' then
 	  			return false
-	  		elseif mts_dynamicEval("player.form != 0") and fetch('mtsconfDruidFeral', 'FormOCC') == '0' then
+	  		elseif mts_dynamicEval("player.form != 0") and fetch('mtsconfDruidFeral', 'Form') == '0' then
 	  			return true
 	  		else
-	  			return mts_dynamicEval("player.form != " .. fetch('mtsconfDruidFeral', 'FormOCC'))
+	  			return mts_dynamicEval("player.form != " .. fetch('mtsconfDruidFeral', 'Form'))
 	  		end
 	  	end) },
 		{ "768", { -- catform
