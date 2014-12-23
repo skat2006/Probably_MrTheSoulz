@@ -34,6 +34,8 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 		_CurrentSpec = mts_BuildGUI(mts_configPalaHoly)	
 	elseif _SpecID == 73 and not _OpenClassWindow  then -- Warrior Protection
 		_CurrentSpec = mts_BuildGUI(mts_configWarrProt)
+	elseif _SpecID == 72 and not _OpenClassWindow  then -- Warrior Fury
+		_CurrentSpec = mts_BuildGUI(mts_configWarrFury)	
 	elseif _SpecID == 270 and not _OpenClassWindow  then -- Monk Mistweaver
 		_CurrentSpec = mts_BuildGUI(mts_configMonkMm)	
 	end

@@ -6,7 +6,7 @@ Fury Warrior DPS is based on maintaining a high uptime on Enrage to generally bu
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
-mts_Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
+mts_Splash("|cff9482C9[MTS]-[|cffF58CBAWarrior-Fury|r]-|cff9482C9Loaded", 5.0)
 
 	
 	
@@ -14,9 +14,14 @@ end
 
 local All = {
 
-		{ "6673", "!player.buff(6673)" }, 						-- Battle Shout
-		{ "6673", "!player.buff(6673)" }, 						-- Commanding Shout
-		{ "2487", "player.seal != 1" }, 						-- Battle Stance
+		{ "6673", {----------------------------------------------- Battle Shout
+			"!player.buff(6673)",
+			(function() return fetch("mtsconfigWarrFury", "Shout") == 'Battle Shout' end),
+		}},------------------------------------------------------- Commanding Shout
+		{ "469", {
+			"!player.buff(469)",
+			(function() return fetch("mtsconfigWarrFury", "Shout") == 'Commanding Shout' end),
+		}}, 
 		{ "6544", "modifier.shift", "mouseover.ground" }, 		-- Heroic Leap // FH
 	  	{ "5246", "modifier.control" }, 						-- Intimidating Shout
 		{ "100", { 		------------------------------------------ Charge
@@ -70,8 +75,10 @@ local Cooldowns = {
 
 local Survival = {
 	
-	{ "97462", "player.health < 15" }, 		-- Rallying Cry
-  	{ "118038", "player.health < 25" }, 	-- Die by the Sword
+	{ "97462", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrFury', 'RallyingCry')) end) }, -- Rallying Cry
+  	{ "118038", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrFury', 'DBTS')) end) }, 		-- Die by the Sword
+  	{ "103840", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrFury', 'IVT')) end) }, 		-- Impending Victory
+	{ "55694", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrFury', 'ERG')) end) }, 		-- Enraged Regeneration
 
 }
 
@@ -85,8 +92,9 @@ With 4+ targets, place a higher emphasis on Whirlwind and continue to use it to 
 local AoE = {
 
 	{ "23881" }, 									-- Bloodthirst on cooldown to maintain Enrage. Procs Bloodsurge.
-	{ "1680", "player.rage >= 80" }, 				-- Whirlwind as a Rage dump and to build Raging Blow stacks.
+	{ "1680", "player.rage >= 70" }, 				-- Whirlwind as a Rage dump and to build Raging Blow stacks.
 	{ "85288" }, 									-- Raging Blow with Raging Blow stacks.
+	{ "46924" }, 									-- Blade Storm
 
 }
 
@@ -126,6 +134,7 @@ local Normal = {
 
 ProbablyEngine.rotation.register_custom(72, mts_Icon.."|r[|cff9482C9MTS|r][|cffF58CBAWarrior-Fury|r]", 
 	{-- Incombat
+		{ "2487", "player.seal != 1" }, 				-- Battle Stance
 		{ "6552", "target.interruptsAt(50)" }, 			-- Pummel
 		{ "114028", "target.interruptsAt(50)" }, 		-- Mass Spell Reflection
 		{ All },										-- Shared across all
