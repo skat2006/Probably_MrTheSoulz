@@ -8,7 +8,7 @@ local mts_LiveUpdating = false
 
 local mts_live = {
 	key = "mtslive",
-	title = logo.."MrTheSoulz GUI \124cffC41F3Bv:"..mts_Version,
+	title = logo.."MrTheSoulz GUI \124cffC41F3Bv:"..mts.Version,
 	color = "9482C9",
 	width = 200,
 	height = 84,

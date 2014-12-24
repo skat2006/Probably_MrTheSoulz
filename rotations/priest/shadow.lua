@@ -70,19 +70,19 @@ local inCombat = {
 		}, "player" },
 
   -- items
-	{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'hstone')) end)}, -- Healthstone
+	{ "#5512", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'hstone')) end)}, -- Healthstone
   
   --Defensive/Heal
-		{ "586", (function() return mts_dynamicEval("player.threat >= " .. fetch('mtsconfPriestShadow', 'fade')) end) }, -- FADE
-		{ "!12963", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'instaprayer')) end) },
+		{ "586", (function() return mts.dynamicEval("player.threat >= " .. fetch('mtsconfPriestShadow', 'fade')) end) }, -- FADE
+		{ "!12963", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'instaprayer')) end) },
 		{ "17", { -- PW:S on HP
 			"!player.debuff(6788)", 
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'shield')) end)
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'shield')) end)
 			}, "player" },
-		{ "47585", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'guise')) end) },  -- Dispersion
+		{ "47585", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'guise')) end) },  -- Dispersion
 		{ "112833", { -- Guise
 			"talent(1, 2)", 
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'guise')) end),
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', 'guise')) end),
 			}},
   
   {{-- FH AoE
@@ -168,4 +168,4 @@ local outCombat = {
   
 }
 
-ProbablyEngine.rotation.register_custom(258, mts_Icon.."|r[|cff9482C9MTS|r][Priest-Shadow|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(258, mts.Icon.."|r[|cff9482C9MTS|r][Priest-Shadow|r]", inCombat, outCombat, lib)

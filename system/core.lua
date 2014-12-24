@@ -4,11 +4,15 @@ Thank You For Using My ProFiles
 I Hope Your Enjoy Them
 MTS
 ]]
+mts = {
+  
+  Version = "0.1.3.3",
+  Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t",
+  peRecomemded = "6.0.3r11",
+  CurrentCR = false,
 
-mts_Version = "0.1.3.3"
-mts_Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t"
-mts_peRecomemded = "6.0.3r11"
-mts_CurrentCR = false
+}
+
 
 local fetch = ProbablyEngine.interface.fetchKey
 local _parse = ProbablyEngine.dsl.parse
@@ -86,12 +90,12 @@ end)
 --[[------------------------------------------------------------------------------------------------------------]]
 
 --[[ Used to compare stuff with GUI's values ]]
-function mts_dynamicEval(condition, spell)
+function mts.dynamicEval(condition, spell)
 	if not condition then return false end
 	return _parse(condition, spell or '')
 end
 
-function mts_immuneEvents(unit)
+function mts.immuneEvents(unit)
   for i = 1, 40 do
     local _,_,_,_,_,_,_,_,_,_,spellId = _G['UnitDebuff'](unit, i)
     for k,v in pairs(mts_ImmuneAuras) do
@@ -108,7 +112,7 @@ Replaces PE build in one beacuse PE's is over sensitive.
 Build By: Mirakuru
 Modified by: MTS
 ---------------------------------------------------]]
-function mts_infront(unit)
+function mts.Infront(unit)
   if UnitExists(unit) and UnitIsVisible(unit) then
     -- FireHack
     if FireHack then
@@ -132,13 +136,13 @@ function mts_infront(unit)
 end
 
 --[[-----------------------------------------------
-** mts_Distance **
+** mts.Distance **
 DESC: Sometimes PE's behaves badly,
 So here we go...
 
 Build By: MTS
 ---------------------------------------------------]]
-function mts_Distance(a, b)
+function mts.Distance(a, b)
   if UnitExists(a) and UnitIsVisible(a) and UnitExists(b) and UnitIsVisible(b) then
     -- FireHack
     if FireHack then

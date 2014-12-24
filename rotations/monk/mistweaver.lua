@@ -215,7 +215,7 @@ local inCombatSerpente = {
 
 	-- Soothing Mist
 	  	{ "115175", {
-	  		(function() return mts_dynamicEval("lowest.health < " .. fetch('mtsconfigMonkMm', 'SM')) end), 
+	  		(function() return mts.dynamicEval("lowest.health < " .. fetch('mtsconfigMonkMm', 'SM')) end), 
 	  		"!player.moving"
 	  	}, "lowest" },
 
@@ -346,7 +346,7 @@ local outCombat = {
 			"lowest.health < 100"
 		}, "lowest"}, 
 	  	{ "115175", {-- Soothing Mist
-	  		(function() return mts_dynamicEval("lowest.health < " .. fetch('mtsconfigMonkMm', 'SM')) end), 
+	  		(function() return mts.dynamicEval("lowest.health < " .. fetch('mtsconfigMonkMm', 'SM')) end), 
 	  		"!player.moving"
 	  	}, "lowest" },
 	
@@ -355,7 +355,7 @@ local outCombat = {
  
 
 
-ProbablyEngine.rotation.register_custom(270, mts_Icon.."|r[|cff9482C9MTS|r][|cff00FF96Monk-Mistweaver|r]", 
+ProbablyEngine.rotation.register_custom(270, mts.Icon.."|r[|cff9482C9MTS|r][|cff00FF96Monk-Mistweaver|r]", 
 		{-- Change CR dyn
 			{ inCombatSerpente, "player.stance = 1" },
 			{ inCombatCrane, "player.stance = 2" },

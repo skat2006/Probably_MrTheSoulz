@@ -1,12 +1,12 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
-mts_unitCache = {}
-mts_unitFriendlyCache = {}
+mts.unitCache = {}
+mts.unitFriendlyCache = {}
 
 local function mts_unitCacheFun()
   -- Wipe Chace before refresh otherwise it just adds to the cache...
-  wipe(mts_unitCache)
-  wipe(mts_unitFriendlyCache)
+  wipe(mts.unitCache)
+  wipe(mts.unitFriendlyCache)
   unitCacheTotal = 0
   unitCacheFriendlyTotal = 0
   
@@ -17,7 +17,7 @@ local function mts_unitCacheFun()
 					local object = ObjectWithIndex(i)
 						if ObjectExists(object) then
 							if ObjectIsType(object, ObjectTypes.Unit) and ProbablyEngine.condition["alive"](object) then
-								local distance = mts_Distance('player', object)
+								local distance = mts.Distance('player', object)
 									 if distance <= (fetch("cacheInfo", "CD") or 40) then
                                         local health = math.floor((UnitHealth(object) / UnitHealthMax(object)) * 100)
                                         local maxHealth = UnitHealthMax(object)
@@ -31,37 +31,37 @@ local function mts_unitCacheFun()
                                                     if fetch("cacheInfo", "FU2") == 'Players' then
                                                         if UnitIsPlayer(object) then
                                                             unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
-                                                            table.insert(mts_unitFriendlyCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
-                                                            table.sort(mts_unitFriendlyCache, function(a,b) return a.distance < b.distance end)
+                                                            table.insert(mts.unitFriendlyCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
+                                                            table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
                                                         end
                                                     -- Cache Only Party/Raid
                                                     elseif fetch("cacheInfo", "FU2") == 'PR' then
                                                         if UnitIsPlayer(object) and (UnitInParty(object) or UnitInRaid(object)) then
                                                             unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
-                                                            table.insert(mts_unitFriendlyCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
-                                                            table.sort(mts_unitFriendlyCache, function(a,b) return a.distance < b.distance end)
+                                                            table.insert(mts.unitFriendlyCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
+                                                            table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
                                                         end
                                                     -- Cache All
                                                     else
                                                         unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
-                                                        table.insert(mts_unitFriendlyCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
-                                                        table.sort(mts_unitFriendlyCache, function(a,b) return a.distance < b.distance end)
+                                                        table.insert(mts.unitFriendlyCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
+                                                        table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
                                                     end
                                                 end
                                             -- All Other units cache
                                             else
                                                 -- Enabled on GUI and unit affecting combat
-                                                if fetch("cacheInfo", "EU") and not mts_immuneEvents(object) then
+                                                if fetch("cacheInfo", "EU") and not mts.immuneEvents(object) then
                                                     if fetch("cacheInfo", "EU2") == 'Combat' then 
                                                         if UnitAffectingCombat(object) then
                                                             unitCacheTotal = unitCacheTotal + 1
-                                                            table.insert(mts_unitCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
-                                                            table.sort(mts_unitCache, function(a,b) return a.distance < b.distance end)
+                                                            table.insert(mts.unitCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
+                                                            table.sort(mts.unitCache, function(a,b) return a.distance < b.distance end)
                                                         end
                                                     else
                                                          unitCacheTotal = unitCacheTotal + 1
-                                                         table.insert(mts_unitCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
-                                                         table.sort(mts_unitCache, function(a,b) return a.distance < b.distance end)
+                                                         table.insert(mts.unitCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
+                                                         table.sort(mts.unitCache, function(a,b) return a.distance < b.distance end)
                                                     end
                                                 end
                                             end
@@ -75,7 +75,7 @@ local function mts_unitCacheFun()
                     for i = 1, GetNumGroupMembers() do
                         local target = groupType..i.."target"
                             if UnitExists(target) then
-                                local distance = mts_Distance('player', target)
+                                local distance = mts.Distance('player', target)
                                     if distance <= (fetch("cacheInfo", "CD") or 40) then
                                         local health = math.floor((UnitHealth(target) / UnitHealthMax(target)) * 100)
                                         local maxHealth = UnitHealthMax(target)
@@ -89,37 +89,37 @@ local function mts_unitCacheFun()
                                                     if fetch("cacheInfo", "FU2") == 'Players' then
                                                         if UnitIsPlayer(target) then
                                                             unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
-                                                            table.insert(mts_unitFriendlyCache, {key=target, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
-                                                            table.sort(mts_unitFriendlyCache, function(a,b) return a.distance < b.distance end)
+                                                            table.insert(mts.unitFriendlyCache, {key=target, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
+                                                            table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
                                                         end
                                                     -- Cache Only Party/Raid
                                                     elseif fetch("cacheInfo", "FU2") == 'PR' then
                                                         if UnitIsPlayer(target) and (UnitInParty(target) or UnitInRaid(target)) then
                                                             unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
-                                                            table.insert(mts_unitFriendlyCache, {key=target, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
-                                                            table.sort(mts_unitFriendlyCache, function(a,b) return a.distance < b.distance end)
+                                                            table.insert(mts.unitFriendlyCache, {key=target, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
+                                                            table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
                                                         end
                                                     -- Cache All
                                                     else
                                                         unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
-                                                        table.insert(mts_unitFriendlyCache, {key=target, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
-                                                        table.sort(mts_unitFriendlyCache, function(a,b) return a.distance < b.distance end)
+                                                        table.insert(mts.unitFriendlyCache, {key=target, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
+                                                        table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
                                                     end
                                                 end
                                             -- All Other units cache
                                             else
                                                 -- Enabled on GUI and unit affecting combat
-                                                if fetch("cacheInfo", "EU") and not mts_immuneEvents(target) then
+                                                if fetch("cacheInfo", "EU") and not mts.immuneEvents(target) then
                                                     if fetch("cacheInfo", "EU2") == 'Combat' then 
                                                         if UnitAffectingCombat(target) then
                                                             unitCacheTotal = unitCacheTotal + 1
-                                                            table.insert(mts_unitCache, {key=target, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
-                                                            table.sort(mts_unitCache, function(a,b) return a.distance < b.distance end)
+                                                            table.insert(mts.unitCache, {key=target, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
+                                                            table.sort(mts.unitCache, function(a,b) return a.distance < b.distance end)
                                                         end
                                                     else
                                                          unitCacheTotal = unitCacheTotal + 1
-                                                         table.insert(mts_unitCache, {key=target, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
-                                                         table.sort(mts_unitCache, function(a,b) return a.distance < b.distance end)
+                                                         table.insert(mts.unitCache, {key=target, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, friend=friend, name=name})
+                                                         table.sort(mts.unitCache, function(a,b) return a.distance < b.distance end)
                                                     end
                                                 end
                                             end
@@ -294,7 +294,7 @@ local mts_cacheWindowUpdating = false
 
 -- Check if possivel to smart cache
 local function CacheInfo()
-    if mts_CurrentCR then
+    if mts.CurrentCR then
         if fetch("cacheInfo", "AC") then
             if FireHack then
                 return "|cff00FF96Using Unlocker object manager."
@@ -310,13 +310,13 @@ local function CacheInfo()
 end
 
 local function mts_updateCacheInfo()
-    for i=1,#mts_unitCache do
+    for i=1,#mts.unitCache do
 		mts_cacheWindow.elements.current_Cache1Total:SetText("|cff0070DETotal:|r "..unitCacheTotal)
-        mts_cacheWindow.elements.current_Cache1:SetText("|cff00FF96NAME:|r "..mts_unitCache[i].name.."\n |--> |cff0070DEGUID:|r "..mts_unitCache[i].key.."\n |--> |cff0070DEDistance:|r "..mts_unitCache[i].distance.."\n |--> |cff0070DEHealth:|r "..mts_unitCache[i].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts_unitCache[i].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts_unitCache[i].actualHealth)
+        mts_cacheWindow.elements.current_Cache1:SetText("|cff00FF96NAME:|r "..mts.unitCache[i].name.."\n |--> |cff0070DEGUID:|r "..mts.unitCache[i].key.."\n |--> |cff0070DEDistance:|r "..mts.unitCache[i].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitCache[i].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitCache[i].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitCache[i].actualHealth)
     end
-	for s=1,#mts_unitFriendlyCache do
+	for s=1,#mts.unitFriendlyCache do
 		mts_cacheWindow.elements.current_Cache2Total:SetText("|cff0070DETotal:|r "..unitCacheFriendlyTotal)
-        mts_cacheWindow.elements.current_Cache2:SetText("|cff00FF96NAME:|r "..mts_unitFriendlyCache[s].name.."\n |--> |cff0070DEGUID:|r "..mts_unitFriendlyCache[s].key.."\n |--> |cff0070DEDistance:|r "..mts_unitFriendlyCache[s].distance.."\n |--> |cff0070DEHealth:|r "..mts_unitFriendlyCache[s].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts_unitFriendlyCache[s].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts_unitFriendlyCache[s].actualHealth)
+        mts_cacheWindow.elements.current_Cache2:SetText("|cff00FF96NAME:|r "..mts.unitFriendlyCache[s].name.."\n |--> |cff0070DEGUID:|r "..mts.unitFriendlyCache[s].key.."\n |--> |cff0070DEDistance:|r "..mts.unitFriendlyCache[s].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitFriendlyCache[s].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitFriendlyCache[s].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitFriendlyCache[s].actualHealth)
     end
     mts_cacheWindow.elements.current_CacheStatus:SetText(CacheInfo())
 end
@@ -350,7 +350,7 @@ function mts_cacheGUI()
 end
 
 C_Timer.NewTicker(0.1, (function()
-    if mts_CurrentCR then
+    if mts.CurrentCR then
         mts_unitCacheFun()
     end
 end), nil)

@@ -50,7 +50,7 @@ local inCombat_Defensive = {
   		{ "Berserker Rage", "modifier.cooldowns" },
 	
 	-- Items
-		{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrProt', 'Healthstone')) end) }, --Healthstone
+		{ "#5512", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfigWarrProt', 'Healthstone')) end) }, --Healthstone
 		{ "#gloves" },
 	
 	-- Threat Control w/ Toggle
@@ -58,13 +58,13 @@ local inCombat_Defensive = {
   		{ "Taunt", "toggle.tc", "mouseover.threat < 100", "mouseover" },
 
     -- Def Cooldowns
-  		{ "Rallying Cry", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrProt', 'RallyingCry')) end) },  
-  		{ "Last Stand", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrProt', 'LastStand')) end) },
-  		{ "Shield Wall", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrProt', 'ShieldWall')) end) },
+  		{ "Rallying Cry", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfigWarrProt', 'RallyingCry')) end) },  
+  		{ "Last Stand", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfigWarrProt', 'LastStand')) end) },
+  		{ "Shield Wall", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfigWarrProt', 'ShieldWall')) end) },
   		{ "Shield Block", "!player.buff(Shield Block)" },
   		{ "Shield Barrier", { 
   			"!player.buff(Shield Barrier)",
-  			(function() return mts_dynamicEval("player.rage <= " .. fetch('mtsconfigWarrProt', 'ShieldBarrier')) end)
+  			(function() return mts.dynamicEval("player.rage <= " .. fetch('mtsconfigWarrProt', 'ShieldBarrier')) end)
   		}},
 
   	-- Self Heals
@@ -146,7 +146,7 @@ local outCombat = {
 
 ProbablyEngine.rotation.register_custom(
 	73, 
-	mts_Icon.."|r[|cff9482C9MTS|r][|cffC79C6EWarrior-Prot|r]", 
+	mts.Icon.."|r[|cff9482C9MTS|r][|cffC79C6EWarrior-Prot|r]", 
 	{-- Dyn Change CR
 		{ inCombat_Battle, "player.stance = 1" },
 		{ inCombat_Defensive, "player.stance = 2" },

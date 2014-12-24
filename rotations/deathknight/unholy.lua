@@ -54,9 +54,9 @@ local inCombat = {
 		}, "target" }, 
 
 	-- Def cooldowns // heals
-		{ "48792", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkUnholy', 'IceboundFortitude')) end) }, -- Icebound Fortitude
-		{ "48743", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkUnholy', 'DeathPact')) end) }, -- Death Pact
-		{ "108196", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkUnholy', 'DeathSiphon')) end) },-- Death Siphon
+		{ "48792", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDkUnholy', 'IceboundFortitude')) end) }, -- Icebound Fortitude
+		{ "48743", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDkUnholy', 'DeathPact')) end) }, -- Death Pact
+		{ "108196", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDkUnholy', 'DeathSiphon')) end) },-- Death Siphon
 		{ "49039", { -- Lichborne //fear 
 			"player.state.fear", 
 			"player.runicpower >= 40", 
@@ -74,7 +74,7 @@ local inCombat = {
 		}},
 		{ "49998", { -- Death Strike With Dark Succor
 			"player.buff(10156", 
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkUnholy', 'DeathStrikeDS')) end)
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDkUnholy', 'DeathStrikeDS')) end)
 		}}, 
 	
 	-- Cooldowns
@@ -269,7 +269,7 @@ local outCombat = {
 }
 
 ProbablyEngine.rotation.register_custom(
-	252, mts_Icon..
+	252, mts.Icon..
 	"|r[|cff9482C9MTS|r][\124cffC41F3BDeathKnight-Unholy|r]", 
 	inCombat, 
 	outCombat, 

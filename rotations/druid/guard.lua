@@ -69,9 +69,9 @@ local inCombat = {
 		{ "5211", "modifier.interrupt", "target" }, -- Mighty Bash
 	
 	-- Items
-		{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'Healthstone')) end) }, -- Healthstone
-		{ "#109223", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'HealingTonic')) end) }, --  Healing Tonic
-		{ "#117415", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'SmuggledTonic')) end) }, --  Smuggled Tonic
+		{ "#5512", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'Healthstone')) end) }, -- Healthstone
+		{ "#109223", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'HealingTonic')) end) }, --  Healing Tonic
+		{ "#117415", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'SmuggledTonic')) end) }, --  Smuggled Tonic
 	
 	-- Cooldowns
 		{ "50334", "modifier.cooldowns" }, -- Berserk
@@ -81,17 +81,17 @@ local inCombat = {
 	--Defensive
 		{ "62606", { -- Savage Defense
 			"!player.buff", 
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'SavageDefense')) end) 
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'SavageDefense')) end) 
 		} --[[NO TARGET]] },
 		{ "22842", { -- Frenzied Regeneration
 			"!player.buff",
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'FrenziedRegeneration')) end),
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'FrenziedRegeneration')) end),
 			"player.rage >= 20"
 		} --[[NO TARGET]] },
-		{ "22812",  (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'Barkskin')) end) }, -- Barkskin
-		{ "102351",  (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'CenarionWard')) end), "player" }, -- Cenarion Ward
-		{ "61336",  (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'SurvivalInstincts')) end) }, -- Survival Instincts
-		{ "108238", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'Renewal')) end) }, -- Renewal		
+		{ "22812",  (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'Barkskin')) end) }, -- Barkskin
+		{ "102351",  (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'CenarionWard')) end), "player" }, -- Cenarion Ward
+		{ "61336",  (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'SurvivalInstincts')) end) }, -- Survival Instincts
+		{ "108238", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDruidGuard', 'Renewal')) end) }, -- Renewal		
 
 	-- Dream of Cenarious
 		-- Needs a Rebirth here
@@ -174,5 +174,5 @@ local outCombat = {
 
 ProbablyEngine.rotation.register_custom(
 	104, 
-	mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Guardian|r]", 
+	mts.Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Guardian|r]", 
 	inCombat, outCombat, exeOnLoad)

@@ -144,5 +144,5 @@ local outCombat = {
 
 ProbablyEngine.rotation.register_custom(
 	254, 
-	mts_Icon.."|cffABD473Marksman|r", 
+	mts.Icon.."|cffABD473Marksman|r", 
 	inCombat, outCombat, lib)

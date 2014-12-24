@@ -118,36 +118,36 @@ local Cooldowns = {
 			{ "33206", { 
 				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Focus' end),
 				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Allways' end),
-				(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
+				(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
 			}, "focus" },
 			{ "33206", {
 				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Tank' end),
 				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Allways' end),
-				(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
+				(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
 			}, "tank" },
 			{ "33206", {
 				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Lowest' end),
 				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Allways' end),
-				(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
+				(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end)
 			}, "lowest" },
 
 		-- Boss
 			{ "33206", { 
 				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Focus' end),
 				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Boss' end),
-				(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
+				(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
 				"target.boss"
 			}, "focus" },
 			{ "33206", {
 				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Tank' end),
 				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Boss' end),
-				(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
+				(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
 				"target.boss"
 			}, "tank" },
 			{ "33206", {
 				(function() return fetch("mtsconfPriestDisc", "PainSuppression") == 'Lowest' end),
 				(function() return fetch("mtsconfPriestDisc", "PainSuppressionTG") == 'Boss' end),
-				(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
+				(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PainSuppressionHP')) end),
 				"target.boss"
 			}, "lowest" },
 
@@ -174,7 +174,7 @@ local AoE = {
 		"!player.moving"
 	}, "lowest"},
 	{ "33076", { --Prayer of Mending
-		(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PrayerofMendingTank')) end),
+		(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PrayerofMendingTank')) end),
 		"@coreHealing.needsHealing(90, 3)",
 		"!player.moving", 
 		"tank.spell(17).range" 
@@ -187,21 +187,21 @@ local AoE = {
 local FlashHeal = {
 	
 	{ "!2061", {
-		(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end),
+		(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end),
 		"focus.spell(2061).range",
 		"!player.moving"
 	}, "focus" },
 	{ "!2061", {
-		(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end), 
+		(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealTank')) end), 
 		"tank.spell(2061).range",
 		"!player.moving"
 	}, "tank" },
 	{ "!2061", {
-		(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealPlayer')) end),
+		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealPlayer')) end),
 			"!player.moving"
 	}, "player" },
 		{ "!2061", {
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealRaid')) end),
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealRaid')) end),
 			"!player.moving"
 	}, "lowest" },
 
@@ -211,7 +211,7 @@ local Normal = {
 
 	-- Penance	
 		{ "!47540", {
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PenanceRaid')) end),
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PenanceRaid')) end),
 			"!player.casting(2061)",
 			"!player.moving",
 			"!player.casting.percent >= 50"
@@ -219,24 +219,24 @@ local Normal = {
 	
 	--Power Word: Shield
 		{ "17", { 
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'ShieldTank')) end),
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'ShieldTank')) end),
 			"!focus.debuff(6788).any", 
 			"focus.spell(17).range",
 			"!modifier.last" 
 		}, "focus" }, 
 		{ "17", {
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'ShieldTank')) end),
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'ShieldTank')) end),
 			"!tank.debuff(6788).any", 
 			"tank.spell(17).range",
 			"!modifier.last" 
 		}, "tank" },
 		{ "17", {  --Power Word: Shield
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'ShieldRaid')) end),
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'ShieldRaid')) end),
 			"!lowest.debuff(6788).any", 
 			"!lowest.buff(17).any", 
 		}, "lowest" },
 		{ "17", {
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'ShieldPlayer')) end),
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'ShieldPlayer')) end),
 			"!player.debuff(6788).any", 
 			"!player.buff(17).any",
 			"!modifier.last" 
@@ -244,21 +244,21 @@ local Normal = {
 
 	-- heal
 		{ "2060", { -- Heal
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'HealTank')) end),
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'HealTank')) end),
 			"focus.spell(2060).range",
 			"!player.moving"
 		}, "focus" },
 		{ "2060", {
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'HealTank')) end),
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'HealTank')) end),
 			"tank.spell(2060).range",
 			"!player.moving"
 		}, "tank" }, -- Heal
 		{ "2060", { -- Heal	
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'HealPlayer')) end),
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'HealPlayer')) end),
 			"!player.moving"
 		}, "player" },
 		{ "2060", {-- Heal
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'HealRaid')) end),
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'HealRaid')) end),
 			"!player.moving"
 		}, "lowest" }, 
 
@@ -276,13 +276,13 @@ local Solo = {
 
 	-- Flash Heal
 		{ "2061", { --Flash Heal
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealPlayer')) end),
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'FlashHealPlayer')) end),
 			"!player.moving"
 		}, "player" },
 	
 	-- shields
 		{ "17", { --Power Word: Shield
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'ShieldPlayer')) end),
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'ShieldPlayer')) end),
 			"!player.debuff(6788).any", 
 			"!player.buff(17).any" 
 		}, "player" },
@@ -293,12 +293,12 @@ local outCombat = {
 	
 	-- Heals 
 		{ "!47540", { --Penance
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PenanceRaid')) end),
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PenanceRaid')) end),
 			"!player.casting(2061)",
 			"!player.moving"
 			}, "lowest" },
 		{ "2060", {-- Heal
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'HealRaid')) end),
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'HealRaid')) end),
 			"!player.moving"
 			}, "lowest" }, 
 
@@ -351,7 +351,7 @@ local All = {
 	
 ProbablyEngine.rotation.register_custom(
 	256, 
-	mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", 
+	mts.Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", 
 	{ ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ In-Combat
 		 	------------------------------------------------------------------------------------------------------------------------------------- All in combat
 		 		{ All },																									-- Shared across all
@@ -376,8 +376,8 @@ ProbablyEngine.rotation.register_custom(
 		 		{ BorrowedTime, "player.buff(59889).duration <= 2" },														-- BorrowedTime // Passive Buff
 		 		{ SpiritShell, "player.buff(109964)" },																		-- SpiritShell // Talent
 			 	{ Attonement, {----------------------------------------------------------------------------------------------- Attonement
-			 		(function() return mts_dynamicEval("lowest.health >= " .. fetch('mtsconfPriestDisc', 'Attonement')) end),
-					(function() return mts_infront('target') end),
+			 		(function() return mts.dynamicEval("lowest.health >= " .. fetch('mtsconfPriestDisc', 'Attonement')) end),
+					(function() return mts.Infront('target') end),
 					--"!player.buff(81661).count = 5",
 					"!player.mana < 20",
 					"target.range <= 30",

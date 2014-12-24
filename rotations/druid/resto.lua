@@ -89,35 +89,35 @@ local inCombat = {
 
 	-- Life Bloom
 		{ "33763", { -- Life Bloom
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfDruidResto', 'LifeBloomTank')) end),
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfDruidResto', 'LifeBloomTank')) end),
 			"!focus.buff(33763)", 
 			"focus.spell(33763).range" 
 			}, "focus" }, 
 		{ "33763", { -- Life Bloom
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfDruidResto', 'LifeBloomTank')) end),
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfDruidResto', 'LifeBloomTank')) end),
 			"!tank.buff(33763)", 
 			"tank.spell(33763).range" 
 		}, "tank" }, 
 
 	-- Swiftmend
 		{ "18562", {  -- Swiftmend
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfDruidResto', 'SwiftmendTank')) end),
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfDruidResto', 'SwiftmendTank')) end),
 			"focus.buff(774)" 
 			}, "focus" },
 		{ "18562", { -- Swiftmend
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfDruidResto', 'SwiftmendTank')) end),
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfDruidResto', 'SwiftmendTank')) end),
 			"tank.buff(774)" 
 			}, "tank" },
 		{ "18562", { "lowest.health < 30", "lowest.buff(774)" }, "focus" }, -- Swiftmend
 
 	-- Rejuvenation
 		{ "774", { -- Rejuvenation
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfDruidResto', 'RejuvenationTank')) end),
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfDruidResto', 'RejuvenationTank')) end),
 			"!focus.buff", 
 			"focus.spell(774).range" 
 			}, "focus" },
 		{ "774", { -- Rejuvenation
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfDruidResto', 'RejuvenationTank')) end),
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfDruidResto', 'RejuvenationTank')) end),
 			"!tank.buff", 
 			"tank.spell(774).range" 
 			}, "tank" },
@@ -142,11 +142,11 @@ local inCombat = {
 
 	-- Healing Touch
 	 	{ "5185", {  -- Healing Touch
-	 		(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfDruidResto', 'HealingTouchTank')) end), 
+	 		(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfDruidResto', 'HealingTouchTank')) end), 
 		 	"!player.moving" 
 		 	}, "focus" },
 		{ "5185", { -- Healing Touch
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfDruidResto', 'HealingTouchTank')) end),
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfDruidResto', 'HealingTouchTank')) end),
 			"!player.moving" 
 			}, "tank" },
 		{ "5185", { "lowest.health < 96", "!player.moving" }, "lowest" }, -- Healing Touch
@@ -171,12 +171,12 @@ local outCombat = {
 
 	-- Life Bloom
 		{ "33763", { -- Life Bloom
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfDruidResto', 'LifeBloomTank')) end),
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfDruidResto', 'LifeBloomTank')) end),
 			"!focus.buff(33763)", 
 			"focus.spell(33763).range" 
 			}, "focus" },
 		{ "33763", { -- Life Bloom
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfDruidResto', 'LifeBloomTank')) end),
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfDruidResto', 'LifeBloomTank')) end),
 			"!tank.buff(33763)", 
 			"tank.spell(33763).range" 
 			}, "tank" }, 
@@ -185,7 +185,7 @@ local outCombat = {
 
 ProbablyEngine.rotation.register_custom(
 	105,
-	mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Resto|r]", 
+	mts.Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Resto|r]", 
 	inCombat, 
 	outCombat, 
 	exeOnLoad)

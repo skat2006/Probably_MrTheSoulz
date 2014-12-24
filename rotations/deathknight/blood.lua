@@ -35,11 +35,11 @@ local inCombat = {
 		{ "#5512", "player.health < 70"}, --healthstone
 
 	-- Def cooldowns // heals
-		{ "48792", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'IceboundFortitude')) end) }, -- Icebound Fortitude
-		{ "55233", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'VampiricBlood')) end) }, -- Vampiric Blood
-		{ "48743", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'DeathPact')) end) }, -- Death Pact
-		{ "48982", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'RuneTap')) end) }, -- rune tap
-		{ "108196", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'DeathSiphon')) end) },-- Death Siphon
+		{ "48792", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'IceboundFortitude')) end) }, -- Icebound Fortitude
+		{ "55233", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'VampiricBlood')) end) }, -- Vampiric Blood
+		{ "48743", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'DeathPact')) end) }, -- Death Pact
+		{ "48982", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'RuneTap')) end) }, -- rune tap
+		{ "108196", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDkBlood', 'DeathSiphon')) end) },-- Death Siphon
 		{ "49039", {  -- Lichborne //fear
 			"player.state.fear", 
 			"player.runicpower >= 40", 
@@ -170,7 +170,7 @@ local outCombat = {
 
 }
 
-ProbablyEngine.rotation.register_custom(250, mts_Icon.."|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-Blood|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(250, mts.Icon.."|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-Blood|r]", inCombat, outCombat, exeOnLoad)
 
 -- 55095 = Frost Fever
 -- 55078 = Blood plague

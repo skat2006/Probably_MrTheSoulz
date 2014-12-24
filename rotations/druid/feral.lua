@@ -13,7 +13,7 @@ local CatForm = {
 			"player.buff(5215)", -- prowl
 			"player.glyph(127540)" -- Savage Roar
 		}, "target" },
-	}, (function() return mts_infront('target') end) },
+	}, (function() return mts.Infront('target') end) },
 
   	--	keybinds
   		{{ -- Shift
@@ -39,13 +39,13 @@ local CatForm = {
 	  	}, "target" },
 
   	-- Survival
-	  	{ "Renewal", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'Renewal')) end) }, -- Renewal
-	  	{ "Cenarion Ward", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'CenarionWard')) end) }, -- Cenarion Ward
-	  	{ "61336",(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'SurvivalInstincts')) end) }, -- Survival Instincts
+	  	{ "Renewal", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'Renewal')) end) }, -- Renewal
+	  	{ "Cenarion Ward", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'CenarionWard')) end) }, -- Cenarion Ward
+	  	{ "61336",(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'SurvivalInstincts')) end) }, -- Survival Instincts
 	  	
 	-- Predatory Swiftness (Passive Proc)
 	  	{ "5185", {  -- Healing Touch Player
-	  		(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'HealingTouch')) end),
+	  		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'HealingTouch')) end),
 	  		"player.buff(Predatory Swiftness)" 
 	  	}, "player" },
 	  	{ "5185", {  -- Healing Touch Lowest
@@ -68,7 +68,7 @@ local CatForm = {
 	  	{ "102543", "modifier.cooldowns" }, -- incarnation
   	
 	-- buffs
-		{ "5217", (function() return mts_dynamicEval("player.energy <= " .. fetch('mtsconfDruidFeral', 'TigersFury')) end) }, -- Tiger's Fury
+		{ "5217", (function() return mts.dynamicEval("player.energy <= " .. fetch('mtsconfDruidFeral', 'TigersFury')) end) }, -- Tiger's Fury
 
 		-- Proc's
 	  		{ "106830", "player.buff(Omen of Clarity)", "target" }, -- Free Thrash
@@ -133,7 +133,7 @@ local CatForm = {
 }
 
 
-ProbablyEngine.rotation.register_custom(103, mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Feral|r]", 
+ProbablyEngine.rotation.register_custom(103, mts.Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Feral|r]", 
 	{ ------------------------------------------------------------------------------------------------------------------ In Combat
 		{ "1126", {  -- Mark of the Wild
 			"!player.buff(20217).any", -- kings
@@ -151,12 +151,12 @@ ProbablyEngine.rotation.register_custom(103, mts_Icon.."|r[|cff9482C9MTS|r][|cff
 	  	{ "Typhoon", {"modifier.alt", "target.exists"}, "target" },
 	  	{ "Mass Entanglement", "modifier.shift" },
 	  	{ "/run CancelShapeshiftForm();", (function() 
-	  		if mts_dynamicEval("player.form = 0") or fetch('mtsconfDruidFeral', 'Form') == 'MANUAL' then
+	  		if mts.dynamicEval("player.form = 0") or fetch('mtsconfDruidFeral', 'Form') == 'MANUAL' then
 	  			return false
-	  		elseif mts_dynamicEval("player.form != 0") and fetch('mtsconfDruidFeral', 'Form') == '0' then
+	  		elseif mts.dynamicEval("player.form != 0") and fetch('mtsconfDruidFeral', 'Form') == '0' then
 	  			return true
 	  		else
-	  			return mts_dynamicEval("player.form != " .. fetch('mtsconfDruidFeral', 'Form'))
+	  			return mts.dynamicEval("player.form != " .. fetch('mtsconfDruidFeral', 'Form'))
 	  		end
 	  	end) },
 		{ "768", { -- catform
@@ -200,12 +200,12 @@ ProbablyEngine.rotation.register_custom(103, mts_Icon.."|r[|cff9482C9MTS|r][|cff
 	  	{ "Typhoon", {"modifier.alt", "target.exists"}, "target" },
 	  	{ "Mass Entanglement", "modifier.shift" },
 	  	{ "/run CancelShapeshiftForm();", (function() 
-	  		if mts_dynamicEval("player.form = 0") or fetch('mtsconfDruidFeral', 'FormOCC') == 'MANUAL' then
+	  		if mts.dynamicEval("player.form = 0") or fetch('mtsconfDruidFeral', 'FormOCC') == 'MANUAL' then
 	  			return false
-	  		elseif mts_dynamicEval("player.form != 0") and fetch('mtsconfDruidFeral', 'FormOCC') == '0' then
+	  		elseif mts.dynamicEval("player.form != 0") and fetch('mtsconfDruidFeral', 'FormOCC') == '0' then
 	  			return true
 	  		else
-	  			return mts_dynamicEval("player.form != " .. fetch('mtsconfDruidFeral', 'FormOCC'))
+	  			return mts.dynamicEval("player.form != " .. fetch('mtsconfDruidFeral', 'FormOCC'))
 	  		end
 	  	end) },
 		{ "768", { -- catform

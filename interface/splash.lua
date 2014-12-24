@@ -24,7 +24,7 @@ function mts_Splash(message)
 		--PlaySoundFile("Sound\\Interface\\Levelup.Wav")
 		PlaySound("UnwrapGift", "master");
 	end
-	mts_CurrentCR = true
+	mts.CurrentCR = true
 end
 
 mtsSplash = CreateFrame("Frame", nil,UIParent)

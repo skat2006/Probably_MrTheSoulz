@@ -64,11 +64,11 @@ ProbablyEngine.library.register('mtsLib', {
     Build By: MTS
     ---------------------------------------------------]]
     CanTaunt = function()
-      for i=1,#mts_unitCache do
-        if UnitIsTappedByPlayer(mts_unitCache[i].key) and fetch('mtsconf','Taunts') then
-          if not mts_immuneEvents(mts_unitCache[i].key)  then
-            if mts_infront(mts_unitCache[i].key) then
-              ProbablyEngine.dsl.parsedTarget = mts_unitCache[i].key
+      for i=1,#mts.unitCache do
+        if UnitIsTappedByPlayer(mts.unitCache[i].key) and fetch('mtsconf','Taunts') then
+          if not mts.immuneEvents(mts.unitCache[i].key)  then
+            if mts.Infront(mts.unitCache[i].key) then
+              ProbablyEngine.dsl.parsedTarget = mts.unitCache[i].key
               return true 
             end
           end
@@ -92,13 +92,13 @@ ProbablyEngine.library.register('mtsLib', {
       local minHeal = GetSpellBonusDamage(2) * 1.125
       local total = 0
       local prefix = (IsInRaid() and 'raid') or 'party'
-        for i=1,#mts_unitFriendlyCache do
-          local incomingHeals = UnitGetIncomingHeals(mts_unitFriendlyCache[i].key) or 0
-          local absorbs = UnitGetTotalHealAbsorbs(mts_unitFriendlyCache[i].key) or 0
-          local health = mts_unitFriendlyCache[i].actualHealth + incomingHeals - absorbs
-          local healthMissing = max(0, mts_unitFriendlyCache[i].maxHealth - mts_unitFriendlyCache[i].actualHealth)
-            if healthMissing > minHeal and UnitIsFriend("player", mts_unitFriendlyCache[i].key) then
-              if mts_unitFriendlyCache[i].distance <= 12 then
+        for i=1,#mts.unitFriendlyCache do
+          local incomingHeals = UnitGetIncomingHeals(mts.unitFriendlyCache[i].key) or 0
+          local absorbs = UnitGetTotalHealAbsorbs(mts.unitFriendlyCache[i].key) or 0
+          local health = mts.unitFriendlyCache[i].actualHealth + incomingHeals - absorbs
+          local healthMissing = max(0, mts.unitFriendlyCache[i].maxHealth - mts.unitFriendlyCache[i].actualHealth)
+            if healthMissing > minHeal and UnitIsFriend("player", mts.unitFriendlyCache[i].key) then
+              if mts.unitFriendlyCache[i].distance <= 12 then
                 total = total + 1
               end
             end
@@ -153,12 +153,12 @@ ProbablyEngine.library.register('mtsLib', {
     Build By: MTS
     ---------------------------------------------------]]
     SWP = function()
-      for i=1,#mts_unitFriendlyCache do
-        local _,_,_,_,_,_,debuff = UnitDebuff(mts_unitFriendlyCache[i].key, GetSpellInfo(589), nil, "PLAYER")
+      for i=1,#mts.unitFriendlyCache do
+        local _,_,_,_,_,_,debuff = UnitDebuff(mts.unitFriendlyCache[i].key, GetSpellInfo(589), nil, "PLAYER")
           if not debuff then
-            if not mts_immuneEvents(mts_unitFriendlyCache[i].key) and UnitCanAttack("player", mts_unitFriendlyCache[i].key) then
-              if mts_infront(mts_unitFriendlyCache[i].key) then
-                ProbablyEngine.dsl.parsedTarget = mts_unitFriendlyCache[i].key
+            if not mts.immuneEvents(mts.unitFriendlyCache[i].key) and UnitCanAttack("player", mts.unitFriendlyCache[i].key) then
+              if mts.Infront(mts.unitFriendlyCache[i].key) then
+                ProbablyEngine.dsl.parsedTarget = mts.unitFriendlyCache[i].key
                 return true
               end
             end   
@@ -175,10 +175,10 @@ ProbablyEngine.library.register('mtsLib', {
     Build By: MTS
     ---------------------------------------------------]]
     SWD = function()
-      for i=1,#mts_unitCache do
-        if not mts_immuneEvents(mts_unitCache[i].key) and mts_unitCache[i].health <= 20 and UnitCanAttack("player", mts_unitCache[i].key) then
-          if mts_infront(mts_unitCache[i].key) then
-            ProbablyEngine.dsl.parsedTarget = mts_unitCache[i].key
+      for i=1,#mts.unitCache do
+        if not mts.immuneEvents(mts.unitCache[i].key) and mts.unitCache[i].health <= 20 and UnitCanAttack("player", mts.unitCache[i].key) then
+          if mts.Infront(mts.unitCache[i].key) then
+            ProbablyEngine.dsl.parsedTarget = mts.unitCache[i].key
             return true
           end
         end
@@ -194,12 +194,12 @@ ProbablyEngine.library.register('mtsLib', {
     Build By: MTS
     ---------------------------------------------------]]
     MoonFire = function()
-      for i=1,#mts_unitCache do
-        local _,_,_,_,_,_,debuff = UnitDebuff(mts_unitCache[i].key, GetSpellInfo(164812), nil, "PLAYER")
+      for i=1,#mts.unitCache do
+        local _,_,_,_,_,_,debuff = UnitDebuff(mts.unitCache[i].key, GetSpellInfo(164812), nil, "PLAYER")
           if not debuff or debuff - GetTime() < 2 then
-            if UnitCanAttack("player", mts_unitCache[i].key) then
-              if mts_infront(mts_unitCache[i].key) then
-                ProbablyEngine.dsl.parsedTarget = mts_unitCache[i].key
+            if UnitCanAttack("player", mts.unitCache[i].key) then
+              if mts.Infront(mts.unitCache[i].key) then
+                ProbablyEngine.dsl.parsedTarget = mts.unitCache[i].key
                 return true
               end           
             end   
@@ -209,12 +209,12 @@ ProbablyEngine.library.register('mtsLib', {
     end,
 
     SunFire = function()
-      for i=1,#mts_unitCache do
-        local _,_,_,_,_,_,debuff = UnitDebuff(mts_unitCache[i].key, GetSpellInfo(164815), nil, "PLAYER")
+      for i=1,#mts.unitCache do
+        local _,_,_,_,_,_,debuff = UnitDebuff(mts.unitCache[i].key, GetSpellInfo(164815), nil, "PLAYER")
           if not debuff or debuff - GetTime() < 2 then
-            if UnitCanAttack("player", mts_unitCache[i].key) then
-              if mts_infront(mts_unitCache[i].key) then
-                ProbablyEngine.dsl.parsedTarget = mts_unitCache[i].key
+            if UnitCanAttack("player", mts.unitCache[i].key) then
+              if mts.Infront(mts.unitCache[i].key) then
+                ProbablyEngine.dsl.parsedTarget = mts.unitCache[i].key
                 return true
               end           
             end   
@@ -231,10 +231,10 @@ ProbablyEngine.library.register('mtsLib', {
     Build By: MTS
     ---------------------------------------------------]]
     KillShot = function()
-      for i=1,#mts_unitCache do
-         if mts_unitCache[i].health < 20 then
-          if mts_infront(mts_unitCache[i].key)then
-            ProbablyEngine.dsl.parsedTarget = mts_unitCache[i].key
+      for i=1,#mts.unitCache do
+         if mts.unitCache[i].health < 20 then
+          if mts.Infront(mts.unitCache[i].key)then
+            ProbablyEngine.dsl.parsedTarget = mts.unitCache[i].key
             return true
           end
         end
@@ -274,7 +274,7 @@ ProbablyEngine.library.register('mtsLib', {
               for j = 1, 40 do
                 local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(unit, j)
                   if dispelType and dispelType == 'Magic' or dispelType == 'Disease' then
-                    if mts_Distance('player', unit) then
+                    if mts.Distance('player', unit) then
                       total = total + 1
                     end
                   end
@@ -302,14 +302,14 @@ ProbablyEngine.library.register('mtsLib', {
     local minHeal = GetSpellBonusDamage(2) * 1.125
     local total = 0
     local prefix = (IsInRaid() and 'raid') or 'party'
-      for i=1,#mts_unitFriendlyCache do
-        local incomingHeals = UnitGetIncomingHeals(mts_unitFriendlyCache[i].key) or 0
-        local absorbs = UnitGetTotalHealAbsorbs(mts_unitFriendlyCache[i].key) or 0
-        local health = mts_unitFriendlyCache[i].actualHealth + incomingHeals - absorbs
-        local healthMissing = max(0, mts_unitFriendlyCache[i].maxHealth - mts_unitFriendlyCache[i].actualHealth)
+      for i=1,#mts.unitFriendlyCache do
+        local incomingHeals = UnitGetIncomingHeals(mts.unitFriendlyCache[i].key) or 0
+        local absorbs = UnitGetTotalHealAbsorbs(mts.unitFriendlyCache[i].key) or 0
+        local health = mts.unitFriendlyCache[i].actualHealth + incomingHeals - absorbs
+        local healthMissing = max(0, mts.unitFriendlyCache[i].maxHealth - mts.unitFriendlyCache[i].actualHealth)
           if healthMissing > minHeal 
-            and UnitIsFriend("player", mts_unitFriendlyCache[i].key) then
-            if mts_Distance("focus", mts_unitFriendlyCache[i].key) <= 12 then
+            and UnitIsFriend("player", mts.unitFriendlyCache[i].key) then
+            if mts.Distance("focus", mts.unitFriendlyCache[i].key) <= 12 then
               total = total + 1
             end
           end
@@ -323,13 +323,13 @@ ProbablyEngine.library.register('mtsLib', {
       local total = 0
       local prefix = (IsInRaid() and 'raid') or 'party'
       local lowest = ProbablyEngine.raid.lowestHP
-        for i=1,#mts_unitFriendlyCache do
-          local incomingHeals = UnitGetIncomingHeals(mts_unitFriendlyCache[i].key) or 0
-          local absorbs = UnitGetTotalHealAbsorbs(mts_unitFriendlyCache[i].key) or 0
-          local health = mts_unitFriendlyCache[i].actualHealth + incomingHeals - absorbs
-          local healthMissing = max(0, mts_unitFriendlyCache[i].maxHealth - mts_unitFriendlyCache[i].actualHealth)
-            if healthMissing > minHeal and UnitIsFriend("player", mts_unitFriendlyCache[i].key) then
-              if mts_Distance(lowest, mts_unitFriendlyCache[i].key) <= 10 then
+        for i=1,#mts.unitFriendlyCache do
+          local incomingHeals = UnitGetIncomingHeals(mts.unitFriendlyCache[i].key) or 0
+          local absorbs = UnitGetTotalHealAbsorbs(mts.unitFriendlyCache[i].key) or 0
+          local health = mts.unitFriendlyCache[i].actualHealth + incomingHeals - absorbs
+          local healthMissing = max(0, mts.unitFriendlyCache[i].maxHealth - mts.unitFriendlyCache[i].actualHealth)
+            if healthMissing > minHeal and UnitIsFriend("player", mts.unitFriendlyCache[i].key) then
+              if mts.Distance(lowest, mts.unitFriendlyCache[i].key) <= 10 then
                 total = total + 1
               end
             end
@@ -338,13 +338,13 @@ ProbablyEngine.library.register('mtsLib', {
     end,
 
     SEF = function()
-      for i=1,#mts_unitCache do
-        if UnitGUID('target') ~= UnitGUID(mts_unitCache[i].key) and IsSpellInRange(GetSpellInfo(137639), unit) then
-          local _,_,_,_,_,_,debuff = UnitDebuff(mts_unitCache[i].key, GetSpellInfo(137639), nil, "PLAYER")
-          if not debuff and mts_dynamicEval("!player.buff(137639).count = 2") then
-            if not mts_immuneEvents(mts_unitCache[i].key) then
-              if mts_infront(mts_unitCache[i].key) then
-                ProbablyEngine.dsl.parsedTarget = mts_unitCache[i].key
+      for i=1,#mts.unitCache do
+        if UnitGUID('target') ~= UnitGUID(mts.unitCache[i].key) and IsSpellInRange(GetSpellInfo(137639), unit) then
+          local _,_,_,_,_,_,debuff = UnitDebuff(mts.unitCache[i].key, GetSpellInfo(137639), nil, "PLAYER")
+          if not debuff and mts.dynamicEval("!player.buff(137639).count = 2") then
+            if not mts.immuneEvents(mts.unitCache[i].key) then
+              if mts.Infront(mts.unitCache[i].key) then
+                ProbablyEngine.dsl.parsedTarget = mts.unitCache[i].key
                 return true 
               end
             end

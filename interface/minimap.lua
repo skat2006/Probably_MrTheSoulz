@@ -47,7 +47,7 @@ end
 local function onEnter(self)
   GameTooltip:SetOwner( self, 'ANCHOR_BOTTOMLEFT')
   GameTooltip:AddLine('|cff9482C9MrTheSoulz Pack.')
-  GameTooltip:AddLine('|cff9482C9Version:|r '..mts_Version)
+  GameTooltip:AddLine('|cff9482C9Version:|r '..mts.Version)
   GameTooltip:Show()
 end
 

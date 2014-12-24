@@ -38,23 +38,34 @@ ProbablyEngine.listener.register("ACTIVE_TALENT_GROUP_CHANGED", function(...)
 
 end)
 
+
+
+
+
+
+-- Temp Solution for combat unit tracking while not using FH.
+
+local band = bit.band
+
+local HostileEvents = {
+        ['SWING_DAMAGE'] = true,
+        ['SWING_MISSED'] = true,
+        ['RANGE_DAMAGE'] = true,
+        ['RANGE_MISSED'] = true,
+        ['SPELL_DAMAGE'] = true,
+        ['SPELL_PERIODIC_DAMAGE'] = true,
+        ['SPELL_MISSED'] = true
+}
+
 ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
-	local event			= select(2, ...)
-	local sourceGUID	= select(4, ...)
-	local targetGUID	= select(8, ...)
-	local targetName	= select(9, ...)
-	local spellID		= select(12, ...)
-	
-		if sourceGUID ~= UnitGUID("player") then 
-			return false 
-		end
-
-		if event == "SPELL_CAST_SUCCESS" then	
-
-		-- Monk
+  local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, _ = ...
+  
+  	if event == "SPELL_CAST_SUCCESS" then
+		if sourceGUID == UnitGUID("player") then	
+			-- Monk MW // Soothing Mist
 			if spellID == 115175 then
 				mts_SoothingMist_Target = targetName
 			end
-
 		end
+  	end
 end)

@@ -75,10 +75,10 @@ local Cooldowns = {
 
 local Survival = {
 	
-	{ "97462", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrFury', 'RallyingCry')) end) }, -- Rallying Cry
-  	{ "118038", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrFury', 'DBTS')) end) }, 		-- Die by the Sword
-  	{ "103840", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrFury', 'IVT')) end) }, 		-- Impending Victory
-	{ "55694", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfigWarrFury', 'ERG')) end) }, 		-- Enraged Regeneration
+	{ "97462", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfigWarrFury', 'RallyingCry')) end) }, -- Rallying Cry
+  	{ "118038", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfigWarrFury', 'DBTS')) end) }, 		-- Die by the Sword
+  	{ "103840", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfigWarrFury', 'IVT')) end) }, 		-- Impending Victory
+	{ "55694", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfigWarrFury', 'ERG')) end) }, 		-- Enraged Regeneration
 
 }
 
@@ -132,7 +132,7 @@ local Normal = {
 
 }
 
-ProbablyEngine.rotation.register_custom(72, mts_Icon.."|r[|cff9482C9MTS|r][|cffF58CBAWarrior-Fury|r]", 
+ProbablyEngine.rotation.register_custom(72, mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAWarrior-Fury|r]", 
 	{-- Incombat
 		{ "2487", "player.seal != 1" }, 				-- Battle Stance
 		{ "6552", "target.interruptsAt(50)" }, 			-- Pummel

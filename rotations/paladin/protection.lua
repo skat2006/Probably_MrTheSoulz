@@ -120,28 +120,28 @@ local AoE = {
 
 local Heals = {
 
-	{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'Healthstone')) end) }, 		-- Healthstone
-	{ "633", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'LayonHands')) end), "player"}, -- Lay on Hands
+	{ "#5512", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'Healthstone')) end) }, 		-- Healthstone
+	{ "633", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'LayonHands')) end), "player"}, -- Lay on Hands
 	{ "114163", { ---------------------------------------------------------------------------------------------------------------- Eternal Flame
 		"!player.buff(114163)", 
 		"player.buff(114637).count = 5", 
 		"player.holypower >= 3",
-		(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'EternalFlame')) end)
+		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'EternalFlame')) end)
 	}, "player"},
 	{ "85673", { ---------------------------------------------------------------------------------------------------------------- Word of Glory
 		"player.buff(114637).count = 5", 
 		"player.holypower >= 3",
-		(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'WordofGlory')) end)
+		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'WordofGlory')) end)
 	}, "player" },
 
 }
 
 local DefCooldowns = {
 	
-	{ "20925", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'SacredShield')) end), "player" }, 	-- Sacred Shield
-	{ "31850", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'ArdentDefender')) end) }, 			-- Ardent Defender
-	{ "498", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'DivineProtection')) end) }, 			-- Divine Protection
-	{ "86659", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'GuardianofAncientKings')) end) }, 	-- Guardian of Ancient Kings
+	{ "20925", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'SacredShield')) end), "player" }, 	-- Sacred Shield
+	{ "31850", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'ArdentDefender')) end) }, 			-- Ardent Defender
+	{ "498", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'DivineProtection')) end) }, 			-- Divine Protection
+	{ "86659", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'GuardianofAncientKings')) end) }, 	-- Guardian of Ancient Kings
 
 }
 
@@ -208,7 +208,7 @@ local Normal = {
 
 }
 
-ProbablyEngine.rotation.register_custom(66, mts_Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Protection|r]", 
+ProbablyEngine.rotation.register_custom(66, mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Protection|r]", 
 	{ -- Dyn Change In-Combat CR
 		{ DefCooldowns },										-- Defencive Cooldowns
 		{ Heals },												-- Heals

@@ -57,7 +57,7 @@ local BoomkinForm = {
   
 }
 
-ProbablyEngine.rotation.register_custom(102, mts_Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Boomkin|r]", 
+ProbablyEngine.rotation.register_custom(102, mts.Icon.."|r[|cff9482C9MTS|r][|cffFF7D0ADruid-Boomkin|r]", 
 	{ ------------------------------------------------------------------------------------------------------------------ In Combat
 		{ "1126", {  -- Mark of the Wild
 			"!player.buff(20217).any", -- kings
@@ -74,12 +74,12 @@ ProbablyEngine.rotation.register_custom(102, mts_Icon.."|r[|cff9482C9MTS|r][|cff
 			"!mouseover.alive" 
 		}, "mouseover" },
 	  	{ "/run CancelShapeshiftForm();", (function() 
-	  		if mts_dynamicEval("player.form = 0") or fetch('mtsconfDruidBalance', 'Form') == 'MANUAL' then
+	  		if mts.dynamicEval("player.form = 0") or fetch('mtsconfDruidBalance', 'Form') == 'MANUAL' then
 	  			return false
-	  		elseif mts_dynamicEval("player.form != 0") and fetch('mtsconfDruidBalance', 'Form') == '0' then
+	  		elseif mts.dynamicEval("player.form != 0") and fetch('mtsconfDruidBalance', 'Form') == '0' then
 	  			return true
 	  		else
-	  			return mts_dynamicEval("player.form != " .. fetch('mtsconfDruidBalance', 'Form'))
+	  			return mts.dynamicEval("player.form != " .. fetch('mtsconfDruidBalance', 'Form'))
 	  		end
 	  	end) },
 		{ "768", { -- catform
@@ -126,12 +126,12 @@ ProbablyEngine.rotation.register_custom(102, mts_Icon.."|r[|cff9482C9MTS|r][|cff
 			"!mouseover.alive" 
 		}, "mouseover" },
 	  	{ "/run CancelShapeshiftForm();", (function() 
-	  		if mts_dynamicEval("player.form = 0") or fetch('mtsconfDruidBalance', 'FormOCC') == 'MANUAL' then
+	  		if mts.dynamicEval("player.form = 0") or fetch('mtsconfDruidBalance', 'FormOCC') == 'MANUAL' then
 	  			return false
-	  		elseif mts_dynamicEval("player.form != 0") and fetch('mtsconfDruidBalance', 'FormOCC') == '0' then
+	  		elseif mts.dynamicEval("player.form != 0") and fetch('mtsconfDruidBalance', 'FormOCC') == '0' then
 	  			return true
 	  		else
-	  			return mts_dynamicEval("player.form != " .. fetch('mtsconfDruidBalance', 'FormOCC'))
+	  			return mts.dynamicEval("player.form != " .. fetch('mtsconfDruidBalance', 'FormOCC'))
 	  		end
 	  	end) },
 		{ "768", { -- catform

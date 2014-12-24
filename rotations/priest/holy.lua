@@ -107,7 +107,7 @@ local inCombat = {
 	},
 
   	-- HEALTHSTONE 
-		{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'Healthstone')) end) },
+		{ "#5512", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'Healthstone')) end) },
 
   	-- Aggro
 		{ "586", "target.threat >= 80" }, -- Fade
@@ -190,136 +190,136 @@ local inCombat = {
 	{{-- Heal Fast Bitch!!
 		-- Desperate Prayer
 			{ "!19236",  --Desperate Prayer
-				(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'DesperatePrayer')) end),
+				(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'DesperatePrayer')) end),
 				"player" },
 
 		-- Holy Word Serenity
 			{ "!88684", { -- Holy Word Serenity
-				(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityTank')) end),
+				(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityTank')) end),
 				"focus.spell(88684).range"
 				}, "focus" },
 			{ "!88684", { -- Holy Word Serenity
-				(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityTank')) end),
+				(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityTank')) end),
 				"tank.spell(88684).range"
 				}, "tank" },
 			{ "!88684", -- Holy Word Serenity
-				(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityPlayer')) end), 
+				(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityPlayer')) end), 
 				"player" }, 
 			{ "!88684", -- Holy Word Serenity
-				(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityRaid')) end),
+				(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityRaid')) end),
 				"lowest" }, 
 
 		-- Flash Heal
 			{ "!2061", { --Flash Heal
-				(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealTank')) end),
+				(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealTank')) end),
 				"focus.spell(2061).range",
 				"!player.moving"
 				}, "focus" },
 			{ "!2061", { --Flash Heal
-				(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealTank')) end),
+				(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealTank')) end),
 				"tank.spell(2061).range",
 				"!player.moving"
 				}, "tank" },
 			{ "!2061", { --Flash Heal
-				(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealPlayer')) end),
+				(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealPlayer')) end),
 				"!player.moving"
 				}, "player" },
 			{ "!2061", { --Flash Heal
-				(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealRaid')) end),
+				(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealRaid')) end),
 				"!player.moving"
 				}, "lowest" },
 	}, "!player.casting.percent >= 50" },
 
 	-- shields
 		{ "17", {  --Power Word: Shield
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'ShieldTank')) end),
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'ShieldTank')) end),
 			"!focus.debuff(6788).any", 
 			"focus.spell(17).range"
 			}, "focus" },
 		{ "17", {  --Power Word: Shield
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'ShieldTank')) end),
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'ShieldTank')) end),
 			"!tank.debuff(6788).any",
 			"tank.spell(17).range"
 			}, "tank" },
 		{ "17", { --Power Word: Shield
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'ShieldPlayer')) end),
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'ShieldPlayer')) end),
 			"!player.debuff(6788).any", 
 			"!player.buff(17).any"
 			}, "player" }, 
 		{ "17", { --Power Word: Shield
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'ShieldRaid')) end),
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'ShieldRaid')) end),
 		 	"!lowest.debuff(6788).any", 
 		 	"!lowest.buff(17).any",  
 		 	}, "lowest" },
 
 	-- renew
 		{ "139", { --renew
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'RenewTank')) end),
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'RenewTank')) end),
 			"!focus.buff(139)", 
 			"focus.spell(139).range"
 			}, "focus" },
 		{ "139", { --renew
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'RenewTank')) end),
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'RenewTank')) end),
 			"!tank.buff(139)", 
 			"tank.spell(139).range"
 			}, "tank" },
 		{ "139", { --renew
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'RenewPlayer')) end), 
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'RenewPlayer')) end), 
 			"!player.buff(139)"
 			}, "player" },
 		{ "139", { --renew
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'RenewRaid')) end),
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'RenewRaid')) end),
 			"!lowest.buff(139)"
 			}, "lowest" },
 
 	-- Prayer of Mending
 		{ "33076", { --Prayer of Mending
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'PrayerofMendingTank')) end),
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'PrayerofMendingTank')) end),
 			"focus.spell(33076).range",
 			"!player.moving"
 			}, "focus" },
 		{ "33076", { --Prayer of Mending
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'PrayerofMendingTank')) end),
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'PrayerofMendingTank')) end),
 			"tank.spell(33076).range",
 			"!player.moving"
 			}, "tank" },
 
 	-- binding heal
 		{ "32546", {
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'BindingHealTank')) end),
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'BindingHealTank')) end),
 			"player.health < 60",
 			"focus.spell(32546).range",
 			"!player.moving"
 			}, "focus" },
 		{ "32546", {
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'BindingHealTank')) end),
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'BindingHealTank')) end),
 			"player.health <= 60", 
 			"tank.spell(32546).range",
 			"!player.moving"
 			}, "tank" },
 		{ "32546", {
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'BindingHealRaid')) end),
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'BindingHealRaid')) end),
 			"player.health < 60",
 			"!player.moving"
 			}, "lowest" },
 
 	-- heal
 		{ "2060", { -- Heal
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'HealTank')) end), 
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'HealTank')) end), 
 			"focus.spell(2060).range",
 			"!player.moving"
 			}, "focus" },
 		{ "2060", { -- Heal
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'HealTank')) end), 
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'HealTank')) end), 
 			"tank.spell(2060).range",
 			"!player.moving"
 			}, "tank" },
 		{ "2060", { -- Heal	
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'Heal')) end),
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'Heal')) end),
 			"!player.moving"
 			}, "player" },
 		{ "2060", { -- Heal	
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'HealRaid')) end),
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'HealRaid')) end),
 			"!player.moving"
 			}, "lowest" },
 
@@ -370,7 +370,7 @@ local solo = {
 	},
 
   	-- HEALTHSTONE 
-		{ "#5512", (function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'Healthstone')) end) },
+		{ "#5512", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'Healthstone')) end) },
  
   	-- Dispel's
 	 	{{ -- Dispell all?
@@ -403,30 +403,30 @@ local solo = {
 	-- Heal Fast Bitch!!
 		-- Desperate Prayer
 			{ "19236",  --Desperate Prayer
-				(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'DesperatePrayer')) end),
+				(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'DesperatePrayer')) end),
 				"player" },
 
 		-- Holy Word Serenity
 			{ "88684", -- Holy Word Serenity
-				(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityPlayer')) end), 
+				(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'HolyWordSerenityPlayer')) end), 
 				"player" },
 
 		-- Flash Heal
 			{ "2061", { --Flash Heal
-				(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealPlayer')) end),
+				(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealPlayer')) end),
 				"!player.moving"
 				}, "player" },
 
 	-- shields
 		{ "17", { --Power Word: Shield
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'ShieldPlayer')) end),
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'ShieldPlayer')) end),
 			"!player.debuff(6788).any", 
 			"!player.buff(17).any"
 			}, "player" },
 
 	-- renew
 		{ "139", { --renew
-			(function() return mts_dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'RenewPlayer')) end), 
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestHoly', 'RenewPlayer')) end), 
 			"!player.buff(139)"
 			}, "player" },
 	
@@ -502,14 +502,14 @@ local outCombat = {
 		
 	-- shields 
 		{ "17", { --Power Word: Shield
-			(function() return mts_dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'ShieldTank')) end),
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestHoly', 'ShieldTank')) end),
 			"!focus.debuff(6788).any", 
 			"focus.spell(17).range", 
 			"focus.spell(17).range" 
 			}, "focus" },
 			
 		{ "17", {  --Power Word: Shield
-			(function() return mts_dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'ShieldTank')) end),
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestHoly', 'ShieldTank')) end),
 			"!tank.debuff(6788).any", 
 			"tank.spell(17).range", 
 			"modifier.party" 
@@ -517,17 +517,17 @@ local outCombat = {
 	   	
 	-- heals
 		{ "139", {  --renew
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'RenewRaid')) end),
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'RenewRaid')) end),
 			"!lowest.buff(139)"
 		}, "lowest" },	
 			
 		{ "2061", {  --Flash Heal
 			"!player.moving", 
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealRaid')) end),
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'FlashHealRaid')) end),
 		}, "lowest" },
 			
 		{ "2060", { -- Heal
-			(function() return mts_dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'HealRaid')) end),
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestHoly', 'HealRaid')) end),
 			"!player.moving"
 		}, "lowest" },
 		
@@ -562,7 +562,7 @@ local outCombat = {
 	
 ProbablyEngine.rotation.register_custom(
 	257, 
-	mts_Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Holy|r]", 
+	mts.Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Holy|r]", 
 	{-- Dyn Change CR
 		{ inCombat, "modifier.party" },
 		{ solo, "!modifier.party" },

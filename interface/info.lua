@@ -180,7 +180,7 @@ end
 
 -- Check if using recommended PE
 local function PEVersionInfo()
-	if ProbablyEngine.version == mts_peRecomemded then
+	if ProbablyEngine.version == mts.peRecomemded then
 		return "|cff00FF96You're using the recommeded PE version."
 	else 
 		return "|cffC41F3BYou're not using the recommeded PE version."
@@ -189,9 +189,9 @@ end
 
 -- current status
 local function mtsInfoStatus()
-	if ProbablyEngine.version == mts_peRecomemded
+	if ProbablyEngine.version == mts.peRecomemded
 	and (ProbablyEngine.pmethod ~= nil or ProbablyEngine.protected.method ~= nil) 
-	and mts_CurrentCR then
+	and mts.CurrentCR then
 		return "|cff00FF96Okay!"
 	else 
 		return "|cffC41F3BOuch, something is not right..."
@@ -200,7 +200,7 @@ end
 
 -- Using MTS Profiles?
 local function mtsProfiles()
-	if mts_CurrentCR then
+	if mts.CurrentCR then
 		return "|cff00FF96Currently using MTS Profiles"
 	else 
 		return "|cffC41F3BNot using MTS Profiles"
