@@ -66,10 +66,12 @@ ProbablyEngine.library.register('mtsLib', {
     CanTaunt = function()
       for i=1,#mts.unitCache do
         if UnitIsTappedByPlayer(mts.unitCache[i].key) and fetch('mtsconf','Taunts') then
-          if not mts.immuneEvents(mts.unitCache[i].key)  then
-            if mts.Infront(mts.unitCache[i].key) then
-              ProbablyEngine.dsl.parsedTarget = mts.unitCache[i].key
-              return true 
+	  if not mts.immuneEvents(mts.unitCache[i].key) then
+	    if UnitThreatSituation(mts.unitCache[i].key) and UnitThreatSituation(mts.unitCache[i].key) >= 2 then
+              if mts.Infront(mts.unitCache[i].key) then
+                ProbablyEngine.dsl.parsedTarget = mts.unitCache[i].key
+                return true 
+              end
             end
           end
         end
