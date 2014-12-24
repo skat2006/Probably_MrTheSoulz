@@ -21,6 +21,9 @@ local BoomkinForm = {
 	
 	-- Cooldowns
 		{ "112071", "modifier.cooldowns" }, --Celestial Alignment
+		{ "#trinket1", "modifier.cooldowns" }, --trinket 1
+		{ "#trinket2", "modifier.cooldowns" }, --trinket 2
+		{ "#57723", "player.hashero" }, --  Int Pot on lust
  
 	--Defensive
 		{ "Barkskin", "player.health <= 50", "player" },
