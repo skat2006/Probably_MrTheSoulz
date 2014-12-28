@@ -66,11 +66,11 @@ ProbablyEngine.library.register('mtsLib', {
     CanTaunt = function()
       for i=1,#mts.unitCache do
         if UnitIsTappedByPlayer(mts.unitCache[i].key) and fetch('mtsconf','Taunts') then
-	  if not mts.immuneEvents(mts.unitCache[i].key) then
-	    -- Check if unit is not being tanked by another tank... 
-	    -- This only checks if another tank is targeting the unit, what id like is to check if another tank as its aggro.
-	    --if not if (UnitIsUnit(mts.unitCache[i].key, --[[Build a Tank's table]]))
-	      if UnitThreatSituation(mts.unitCache[i].key) and UnitThreatSituation(mts.unitCache[i].key) >= 2 then
+      	  if not mts.immuneEvents(mts.unitCache[i].key) then
+      	    -- Check if unit is not being tanked by another tank... 
+      	    -- This only checks if another tank is targeting the unit, what id like is to check if another tank as its aggro.
+      	    --if not if (UnitIsUnit(mts.unitCache[i].key, --[[Build a Tank's table]]))
+	            if UnitThreatSituation(mts.unitCache[i].key) and UnitThreatSituation(mts.unitCache[i].key) >= 2 then
                 if mts.Infront(mts.unitCache[i].key) then
                   ProbablyEngine.dsl.parsedTarget = mts.unitCache[i].key
                   return true 

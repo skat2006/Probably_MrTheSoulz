@@ -5,83 +5,83 @@ local exeOnLoad = function()
 	
 end
 
-EmpoweredSeals = {
+local EmpoweredSeals = {
 
-		------------------------------------------------------------------------------ Seal of Truth
-		{ "31801", { 
-			"player.seal != 1", 					-- Seal of Truth
-			"!player.buff(156990).duration > 3", 	-- Maraad's Truth
-			"player.spell(20271).cooldown <= 1" 	-- Judment  CD less then 1
-		}},
-		------------------------------------------------------------------------------ Seal of Righteousness
-		{ "20154", {
-			"player.seal != 2", 					-- Seal of Righteousness
-			"!player.buff(156989).duration > 3", 	-- Liadrin's Righteousness
-			"player.buff(156990)", 					-- Maraad's Truth
-			"player.spell(20271).cooldown <= 1" 	-- Judment  CD less then 1
-		}},
+	------------------------------------------------------------------------------ Seal of Truth
+	{ "31801", { 
+		"player.seal != 1", 					-- Seal of Truth
+		"!player.buff(156990).duration > 3", 	-- Maraad's Truth
+		"player.spell(20271).cooldown <= 1" 	-- Judment  CD less then 1
+	}},
+	------------------------------------------------------------------------------ Seal of Righteousness
+	{ "20154", {
+		"player.seal != 2", 					-- Seal of Righteousness
+		"!player.buff(156989).duration > 3", 	-- Liadrin's Righteousness
+		"player.buff(156990)", 					-- Maraad's Truth
+		"player.spell(20271).cooldown <= 1" 	-- Judment  CD less then 1
+	}},
 		------------------------------------------------------------------------------ Seal of Insigh
-		{ "20165", {
-			"player.seal != 3", 					-- Seal of Insigh
-			"!player.buff(156988).duration > 3", 	-- Uther's Insight
-			"player.buff(156990)", 					-- Maraad's Truth
-			"player.buff(156989)", 					-- Liadrin's Righteousness
-			"player.spell(20271).cooldown <= 1" 	-- Judment  CD less then 1
-		}},
+	{ "20165", {
+		"player.seal != 3", 					-- Seal of Insigh
+		"!player.buff(156988).duration > 3", 	-- Uther's Insight
+		"player.buff(156990)", 					-- Maraad's Truth
+		"player.buff(156989)", 					-- Liadrin's Righteousness
+		"player.spell(20271).cooldown <= 1" 	-- Judment  CD less then 1
+	}},
 		
-		------------------------------------------------------------------------------ Judgment
-		{ "20271", { 
-			"player.buff(156989).duration < 3", 	-- Liadrin's Righteousness
-			"player.seal != 2"						-- Seal of Righteousness
-		}},
-		{ "20271", { 
-			"player.buff(156990).duration < 3",		-- Maraad's Truth
-			"player.seal != 1"						-- Seal of Truth
-		}},
-		{ "20271", {
-			"player.buff(156988).duration < 3", 	-- Uther's Insight
-			"player.seal != 3"						-- Seal of Insigh
-		}},
+	------------------------------------------------------------------------------ Judgment
+	{ "20271", { 
+		"player.buff(156989).duration < 3", 	-- Liadrin's Righteousness
+		"player.seal != 2"						-- Seal of Righteousness
+	}},
+	{ "20271", { 
+		"player.buff(156990).duration < 3",		-- Maraad's Truth
+		"player.seal != 1"						-- Seal of Truth
+	}},
+	{ "20271", {
+		"player.buff(156988).duration < 3", 	-- Uther's Insight
+		"player.seal != 3"						-- Seal of Insigh
+	}},
+
+}
+
+local Seals_AoE = {
+
+	---------------------------------------------------------------------------------------------------- Seal of Insigh
+	{ "20165", { 
+		"player.seal != 3", 															-- Seal of Insigh
+		(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Insight' end),		-- GUI option
+	}},
+	---------------------------------------------------------------------------------------------------- Seal of Righteousness
+	{ "20154", { 
+		"player.seal != 2",																-- Seal of Righteousness
+		(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Righteousness' end),	-- GUI option
+	}},
+	---------------------------------------------------------------------------------------------------- Seal of truth
+	{ "31801", {
+		"player.seal != 1",																-- Seal of truth
+		(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Truth' end),			-- GUI option
+	}},
 
 }
 
 local Seals = {
 	
-	{{ ---------------------------------------------------------------------------------------------------------------------- Single Target
-		---------------------------------------------------------------------------------------------------- Seal of Insigh
-		{ "20165", { 
-			"player.seal != 3", 															-- Seal of Insigh
-			(function() return fetch("mtsconfPalaProt", "seal") == 'Insight' end),			-- GUI option
-		}},
+	---------------------------------------------------------------------------------------------------- Seal of Insigh
+	{ "20165", { 
+		"player.seal != 3", 															-- Seal of Insigh
+		(function() return fetch("mtsconfPalaProt", "seal") == 'Insight' end),			-- GUI option
+	}},
 		---------------------------------------------------------------------------------------------------- Seal of Righteousness
-		{ "20154", { 
-			"player.seal != 2",																-- Seal of Righteousness
-			(function() return fetch("mtsconfPalaProt", "seal") == 'Righteousness' end),	-- GUI option
-		}},
+	{ "20154", { 
+		"player.seal != 2",																-- Seal of Righteousness
+		(function() return fetch("mtsconfPalaProt", "seal") == 'Righteousness' end),	-- GUI option
+	}},
 		---------------------------------------------------------------------------------------------------- Seal of truth
-		{ "31801", {
-			"player.seal != 1",																-- Seal of truth
-			(function() return fetch("mtsconfPalaProt", "seal") == 'Truth' end),			-- GUI option
-		}},
-	}, "!modifier.multitarget" },
-	
-	{{ ---------------------------------------------------------------------------------------------------------------------- MultiTarget
-		---------------------------------------------------------------------------------------------------- Seal of Insigh
-		{ "20165", { 
-			"player.seal != 3", 															-- Seal of Insigh
-			(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Insight' end),		-- GUI option
-		}},
-		---------------------------------------------------------------------------------------------------- Seal of Righteousness
-		{ "20154", { 
-			"player.seal != 2",																-- Seal of Righteousness
-			(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Righteousness' end),	-- GUI option
-		}},
-		---------------------------------------------------------------------------------------------------- Seal of truth
-		{ "31801", {
-			"player.seal != 1",																-- Seal of truth
-			(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Truth' end),			-- GUI option
-		}},
-	}, "modifier.multitarget" }
+	{ "31801", {
+		"player.seal != 1",																-- Seal of truth
+		(function() return fetch("mtsconfPalaProt", "seal") == 'Truth' end),			-- GUI option
+	}},
 
 }
 
@@ -133,6 +133,23 @@ local Heals = {
 		"player.holypower >= 3",
 		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaProt', 'WordofGlory')) end)
 	}, "player" },
+
+}
+
+local RaidHeals = {
+
+	{ "Flash of Light", { 
+		"player.buff(Selfless Healer).count = 3", 
+		(function() return dynamicEval("lowest.health <= " .. fetch('akeonProtection', 'FlashOfLight_Raid')) end), 
+	}, "lowest" },		
+	{ "Lay on Hands", (function() return dynamicEval("lowest.health <= " .. fetch('akeonProtection', 'LayOnHands_Raid')) end), "lowest" },
+	{ "Hand of Protection", { 
+		"lowest.alive", 
+		"!lowest.role(tank)", 
+		"!lowest.immune.melee", 
+		(function() return dynamicEval("lowest.health <= " .. fetch('akeonProtection', 'HandOfProtection_Raid')) end), 
+	}, "lowest" }
+
 
 }
 
@@ -209,24 +226,37 @@ local Normal = {
 }
 
 ProbablyEngine.rotation.register_custom(66, mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Protection|r]", 
-	{ -- Dyn Change In-Combat CR
-		{ DefCooldowns },										-- Defencive Cooldowns
-		{ Heals },												-- Heals
-		{ All },												-- Shared across all
-		{ "96231", "modifier.interrupts", "target" }, 			-- Rebuke
-		{ "105593", "modifier.control", "target" }, 			-- Fist of Justice
-		{ "853", "modifier.control", "target" }, 				-- Hammer of Justice
-		{ "114158", "modifier.shift", "target.ground" }, 		-- Light´s Hammer
-		{ "62124", "@mtsLib.CanTaunt" },						-- Taunt
-		{ EmpoweredSeals, "talent(7,1)" },						-- EmpoweredSeals // Talent
-		{ seals, "!talent(7,1)" },								-- Smart Seals
-		{ Cooldowns, "modifier.cooldowns" },					-- Cooldowns
-		{ "31935", "player.buff(Grand Crusader)", "target" }, 	-- Avenger's Shield // Proc
-		{ AoE, "modifier.multitarget" },						-- AoE Normal
-		{ AoE, "player.area(8).enemies >= 3" },					-- AoE Smart
-		{ Normal }												-- Normal CR
+	{ -- In-Combat
+		{ DefCooldowns },											-- Defencive Cooldowns
+		{ Heals },													-- Heals
+		{ All },													-- Shared across all
+		{ "96231", "modifier.interrupts", "target" }, 				-- Rebuke
+		{ "105593", "modifier.control", "target" }, 				-- Fist of Justice
+		{ "853", "modifier.control", "target" }, 					-- Hammer of Justice
+		{ "114158", "modifier.shift", "target.ground" }, 			-- Light´s Hammer
+		{ "62124", "@mtsLib.CanTaunt" },							-- Taunt
+		{ EmpoweredSeals, "talent(7,1)" },							-- EmpoweredSeals // Talent
+		{ Seals_AoE, { ----------------------------------------------- Seals AoE
+			"!talent(7,1)", 				-- Dont have EmpoweredSeals
+			"modifier.multitarget"			-- Multi-target Toggle
+		}},
+		{ Seals_AoE, { ----------------------------------------------- Seals AoE AUTO
+			"!talent(7,1)", 				-- Dont have EmpoweredSeals
+			"player.area(8).enemies >= 3",	-- 3 or more enemies around
+			"!modifier.multitarget"			-- Dont bother if Multi-target Toggle beacuse we already checking it
+		}},
+		{ Seals, { --------------------------------------------------- Seals
+			"!talent(7,1)", 				-- Dont have EmpoweredSeals
+			"!player.area(8).enemies >= 3", -- Not AoE
+			"!modifier.multitarget"			-- Not AoE
+		}},
+		{ Cooldowns, "modifier.cooldowns" },						-- Cooldowns
+		{ "31935", "player.buff(Grand Crusader)", "target" }, 		-- Avenger's Shield // Proc
+		{ AoE, "modifier.multitarget" },							-- AoE Normal
+		{ AoE, "player.area(8).enemies >= 3" },						-- AoE Smart
+		{ Normal }													-- Normal CR
 	}, 
-	{
+	{ -- Out combat
 		{ Heals },	-- Heals
 		{ All },	-- Shared across all
 	}, exeOnLoad)

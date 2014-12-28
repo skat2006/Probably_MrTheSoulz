@@ -10,7 +10,6 @@ system\tracker.lua
 system\movement.lua
 system\unitCache.lua
 system\lib.lua
-system\pe_CombatLog.lua
 interface\minimap.lua
 interface\splash.lua
 interface\alert.lua

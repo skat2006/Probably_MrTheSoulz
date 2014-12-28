@@ -86,5 +86,32 @@ mts_configPalaProt = {
       -- Word of Glory
       { type = "spinner", text = "Word of Glory", key = "WordofGlory", default = 40},
 
+  -- Raid Heals
+    { type = 'rule' },
+    { 
+      type = 'header', 
+      text = 'Survival Settings:', 
+      align = "center"
+    },
+      { 
+        type = "spinner", 
+        text = "Flash of Light", 
+        key = "FlashOfLight_Raid", 
+        default = 40, 
+        desc = "Only with 3 stacks of Selfless Healer"
+      },
+      { 
+        type = "spinner", 
+        text = "Lay on Hands", 
+        key = "LayOnHands_Raid", 
+        default = 10
+      },
+      { 
+        type = "spinner", 
+        text = "Hand of Protection", 
+        key = "HandOfProtection_Raid", 
+        default = 30
+      },
+
   }
 }

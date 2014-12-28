@@ -98,6 +98,32 @@ local mts_info = {
 			},
 			{ 
 				type = "button", 
+				text = "Donate", 
+				width = 325, 
+				height = 20,
+				callback = function()
+					if FireHack then
+						OpenURL("http://goo.gl/yrctPO");
+					else
+						message("Visit: http://goo.gl/yrctPO");
+					end
+				end
+			},
+			{ 
+				type = "button", 
+				text = "Forums", 
+				width = 325, 
+				height = 20,
+				callback = function()
+					if FireHack then
+						OpenURL("http://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-bots-programs/probably-engine/combat-routines/498642-pe-mrthesoulzpack.html");
+					else
+						message("Visit: http://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-bots-programs/probably-engine/combat-routines/498642-pe-mrthesoulzpack.html");
+					end
+				end
+			},
+			{ 
+				type = "button", 
 				text = "Test Unlocker (If you jump, it works)", 
 				width = 325, 
 				height = 20,
