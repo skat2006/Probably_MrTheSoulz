@@ -8,7 +8,7 @@ end
 local inCombat = {
 	
 	-- SPECIAL
-		{ "!53351", "@mtsLib.KillShot" },--Kill Shot
+		{ "!53351", "@mtsLib.mtsDot(53351, 0, 20)" },--Kill Shot
 	
 	-- Interrumpt
 		{ "147362", "target.interruptAt(50)", "target" }, -- Counter Shot
@@ -70,17 +70,14 @@ local inCombat = {
   		{ "5384", "player.aggro >= 100" }, -- Feign Death
 		{ "pause", "player.buff(5384)" }, -- Pause for Feign Death
 
-	-- AoE	
-		{{-- Smart AoE [[ Firehack ]]
-			{ "82939", "player.area(35).enemies > 4", "target.ground" }, -- Explosive Trap
-			{ "2643", "player.area(35).enemies > 4", "target" }, -- Multi-Shot
-			{ "Barrage" },
-		}, (function() return fetch('mtsconf','Firehack') end) },
+	-- AoE
 		{{-- Fallback Aoe
 			{ "82939", nil, "target.ground" }, -- Explosive Trap
 			{ "2643" }, -- Multi-Shot
-			{ "Barrage" },
 		}, "modifier.multitarget" },
+		{ "82939", "player.area(35).enemies > 4", "target.ground" }, -- Explosive Trap
+		{ "2643", "player.area(35).enemies > 4", "target" }, -- Multi-Shot
+		{ "Barrage" },
 
 	-- SINGLE TARGET
 	    { "A Murder of Crows" },

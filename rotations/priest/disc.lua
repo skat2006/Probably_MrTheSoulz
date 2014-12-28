@@ -267,9 +267,9 @@ local Normal = {
 local Solo = {
 
 	{{-- Auto Dotting
-		{ "32379", "@mtsLib.SWD" }, -- SW:D
-		{ "589", "@mtsLib.SWP" }, 	-- SW:P 
-	}, {"toggle.dotEverything"} },
+		{ "32379", "@mtsLib.mtsDot(32379, 0, 20)" }, -- SW:D
+		{ "589", "@mtsLib.mtsDot(589, 2, 100)" }, -- SW:P 
+	}, "toggle.dotEverything" },
 
   	-- CD's
 		{ "10060", "modifier.cooldowns" }, --Power Infusion 

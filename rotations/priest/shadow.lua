@@ -3,7 +3,13 @@ local fetch = ProbablyEngine.interface.fetchKey
 local lib = function()
 mts_Splash("|cff9482C9[MTS]-[|cff9482C9MTS|r]-|cff9482C9Loaded", 5.0)
   
-  end
+  ProbablyEngine.toggle.create(
+	'dotEverything', 
+	'Interface\\Icons\\Ability_creature_cursed_05.png', 
+	'Dot All The Things! (SOLO)', 
+	'Click here to dot all the things while in Solo mode!\nSome Spells require Multitarget enabled also.\nOnly Works if using FireHack.')
+
+end
 
 local inCombat = {
 
@@ -51,6 +57,11 @@ local inCombat = {
 		--	(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestShadow', '*****')) end),
 		--}},
   
+  	{{-- Auto Dotting
+		{ "32379", "@mtsLib.mtsDot(32379, 0, 20)" }, -- SW:D
+		{ "589", "@mtsLib.mtsDot(589, 2, 100)" }, -- SW:P 
+	}, "toggle.dotEverything" },
+
   {{-- FH AoE
 	{ "127632", "modifier.cooldowns" }, -- Cascade
 	{ "12064", "modifier.cooldowns" }, -- Halo
@@ -67,7 +78,7 @@ local inCombat = {
 
   -- Rotation
 	{ "2944", "player.shadoworbs >= 3" }, -- Devouring Plague // 3 Orbs
-	{ "32379", "unit.health < 20" }, -- SW:Death
+	{ "32379", "target.health < 20" }, -- SW:Death
 	{ "8092", "player.shadoworbs <= 5" }, --Mind Blast less then 5 orbs
 	{ "73510", "player.buff(162448)" }, -- Mind Spike
 	{ "129197", "player.buff(132573)" }, --Insanity with Procc Up

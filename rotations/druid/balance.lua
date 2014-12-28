@@ -31,16 +31,13 @@ local BoomkinForm = {
 		{ "108238", "player.health < 60", "player"}, --Instant renewal when less than 40% health
 	
 	{{ -- Auto Dotting	
-		{ "164812", "@mtsLib.MoonFire" }, -- moonfire
-		{ "164815", "@mtsLib.SunFire" }, --SunFire
+		{ "164812", "@mtsLib.mtsDot(164812, 2, 100)" }, -- moonfire
+		{ "164815", "@mtsLib.mtsDot(164815, 2, 100)" }, --SunFire
 	}, "toggle.dotEverything" },
-
-	{{ -- AoE smart
-		{ "48505", "player.area(8).enemies >= 4", "target" }, -- Starfall  // FH SMART AoE
-	}, (function() return fetch('mtsconf','Firehack') end) },
 
 	-- AoE
 		{ "48505", "modifier.multitarget", "target" }, -- Starfall
+		{ "48505", "player.area(8).enemies >= 4", "target" }, -- Starfall  // FH SMART AoE
 	
 	-- Proc's
 		{ "78674", "player.buff(Shooting Stars)", "target" }, --Starsurge with Shooting Stars Proc

@@ -431,14 +431,9 @@ local solo = {
 			}, "player" },
 	
 	{{-- Auto Dotting
-		{ "32379", "@mtsLib.SWD" },
-		{{-- AoE FH
-			{ "589", "@mtsLib.SWP" }, -- SWP 
-		}, "target.area(10).enemies >= 3" },
-		{{-- AoE forced
-			{ "589", "@mtsLib.SWP" }, -- SWP 
-		}, "modifier.multitarget" },
-	}, {"toggle.dotEverything"} },
+		{ "32379", "@mtsLib.mtsDot(32379, 0, 20)" }, -- SW:D
+		{ "589", "@mtsLib.mtsDot(589, 2, 100)" }, -- SW:P 
+	}, "toggle.dotEverything" },
 	
 	-- DPS
 		-- AoE FH

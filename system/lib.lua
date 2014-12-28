@@ -146,100 +146,27 @@ ProbablyEngine.library.register('mtsLib', {
     end,
 
     --[[-----------------------------------------------
-    ** Priest - Shadow Word: Pain **
-    DESC: Uses unit cache to verify if any unit around
-    meets Shadow Word: Pain Conditions.
-
-    Build By: MTS
-    ---------------------------------------------------]]
-    SWP = function()
-      for i=1,#mts.unitFriendlyCache do
-        local _,_,_,_,_,_,debuff = UnitDebuff(mts.unitFriendlyCache[i].key, GetSpellInfo(589), nil, "PLAYER")
-          if not debuff then
-            if not mts.immuneEvents(mts.unitFriendlyCache[i].key) and UnitCanAttack("player", mts.unitFriendlyCache[i].key) then
-              if mts.Infront(mts.unitFriendlyCache[i].key) then
-                ProbablyEngine.dsl.parsedTarget = mts.unitFriendlyCache[i].key
-                return true
-              end
-            end   
-          end
-      end
-        return false
-    end,
- 
-    --[[-----------------------------------------------
-    ** Priest - Shadow Word: Death **
-    DESC: Uses unit cache to verify if any unit around
-    meets Shadow Word: Death Conditions.
-
-    Build By: MTS
-    ---------------------------------------------------]]
-    SWD = function()
-      for i=1,#mts.unitCache do
-        if not mts.immuneEvents(mts.unitCache[i].key) and mts.unitCache[i].health <= 20 and UnitCanAttack("player", mts.unitCache[i].key) then
-          if mts.Infront(mts.unitCache[i].key) then
-            ProbablyEngine.dsl.parsedTarget = mts.unitCache[i].key
-            return true
-          end
-        end
-      end
-        return false
-    end,
-
-    --[[-----------------------------------------------
     ** Druid - MoonFire **
     DESC: Uses unit cache to verify if any unit around
     meets MoonFire Conditions.
 
     Build By: MTS
     ---------------------------------------------------]]
-    MoonFire = function()
+    mtsDot = function(spell, duration, health)
       for i=1,#mts.unitCache do
-        local _,_,_,_,_,_,debuff = UnitDebuff(mts.unitCache[i].key, GetSpellInfo(164812), nil, "PLAYER")
-          if not debuff or debuff - GetTime() < 2 then
-            if UnitCanAttack("player", mts.unitCache[i].key) then
-              if mts.Infront(mts.unitCache[i].key) then
-                ProbablyEngine.dsl.parsedTarget = mts.unitCache[i].key
-                return true
-              end           
-            end   
-          end
+        if mts.unitCache[i].health <= health then
+           local _,_,_,_,_,_,debuff = UnitDebuff(mts.unitCache[i].key, GetSpellInfo(spell), nil, "PLAYER")
+            if not debuff or debuff - GetTime() < duration then
+              if UnitCanAttack("player", mts.unitCache[i].key) and IsSpellInRange(GetSpellInfo(spell), mts.unitCache[i].key) then
+                 if mts.Infront(mts.unitCache[i].key) then
+                   ProbablyEngine.dsl.parsedTarget = mts.unitCache[i].key
+                    return true
+                 end           
+               end
+             end
+         end
       end
         return false
-    end,
-
-    SunFire = function()
-      for i=1,#mts.unitCache do
-        local _,_,_,_,_,_,debuff = UnitDebuff(mts.unitCache[i].key, GetSpellInfo(164815), nil, "PLAYER")
-          if not debuff or debuff - GetTime() < 2 then
-            if UnitCanAttack("player", mts.unitCache[i].key) then
-              if mts.Infront(mts.unitCache[i].key) then
-                ProbablyEngine.dsl.parsedTarget = mts.unitCache[i].key
-                return true
-              end           
-            end   
-          end
-      end
-        return false
-    end,
-
-    --[[-----------------------------------------------
-    ** Hunter Kill Shot **
-    DESC: Uses unit cache to verify if any unit around
-    meets Kill Shot Conditions.
-
-    Build By: MTS
-    ---------------------------------------------------]]
-    KillShot = function()
-      for i=1,#mts.unitCache do
-         if mts.unitCache[i].health < 20 then
-          if mts.Infront(mts.unitCache[i].key)then
-            ProbablyEngine.dsl.parsedTarget = mts.unitCache[i].key
-            return true
-          end
-        end
-      end
-            return false
     end,
 
     --[[-----------------------------------------------
@@ -316,6 +243,26 @@ ProbablyEngine.library.register('mtsLib', {
       end
         return total > 3
     end,
+
+    --[[test = function()
+    local current = nil
+      for i=1,#mts.unitFriendlyCache do
+        -- Whos our target?
+        if current == nil then
+          -- COndicions to define target
+          if mts.unitCache[i].health <= 20 then
+            -- this is the unit we want to cast on...
+            current = mts.unitCache[i].key)
+          end
+        end
+        if current ~= nil then
+          if mts.Distance(current, mts.unitFriendlyCache[i].key) <= 12 or 
+            current = nil
+            -- Do Something...
+          end
+        end
+      end
+    end,]]
 
     -- Clarity of Purpose
     ClarityOfPurpose = function()
