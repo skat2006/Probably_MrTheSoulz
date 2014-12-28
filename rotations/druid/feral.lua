@@ -8,12 +8,11 @@ end
 
 local CatForm = {
 
-	{{-- rake // prowl with glyph
-		{ "1822", {
-			"player.buff(5215)", -- prowl
-			"player.glyph(127540)" -- Savage Roar
-		}, "target" },
-	}, (function() return mts.Infront('target') end) },
+	-- rake // prowl with glyph
+	{ "1822", {
+		"player.buff(5215)", -- prowl
+		"player.glyph(127540)" -- Savage Roar
+	}, "target" },
 
   	--	keybinds
   		{{ -- Shift
@@ -46,14 +45,17 @@ local CatForm = {
 	-- Predatory Swiftness (Passive Proc)
 	  	{ "5185", {  -- Healing Touch Player
 	  		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDruidFeral', 'HealingTouch')) end),
-	  		"player.buff(Predatory Swiftness)" 
+	  		"player.buff(Predatory Swiftness)",
+	  		"!talent(7,2)"
 	  	}, "player" },
 	  	{ "5185", {  -- Healing Touch Lowest
 	  		"lowest.health < 70",
+	  		"!talent(7,2)",
 	  		"player.buff(Predatory Swiftness)" 
 	  	}, "lowest" },
 	  	{ "5185", {  -- Healing Touch Lowest (BooldTalons TALENT)
 	  		"talent(7,2)",
+	  		"player.combopoints = 5",
 	  		"player.buff(Predatory Swiftness)"
 	  	}, "lowest" },
 
@@ -97,7 +99,7 @@ local CatForm = {
 			{ "22568", { -- Ferocious Bite // Max Combo and Rip or Savage Roar do not need refreshed
 			   	"player.combopoints = 5", 
 			    "target.debuff(1079).duration > 7", -- RIP
-			    "player.buff(52610).duration > 4" -- Savage Roar GLYPH
+			    "player.buff(52610).duration > 4" -- Savage Roar
 			}, "target"},
 			{ "22568", { -- Ferocious Bite // Max Combo and Rip or Savage Roar GLYPH do not need refreshed
 			   	"player.combopoints = 5", 
@@ -110,13 +112,11 @@ local CatForm = {
 					{ "106830", "target.debuff(106830).duration < 5", "target" }, -- Tharsh
 					{ "106785" }, -- Swipe
 				}, "modifier.multitarget" },
-	  			{{ -- Smart AoE
-					{ "106830", { -- Tharsh
-						"player.area(8).enemies >= 3", 
-						"target.debuff(106830).duration < 5"
-					}, "target" },
-					{ "106785", "player.area(8).enemies >= 3" },-- Swipe // FireHack
-				}, (function() return fetch('mtsconf','Firehack') end) },
+				{ "106830", { -- Tharsh
+					"player.area(8).enemies >= 3", 
+					"target.debuff(106830).duration < 5"
+				}, "target" },
+				{ "106785", "player.area(8).enemies >= 3" },-- Swipe
 
 	  	-- Single Rotation
 	  		{ "1822", "target.debuff(155722).duration <= 4", "target" }, -- rake
