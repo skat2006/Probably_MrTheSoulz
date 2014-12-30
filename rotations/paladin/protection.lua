@@ -229,6 +229,7 @@ ProbablyEngine.rotation.register_custom(66, mts.Icon.."|r[|cff9482C9MTS|r][|cffF
 	{ -- In-Combat
 		{ DefCooldowns },											-- Defencive Cooldowns
 		{ Heals },													-- Heals
+		{ RaidHeals },												-- Raid Heals
 		{ All },													-- Shared across all
 		{ "96231", "modifier.interrupts", "target" }, 				-- Rebuke
 		{ "105593", "modifier.control", "target" }, 				-- Fist of Justice
