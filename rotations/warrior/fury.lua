@@ -22,7 +22,7 @@ local All = {
 			"!player.buff(469)",
 			(function() return fetch("mtsconfigWarrFury", "Shout") == 'Commanding Shout' end),
 		}}, 
-		{ "6544", "modifier.shift", "mouseover.ground" }, 		-- Heroic Leap // FH
+		{ "6544", "modifier.shift", "target.ground" }, 			-- Heroic Leap // FH
 	  	{ "5246", "modifier.control" }, 						-- Intimidating Shout
 		{ "100", { 		------------------------------------------ Charge
 			"modifier.alt", 			-- Holding Alt Key
@@ -58,12 +58,15 @@ local racials = {
 local Cooldowns = {
 	
 	-- Cooldowns
-		{ "12292" },			-- Bloodbath
-  		{ "107574" },			-- Avatar
-  		{ "107570" }, 			-- Storm Bolt
-  		{ "1719" }, 			-- Recklessness Use as often as possible. Stack with other DPS cooldowns.
-  		{ "46924" }, 			-- Bladestorm
-  		{ "Berserker Rage" },	-- Berserker Rage Use as needed to maintain Enrage.
+		{ "12292" },							-- Bloodbath // Talent
+  		{ "107574" },							-- Avatar // Talent
+  		{ "152277", nil, "target.ground" }, 	-- Ravager // Talent
+  		{ "107570" }, 							-- Storm Bolt // Talent
+  		{ "118000" }, 							-- Dragon Roar // Talent
+  		{ "176289" },							-- Siegebreaker // Talent
+  		{ "1719" }, 							-- Recklessness Use as often as possible. Stack with other DPS cooldowns.
+  		{ "46924" }, 							-- Bladestorm // Talent
+  		{ "18499" },							-- Berserker Rage Use as needed to maintain Enrage.
   		{ "#gloves" },
 	
 	--[[ Items
@@ -91,10 +94,12 @@ With 4+ targets, place a higher emphasis on Whirlwind and continue to use it to 
   ///---INFO---////  ]]
 local AoE = {
 
+	{ "152277", nil, "target.ground" }, 			-- Ravager // Talent
+	{ "118000" }, 									-- Dragon Roar // Talent
 	{ "23881" }, 									-- Bloodthirst on cooldown to maintain Enrage. Procs Bloodsurge.
 	{ "1680", "player.rage >= 70" }, 				-- Whirlwind as a Rage dump and to build Raging Blow stacks.
 	{ "85288" }, 									-- Raging Blow with Raging Blow stacks.
-	{ "46924" }, 									-- Blade Storm
+	{ "46924" }, 									-- Blade Storm // Talent
 
 }
 
@@ -128,28 +133,29 @@ local Normal = {
 	{ "100130", "player.rage > 80", "target" },	 	-- Wild Strike to prevent capping your Rage.
 	{ "23881", "!player.buff(Enraged)", "target" }, -- Bloodthirst on cooldown when not Enraged. Procs Bloodsurge.
 	{ "100130", "player.buff(Enraged)", "target" }, -- Wild Strike when Enraged.
-	{ "57755", "player.range > 10", "target" } 		-- Heroic Throw
 
 }
 
 ProbablyEngine.rotation.register_custom(72, mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAWarrior-Fury|r]", 
 	{-- Incombat
-		{ "2487", "player.seal != 1" }, 				-- Battle Stance
+		{ "57755", "player.range > 10", "target" }, 	-- Heroic Throw // Ranged
+		{ "2457", "player.seal != 1" }, 				-- Battle Stance
 		{ "6552", "target.interruptsAt(50)" }, 			-- Pummel
-		{ "114028", "target.interruptsAt(50)" }, 		-- Mass Spell Reflection
+		{ "23920", "target.interruptsAt(50)" }, 		-- Spell Reflection
 		{ All },										-- Shared across all
 		{ Survival },									-- Survival
 		{ Cooldowns, "modifier.cooldowns" },			-- Cooldowns
 		{ "5308", "player.buff(52437)", "target" }, 	-- Proc // Execute, Sudden Death
+		{ "34428" }, 									-- Victory Rush
 		{ "100130", "player.buff(46916)", "target" },	-- Wild Strike to consume Bloodsurge procs.
 		{ "85288" }, 									-- Raging Blow when available.
-		{ "34428" }, 									-- Victory Rush
 		{ Execute, "target.health <= 20" },				-- Execute
 		{ AoE, "modifier.multitarget" },				-- AoE Forced
 		{ AoE, "player.area(8).enemies >= 3" },			-- AoE
 		{ Normal, "target.health >= 20" }				-- Normal CR
 	}, 
 	{ -- Out Combat
+		{ "2457", "player.seal != 1" }, 				-- Battle Stance
 		{ All }
 	}, 
 	exeOnLoad)
