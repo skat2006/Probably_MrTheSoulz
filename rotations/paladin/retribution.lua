@@ -225,7 +225,7 @@ local Normal = {
 
 }
 
-ProbablyEngine.rotation.register_custom(66, mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Protection|r]", 
+ProbablyEngine.rotation.register_custom(70, mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Protection|r]", 
 	{ -- In-Combat
 		{ DefCooldowns },											-- Defencive Cooldowns
 		{ Heals },													-- Heals
