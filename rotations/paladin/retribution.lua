@@ -193,39 +193,15 @@ local All = {
 }
 
 --[[ ///---INFO---////
-The key to the Protection Paladin tanking priority is to maximize your Holy Power generation so 
-  that you can spend it on Shield of the Righteous and Word of Glory as often as possible.
-You will build Holy Power by using Crusader Strike and Judgment on cooldown. 
-Prioritize Avenger's Shield when Grand Crusader procs. 
-Your next priority is to use Hammer of Wrath when available on targets below 20% health. 
-After this, cast Consecration and Holy Wrath as time and Mana allow.
-The choice between spending Holy Power on Shield of the Righteous and Word of Glory depends on the specific encounter. 
-Shield of the Righteous is your go-to Holy Power spender and should be maintained as much as possible to reduce physical 
-  damage taken, but may be delayed by a few sec to line up with periods of high incoming melee damage. 
-Word of Glory is a strong self-heal that should be used as often as Holy Power allows. 
-It is okay to save a full stack of Bastion of Glory for a large Word of Glory if you expect to take a high amount of damage.
+
   ///---INFO---////  ]]
 local Normal = { 
 		
-		{ "53600", { 				------------------------------ Shield of Righteous
-			"target.spell(53600).range", 	-- Spell in range
-			"player.holypower > 3"			-- 3 Holy Power
-		}, "target" },
-		{ "35395", "target.spell(35395).range", "target" }, 	-- Crusader Strike
-		{ "20271", "target.spell(20271).range", "target" }, 	-- Judgment
-		{ "31935", "target.spell(31935).range", "target" }, 	-- Avenger´s Shield
-		{ "24275", "target.health <= 20", "target" }, 			-- Hammer of Wrath
-		{ "26573", "target.range <= 6", "ground" }, 			-- consecration
-		{ "119072", "target.range <= 10" }, 					-- Holy Wrath
-		{ "114165", { 				------------------------------ Holy Prism
-			"target.spell(114165).range", 	-- Spell in Range
-			"talent(5, 1)" 					-- Got Talent
-		}, "target"},
-		{ "114157", "target.spell(114157).range", "target" }, 	-- Execution Sentence
+
 
 }
 
-ProbablyEngine.rotation.register_custom(70, mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Protection|r]", 
+ProbablyEngine.rotation.register_custom(70, mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Retribution|r]", 
 	{ -- In-Combat
 		{ DefCooldowns },											-- Defencive Cooldowns
 		{ Heals },													-- Heals

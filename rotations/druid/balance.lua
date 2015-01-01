@@ -101,7 +101,7 @@ ProbablyEngine.rotation.register_custom(102, mts.Icon.."|r[|cff9482C9MTS|r][|cff
 	  		(function() return fetch('mtsconfDruidBalance','Form') == '1' end),
 	  	}},
 	  	{ "24858", { -- boomkin
-	  		"!player.buff(24858)", 
+	  		"player.form != 4", -- Stop if boomkin
 	  		"!modifier.lalt", -- Stop if pressing left alt
 	  		"!player.buff(5215)", -- Not in Stealth
 	  		(function() return fetch('mtsconfDruidBalance','Form') == '4' end),
@@ -153,7 +153,7 @@ ProbablyEngine.rotation.register_custom(102, mts.Icon.."|r[|cff9482C9MTS|r][|cff
 	  		(function() return fetch('mtsconfDruidBalance','FormOCC') == '1' end),
 	  	}},
 		{ "24858", { -- boomkin
-	  		"!player.buff(24858)", 
+	  		"player.form != 4", -- Stop if boomkin
 	  		"!modifier.lalt", -- Stop if pressing left alt
 	  		"!player.buff(5215)", -- Not in Stealth
 	  		(function() return fetch('mtsconfDruidBalance','FormOCC') == '4' end),
