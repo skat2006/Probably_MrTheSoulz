@@ -82,6 +82,17 @@ local inCombat = {
 	-- Items
 		{ "#5512", "player.health < 60" }, --Healthstone
 	
+	--  Ironbark
+		{"Ironbark",{
+			"focus.health <= 40",
+			"focus.friend",
+			"focus.range <= 40"
+		},"focus"},
+		{"Ironbark",{
+			"tank.health <= 40",
+			"tank.range <= 40"
+		},"tank"},
+
 	-- Genesis
 		{ "145518", { -- Genesis
 			"!player.spell(18562).cooldown = 0", 
@@ -104,17 +115,34 @@ local inCombat = {
 		}, "lowest" }, 
 	}, "modifier.multitarget" },
 
-	{{-- Incarnation: Tree of Life	
+	{{-- Soul of the Forest
+		{ "Regrowth", {
+			"!player.moving",
+			"focus.range <= 40", 
+			"focus.health <=85"
+		}, "focus"},
+		{ "Regrowth", {
+			"!player.moving",
+			"tank.range <= 40", 
+			"tank.health <=85"
+		}, "tank" },
+		{ "Regrowth", {
+			"!player.moving",
+			"lowest.range <= 40", 
+			"lowest.health <=85"
+		}, "lowest" },
+	}, "player.buff(114108)" },
+
+	{{-- Incarnation: Tree of Life
+		{ "33763", { -- Lifebloom
+			"!lowest.buff(33763)", 
+			"lowest.health < 30" 
+		}, "lowest" },
 		{ "8936", { -- Regrowth
 			"player.buff(16870)", 
 			"!lowest.buff", 
 			"lowest.health < 80" 
 		}, "lowest" }, 
-		{ "48438", "@coreHealing.needsHealing(85, 3)", "lowest" }, -- Wildgrowth
-		{ "33763", { -- Lifebloom
-			"!lowest.buff(33763)", 
-			"lowest.health < 100" 
-		}, "lowest" },
 	}, "player.buff(33891)" },
 
 	{{-- Clearcasting
@@ -129,6 +157,45 @@ local inCombat = {
 		}, "lowest" },
 	}, "player.buff(16870)" },
 
+	{{-- Force of Nature
+		{ "102693", {
+			"!modifier.last",
+			"player.spell(102693).charges >= 1", 
+			"tank.range <= 40",
+			"@coreHealing.needsHealing(70, 5)"
+		}, "tank" },
+		{ "102693", {
+			"!modifier.last",
+			"player.spell(102693).charges >= 1", 
+			"lowest.range <= 40",
+			"@coreHealing.needsHealing(70, 5)"
+		}, "lowest" }, 
+		{ "102693", {
+			"!modifier.last",
+			"player.spell(102693).charges >= 2", 
+			"tank.range <= 40", 
+			"tank.health <= 70"
+		}, "tank" },  
+		{ "102693", {
+			"!modifier.last",
+			"player.spell(102693).charges >= 2", 
+			"lowest.range <= 40", 
+			"lowest.health <= 70"
+		}, "lowest" },
+		{ "102693", {
+			"!modifier.last",
+			"player.spell(102693).charges = 3", 
+			"tank.range <= 40", 
+			"tank.health <= 92"
+		}, "tank" }, 
+		{ "102693", {
+			"!modifier.last",
+			"player.spell(102693).charges = 3", 
+			"lowest.range <= 40", 
+			"lowest.health <= 92"
+		}, "lowest" },  
+	},"talent(4,3)"},
+
 	-- Life Bloom
 		{ "33763", { -- Life Bloom
 			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfDruidResto', 'LifeBloomTank')) end),
@@ -141,6 +208,16 @@ local inCombat = {
 			"tank.spell(33763).range" 
 		}, "tank" }, 
 
+	{{-- Wild Mushroom
+		{ "145205", "!player.totem(145205)", "focus" }, -- Wild Mushroom
+		{ "145205", "!player.totem(145205)", "tank" }, -- Wild Mushroom
+	}, "!glyph(146654)" },
+
+	{{-- Wild Mushroom // Glyph of the Sprouting Mushroom
+		{ "145205", "!player.totem(145205)", "focus.ground" }, -- Wild Mushroom
+		{ "145205", "!player.totem(145205)", "tank.ground" }, -- Wild Mushroom
+	}, "glyph(146654)" },
+	
 	-- Swiftmend
 		{ "18562", {  -- Swiftmend
 			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfDruidResto', 'SwiftmendTank')) end),
@@ -184,10 +261,14 @@ local inCombat = {
 			"lowest.health < 65" 
 		}, "lowest" },
 	}, "talent(7,2)" },
-
-	-- Wild Mushroom	
-		{ "145205", "!player.totem(145205)", "tank" }, -- Wild Mushroom
 	
+	{{-- Regrowth EMERGENCY
+		{ "!8936", {  -- Regrowth
+			"lowest.health < 20", 
+			"!player.moving" 
+		}, "lowest" },
+	}, "!player.casting.percent >= 50" },
+
 	-- Regrowth	
 		{ "8936", {  -- Regrowth
 			"lowest.health < 50", 
@@ -226,12 +307,7 @@ local outCombat = {
 
 	-- Life Bloom
 		{ "33763", { -- Life Bloom
-			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfDruidResto', 'LifeBloomTank')) end),
-			"!focus.buff(33763)", 
-			"focus.spell(33763).range" 
-		}, "focus" },
-		{ "33763", { -- Life Bloom
-			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfDruidResto', 'LifeBloomTank')) end),
+			"tank.health < 100",
 			"!tank.buff(33763)", 
 			"tank.spell(33763).range" 
 		}, "tank" }, 
