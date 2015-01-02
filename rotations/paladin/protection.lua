@@ -140,14 +140,14 @@ local RaidHeals = {
 
 	{ "Flash of Light", { 
 		"player.buff(Selfless Healer).count = 3", 
-		(function() return dynamicEval("lowest.health <= " .. fetch('mtsconfPalaProt', 'FlashOfLight_Raid')) end), 
+		(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaProt', 'FlashOfLight_Raid')) end), 
 	}, "lowest" },		
-	{ "Lay on Hands", (function() return dynamicEval("lowest.health <= " .. fetch('mtsconfPalaProt', 'LayOnHands_Raid')) end), "lowest" },
+	{ "Lay on Hands", (function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaProt', 'LayOnHands_Raid')) end), "lowest" },
 	{ "Hand of Protection", { 
 		"lowest.alive", 
 		"!lowest.role(tank)", 
 		"!lowest.immune.melee", 
-		(function() return dynamicEval("lowest.health <= " .. fetch('mtsconfPalaProt', 'HandOfProtection_Raid')) end), 
+		(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaProt', 'HandOfProtection_Raid')) end), 
 	}, "lowest" }
 
 
