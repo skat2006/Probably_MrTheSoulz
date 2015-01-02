@@ -70,12 +70,12 @@ local inCombat = {
 		{ "29166", "player.mana < 80", "player" }, -- Inervate
 		{ "132158" }, -- Nature's Swiftness
 		{{ -- Party
-			{ "106731" , "@coreHealing.needsHealing(85, 4)" },-- Incarnation
-			{ "740" , "@coreHealing.needsHealing(40, 3)" }, -- Tranq
-		}, {"modifier.party", "!modifier.raid"} },
+			{ "106731", "@coreHealing.needsHealing(85, 3)" },-- Incarnation
+			{ "740", "@coreHealing.needsHealing(50, 3)" }, -- Tranq
+		}, "modifier.party" },
 		{{ -- Raid
-			{ "106731" , "@coreHealing.needsHealing(85, 6)" },-- Incarnation
-			{ "740" , "@coreHealing.needsHealing(40, 7)" }, -- Tranq
+			{ "106731", "@coreHealing.needsHealing(85, 6)" },-- Incarnation
+			{ "740", "@coreHealing.needsHealing(50, 7)" }, -- Tranq
 		}, "modifier.raid" },
 	}, "modifier.cooldowns"},
 	
@@ -210,7 +210,7 @@ local inCombat = {
 
 	{{-- Wild Mushroom
 		{ "145205", "!player.totem(145205)", "focus" }, -- Wild Mushroom
-		{ "145205", "!player.totem(145205)", "tank" }, -- Wild Mushroom
+    	{ "145205", "!player.totem(145205)", "tank" }, -- Wild Mushroom
 	}, "!glyph(146654)" },
 
 	{{-- Wild Mushroom // Glyph of the Sprouting Mushroom

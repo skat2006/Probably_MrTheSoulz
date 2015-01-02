@@ -1,6 +1,6 @@
 local fetch = ProbablyEngine.interface.fetchKey
 local mts_inWorld = false
-mts_SoothingMist_Target = nil
+local mts_SoothingMist_Target = nil
 
 function mts_soothingMist(ht)
 	if mts_SoothingMist_Target ~= nil then
@@ -38,30 +38,11 @@ ProbablyEngine.listener.register("ACTIVE_TALENT_GROUP_CHANGED", function(...)
 
 end)
 
-
-
-
-
-
--- Temp Solution for combat unit tracking while not using FH.
-
-local band = bit.band
-
-local HostileEvents = {
-        ['SWING_DAMAGE'] = true,
-        ['SWING_MISSED'] = true,
-        ['RANGE_DAMAGE'] = true,
-        ['RANGE_MISSED'] = true,
-        ['SPELL_DAMAGE'] = true,
-        ['SPELL_PERIODIC_DAMAGE'] = true,
-        ['SPELL_MISSED'] = true
-}
-
 ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
-  local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, _ = ...
+  local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID = ...
   
   	if event == "SPELL_CAST_SUCCESS" then
-		if sourceGUID == UnitGUID("player") then	
+		if sourceGUID == UnitGUID("player") then
 			-- Monk MW // Soothing Mist
 			if spellID == 115175 then
 				mts_SoothingMist_Target = targetName
