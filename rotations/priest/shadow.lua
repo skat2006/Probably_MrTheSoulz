@@ -1,7 +1,7 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
 local lib = function()
-mts_Splash("|cff9482C9[MTS]-[|cff9482C9MTS|r]-|cff9482C9Loaded", 5.0)
+mts.Splash("|cff9482C9[MTS]|r-[|cff9482C9MTS|r]-|cff9482C9Loaded", 5.0)
   
   ProbablyEngine.toggle.create(
 	'dotEverything', 

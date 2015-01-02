@@ -42,6 +42,7 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 end 
 
 function exeOnLoad()
+mts.Splash("|cff9482C9[MTS]-|r[|cff0070DEShaman-Elemental|r]-|cff9482C9Loaded", 5.0)
 
 	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create('cleavemode', 'Interface\\Icons\\spell_nature_chainlightning', 'Disable Cleaves', 'Disables automatic casting of earthquake and chain lightning for cleaves.')

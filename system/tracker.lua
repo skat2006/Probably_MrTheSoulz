@@ -19,11 +19,11 @@ ProbablyEngine.listener.register("PLAYER_ENTERING_WORLD", function(...)
         mts_ConfigGUI()-- Close
         
     --(WORKAROUND) // Create Class Keys
-        mts_ClassGUI() -- Open
-        mts_ClassGUI() -- Close
+        mts.ClassGUI() -- Open
+        mts.ClassGUI() -- Close
     
     -- Status GUI
-        mts_showLive()
+        mts.ShowStatus()
 
     mts_inWorld = true
 

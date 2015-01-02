@@ -37,10 +37,10 @@ end
 local button_moving
 local function onClick(self, button)
   if button == 'RightButton' then
-    mts_InfoGUI()
+    mts.InfoGUI()
   else 
     mts_ConfigGUI()
-    mts_ClassGUI()
+    mts.ClassGUI()
   end
 end
 

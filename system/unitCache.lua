@@ -295,7 +295,7 @@ local function mts_updateCacheInfo()
     mts_cacheWindow.elements.current_CacheStatus:SetText(CacheInfo())
 end
 
-function mts_cacheGUI()
+function mts.CacheGUI()
     if not mts_OpenCacheWindow then
         mts_cacheWindow = ProbablyEngine.interface.buildGUI(mts_cacheInfo)
         mts_cacheWindowUpdating = true

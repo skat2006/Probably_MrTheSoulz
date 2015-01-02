@@ -6,7 +6,7 @@ local ClassWindow
 local _OpenClassWindow = false
 local _ShowingClassWindow = false
 
-function mts_ClassGUI()
+function mts.ClassGUI()
 local _SpecID =  GetSpecializationInfo(GetSpecialization())
 
 	-- Check wich spec the player is to return the currect window.	

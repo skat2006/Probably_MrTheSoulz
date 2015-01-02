@@ -1,7 +1,7 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
 local lib = function()
-mts_Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
+mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
 
   ProbablyEngine.toggle.create('alter', 'Interface\\ICONS\\spell_mage_altertime', 'Alter Time', 'Toggle the usage of Alter Time and Arcane Power.')
   ProbablyEngine.toggle.create('def', 'Interface\\ICONS\\creatureportrait_creature_iceblock', 'Survival', 'Ice Block when Shit gets serious')

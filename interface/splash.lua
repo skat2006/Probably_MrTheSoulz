@@ -12,7 +12,7 @@ local function onUpdate(mtsStart,elapsed)
 	end
 end
 
-function mts_Splash(message)
+function mts.Splash(message)
 	if fetch('mtsconf', 'Splash') then
 		mtsStart.text:SetText("|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:17:17|t"..message)
 		mtsStart:SetAlpha(1)

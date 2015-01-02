@@ -66,21 +66,21 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 
    -- Displays LiveGUI
     if command == 'live' or command == 'status' or command == 's' then
-    	mts_showLive()
+    	mts.ShowStatus()
     end
 
     -- Displays Class GUI
     if command == 'class' or command == 'cl' then
-    	mts_ClassGUI()
+    	mts.ClassGUI()
     end
 
 	-- Displays Help GUI
 	if command == 'help' or command == 'info' or command == 'i' or command == '?' then
-		mts_InfoGUI()
+		mts.InfoGUI()
 	end
 
     if command == 'ch' or command == 'cache' then
-        mts_cacheGUI()
+        mts.CacheGUI()
     end
 
 end)

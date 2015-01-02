@@ -1,7 +1,7 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
-mts_Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
+mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
 
   ProbablyEngine.toggle.create(
 	'dotEverything', 
@@ -51,9 +51,9 @@ local BoomkinForm = {
 		{ "164815", "target.debuff(Sunfire).duration <= 2"}, --SunFire
 		{ "2912", "player.buff(Lunar Empowerment).count >= 1" }, --Starfire with Lunar Empowerment
 		{ "5176", "player.buff(Solar Empowerment).count >= 1" }, --Wrath with Solar Empowerment
-		{ "2912", "balance.moon"}, --StarFire
-		{ "5176", "balance.sun"},  --Wrath
-		{ "2912" }, --StarFire Filler
+		{ "2912", "player.lunar"}, --StarFire
+		{ "5176", "player.solar"},  --Wrath
+		--{ "2912" }, --StarFire Filler
   
 }
 
