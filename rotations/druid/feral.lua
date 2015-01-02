@@ -81,11 +81,6 @@ local CatForm = {
 	  			"player.buff(174544).duration <= 4", -- Savage Roar GLYPH
 	  			"player.combopoints <= 2" 
 	  		}, "target"},
-	  		{ "22568", { -- Ferocious Bite to refresh Rip when target at <= 25% health.
-			    "target.health < 25", 
-			    "target.debuff(1079).duration < 5", -- RIP
-			    "player.combopoints = 5"
-			}, "target"},
 		  	{ "1079", { -- Rip // bellow 25% if target does not have debuff
 				"target.health < 25", 
 				"!target.debuff(1079)", -- stop if target as rip debuff
@@ -95,6 +90,11 @@ local CatForm = {
 				"target.health > 25", 
 				"target.debuff(1079).duration <= 7", 
 				"player.combopoints = 5" 
+			}, "target"},
+			{ "22568", { -- Ferocious Bite to refresh Rip when target at <= 25% health.
+			    "target.health < 25", 
+			    "target.debuff(1079).duration < 5", -- RIP
+			    "player.combopoints = 5"
 			}, "target"},
 			{ "22568", { -- Ferocious Bite // Max Combo and Rip or Savage Roar do not need refreshed
 			   	"player.combopoints = 5", 
