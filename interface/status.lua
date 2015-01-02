@@ -11,7 +11,7 @@ local mts_live = {
 	title = logo.."MrTheSoulz GUI \124cffC41F3Bv:"..mts.Version,
 	color = "9482C9",
 	width = 200,
-	height = 100,
+	height = 84,
 	resize = false,
 	config = {
 
