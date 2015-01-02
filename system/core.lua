@@ -123,8 +123,8 @@ function mts.Infront(unit)
       return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
     -- Offspring
     elseif oexecute then
-      local aX, aY, aZ = opos(unit)
-      local bX, bY, bZ = opos('player')
+      local aX, aY, aZ = UnitPosition(unit)
+      local bX, bY, bZ = UnitPosition('player')
       local playerFacing = GetPlayerFacing()
       local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
       return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
@@ -151,8 +151,8 @@ function mts.Distance(a, b)
       return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - ((UnitCombatReach(a)) + (UnitCombatReach(b)))
     -- Offspring
     elseif oexecute then
-      local ax, ay, az = opos(a)
-      local bx, by, bz = opos(b)
+      local ax, ay, az = UnitPosition(a)
+      local bx, by, bz = UnitPosition(b)
       return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - 6
     -- Fallback to PE's
     else

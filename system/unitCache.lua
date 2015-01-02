@@ -71,6 +71,32 @@ local function mts_unitCacheFun()
 							end
 						end
 				end
+        -- OffSpring
+        elseif oexecute and fetch("cacheInfo", "AC") then
+            local count = ObjectsCount('player', (fetch("cacheInfo", "CD") or 40))
+            for i=1, count-1 do
+                local object, id = ObjectByIndex(i)
+                if object then
+                    if ProbablyEngine.condition["alive"](object) then
+                      local distance = mts.Distance('player', object)
+                        if not UnitIsFriend("player", object) then
+                            if fetch("cacheInfo", "EU") then
+                                if not mts.immuneEvents(object) then
+                                    unitCacheTotal = unitCacheTotal + 1
+                                    table.insert(mts.unitCache, {key=object, distance=distance, health=math.floor((UnitHealth(object) / UnitHealthMax(object)) * 100), maxHealth=UnitHealthMax(object), actualHealth=UnitHealth(object), name=GetUnitName(object, false)})
+                                    table.sort(mts.unitCache, function(a,b) return a.distance < b.distance end)
+                                end
+                            end
+                        else
+                            if fetch("cacheInfo", "FU") then
+                                unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
+                                table.insert(mts.unitFriendlyCache, {key=object, distance=distance, health=math.floor((UnitHealth(object) / UnitHealthMax(object)) * 100), maxHealth=UnitHealthMax(object), actualHealth=UnitHealth(object), name=GetUnitName(object, false)})
+                                table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
+                            end
+                        end
+                    end
+                end
+            end
 		-- Cache Raid/Party Targets
 		else
             local prefix = (IsInRaid() and 'raid') or 'party'

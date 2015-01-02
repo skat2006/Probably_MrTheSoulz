@@ -77,7 +77,7 @@ local function mts_FaceTo(unit, name)
 	        		FaceUnit(unit)
 	      		elseif oexecute then
 	      			mtsAlert:message('Facing: '..name) 
-	        		oface(unit)
+	        		FaceToUnit(unit)
 	      		end
 	    	end
 	  	end
