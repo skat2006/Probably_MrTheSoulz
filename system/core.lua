@@ -6,9 +6,9 @@ MTS
 ]]
 mts = {
   
-  Version = "0.1.3.3",
+  Version = "0.1.4.0",
   Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t",
-  peRecomemded = "6.0.3r11",
+  peRecomemded = "6.0.3r12",
   CurrentCR = false,
 
 }
