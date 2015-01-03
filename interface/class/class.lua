@@ -37,7 +37,9 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 	elseif _SpecID == 72 and not _OpenClassWindow  then -- Warrior Fury
 		_CurrentSpec = mts_BuildGUI(mts_configWarrFury)	
 	elseif _SpecID == 270 and not _OpenClassWindow  then -- Monk Mistweaver
-		_CurrentSpec = mts_BuildGUI(mts_configMonkMm)	
+		_CurrentSpec = mts_BuildGUI(mts_configMonkMm)
+	elseif _SpecID == 269 and not _OpenClassWindow  then -- Monk WindWalker
+		_CurrentSpec = mts_BuildGUI(mts_configMonkWw)	
 	end
 
 	-- If no window been created, create one...

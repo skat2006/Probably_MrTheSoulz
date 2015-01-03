@@ -20,9 +20,10 @@ local inCombat = {
 		{ "119381", "modifier.control" }, -- Leg Sweep
 		{ "122470", "modifier.alt" }, -- Touch of Karma
 
-	-- SEF
+	{{-- SEF
   		{ "137639", "@mtsLib.SEF" },
   		{ "/cancelaura "..n, "target.debuff(137639)", "target"}, -- Storm, Earth, and Fire
+  	}, (function() return fetch('mtsconfigMonkWw', 'SEF') end) },
 
 	-- Survival
 		{ "115072", { "player.health <= 80", "player.chi < 4" }}, -- Expel Harm
@@ -105,7 +106,10 @@ local inCombat = {
 			
 	-- AoE
 		{ "101546", "modifier.multitarget" }, -- Spinning Crane Kick
-		{ "101546","player.area(8).enemies >= 3"}, -- Spinning Crane Kick // FH Smarth
+		{ "101546", { -- Spinning Crane Kick // Smart
+			"player.area(8).enemies >= 3", 
+			(function() return fetch('mtsconf', 'SA') end)
+		}}, 
 
 		{ "100784", "player.chi >= 3" }, -- Blackout Kick
 		{ "100787", "!player.buff(125359)"}, -- Tiger Palm if not w/t Tiger Power
