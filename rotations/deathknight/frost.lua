@@ -1,24 +1,3 @@
---[[ ///---INFO---////
-// DK Frost //
-!Originaly made by PCMD!
-Thank You For Using My ProFiles
-I Hope Your Enjoy Them
-MTS
-]]
-local _darkSimSpells = {
--- siege of orgrimmar
-"Froststorm Bolt","Arcane Shock","Rage of the Empress","Chain Lightning",
--- pvp
-"Hex","Mind Control","Cyclone","Polymorph","Pyroblast","Tranquility","Divine Hymn","Hymn of Hope","Ring of Frost","Entangling Roots"
-}
-
-function DarkSimUnit(unit)
-	for index,spellName in pairs(_darkSimSpells) do
-		if ProbablyEngine.condition["casting"](unit, spellName) then return true end
-	end
-		return false
-end
-
 ProbablyEngine.condition.register('twohand', function(target)
   return IsEquippedItemType("Two-Hand")
 end)
@@ -30,11 +9,6 @@ end)
 local exeOnLoad = function()
 mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
 
-	ProbablyEngine.toggle.create(
-		'autotarget', 
-		'Interface\\Icons\\Ability_spy.png', 
-		'Auto Target', 
-		'Automatically target the nearest enemy when target dies or does not exist')
 	ProbablyEngine.toggle.create(
 		'defcd', 
 		'Interface\\Icons\\Spell_deathknight_iceboundfortitude.png', 
@@ -75,6 +49,7 @@ local inCombat = {
 		{ "42650", "modifier.alt" }, -- Army of the Dead
 		{ "49576", "modifier.control" }, -- Death Grip
 		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
+		{ "152280", "modifier.shift", "target.ground" }, -- Defile
 	
 	-- Presence
 		{ "48266", "player.seal != 2" }, -- frost
@@ -174,8 +149,8 @@ local inCombat = {
 			}, "target" }, 
 
 	-- Spell Steal
-		{ "77606", (function() return DarkSimUnit('focus') end), "focus" },  -- Dark Simulacrum
-		{ "77606", (function() return DarkSimUnit('target') end), "target" }, -- Dark Simulacrum
+		{ "77606", "@mtsLib.DarkSimUnit('target')", "target" }, -- Dark Simulacrum
+		{ "77606", "@mtsLib.DarkSimUnit('focus')", "focus" },  -- Dark Simulacrum
 
 	-- Plague Leech
 		{ "123693", {
