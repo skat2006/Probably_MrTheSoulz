@@ -381,7 +381,7 @@ function mts.CacheGUI()
 
 end
 
-C_Timer.NewTicker(0.1, (function()
+C_Timer.NewTicker(0.2, (function()
     if mts.CurrentCR then
         mts_unitCacheFun()
     end

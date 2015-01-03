@@ -52,13 +52,13 @@ local function mts_MoveTo(unit, name)
 end]]
 
 -- Move to unit if distance.
-local function mts_MoveTo(unit, name)
-	local _SpecID =  GetSpecializationInfo(GetSpecialization())
+local function mts_MoveTo()
+	local name = GetUnitName('target', false)
   	if fetch('mtsconf', 'AutoMove') then
-  		if UnitExists(unit) and UnitIsVisible(unit) then
+  		if UnitExists('target') and UnitIsVisible('target') then
 			if FireHack then
-			   	local aX, aY, aZ = ObjectPosition(unit)
-				    if mts.Distance("player", unit) >= 6 + (UnitCombatReach('player') + UnitCombatReach(unit)) then
+			   	local aX, aY, aZ = ObjectPosition('target')
+				    if mts.Distance("player", 'target') >= 6 + (UnitCombatReach('player') + UnitCombatReach('target')) then
 				        mtsAlert:message('Moving to: '..name) 
 				        MoveTo(aX, aY, aZ)
 				    end
@@ -68,16 +68,17 @@ local function mts_MoveTo(unit, name)
 end
 
 -- Face unit.
-local function mts_FaceTo(unit, name)
+local function mts_FaceTo()
+	local name = GetUnitName('target', false)
 	if fetch('mtsconf', 'AutoFace') then
-	  	if UnitExists(unit) and UnitIsVisible(unit) then
-	    	if not mts.Infront(unit) then
+	  	if UnitExists('target') and UnitIsVisible('target') then
+	    	if not mts.Infront('target') then
 	      		if FireHack then
 	      			mtsAlert:message('Facing: '..name) 
-	        		FaceUnit(unit)
+	        		FaceUnit('target')
 	      		elseif oexecute then
 	      			mtsAlert:message('Facing: '..name) 
-	        		FaceToUnit(unit)
+	        		FaceToUnit('target')
 	      		end
 	    	end
 	  	end
@@ -92,12 +93,16 @@ Build By: MTS & StinkyTwitch
 ---------------------------------------------------]]
 local function mts_autoTarget(unit, name)
 	if fetch('mtsconf', 'AutoTarget') then
-	    if UnitExists("target") and not UnitIsFriend("player", "target") and not UnitIsDeadOrGhost("target") then
-	        -- Do nothing
-	    else
-	    	mtsAlert:message('Targeting: '..name) 
-	        return Macro("/target "..unit)
-	    end
+		if UnitExists("target") and not UnitIsFriend("player", "target") and not UnitIsDeadOrGhost("target") then
+			-- Do nothing
+		else
+		 	for i=1,#mts.unitCache do
+	    		if mts.unitCache[i].name ~= UnitName("player") then
+			    	mtsAlert:message('Targeting: '..mts.unitCache[i].name) 
+			        return Macro("/target "..mts.unitCache[i].key)
+			    end
+			end
+		end
 	end
 end
 
@@ -107,16 +112,12 @@ DESC: MoveTo & Face.
 
 Build By: MTS
  ---------------------------------------------------]]
-C_Timer.NewTicker(0.1, (function()
+C_Timer.NewTicker(0.5, (function()
   	if mts.CurrentCR then
 	    if _PeConfig.read('button_states', 'MasterToggle', false) and ProbablyEngine.module.player.combat then
-	    	for i=1,#mts.unitCache do
-	    		if mts.unitCache[i].name ~= UnitName("player") then
-			        mts_MoveTo(mts.unitCache[i].key, mts.unitCache[i].name)
-			        mts_FaceTo(mts.unitCache[i].key, mts.unitCache[i].name)
-			        mts_autoTarget(mts.unitCache[i].key, mts.unitCache[i].name)
-			    end
-		    end
+			mts_MoveTo()
+			mts_FaceTo()
+			mts_autoTarget()
 	    end
   	end
 end), nil)
