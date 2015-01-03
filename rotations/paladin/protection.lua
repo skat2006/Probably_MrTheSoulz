@@ -229,28 +229,25 @@ ProbablyEngine.rotation.register_custom(66, mts.Icon.."|r[|cff9482C9MTS|r][|cffF
 	{ -- In-Combat
 		{ DefCooldowns },											-- Defencive Cooldowns
 		{ Heals },													-- Heals
-		{ RaidHeals },												-- Raid Heals
+		--{ RaidHeals },												-- Raid Heals
 		{ All },													-- Shared across all
 		{ "96231", "modifier.interrupts", "target" }, 				-- Rebuke
 		{ "105593", "modifier.control", "target" }, 				-- Fist of Justice
 		{ "853", "modifier.control", "target" }, 					-- Hammer of Justice
 		{ "114158", "modifier.shift", "target.ground" }, 			-- Light´s Hammer
-		{ "62124", "@mtsLib.CanTaunt" },							-- Taunt
+		--{ "62124", "@mtsLib.canTaunt" },							-- Taunt
 		{ EmpoweredSeals, "talent(7,1)" },							-- EmpoweredSeals // Talent
-		{ Seals_AoE, { ----------------------------------------------- Seals AoE
-			"!talent(7,1)", 				-- Dont have EmpoweredSeals
-			"modifier.multitarget"			-- Multi-target Toggle
-		}},
-		{ Seals_AoE, { ----------------------------------------------- Seals AoE AUTO
-			"!talent(7,1)", 				-- Dont have EmpoweredSeals
-			"player.area(8).enemies >= 3",	-- 3 or more enemies around
-			"!modifier.multitarget"			-- Dont bother if Multi-target Toggle beacuse we already checking it
-		}},
-		{ Seals, { --------------------------------------------------- Seals
-			"!talent(7,1)", 				-- Dont have EmpoweredSeals
-			"!player.area(8).enemies >= 3", -- Not AoE
-			"!modifier.multitarget"			-- Not AoE
-		}},
+		{{-- Dont have EmpoweredSeals
+			{ Seals, { --------------------------------------------------- Seals
+				"!player.area(8).enemies >= 3", -- Not AoE
+				"!modifier.multitarget"			-- Not AoE
+			}},
+			{ Seals_AoE, "modifier.multitarget" },-- Seals AoE
+			{ Seals_AoE, { ----------------------------------------------- Seals AoE AUTO
+				"player.area(8).enemies >= 3",	-- 3 or more enemies around
+				"!modifier.multitarget"			-- Dont bother if Multi-target Toggle beacuse we already checking it
+			}},
+		}, "!talent(7,1)" },
 		{ Cooldowns, "modifier.cooldowns" },						-- Cooldowns
 		{ "31935", "player.buff(Grand Crusader)", "target" }, 		-- Avenger's Shield // Proc
 		{ AoE, "modifier.multitarget" },							-- AoE Normal
