@@ -237,7 +237,7 @@ local inCombat = {
 		} , {
 			"player.buff(Blood Charge).count >= 5",
 			"player.runes(death).count = 0",
-			"!modifier.last"
+			"!lastcast(45529)"
 		}},
 
 }
