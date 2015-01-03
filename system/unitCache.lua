@@ -74,29 +74,61 @@ local function mts_unitCacheFun()
         -- OffSpring
         elseif oexecute and fetch("cacheInfo", "AC") then
             local count = ObjectsCount('player', (fetch("cacheInfo", "CD") or 40))
-            for i=1, count-1 do
-                local object, id = ObjectByIndex(i)
+            for i=1, count do
+                local object, id, name = ObjectByIndex(i)
                 if object then
                     if ProbablyEngine.condition["alive"](object) then
-                      local distance = mts.Distance('player', object)
-                        if not UnitIsFriend("player", object) then
-                            if fetch("cacheInfo", "EU") then
-                                if not mts.immuneEvents(object) then
-                                    unitCacheTotal = unitCacheTotal + 1
-                                    table.insert(mts.unitCache, {key=object, distance=distance, health=math.floor((UnitHealth(object) / UnitHealthMax(object)) * 100), maxHealth=UnitHealthMax(object), actualHealth=UnitHealth(object), name=GetUnitName(object, false)})
-                                    table.sort(mts.unitCache, function(a,b) return a.distance < b.distance end)
+                        local distance = mts.Distance('player', object)
+                        local health = math.floor((UnitHealth(object) / UnitHealthMax(object)) * 100)
+                        local maxHealth = UnitHealthMax(object)
+                        local actualHealth = UnitHealth(object)
+                            -- Friendly Cache
+                            if UnitIsFriend("player", object) then
+                                -- Enabled on GUI
+                                if fetch("cacheInfo", "FU") then
+                                    -- Cache only Players
+                                    if fetch("cacheInfo", "FU2") == 'Players' then
+                                        if UnitIsPlayer(object) then
+                                            unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
+                                            table.insert(mts.unitFriendlyCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, name=name})
+                                            table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
+                                        end
+                                        -- Cache Only Party/Raid
+                                        elseif fetch("cacheInfo", "FU2") == 'PR' then
+                                            if UnitIsPlayer(object) and (UnitInParty(object) or UnitInRaid(object)) then
+                                                unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
+                                                table.insert(mts.unitFriendlyCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, name=name})
+                                                table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
+                                            end
+                                        -- Cache All
+                                        else
+                                            unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
+                                            table.insert(mts.unitFriendlyCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, name=name})
+                                            table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
+                                        end
+                                    end
+                            -- All Other units cache
+                            else
+                                -- Enabled on GUI and unit affecting combat
+                                if fetch("cacheInfo", "EU") then
+                                    if not mts.immuneEvents(object) then
+                                        if fetch("cacheInfo", "EU2") == 'Combat' then 
+                                            if UnitAffectingCombat(object) then
+                                                unitCacheTotal = unitCacheTotal + 1
+                                                table.insert(mts.unitCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, name=name})
+                                                table.sort(mts.unitCache, function(a,b) return a.distance < b.distance end)
+                                            end
+                                        else
+                                            unitCacheTotal = unitCacheTotal + 1
+                                            table.insert(mts.unitCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, name=name})
+                                            table.sort(mts.unitCache, function(a,b) return a.distance < b.distance end)
+                                        end
+                                    end
                                 end
-                            end
-                        else
-                            if fetch("cacheInfo", "FU") then
-                                unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
-                                table.insert(mts.unitFriendlyCache, {key=object, distance=distance, health=math.floor((UnitHealth(object) / UnitHealthMax(object)) * 100), maxHealth=UnitHealthMax(object), actualHealth=UnitHealth(object), name=GetUnitName(object, false)})
-                                table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
-                            end
-                        end
-                    end
-                end
-            end
+							end
+					end
+				end
+			end
 		-- Cache Raid/Party Targets
 		else
             local prefix = (IsInRaid() and 'raid') or 'party'
@@ -296,7 +328,7 @@ local mts_cacheWindowUpdating = false
 local function CacheInfo()
     if mts.CurrentCR then
         if fetch("cacheInfo", "AC") then
-            if FireHack then
+            if FireHack or oexecute then
                 return "|cff00FF96Using Unlocker object manager."
             else
                 return "|cffC41F3BUsing Raid/Party Targets.\nUnlocker Dosent have Object manager"
@@ -351,6 +383,6 @@ end
 
 C_Timer.NewTicker(0.1, (function()
     if mts.CurrentCR then
-        mts_unitCacheFun()
+        --mts_unitCacheFun()
     end
 end), nil)
