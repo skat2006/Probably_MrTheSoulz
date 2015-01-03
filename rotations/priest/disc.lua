@@ -217,18 +217,19 @@ local Normal = {
 			"!player.casting.percent >= 50"
 		}, "lowest" }, 
 	
+	{{-- WorkAround a ID issue
 	--Power Word: Shield
 		{ "17", { 
 			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'ShieldTank')) end),
 			"!focus.debuff(6788).any", 
 			"focus.spell(17).range",
-			"!modifier.last" 
+			"!focus.buff(17).any", 
 		}, "focus" }, 
 		{ "17", {
 			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'ShieldTank')) end),
 			"!tank.debuff(6788).any", 
 			"tank.spell(17).range",
-			"!modifier.last" 
+			"!focus.buff(17).any", 
 		}, "tank" },
 		{ "17", {  --Power Word: Shield
 			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'ShieldRaid')) end),
@@ -238,9 +239,9 @@ local Normal = {
 		{ "17", {
 			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPriestDisc', 'ShieldPlayer')) end),
 			"!player.debuff(6788).any", 
-			"!player.buff(17).any",
-			"!modifier.last" 
+			"!player.buff(17).any", 
 		}, "player" },
+	}, "!lastcast(17)" },
 
 	-- heal
 		{ "2060", { -- Heal
