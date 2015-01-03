@@ -109,7 +109,7 @@ local inCombat = {
 				{"2643","player.area(35).enemies > 4", "target"}, -- Multi-Shot
 				{"13813", nil, "target.ground"}, --Explosive Trap
 
-		}, (function() return fetch('mtsconf','Firehack') end)},
+		}, (function() return fetch('mtsconf','SAoE') end)},
 
 		-- Rotation
 			{ "53351" },--Kill Shot

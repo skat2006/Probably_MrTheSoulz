@@ -123,7 +123,7 @@ local inCombat = {
 			"player.area(12).enemies > 3" } },
 		{ "403", "player.area(12).enemies > 3" },--Chain Lightning
 
-  }, (function() return fetch('mtsconf','Firehack') end) },
+  }, (function() return fetch('mtsconf','SAoE') end) },
 
 	-- AoE Fallback
 		{ "Lava Beam", { -- Does it even still exist? // To Review.
@@ -150,7 +150,7 @@ local inCombat = {
 
    	 		{ "403", {"player.area(8).enemies > 1", "!toggle.cleavemode" } }, -- Chain Lightning
 
-  		}, (function() return fetch('mtsconf','Firehack') end) },
+  		}, (function() return fetch('mtsconf','SAoE') end) },
 
 		{ "3599", { "!player.totem(Fire Elemental Totem)", "!player.totem(Searing Totem)" } }, -- Searing Totem
 		{ "403" }, -- Lightning Bolt

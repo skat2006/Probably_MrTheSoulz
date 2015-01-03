@@ -190,7 +190,7 @@ local inCombat = {
 		}},
 		{ "85948" }, -- Festering Strike
 		{ "47541", "player.runicpower >= 40", "target"  }, -- Death Coil
-	}, { (function() return fetch('mtsconf','Firehack') end), "player.area(10).enemies >= 4" }},
+	}, { (function() return fetch('mtsconf','SAoE') end), "player.area(10).enemies >= 4" }},
 
 	{{-- AoE
 		{ "43265", "target.range < 7", "target.ground" }, -- Death and Decay

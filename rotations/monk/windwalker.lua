@@ -108,7 +108,7 @@ local inCombat = {
 		{ "101546", "modifier.multitarget" }, -- Spinning Crane Kick
 		{ "101546", { -- Spinning Crane Kick // Smart
 			"player.area(8).enemies >= 3", 
-			(function() return fetch('mtsconf', 'SA') end)
+			(function() return fetch('mtsconf', 'SAoE') end)
 		}}, 
 
 		{ "100784", "player.chi >= 3" }, -- Blackout Kick

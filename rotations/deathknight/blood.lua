@@ -113,7 +113,7 @@ local inCombat = {
 			"target.range < 7",
 			"player.area(10).enemies > 4"
 		}, "target.ground" }, -- Defile
-	}, (function() return fetch('mtsconf','Firehack') end) },
+	}, (function() return fetch('mtsconf','SAoE') end) },
 
 	{{-- AoE
 		{ "50842",	"target.range <= 10" },-- Blood Boil
