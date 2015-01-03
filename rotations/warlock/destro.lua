@@ -10,23 +10,12 @@ local fetch = ProbablyEngine.interface.fetchKey
 local exeOnLoad = function()
 mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
 
-	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
-
 end
 
 local inCombat = {
 	
 	-- Keybinds
 		{ "Rain of Fire", "modifier.alt", "ground" },
-
-	-- Auto Target
-		{ "/cleartarget", {
-	      "toggle.autotarget",
-	      (function() return UnitIsFriend("player","target") end)
-	      }},
-		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
-		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
-   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
 	--Buffs
 		{ "Dark Intent", "!player.buff" },

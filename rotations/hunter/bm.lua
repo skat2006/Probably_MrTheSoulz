@@ -2,12 +2,7 @@ local fetch = ProbablyEngine.interface.fetchKey
 
 local lib = function()
 mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
-	
-	ProbablyEngine.toggle.create(
-		'autotarget', 
-		'Interface\\Icons\\Ability_spy.png', 
-		'Auto Target', 
-		'Automatically target the nearest enemy when target dies or does not exist')
+
 	ProbablyEngine.toggle.create(
 		'resspet', 
 		'Interface\\Icons\\Inv_misc_head_tiger_01.png', 
@@ -87,15 +82,6 @@ local inCombat = {
 			"!focus.exists", 
 			"target.threat > 85" 
 		}, "pet" },
-	
-	-- Auto Target
-		{ "/cleartarget", {
-			"toggle.autotarget", 
-			(function() return UnitIsFriend("player","target") end)
-		}},
-		{ "/target [target=focustarget, harm, nodead]", "target.range > 40" },
-		{ "/targetenemy [noexists]", { "toggle.autotarget", "!target.exists" }},
-   		{ "/targetenemy [dead]", { "toggle.autotarget", "target.exists", "target.dead" }},
 
 		-- Proc's
 			{ "Focus Fire", "player.buff(Frenzy).count = 5" },

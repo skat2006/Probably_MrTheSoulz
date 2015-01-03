@@ -3,7 +3,6 @@ local fetch = ProbablyEngine.interface.fetchKey
 local lib = function()
 mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
 
-  	ProbablyEngine.toggle.create('autotarget', 'Interface\\Icons\\Ability_spy.png', 'Auto Target', 'Automatically target the nearest enemy when target dies or does not exist')
   	ProbablyEngine.toggle.create('cleave', 'Interface\\Icons\\spell_frost_frostbolt', 'Disable Cleaves', 'Disable casting of Cone of Cold and Ice Nova for Procs.')
   	
 end
@@ -13,9 +12,7 @@ local inCombat = {
 
  	 -- Rotation Utilities
 		{ "pause", "modifier.lalt" },
-		{ "/script TargetNearestEnemy()", { "toggle.autotarget", "!target.exists" } },
-		{ "/script TargetNearestEnemy()", { "toggle.autotarget", "target.exists", "target.dead" } },
-	
+
 	-- Interrupt
 		{ "2139", "modifier.interrupt" },--Counterspell
 		{ "Rune of Power", "modifier.lcontrol", "mouseover.ground" },
