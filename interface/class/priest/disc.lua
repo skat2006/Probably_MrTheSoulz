@@ -131,6 +131,13 @@ mts_configPriestDisc = {
 				default_spin = 100,
 				default_check = true,
 			},
+			{
+				type = "checkspin",
+				text = "Saving Grace",
+				key = "SavingGraceTank",
+				default_spin = 40,
+				default_check = true,
+			},
 
 
 		-- Raid/Party

@@ -321,6 +321,26 @@ local Clarity_of_Will = {
 
 }
 
+local SavingGrace = {
+	
+	{ "!152116", {
+		(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPriestDisc', 'SavingGraceTank_spin')) end), 
+		(function() return fetch('mtsconfPriestDisc', 'SavingGraceTank_check') end),
+		"!player.moving",
+	}, "focus" },
+	{ "!152116", {
+		(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'SavingGraceTank_spin')) end), 
+		(function() return fetch('mtsconfPriestDisc', 'SavingGraceTank_check') end),
+		"!player.moving",
+	}, "tank" },
+	{ "!152116", {
+		(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'SavingGrace_spin')) end), 
+		(function() return fetch('mtsconfPriestDisc', 'SavingGrace_check') end),
+		"!player.moving",
+	}, "lowest" },
+
+}
+
 local All = {
 
 	-- Key Binds
@@ -389,15 +409,11 @@ ProbablyEngine.rotation.register_custom(
 		{{ ------------------------------------------------------------------------------------------------------------------------------------- Party/Raid CR
 				{ "32375", "modifier.control", "player.ground" }, 															-- Mass Dispel
 				{ "62618", "modifier.shift", "tank.ground" },																-- Power word Barrier // w/t CD's and on tank // PArty
-				{ Cooldowns, "modifier.cooldowns" },-- Cooldowns
-				{{------------------------------------------------------------------------------------------------------------ Saving Grace // Talent
-					{ "!152116", {
-						(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'SavingGrace_spin')) end), 
-						(function() return fetch('mtsconfPriestDisc', 'SavingGrace_check') end),
-						(function() return mts.dynamicEval("!player.debuff(155274) >= " .. fetch('mtsconfPriestDisc', 'SavingGraceStacks')) end), 
-						"!player.moving",
-					}, "lowest" },
-				}, "talent(7,3)" },
+				{ Cooldowns, "modifier.cooldowns" },																		-- Cooldowns
+				{ SavingGrace, {---------------------------------------------------------------------------------------------- Saving Grace // Talent
+					"talent(7,3)",
+					(function() return mts.dynamicEval("!player.debuff(155274) >= " .. fetch('mtsconfPriestDisc', 'SavingGraceStacks')) end),
+				}}, 
 				{ Clarity_of_Will, "talent(7,1)" },																			-- Clarity of Will // Talent
 				{ FlashHeal, {------------------------------------------------------------------------------------------------ Flash Heal // dont interrumpt if castbar more then 50%
 					"!player.casting.percent >= 50",
