@@ -28,7 +28,7 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 		_CurrentSpec = mts_BuildGUI(mts_configPriestShadow)
 	elseif _SpecID == 256 and not _OpenClassWindow  then -- Priest Disc
 		_CurrentSpec = mts_BuildGUI(mts_configPriestDisc)
-	elseif _SpecID == 66 and not _OpenClassWindow  then -- Pala Retribution
+	elseif _SpecID == 70 and not _OpenClassWindow  then -- Pala Retribution
 		_CurrentSpec = mts_BuildGUI(mts_configPalaRet)
 	elseif _SpecID == 66 and not _OpenClassWindow  then -- Pala Protection
 		_CurrentSpec = mts_BuildGUI(mts_configPalaProt)

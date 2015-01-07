@@ -78,6 +78,9 @@ local inCombat = {
 		-- Belf
 			{ "28730", "player.mana < 90", nil }, -- Arcane torrent
 
+	-- Hand of Freedom
+		{ "1044", "player.state.root" },
+
 	-- Buffs
 		{ "20217", { -- Blessing of Kings
 			"!player.buff(20217).any",
@@ -149,12 +152,18 @@ local inCombat = {
 		}, "focus" },
 
 	-- Survival     
-		{ "498", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaHoly', 'Healthstone')) end), nil }, -- Divine Protection
-		{ "642", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaHoly', 'Healthstone')) end), nil }, -- Divine Shield
+		{ "498", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaHoly', 'DivineProtection')) end), nil }, -- Divine Protection
+		{ "642", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaHoly', 'DivineShield')) end), nil }, -- Divine Shield
 
 	-- Lay on Hands
-		{ "!633", (function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'LayonHandsTank')) end), "tank" }, 
-		{ "!633", (function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'LayonHandsTank')) end), "focus" }, 
+		{ "!633", {
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'LayonHandsTank')) end),
+			"focus.spell(633).range"
+		}, "focus" }, 
+		{ "!633", {
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'LayonHandsTank')) end),
+			"tank.spell(633).range"
+		}, "tank" }, 
 		{ "!633", (function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'LayonHands')) end), "lowest" }, 
 		
 	-- Infusion of Light // proc
@@ -172,8 +181,14 @@ local inCombat = {
 		}, "lowest" },
 
 	-- Holy Shock
-		{ "20473", (function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'HolyShockTank')) end), "tank" }, 
-		{ "20473", (function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'HolyShockTank')) end), "focus" }, 
+		{ "20473", {
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'HolyShockTank')) end),
+			"focus.spell(20473).range"
+		}, "focus" },
+		{ "20473", {
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'HolyShockTank')) end),
+			"tank.spell(20473).range"
+		}, "tank" }, 
 		{ "20473", (function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'HolyShock')) end), "lowest" }, 
 
 	{{-- AoE
@@ -229,14 +244,16 @@ local inCombat = {
 	}, "talent(7,2)" },
 
 	-- Flash of Light
-		{ "!19750", { -- tank
-			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'FlashofLightTank')) end), 
-			"!player.moving" 
-		}, "tank" },
 		{ "!19750", { -- focus
 			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'FlashofLightTank')) end), 
-			"!player.moving" 
+			"!player.moving",
+			"focus.spell(19750).range"
 		}, "focus" },
+		{ "!19750", { -- tank
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'FlashofLightTank')) end), 
+			"!player.moving",
+			"tank.spell(19750).range"
+		}, "tank" },
 		{ "!19750", { -- lowest
 			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'FlashofLight')) end), 
 			"!player.moving" 
@@ -252,8 +269,14 @@ local inCombat = {
 	}, "modifier.cooldowns" },
 	
 	-- Execution Sentence // Talent
-		{ "114157", (function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'ExecutionSentenceTank')) end), "tank" },
-		{ "114157", (function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'ExecutionSentenceTank')) end), "focus" },
+		{ "114157", {
+			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'ExecutionSentenceTank')) end),
+			"focus.spell(114157).range"
+		}, "focus" },
+		{ "114157", {
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'ExecutionSentenceTank')) end),
+			"tank.spell(114157).range"
+		}, "tank" },
 		{ "114157", (function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'ExecutionSentence')) end), "lowest" },
 
 	{{-- Divine Purpose
@@ -307,14 +330,16 @@ local inCombat = {
 	{{-- Eternal Flame // talent
 		{ "114163", { 
 			"player.holypower >= 3", 
-			"!tank.buff(114163)", 
-			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'EternalFlameTank')) end)
-		}, "tank" },
-		{ "114163", { 
-			"player.holypower >= 3", 
-			"!focus.buff(114163)", 
+			"!focus.buff(114163)",
+			"focus.spell(114163).range",
 			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'EternalFlameTank')) end)
 		}, "focus" },
+		{ "114163", { 
+			"player.holypower >= 3", 
+			"!tank.buff(114163)",
+			"focus.spell(114163).range",
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'EternalFlameTank')) end)
+		}, "tank" },
 		{ "114163", { 
 			"player.holypower >= 1", 
 			"!lowest.buff(114163)", 
@@ -324,13 +349,15 @@ local inCombat = {
 
 	-- Word of Glory
 		{ "85673", {
-			"player.holypower >= 3", 
+			"player.holypower >= 3",
+			"focus.spell(85673).range",
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'WordofGloryTank')) end) 
+		}, "focus" },
+		{ "85673", {
+			"player.holypower >= 3",
+			"focus.spell(85673).range",
 			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'WordofGloryTank')) end)
 		}, "tank"  },
-		{ "85673", {
-			"player.holypower >= 3", 
-			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'WordofGloryTank')) end) 
-		}, "focus"  },
 		{ "85673", {
 			"player.holypower >= 3", 
 			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'WordofGlory')) end)
@@ -344,13 +371,16 @@ local inCombat = {
 
 	-- Holy Prism // Talent
 		{ "114165", { -- Holy Prism
-			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'HolyPrismTank')) end), 
-			"!player.moving" 
-		}, "tank"},
-		{ "114165", { -- Holy Prism
+			"player.holypower >= 3",
 			(function() return mts.dynamicEval("focus.health <= " .. fetch('mtsconfPalaHoly', 'HolyPrismTank')) end), 
-			"!player.moving" 
+			"!player.moving",
+			"focus.spell(114165).range" 
 		}, "focus"},
+		{ "114165", { -- Holy Prism
+			(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPalaHoly', 'HolyPrismTank')) end), 
+			"!player.moving",
+			"tank.spell(114165).range" 
+		}, "tank"},
 		{ "114165", { -- Holy Prism
 			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'HolyPrism')) end), 
 			"!player.moving" 
@@ -358,13 +388,15 @@ local inCombat = {
 
 	-- Holy Light
 		{ "82326", { 
-			(function() return mts.dynamicEval("tank.health < " .. fetch('mtsconfPalaHoly', 'HolyLightTank')) end),
-			"!player.moving" 
-		}, "tank" },
-		{ "82326", { 
 			(function() return mts.dynamicEval("focus.health < " .. fetch('mtsconfPalaHoly', 'HolyLightTank')) end),
-			"!player.moving" 
+			"!player.moving",
+			"focus.spell(82326).range" 
 		}, "focus" },
+		{ "82326", { 
+			(function() return mts.dynamicEval("tank.health < " .. fetch('mtsconfPalaHoly', 'HolyLightTank')) end),
+			"!player.moving",
+			"focus.spell(82326).range" 
+		}, "tank" },
 		{ "82326", { 
 			(function() return mts.dynamicEval("lowest.health < " .. fetch('mtsconfPalaHoly', 'HolyLight')) end),
 			"!player.moving" 
