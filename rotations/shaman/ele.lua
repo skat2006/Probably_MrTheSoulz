@@ -1,12 +1,27 @@
---[[ ///---INFO---////
-// Shaman Elemental //
-// Originaly made by Akeon //
-Thank You For Using My ProFiles
-I Hope Your Enjoy Them
-MTS
-]]
-
 local fetch = ProbablyEngine.interface.fetchKey
+
+local exeOnLoad = function()
+	mts.Splash("|cff9482C9[MTS]-|r[|cff0070DEShaman-Elemental|r]-|cff9482C9Loaded", 5.0)
+	ProbablyEngine.toggle.create(
+		'cleavemode', 
+		'Interface\\Icons\\spell_nature_chainlightning', 'Enable Cleaves', 
+		'Enables casting of earthquake and chain lightning for cleaves.')
+	ProbablyEngine.toggle.create(
+		'mouseovers', 
+		'Interface\\Icons\\spell_fire_flameshock', 
+		'Enable Mouseovers', 
+		'Enable flameshock on mousover targets.')
+	ProbablyEngine.toggle.create(
+		'smartae', 
+		'Interface\\Icons\\spell_holy_sealofrighteousness', 
+		'Enable Smart AE', 
+		'Enable automatic detection of AE and cleave rotations.')
+	ProbablyEngine.toggle.create(
+		'burn', 
+		'Interface\\Icons\\spell_holy_sealofblood', 
+		'Single Target Burn', 
+		'Force single target rotation for burn phases.')
+end
 local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 
 								--[[   !!!Dispell function!!!   ]]
@@ -39,131 +54,230 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 		end
 	end
 		return false
-end 
-
-function exeOnLoad()
-mts.Splash("|cff9482C9[MTS]-|r[|cff0070DEShaman-Elemental|r]-|cff9482C9Loaded", 5.0)
-
-	ProbablyEngine.toggle.create('cleavemode', 'Interface\\Icons\\spell_nature_chainlightning', 'Disable Cleaves', 'Disables automatic casting of earthquake and chain lightning for cleaves.')
-	ProbablyEngine.toggle.create('mouseovers', 'Interface\\Icons\\spell_fire_flameshock', 'Enable Mouseovers', 'Enable flameshock on mousover targets.')
-
-	
 end
 
-local inCombat = {
-
+local combat_rotation = {
 	-- Rotation Utilities
-		{ "pause", "modifier.lalt" },
-	
-	-- Interrupt
-		{ "Wind Shear", "modifier.interrupt" },
+	{ "pause", "modifier.lalt" },
 
-	-- Self Heals
-		{ "Healing Surge", "player.health < 20" },
-		{ "Healing Stream Totem", { "!player.totem(Healing Stream Totem)", "player.health < 30" } },
- 
- 	--Survival Abilities
-		{ "Windwalk Totem", { "!player.buff", "player.state.root" }, "player" }, 
-		{ "Windwalk Totem", { "!player.buff", "player.state.snare" }, "player" }, 
-		{ "Tremor Totem", { "!player.buff", "player.state.fear" }, "player" }, 
- 
-	-- Dispell
-		{{ -- Dispell all?
-			{ "77130", (function() return Dispell() end) },-- Dispel Everything
-		}, "toggle.dispel" },
-	
-	-- Control Toggles
-		{ "Flame Shock", { "!modifier.multitarget", "mouseover.enemy", "mouseover.alive", "mouseover.debuff(Flame Shock).duration <= 3", "toggle.mouseovers" }, "mouseover" },
 
-	-- Pull
-		{ "Elemental Blast", "player.buff(Ancestral Swiftness)" },
-		{ "Unleash Flame", "talent(6, 1)" },
-		{ "Flame Shock", "target.debuff(Flame Shock).duration <= 3" },
-	
-	-- Movement Rotation
-		{ "Spiritwalker's Grace", { "player.moving", "player.buff(Ascendance)" } },
-		{ "Ancestral Swiftness", "player.moving" },
-		{ "Flame Shock", { "player.moving", "target.debuff(Flame Shock).duration <= 3", "!player.buff(Spiritwalker's Grace)" } },
-		{ "Lava Burst", { "player.moving", "player.buff(Lava Surge)", "!player.buff(Spiritwalker's Grace)" } },
-		{ "Earth Shock", { "player.moving", "player.buff(Lightning Shield)", "player.buff(Lightning Shield).count >= 15", "!player.buff(Spiritwalker's Grace)" } },
-		{ "Chain Lightning", { "player.moving", "!toggle.cleavemode", "player.buff(Ancestral Swiftness)", "!player.buff(Spiritwalker's Grace)" } },
-		{ "Chain Lightning", { "player.moving", "modifier.multitarget", "!player.buff(Ascendance)", "player.buff(Ancestral Swiftness)", "!player.buff(Spiritwalker's Grace)" } },	
-		{ "Elemental Blast", { "player.moving", "player.buff(Ancestral Swiftness)", "!player.buff(Spiritwalker's Grace)" } },
-		{ "Lightning Bolt", { "player.moving", "player.buff(Ancestral Swiftness)", "!player.buff(Spiritwalker's Grace)" } },
-		{ "Earth Shock", { 
-			"player.moving", 
-			"player.buff(Lightning Shield)", 
-			"player.buff(Lightning Shield).count >= 15", 
-			"!player.buff(Spiritwalker's Grace)", 
-			"!target.debuff(Flame Shock).duration <= 3" } },
-		
-	-- Cooldowns
-		{ "Ancestral Swiftness", "modifier.cooldowns" },
-		{ "Fire Elemental Totem", "modifier.cooldowns" },
-		{ "Elemental Mastery", "modifier.cooldowns" },
-		{ "Berserking", "modifier.cooldowns" }, -- EXISTS??? // TO CHECK
-		{ "165339", { "modifier.cooldowns", "!player.buff(Ascendance)" } }, -- Ascendance
-	
-	{{-- can use FH
-
-   	 	{ "Lava Beam", { -- Does it even still exist? // To Review.
-			"player.buff(Ascendance)", 
-			"player.area(12).enemies > 3" } },
-		{ "61882", "player.area(12).enemies > 3", "target.ground" }, -- Earthquake
-		{ "8042", { --Earth Shock
-			"player.buff(Lightning Shield)", 
-			"player.buff(Lightning Shield).count >= 12", 
-			"player.area(12).enemies > 3",} },
-		{ "3599", { -- Searing Totem
-			"!player.totem(Fire Elemental Totem)", 
-			"!player.totem(Searing Totem)", 
-			"player.area(12).enemies > 3" } },
-		{ "403", "player.area(12).enemies > 3" },--Chain Lightning
-
-  }, (function() return fetch('mtsconf','SAoE') end) },
-
-	-- AoE Fallback
-		{ "Lava Beam", { -- Does it even still exist? // To Review.
-			"modifier.multitarget", 
-			"player.buff(Ascendance)" } },
-		{ "61882", "modifier.multitarget", "target.ground" },--Earthquake
-		{ "8042", { -- Earth Shock
-			"modifier.multitarget", 
-			"player.buff(Lightning Shield)", 
-			"player.buff(Lightning Shield).count >= 12" } },
-		{ "3599", { -- Searing Totem
-			"modifier.multitarget", 
-			"!player.totem(Fire Elemental Totem)", 
-			"!player.totem(Searing Totem)"} },
-		{ "403", "modifier.multitarget" },--Chain Lightning
-	
-	-- Main Rotation
-		{ "51505" }, -- Lava Burst
-		{ "8042", { "player.buff(Lightning Shield)", "player.buff(Lightning Shield).count >= 12" } },
-		{ "117014" }, -- Elemental Blast
-		{ "61882", { "!toggle.cleavemode", "player.ilevel >= 560" }, "target.ground" }, -- Earthquake
-		
-		{{-- can use FH
-
-   	 		{ "403", {"player.area(8).enemies > 1", "!toggle.cleavemode" } }, -- Chain Lightning
-
-  		}, (function() return fetch('mtsconf','SAoE') end) },
-
-		{ "3599", { "!player.totem(Fire Elemental Totem)", "!player.totem(Searing Totem)" } }, -- Searing Totem
-		{ "403" }, -- Lightning Bolt
-
-}
-		
-local outCombat = {
-
-	-- Pause
-		{ "pause", "modifier.lalt" },
+{{ -- Not Burn
 
 	-- Buffs
-		{ "Lightning Shield", "!player.buff(Lightning Shield)" },
+	{ "Lightning Shield", "!player.buff(Lightning Shield)" },
 
+	-- Mouseovers
+	{ "Earthquake", "modifier.lcontrol", "mouseover.ground" },
+	{ "Cleanse Spirit", { 
+		"modifier.lshift", 
+		"!modifier.last(Cleanse Spirit)", 
+		"mouseover.exists", 
+		"mouseover.alive", 
+		"mouseover.friend", 
+		"mouseover.range <= 40", 
+		"mouseover.dispellable(Cleanse Spirit)" 
+	}, "mouseover" },
+	
+	-- Interrupt
+	{ "Wind Shear", "modifier.interrupt" },
+
+	-- Dispell
+	{{ -- Dispell all?
+		{ "77130", (function() return Dispell() end) },
+	}, (function() return fetch('mtsconfShamanEle', 'Dispells') end) },
+
+	-- Self Heals
+	{ "Healing Surge", { 
+		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfShamanEle', 'healingsurge_spin')) end), 
+		(function() return fetch('mtsconfShamanEle', 'healingsurge_check') end) 
+	}},
+	{ "Healing Stream Totem", { 
+		"!player.totem(Healing Stream Totem)", 
+		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfShamanEle', 'healingstreamtotem_spin')) end), 
+		(function() return fetch('mtsconfShamanEle', 'healingstreamtotem_check') end) 
+	}},
+	{ "#5512", {-- Healthstone (5512)
+		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfShamanEle', 'healthstone_spin')) end), 
+		(function() return fetch('mtsconfShamanEle', 'healthstone_check') end)
+	}}, 
+
+ 	--Survival Abilities
+	{ "Ancestral Guidance", { 
+		"player.buff(Ascendance)", 
+		"player.buff(Spiritwalker's Grace)", 
+		(function() return fetch('mtsconfShamanEle', 'guidance') end) 
+	}},	
+ 	{ "Windwalk Totem", { 
+ 		"!player.buff", 
+ 		"player.state.root", 
+ 		"!player.totem(Windwalk Totem)", 
+ 		(function() return fetch('mtsconfShamanEle', 'windwalktotem') end) 
+ 	}}, 
+	{ "Windwalk Totem", { 
+		"!player.buff", 
+		"player.state.snare", 
+		"!player.totem(Windwalk Totem)", 
+		(function() return fetch('mtsconfShamanEle', 'windwalktotem') end) 
+	}}, 
+	{ "Shamanistic Rage", { 
+		"player.state.stun", 
+		(function() return fetch('mtsconfShamanEle', 'shamrage') end) 
+	}},
+	{ "Tremor Totem", { 
+		"!player.buff", 
+		"player.state.fear", 
+		"!player.totem(Tremor Totem)", 
+		(function() return fetch('mtsconfShamanEle', 'tremortotem') end) 
+	}},
+	
+	{{	-- Proximity Survival
+		{ "Earthbind Totem", { 
+			"!player.totem(Earthbind Totem)", 
+			"!talent(2, 2)", 
+			(function() return fetch('mtsconfShamanEle', 'earthbind') end) 
+		}},
+  		{ "Earthgrab Totem", { 
+  			"!player.totem(Earthbind Totem)", 
+  			"talent(2, 2)", 
+  			(function() return fetch('mtsconfShamanEle', 'earthbind') end) 
+  		}},
+		{ "Frostshock", { 
+			"talent(2, 1)", 
+			"target.debuff(Flame Shock)", 
+			(function() return fetch('mtsconfShamanEle', 'frostshock') end) 
+		}},  
+		{ "Thunderstorm", (function() return fetch('mtsconfShamanEle', 'thunderstorm') end) }
+	}, "player.area(8).enemies >= 1" },
+	
+	-- Control Toggles
+	{ "Flame Shock", { 
+		"!modifier.multitarget", 
+		"mouseover.enemy", 
+		"mouseover.alive", 
+		"mouseover.debuff(Flame Shock).duration <= 9", 
+		(function() return fetch('mtsconfShamanEle', 'flameshock') end) 
+	}, "mouseover" },
+
+}, "!toggle.burn" }, --Force single target rotation
+	
+{{	-- Cooldowns
+	{ "Ancestral Swiftness" },  
+	{ "Fire Elemental Totem" }, 
+	{ "Storm Elemental Totem" },  
+	{ "Elemental Mastery" },  
+	{ "#trinket1", "player.buff(Ascendance)" }, 
+	{ "#trinket2", "player.buff(Ascendance)" }, 
+	{ "Ascendance", "!player.buff(Ascendance)" }
+}, "modifier.cooldowns" },
+
+{{ -- Burn
+	{{	-- Movement Rotation
+		{ "Spiritwalker's Grace", "player.buff(Ascendance)" },
+		{ "Spiritwalker's Grace", "glyph(Glyph of Spiritwalker's Focus)" },
+		{ "Unleash Flame" },
+		{ "Lava Burst", "player.buff(Lava Surge)" },
+		{ "Flame Shock", { 
+			"player.buff(Unleash Flame)", 
+			"target.debuff(Flame Shock).duration < 19" 
+		}},
+		{ "Flame Shock", "target.debuff(Flame Shock).duration < 9" },
+		{ "Earth Shock" },
+		{ "Searing Totem", { 
+			"!player.totem(Fire Elemental Totem)", 
+			"!player.totem(Searing Totem)", 
+			"target.ttd >= 10"
+		}},
+		
+		{ "Chain Lightning", { 
+			"modifier.multitarget", 
+			"player.buff(Ancestral Swiftness)" 
+		}},
+		{ "Chain Lightning", { 
+			"target.area(6).enemies >= 4", 
+			"player.buff(Ancestral Swiftness)" 
+		}},
+		{ "Lava Burst", "player.buff(Ancestral Swiftness)" },
+		{ "Elemental Blast", "player.buff(Ancestral Swiftness)" }
+	}, { "player.moving", "!player.buff(Spiritwalker's Grace)" } },
+				
+	{{	-- AoE
+		{ "Lava Beam", "player.buff(Ascendance)" },
+		{ "Chain Lightning", "!player.buff(Improved Chain Lightning)" },
+		{ "Earthquake", "player.buff(Improved Chain Lightning)", "target.ground" },
+		{ "Earth Shock", { 
+			"player.buff(Lightning Shield)", 
+			"player.buff(Lightning Shield).count >= 18" 
+		}},
+		{ "Chain Lightning" }
+	}, "modifier.multitarget" },
+
+	{{	-- Smart AoE
+		{ "Lava Beam", "player.buff(Ascendance)" },
+		{ "Chain Lightning", "!player.buff(Improved Chain Lightning)" },
+		{ "Earthquake", "player.buff(Improved Chain Lightning)", "target.ground" },
+		{ "Earth Shock", { 
+			"player.buff(Lightning Shield)", 
+			"player.buff(Lightning Shield).count >= 18" 
+		}},
+		{ "Chain Lightning" }
+	}, { "toggle.smartae", "target.area(8).enemies >= 5" } },
+
+	{{	-- Cleave
+		{ "Chain Lightning", { 
+			"!player.buff(Improved Chain Lightning)", 
+			"player.spell(Earthquake).cooldown < 1" 
+		}},
+		{ "Earthquake", "player.buff(Improved Chain Lightning)", "target.ground" },
+	}, { "toggle.cleavemode" } },
+
+	{{	-- SmartAE Cleave 2
+		{ "Chain Lightning", { 
+			"!player.buff(Improved Chain Lightning)", 
+			"player.spell(Earthquake).cooldown < 1" 
+		}},
+		{ "Earthquake", "player.buff(Improved Chain Lightning)", "target.ground" },
+	}, { "target.area(8).enemies >= 2", "toggle.smartae" } },
+
+}, "!toggle.burn" }, --Force single target rotation
+
+	-- Main Rotation
+	{ "Flame Shock", "!target.debuff(Flame Shock)" },
+	{ "Unleash Flame", "talent(6, 1)" },
+	{ "Lava Burst" },
+	{ "Elemental Blast" },  
+	{ "Earth Shock", { 
+		"player.buff(Lightning Shield)", 
+		"player.buff(Lightning Shield).count >= 15", 
+		"target.debuff(Flame Shock).duration >= 9" 
+	}},
+	{ "Flame Shock", "target.debuff(Flame Shock).duration < 9" },
+	{ "Searing Totem", { 
+		"!player.totem(Fire Elemental Totem)", 
+		"!player.totem(Searing Totem)", 
+		"target.ttd >= 10"
+	}},
+	{ "Chain Lightning", { 
+		"target.area(8).enemies >= 4", 
+		"toggle.smartae", 
+		"!toggle.burn" 
+	}},
+	{ "Chain Lightning", { 
+		"toggle.cleavemode", 
+		"!toggle.burn" 
+	}},
+	{ "Lightning Bolt" },
 }
 
-ProbablyEngine.rotation.register_custom(262, mts.Icon.."|r[|cff9482C9MTS|r][|cff0070DEShaman-Elemental|r]", inCombat, outCombat, exeOnLoad)
+local oocRotation = {
 
+	-- Buffs
+	{ "Lightning Shield", "!player.buff(Lightning Shield)" },
 
+	-- Heals
+	{ "Healing Surge", { 
+		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfShamanEle', 'healingsurgeOCC_spin')) end), 
+		(function() return fetch('mtsconfShamanEle', 'healingsurgeOCC_check') end) 
+	}},
+}
+
+ProbablyEngine.rotation.register_custom(262, mts.Icon.."|r[|cff9482C9MTS|r][|cff0070DEShaman-Elemental|r]", combat_rotation, oocRotation, exeOnLoad)

@@ -39,7 +39,9 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 	elseif _SpecID == 270 and not _OpenClassWindow  then -- Monk Mistweaver
 		_CurrentSpec = mts_BuildGUI(mts_configMonkMm)
 	elseif _SpecID == 269 and not _OpenClassWindow  then -- Monk WindWalker
-		_CurrentSpec = mts_BuildGUI(mts_configMonkWw)	
+		_CurrentSpec = mts_BuildGUI(mts_configMonkWw)
+	elseif _SpecID == 262 and not _OpenClassWindow  then -- Shamman Elemental
+		_CurrentSpec = mts_BuildGUI(mts_configShamanEle)
 	end
 
 	-- If no window been created, create one...
