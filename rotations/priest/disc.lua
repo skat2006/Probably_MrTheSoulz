@@ -399,7 +399,10 @@ ProbablyEngine.rotation.register_custom(
 					}, "lowest" },
 				}, "talent(7,3)" },
 				{ Clarity_of_Will, "talent(7,1)" },																			-- Clarity of Will // Talent
-				{ FlashHeal, "!player.casting.percent >= 50" },																-- Flash Heal // dont interrumpt if castbar more then 50%
+				{ FlashHeal, {------------------------------------------------------------------------------------------------ Flash Heal // dont interrumpt if castbar more then 50%
+					"!player.casting.percent >= 50",
+					"!talent(7,3)"
+				}},	
 		 		{ BorrowedTime, "player.buff(59889).duration <= 2" },														-- BorrowedTime // Passive Buff
 		 		{ SpiritShell, "player.buff(109964)" },																		-- SpiritShell // Talent
 			 	{ Attonement, {----------------------------------------------------------------------------------------------- Attonement
