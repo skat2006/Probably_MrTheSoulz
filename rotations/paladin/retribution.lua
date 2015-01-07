@@ -376,7 +376,7 @@ local combat_rotation = {
 		{ "Hammer of Wrath" },
 		{ "Hammer of the Righteous", "player.area(8).enemies >= 4" },
 		{ "Crusader Strike" },
-		{ "Exorcism", "glyph(Mass Exorcism)" }},
+		{ "Exorcism", "glyph(Mass Exorcism)" },
 		{ "Judgment", { 
 			"glyph(Double Jeopardy)", 
 			"target.exists", 
@@ -409,7 +409,7 @@ local combat_rotation = {
 			"player.holypower >= 3", 
 			"!talent(7, 2)" 
 		}}
-	}, { 
+	},{ 
 		"toggle.smartae", 
 		"player.area(8).enemies >= 3" 
 	}}
