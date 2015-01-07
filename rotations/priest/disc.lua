@@ -70,7 +70,6 @@ local Attonement = {
 	{ "14914", { --Holy Fire
 		"player.mana > 20",
 		"target.spell(14914).range",
-		--"target.infront"
 	}, "target" },
 	{ "47540", { --Penance
 		"target.spell(47540).range", 
@@ -297,11 +296,28 @@ local outCombat = {
 			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'PenanceRaid')) end),
 			"!player.casting(2061)",
 			"!player.moving"
-			}, "lowest" },
+		}, "lowest" },
 		{ "2060", {-- Heal
 			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'HealRaid')) end),
 			"!player.moving"
-			}, "lowest" }, 
+		}, "lowest" }, 
+
+}
+
+local Clarity_of_Will = {
+	
+	{ "152118", { -- tank
+		(function() return mts.dynamicEval("tank.health < " .. fetch('mtsconfPriestDisc', 'CoWTank_spin')) end),
+		(function() return fetch('mtsconfPriestDisc', 'CoWTank_check') end) 
+		"!player.moving",
+		"!tank.buff(152118)" -- Should we go any higher? 		
+	}, "tank" },
+	{ "152118", { -- tank
+		(function() return mts.dynamicEval("lowest.health < " .. fetch('mtsconfPriestDisc', 'CoW_spin')) end),
+		(function() return fetch('mtsconfPriestDisc', 'CoW_check') end) 
+		"!player.moving",
+		"!lowest.buff(152118)" -- Should we go any higher? 		
+	}, "lowest" },
 
 }
 
@@ -367,12 +383,22 @@ ProbablyEngine.rotation.register_custom(
 				}, "target" },--------------------------------------------------
 				{ "129250", { ----------------------------------------------------------- PW:Solance
 					"target.spell(129250).range",	-- Spell in range
-					"talent(3,3)"					-- Got talent
+					"talent(3,3)",					-- Got talent
+					"target.infront"
 				}, "target" },------------------------------------------------------------------------------------------
 		{{ ------------------------------------------------------------------------------------------------------------------------------------- Party/Raid CR
 				{ "32375", "modifier.control", "player.ground" }, 															-- Mass Dispel
 				{ "62618", "modifier.shift", "tank.ground" },																-- Power word Barrier // w/t CD's and on tank // PArty
-				{ Cooldowns, "modifier.cooldowns" },																		-- Cooldowns
+				{ Cooldowns, "modifier.cooldowns" },-- Cooldowns
+				{{------------------------------------------------------------------------------------------------------------ Saving Grace // Talent
+					{ "!152116", {
+						(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPriestDisc', 'SavingGrace_spin')) end), 
+						(function() return fetch('mtsconfPriestDisc', 'SavingGrace_check') end),
+						(function() return mts.dynamicEval("!player.debuff(155274) >= " .. fetch('mtsconfPriestDisc', 'SavingGraceStacks')) end), 
+						"!player.moving",
+					}, "lowest" },
+				}, "talent(7,3)" },
+				{ Clarity_of_Will, "talent(7,1)" },																			-- Clarity of Will // Talent
 				{ FlashHeal, "!player.casting.percent >= 50" },																-- Flash Heal // dont interrumpt if castbar more then 50%
 		 		{ BorrowedTime, "player.buff(59889).duration <= 2" },														-- BorrowedTime // Passive Buff
 		 		{ SpiritShell, "player.buff(109964)" },																		-- SpiritShell // Talent
@@ -382,6 +408,7 @@ ProbablyEngine.rotation.register_custom(
 					--"!player.buff(81661).count = 5",
 					"!player.mana < 20",
 					"target.range <= 30",
+					"target.infront"
 			 	}}, ----------------------------------------------------------------------------------------------------------
 		 		{ AoE, "modifier.multitarget" },																			-- AoE Heals
 				{ Normal}																									-- Normal Heals

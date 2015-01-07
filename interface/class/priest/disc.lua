@@ -124,6 +124,13 @@ mts_configPriestDisc = {
 				key = "PrayerofMendingTank",
 				default = 100
 			},
+			{
+				type = "checkspin",
+				text = "Clarity of Will",
+				key = "CoWTank",
+				default_spin = 100,
+				default_check = true,
+			},
 
 
 		-- Raid/Party
@@ -159,6 +166,30 @@ mts_configPriestDisc = {
 				key = "HealRaid", 
 				default = 95
 			},
+			{
+				type = "checkspin",
+				text = "Clarity of Will",
+				key = "CoW",
+				default_spin = 100,
+				default_check = true,
+			},
+			{
+				type = "checkspin",
+				text = "Saving Grace",
+				key = "SavingGrace",
+				default_spin = 20,
+				default_check = true,
+			},
+			{ 
+				type = "spinner", 
+				text = "SavingGrace Debuff Stacks", 
+				key = "SavingGraceStacks",
+				min = 0,
+				max = 10,
+				default = 5,
+				step = 1
+			},
+
 
 		-- Player
 		{ type = 'rule' },
