@@ -11,6 +11,12 @@ mts_configShamanEle = {
 	config = {
 				{
 					type = "checkbox",
+					default = true,
+					text = "Dispells",
+					key = "Dispells",
+				},
+				{
+					type = "checkbox",
 					default = false,
 					text = "Flameshock mouseover target",
 					key = "flameshock",
