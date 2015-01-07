@@ -27,7 +27,7 @@ local inCombat_Defensive = {
 		{ "Shield Slam"},
 		{ "Revenge"},
 		{ "Devastate"},
-		{ "Thunder Clap", "taget.debuff(Deep Wounds).duration < 2" },
+		{ "Thunder Clap", "target.debuff(Deep Wounds).duration < 2" },
 		
 }
 
