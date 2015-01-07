@@ -82,6 +82,7 @@ local function mts_unitCacheFun()
                         local health = math.floor((UnitHealth(object) / UnitHealthMax(object)) * 100)
                         local maxHealth = UnitHealthMax(object)
                         local actualHealth = UnitHealth(object)
+                        local name = GetUnitName(object, false)
                             -- Friendly Cache
                             if UnitIsFriend("player", object) then
                                 -- Enabled on GUI
