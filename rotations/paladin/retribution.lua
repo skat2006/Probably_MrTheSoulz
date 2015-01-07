@@ -542,7 +542,6 @@ local combat_rotation = {
 }
 
 local oocRotation = {
--- OUT OF COMBAT ROTATION
 
 	-- Pause
 	{ "pause", "modifier.lcontrol" },
