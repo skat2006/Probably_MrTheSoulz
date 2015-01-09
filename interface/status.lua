@@ -51,7 +51,7 @@ local mts_live = {
 			width = 180, 
 			height = 20,
 			callback = function()
-				mts_ConfigGUI()
+				mts.ConfigGUI()
 			end
 		},
 		{ 

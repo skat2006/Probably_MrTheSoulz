@@ -108,7 +108,7 @@ local mts_config = {
 	}
 }
 
-function mts_ConfigGUI()
+function mts.ConfigGUI()
 	-- If a frame has not been created, create one...
 	if not mts_OpenConfigWindow then
 		ConfigWindow = ProbablyEngine.interface.buildGUI(mts_config)

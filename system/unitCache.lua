@@ -1,4 +1,5 @@
 local fetch = ProbablyEngine.interface.fetchKey
+local emptyMsg = "Empty...\n|--> |cff9482C9----------|r\n|--> |cff9482C9----------|r\n|--> |cff9482C9----------|r\n|--> |cff9482C9----------|r\n|--> |cff9482C9----------|r"
 
 mts.unitCache = {}
 mts.unitFriendlyCache = {}
@@ -258,7 +259,7 @@ local mts_cacheInfo = {
                     { 
                         key = 'current_CacheStatus', 
                         type = "text", 
-                        text = "Loading...", 
+                        text = "Empty...", 
                         size = 11, 
                         offset = 11 
                     },
@@ -272,22 +273,79 @@ local mts_cacheInfo = {
 					{ 
 						key = 'current_Cache1Total', 
 						type = "text", 
-						text = "Loading...", 
-						size = 11, 
-						offset = 0 
+						text = "Empty...", 
+						size = 14, 
+						offset = 5
 					},
 					{ 
-						type = 'text', 
-						text = " ---> |cff0070DEUnits:|r <---", 
-						size = 11, 
-						offset = 0 
-					},
-					{ 
-						key = 'current_Cache1', 
+						key = 'current_Cache1_1', 
 						type = "text", 
-						text = "Loading...", 
+						text = emptyMsg, 
 						size = 11, 
-						offset = 36 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache1_2', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache1_3', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache1_4', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache1_5', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache1_6', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache1_7', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache1_8', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache1_9', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache1_10', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
 					},
 				{ type = 'rule' },{ type = 'spacer' },
 				{ 
@@ -299,22 +357,79 @@ local mts_cacheInfo = {
 					{ 
 						key = 'current_Cache2Total', 
 						type = "text", 
-						text = "Loading...", 
-						size = 11, 
-						offset = 0 
+						text = "Empty...", 
+						size = 14, 
+						offset = 5
 					},
 					{ 
-						type = 'text', 
-						text = " ---> |cff0070DEUnits:|r <---", 
-						size = 11, 
-						offset = 0 
-					},
-					{ 
-						key = 'current_Cache2', 
+						key = 'current_Cache2_1', 
 						type = "text", 
-						text = "Loading...", 
+						text = emptyMsg, 
 						size = 11, 
-						offset = 36 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache2_2', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache2_3', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache2_4', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache2_5', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache2_6', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache2_7', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache2_8', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache2_9', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
+					},
+					{ 
+						key = 'current_Cache2_10', 
+						type = "text", 
+						text = emptyMsg, 
+						size = 11, 
+						offset = 60 
 					},
 
         
@@ -343,15 +458,115 @@ local function CacheInfo()
 end
 
 local function mts_updateCacheInfo()
-    for i=1,#mts.unitCache do
+    -- Enemies
 		mts_cacheWindow.elements.current_Cache1Total:SetText("|cff0070DETotal:|r "..unitCacheTotal)
-        mts_cacheWindow.elements.current_Cache1:SetText("|cff00FF96NAME:|r "..mts.unitCache[i].name.."\n |--> |cff0070DEGUID:|r "..mts.unitCache[i].key.."\n |--> |cff0070DEDistance:|r "..mts.unitCache[i].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitCache[i].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitCache[i].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitCache[i].actualHealth)
-    end
-	for s=1,#mts.unitFriendlyCache do
+		
+		if mts.unitCache[1] then
+			mts_cacheWindow.elements.current_Cache1_1:SetText("|cff9482C91 |r "..mts.unitCache[1].name.."\n |--> |cff0070DEGUID:|r "..mts.unitCache[1].key.."\n |--> |cff0070DEDistance:|r "..mts.unitCache[1].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitCache[1].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitCache[1].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitCache[1].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache1_1:SetText(emptyMsg)
+		end
+		if mts.unitCache[2] then
+			mts_cacheWindow.elements.current_Cache1_2:SetText("|cff9482C92 |r "..mts.unitCache[2].name.."\n |--> |cff0070DEGUID:|r "..mts.unitCache[2].key.."\n |--> |cff0070DEDistance:|r "..mts.unitCache[2].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitCache[2].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitCache[2].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitCache[2].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache1_2:SetText(emptyMsg)
+		end
+		if mts.unitCache[3] then
+			mts_cacheWindow.elements.current_Cache1_3:SetText("|cff9482C93 |r "..mts.unitCache[3].name.."\n |--> |cff0070DEGUID:|r "..mts.unitCache[3].key.."\n |--> |cff0070DEDistance:|r "..mts.unitCache[3].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitCache[3].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitCache[3].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitCache[3].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache1_3:SetText(emptyMsg)
+		end
+		if mts.unitCache[4] then
+			mts_cacheWindow.elements.current_Cache1_4:SetText("|cff9482C94 |r "..mts.unitCache[4].name.."\n |--> |cff0070DEGUID:|r "..mts.unitCache[4].key.."\n |--> |cff0070DEDistance:|r "..mts.unitCache[4].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitCache[4].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitCache[4].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitCache[4].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache1_4:SetText(emptyMsg)
+		end
+		if mts.unitCache[5] then
+			mts_cacheWindow.elements.current_Cache1_5:SetText("|cff9482C95 |r "..mts.unitCache[5].name.."\n |--> |cff0070DEGUID:|r "..mts.unitCache[5].key.."\n |--> |cff0070DEDistance:|r "..mts.unitCache[5].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitCache[5].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitCache[5].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitCache[5].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache1_5:SetText(emptyMsg)
+		end
+		if mts.unitCache[6] then
+			mts_cacheWindow.elements.current_Cache1_6:SetText("|cff9482C96 |r "..mts.unitCache[6].name.."\n |--> |cff0070DEGUID:|r "..mts.unitCache[6].key.."\n |--> |cff0070DEDistance:|r "..mts.unitCache[6].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitCache[6].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitCache[6].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitCache[6].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache1_6:SetText(emptyMsg)
+		end
+		if mts.unitCache[7] then
+			mts_cacheWindow.elements.current_Cache1_7:SetText("|cff9482C97 |r "..mts.unitCache[7].name.."\n |--> |cff0070DEGUID:|r "..mts.unitCache[7].key.."\n |--> |cff0070DEDistance:|r "..mts.unitCache[7].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitCache[7].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitCache[7].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitCache[7].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache1_7:SetText(emptyMsg)
+		end
+		if mts.unitCache[8] then
+			mts_cacheWindow.elements.current_Cache1_8:SetText("|cff9482C98 |r "..mts.unitCache[8].name.."\n |--> |cff0070DEGUID:|r "..mts.unitCache[8].key.."\n |--> |cff0070DEDistance:|r "..mts.unitCache[8].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitCache[8].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitCache[8].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitCache[8].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache1_8:SetText(emptyMsg)
+		end
+		if mts.unitCache[9] then
+			mts_cacheWindow.elements.current_Cache1_9:SetText("|cff9482C99 |r "..mts.unitCache[9].name.."\n |--> |cff0070DEGUID:|r "..mts.unitCache[9].key.."\n |--> |cff0070DEDistance:|r "..mts.unitCache[9].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitCache[9].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitCache[9].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitCache[9].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache1_9:SetText(emptyMsg)
+		end
+		if mts.unitCache[10] then
+			mts_cacheWindow.elements.current_Cache1_10:SetText("|cff9482C910 |r "..mts.unitCache[10].name.."\n |--> |cff0070DEGUID:|r "..mts.unitCache[10].key.."\n |--> |cff0070DEDistance:|r "..mts.unitCache[10].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitCache[10].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitCache[10].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitCache[10].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache1_10:SetText(emptyMsg)
+		end
+
+	-- Friendly
 		mts_cacheWindow.elements.current_Cache2Total:SetText("|cff0070DETotal:|r "..unitCacheFriendlyTotal)
-        mts_cacheWindow.elements.current_Cache2:SetText("|cff00FF96NAME:|r "..mts.unitFriendlyCache[s].name.."\n |--> |cff0070DEGUID:|r "..mts.unitFriendlyCache[s].key.."\n |--> |cff0070DEDistance:|r "..mts.unitFriendlyCache[s].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitFriendlyCache[s].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitFriendlyCache[s].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitFriendlyCache[s].actualHealth)
-    end
-    mts_cacheWindow.elements.current_CacheStatus:SetText(CacheInfo())
+
+		if mts.unitFriendlyCache[1] then
+			mts_cacheWindow.elements.current_Cache2_1:SetText("|cff9482C91: |r "..mts.unitFriendlyCache[1].name.."\n |--> |cff0070DEGUID:|r "..mts.unitFriendlyCache[1].key.."\n |--> |cff0070DEDistance:|r "..mts.unitFriendlyCache[1].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitFriendlyCache[1].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitFriendlyCache[1].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitFriendlyCache[1].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache2_1:SetText(emptyMsg)
+		end
+		if mts.unitFriendlyCache[2] then
+			mts_cacheWindow.elements.current_Cache2_2:SetText("|cff9482C92: |r "..mts.unitFriendlyCache[2].name.."\n |--> |cff0070DEGUID:|r "..mts.unitFriendlyCache[2].key.."\n |--> |cff0070DEDistance:|r "..mts.unitFriendlyCache[2].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitFriendlyCache[2].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitFriendlyCache[2].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitFriendlyCache[2].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache2_2:SetText(emptyMsg)
+		end
+		if mts.unitFriendlyCache[3] then
+			mts_cacheWindow.elements.current_Cache2_3:SetText("|cff9482C93: |r "..mts.unitFriendlyCache[3].name.."\n |--> |cff0070DEGUID:|r "..mts.unitFriendlyCache[3].key.."\n |--> |cff0070DEDistance:|r "..mts.unitFriendlyCache[3].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitFriendlyCache[3].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitFriendlyCache[3].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitFriendlyCache[3].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache2_3:SetText(emptyMsg)
+		end
+		if mts.unitFriendlyCache[4] then
+			mts_cacheWindow.elements.current_Cache2_4:SetText("|cff9482C94: |r "..mts.unitFriendlyCache[4].name.."\n |--> |cff0070DEGUID:|r "..mts.unitFriendlyCache[4].key.."\n |--> |cff0070DEDistance:|r "..mts.unitFriendlyCache[4].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitFriendlyCache[4].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitFriendlyCache[4].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitFriendlyCache[4].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache2_4:SetText(emptyMsg)
+		end
+		if mts.unitFriendlyCache[5] then
+			mts_cacheWindow.elements.current_Cache2_5:SetText("|cff9482C95: |r "..mts.unitFriendlyCache[5].name.."\n |--> |cff0070DEGUID:|r "..mts.unitFriendlyCache[5].key.."\n |--> |cff0070DEDistance:|r "..mts.unitFriendlyCache[5].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitFriendlyCache[5].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitFriendlyCache[5].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitFriendlyCache[5].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache2_5:SetText(emptyMsg)
+		end
+		if mts.unitFriendlyCache[6] then
+			mts_cacheWindow.elements.current_Cache2_6:SetText("|cff9482C96: |r "..mts.unitFriendlyCache[6].name.."\n |--> |cff0070DEGUID:|r "..mts.unitFriendlyCache[6].key.."\n |--> |cff0070DEDistance:|r "..mts.unitFriendlyCache[6].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitFriendlyCache[6].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitFriendlyCache[6].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitFriendlyCache[6].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache2_6:SetText(emptyMsg)
+		end
+		if mts.unitFriendlyCache[7] then
+			mts_cacheWindow.elements.current_Cache2_7:SetText("|cff9482C97: |r "..mts.unitFriendlyCache[7].name.."\n |--> |cff0070DEGUID:|r "..mts.unitFriendlyCache[7].key.."\n |--> |cff0070DEDistance:|r "..mts.unitFriendlyCache[7].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitFriendlyCache[7].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitFriendlyCache[7].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitFriendlyCache[7].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache2_7:SetText(emptyMsg)
+		end
+		if mts.unitFriendlyCache[8] then
+			mts_cacheWindow.elements.current_Cache2_8:SetText("|cff9482C98: |r "..mts.unitFriendlyCache[8].name.."\n |--> |cff0070DEGUID:|r "..mts.unitFriendlyCache[8].key.."\n |--> |cff0070DEDistance:|r "..mts.unitFriendlyCache[8].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitFriendlyCache[8].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitFriendlyCache[8].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitFriendlyCache[8].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache2_8:SetText(emptyMsg)
+		end
+		if mts.unitFriendlyCache[9] then
+			mts_cacheWindow.elements.current_Cache2_9:SetText("|cff9482C99: |r "..mts.unitFriendlyCache[9].name.."\n |--> |cff0070DEGUID:|r "..mts.unitFriendlyCache[9].key.."\n |--> |cff0070DEDistance:|r "..mts.unitFriendlyCache[9].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitFriendlyCache[9].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitFriendlyCache[9].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitFriendlyCache[9].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache2_9:SetText(emptyMsg)
+		end
+		if mts.unitFriendlyCache[10] then
+			mts_cacheWindow.elements.current_Cache2_10:SetText("|cff9482C910: |r "..mts.unitFriendlyCache[10].name.."\n |--> |cff0070DEGUID:|r "..mts.unitFriendlyCache[10].key.."\n |--> |cff0070DEDistance:|r "..mts.unitFriendlyCache[10].distance.."\n |--> |cff0070DEHealth:|r "..mts.unitFriendlyCache[10].health.."%".."\n |--> |cff0070DEMaxHealth:|r "..mts.unitFriendlyCache[10].maxHealth.."\n |--> |cff0070DEactualHealth:|r "..mts.unitFriendlyCache[10].actualHealth)
+		else
+			mts_cacheWindow.elements.current_Cache2_10:SetText(emptyMsg)
+		end
+
+	mts_cacheWindow.elements.current_CacheStatus:SetText(CacheInfo())
 end
 
 function mts.CacheGUI()

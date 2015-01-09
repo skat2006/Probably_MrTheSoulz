@@ -6,8 +6,8 @@ MTS
 ]]
 mts = {
   
-  Version = "0.1.4.4",
-  Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t",
+  Version = "0.1.4.5",
+  Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\addons\\media\\logo.blp:16:16|t",
   peRecomemded = "6.0.3r12",
   CurrentCR = false,
 
@@ -61,7 +61,7 @@ local command, text = msg:match("^(%S*)%s*(.-)$")
 
     -- Displays General GUI
     if command == 'config' or command == 'c' then
-    	mts_ConfigGUI()
+    	mts.ConfigGUI()
     end
 
    -- Displays LiveGUI

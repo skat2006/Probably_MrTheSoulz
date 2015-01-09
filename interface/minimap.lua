@@ -39,7 +39,7 @@ local function onClick(self, button)
   if button == 'RightButton' then
     mts.InfoGUI()
   else 
-    mts_ConfigGUI()
+    mts.ConfigGUI()
     mts.ClassGUI()
   end
 end
