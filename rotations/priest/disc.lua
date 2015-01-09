@@ -50,17 +50,23 @@ end
 local BorrowedTime = {
 	
 	{ "17", { 
-		"!focus.debuff(6788)", 
+		"!focus.debuff(6788).any",
+		"!focus.buff(10).any",
 		"focus.range <= 40",
 	}, "focus" }, 
 	{ "17", {
-		"!tank.debuff(6788)", 
+		"!tank.debuff(6788).any",
+		"!tank.buff(10).any",
 		"tank.range <= 40",
 	}, "tank" },
-	{ "17", "!player.debuff(6788)", "player" },
+	{ "17", {
+		"!player.debuff(6788).any",
+		"!player.buff(10).any",
+	}, "player" },
 	{ "17", {
 		"lowest.health < 100",
-		"!lowest.debuff(6788)"
+		"!lowest.debuff(6788).any",
+		"!lowest.buff(10).any",
 	}, "lowest" }, 
 
 }
@@ -176,7 +182,7 @@ local AoE = {
 		(function() return mts.dynamicEval("tank.health <= " .. fetch('mtsconfPriestDisc', 'PrayerofMendingTank')) end),
 		"@coreHealing.needsHealing(90, 3)",
 		"!player.moving", 
-		"tank.spell(17).range" 
+		"tank.spell(33076).range" 
 	}, "tank" },
  	{ "596", "@mtsLib.PoH" },-- Prayer of Healing
    	{ "132157", "@mtsLib.holyNova", nil }, -- Holy Nova
@@ -374,7 +380,7 @@ local All = {
 		{ "17", {
 			"talent(2, 1)", 
 			"player.movingfor > 2", 
-			"!player.buff(6788)",
+			"!player.buff(17)",
 		}, "player" },
 	}, -- We only want to run these on unlockers that can cast on unit.ground
 		(function()
