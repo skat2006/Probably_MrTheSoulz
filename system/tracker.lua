@@ -52,3 +52,9 @@ ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
 		end
   	end
 end)
+
+ProbablyEngine.listener.register("LFG_PROPOSAL_SHOW", function()
+  if fetch('mtsconf', 'AutoLFG') then
+    AcceptProposal()
+  end
+end)
