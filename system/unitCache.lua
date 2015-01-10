@@ -1,8 +1,11 @@
-local fetch = ProbablyEngine.interface.fetchKey
-local emptyMsg = "Empty...\n|--> |cff9482C9----------|r\n|--> |cff9482C9----------|r\n|--> |cff9482C9----------|r\n|--> |cff9482C9----------|r\n|--> |cff9482C9----------|r"
-
 mts.unitCache = {}
 mts.unitFriendlyCache = {}
+
+local fetch = ProbablyEngine.interface.fetchKey
+local emptyMsg = "Empty...\n|--> |cff9482C9----------|r\n|--> |cff9482C9----------|r\n|--> |cff9482C9----------|r\n|--> |cff9482C9----------|r\n|--> |cff9482C9----------|r"
+local _PeConfig = ProbablyEngine.config
+local unitCacheTotal = 0
+local unitCacheFriendlyTotal = 0
 
 local function mts_unitCacheFun()
   -- Wipe Chace before refresh otherwise it just adds to the cache...
@@ -599,6 +602,8 @@ end
 
 C_Timer.NewTicker(0.2, (function()
     if mts.CurrentCR then
-        mts_unitCacheFun()
+		if _PeConfig.read('button_states', 'MasterToggle', false) then
+			mts_unitCacheFun()
+		end
     end
 end), nil)
