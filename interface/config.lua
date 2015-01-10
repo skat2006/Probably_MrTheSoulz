@@ -104,6 +104,13 @@ local mts_config = {
 				default = true, 
 				desc = "This checkbox enables or disables the use of automatic targets."
 			},
+			{ 
+				type = "checkbox", 
+				text = "Auto Accept LFG Queue", 
+				key = "AutoLFG", 
+				default = true, 
+				desc = "Automatic accept LFG proposal."
+			},
 
 	}
 }
