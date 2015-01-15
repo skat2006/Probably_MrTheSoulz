@@ -80,7 +80,7 @@ local mts_live = {
 local function mts_updateLiveGUI()
 	LiveWindow.elements.current_Queue:SetText(ProbablyEngine.current_spell or "\124cff0070DEWaiting...")
 	LiveWindow.elements.current_spell:SetText(ProbablyEngine.parser.lastCast == "" and "\124cff0070DENone" or ProbablyEngine.parser.lastCast)
-	LiveWindow.elements.current_AoE:SetText(ProbablyEngine.config.read('button_states', 'multitarget', false) == true and "\124cff0070DEON" or "\124cffC41F3BOFF")
+	LiveWindow.elements.current_AoE:SetText(((FireHack or oexecute) and fetch('mtsconf', 'SA') and ProbablyEngine.config.read('button_states', 'multitarget', false) == false and "\124cff0070DESmart AoE" or "\124cff0070DEForced AoE") or (ProbablyEngine.config.read('button_states', 'multitarget', false) == true and "\124cff0070DEON" or "\124cffC41F3BOFF"))
 	LiveWindow.elements.current_Interrupts:SetText(ProbablyEngine.config.read('button_states', 'interrupt', false) == true and "\124cff0070DEON" or "\124cffC41F3BOFF")
 	LiveWindow.elements.current_Cooldowns:SetText(ProbablyEngine.config.read('button_states', 'cooldowns', false) == true and "\124cff0070DEON" or "\124cffC41F3BOFF")
 end
