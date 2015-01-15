@@ -163,7 +163,7 @@ local function mts_updateLiveInfo()
 	InfoWindow.elements.current_MTSProfiles:SetText(mts.CurrentCR and "|cff00FF96Currently using MTS Profiles" or "|cffC41F3BNot using MTS Profiles")
 	-- Advanced Status
 	InfoWindow.elements.current_movementStatus:SetText(FireHack and fetch('mtsconf', 'AutoMove') and "|cff00FF96Able" or "|cffC41F3BUnable")
-	InfoWindow.elements.current_smartAoEStatus:SetText((FireHack or oexecute) and fetch('mtsconf', 'Firehack') and "|cff00FF96Able" or "|cffC41F3BUnable")
+	InfoWindow.elements.current_smartAoEStatus:SetText((FireHack or oexecute) and fetch('mtsconf', 'SA') and "|cff00FF96Able" or "|cffC41F3BUnable")
 	InfoWindow.elements.current_facingStatus:SetText((FireHack or oexecute) and fetch('mtsconf', 'AutoFace') and "|cff00FF96Able" or "|cffC41F3BUnable")
 end
 
