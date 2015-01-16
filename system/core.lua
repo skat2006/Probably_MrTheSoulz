@@ -1,14 +1,8 @@
---[[ ///---INFO---////
-//Core//
-Thank You For Using My ProFiles
-I Hope Your Enjoy Them
-MTS
-]]
 mts = {
   
-  Version = "0.1.4.5",
+  Version = "0.1.4.6",
   Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t",
-  peRecomemded = "6.0.3r12",
+  peRecomemded = "6.0.3r13",
   CurrentCR = false,
 
 }
