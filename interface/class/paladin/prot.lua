@@ -96,20 +96,20 @@ mts_configPalaProt = {
       { 
         type = "spinner", 
         text = "Flash of Light", 
-        key = "FlashOfLight_Raid", 
+        key = "FlashOfLightRaid", 
         default = 40, 
         desc = "Only with 3 stacks of Selfless Healer"
       },
       { 
         type = "spinner", 
         text = "Lay on Hands", 
-        key = "LayOnHands_Raid", 
+        key = "LayOnHandsRaid", 
         default = 10
       },
       { 
         type = "spinner", 
         text = "Hand of Protection", 
-        key = "HandOfProtection_Raid", 
+        key = "HandOfProtectionRaid", 
         default = 30
       },
 
