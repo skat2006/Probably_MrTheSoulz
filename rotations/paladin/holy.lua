@@ -43,7 +43,7 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 end 
 
 local lib = function()
-mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
+mts.Splash("|cff9482C9[MTS]|r-[|cffF58CBAPaladin-Holy|r]-|cff9482C9Loaded", 5.0)
 	
 	
 	
@@ -55,46 +55,16 @@ local inCombat = {
 		{ "4987", (function() return Dispell() end) },-- Dispel Everything
 	}, (function() return fetch('mtsconfPalaHoly','Dispels') end) },
 
-	--Racials
-        -- Dwarves
-			{ "20594", "player.health <= 65" },
-		-- Humans
-			{ "59752", "player.state.charm" },
-			{ "59752", "player.state.fear" },
-			{ "59752", "player.state.incapacitate" },
-			{ "59752", "player.state.sleep" },
-			{ "59752", "player.state.stun" },
-		-- Draenei
-			{ "28880", "player.health <= 70", "player" },
-		-- Gnomes
-			{ "20589", "player.state.root" },
-			{ "20589", "player.state.snare" },
-		-- Forsaken
-			{ "7744", "player.state.fear" },
-			{ "7744", "player.state.charm" },
-			{ "7744", "player.state.sleep" },
-		-- Goblins
-			{ "69041", "player.moving" },
-		-- Belf
-			{ "28730", "player.mana < 90", nil }, -- Arcane torrent
-
 	-- Hand of Freedom
 		{ "1044", "player.state.root" },
 
 	-- Buffs
 		{ "20217", { -- Blessing of Kings
-			"!player.buff(20217).any",
-			"!player.buff(115921).any", 
-			"!player.buff(1126).any", 
-			"!player.buff(90363).any", 
-			"!player.buff(69378).any",
+			"!player.buffs.stats",
 			(function() return fetch("mtsconfPalaHoly", "Buff") == 'Kings' end),
 		}, nil },
 		{ "19740", { -- Blessing of Might
-			"!player.buff(19740).any", 
-			"!player.buff(116956).any", 
-			"!player.buff(93435).any", 
-			"!player.buff(128997).any", 
+			"!player.buffs.mastery",
 			(function() return fetch("mtsconfPalaHoly", "Buff") == 'Might' end),
 		}, nil }, 
 	
@@ -119,27 +89,23 @@ local inCombat = {
 
 	{{-- Beacon of Faith
 		{ "156910", {
-			"!player.buff(53563)",
-			"!player.buff(156910)"
+			"!player.buff(53563)", -- Beacon of light
+			"!player.buff(156910)" -- Beacon of Faith
 		}, "player" },
 	}, "talent(7,1)" },
 
 	-- Beacon of light
 		{ "53563", {
-			(function() return fetch("mtsconfPalaHoly", "Beacon") == 'Tank' end),
-			"!tank.buff(53563)",
-			"!tank.buff(156910)",
+			"!tank.buff(53563)", -- Beacon of light
+			"!tank.buff(156910)", -- Beacon of Faith
 			"tank.spell(53563).range" 
 		}, "tank" },
-		{ "53563", {
-			(function() return fetch("mtsconfPalaHoly", "Beacon") == 'Focus' end),
-			"!focus.buff(53563)",
-			"!focus.buff(156910)",
-			"focus.spell(53563).range" 
-		}, "focus" }, 
 
 	-- Interrupts
-		{ "96231", {"modifier.interrupts", "target.range <= 6"}, "target" }, -- Rebuke
+		{ "96231", { -- Rebuke
+			"modifier.interrupts", 
+			"target.range <= 6"
+		}, "target" },
 		
 	-- Hands
 		{ "6940", { -- Hand of Sacrifice
@@ -317,12 +283,12 @@ local inCombat = {
 		}, "focus" },
 		{ "148039", { -- Sacred Shield
 			"player.spell(148039).charges >= 2", 
-			"player.health <= 100", 
+			(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaHoly', 'SacredShield')) end), 
 			"!player.buff(148039)" 
 		}, "player" },
 		{ "148039", { -- Sacred Shield
 			"player.spell(148039).charges >= 2", 
-			"lowest.health <= 100", 
+			(function() return mts.dynamicEval("lowest.health <= " .. fetch('mtsconfPalaHoly', 'SacredShield')) end), 
 			"!lowest.buff(148039)" 
 		}, "lowest" },
 	}, "talent(3,3)" },
@@ -412,20 +378,13 @@ local outCombat = {
 
 	-- Buffs
 		{ "20217", { -- Blessing of Kings
-			"!player.buff(20217).any",
-			"!player.buff(115921).any", 
-			"!player.buff(1126).any", 
-			"!player.buff(90363).any", 
-			"!player.buff(69378).any",
+			"!player.buffs.stats",
 			(function() return fetch("mtsconfPalaHoly", "Buff") == 'Kings' end),
-			}, nil },
+		}, nil },
 		{ "19740", { -- Blessing of Might
-			"!player.buff(19740).any", 
-			"!player.buff(116956).any", 
-			"!player.buff(93435).any", 
-			"!player.buff(128997).any", 
+			"!player.buffs.mastery",
 			(function() return fetch("mtsconfPalaHoly", "Buff") == 'Might' end),
-			}, nil }, 
+		}, nil }, 
 	
 	-- Seals
 		{ "20165", { -- seal of Insigh
@@ -439,24 +398,17 @@ local outCombat = {
 
 	{{-- Beacon of Faith
 		{ "156910", {
-			"!player.buff(53563)",
-			"!player.buff(156910)"
+			"!player.buff(53563)", -- Beacon of light
+			"!player.buff(156910)" -- Beacon of Faith
 		}, "player" },
 	}, "talent(7,1)" },
 
 	-- Beacon of light
 		{ "53563", {
-			(function() return fetch("mtsconfPalaHoly", "Beacon") == 'Tank' end),
-			"!tank.buff(53563)",
-			"!tank.buff(156910)",
+			"!tank.buff(53563)", -- Beacon of light
+			"!tank.buff(156910)", -- Beacon of Faith
 			"tank.spell(53563).range" 
 		}, "tank" },
-		{ "53563", {
-			(function() return fetch("mtsconfPalaHoly", "Beacon") == 'Focus' end),
-			"!focus.buff(53563)",
-			"!focus.buff(156910)",
-			"focus.spell(53563).range" 
-		}, "focus" }, 
 
 	-- hands
 		{ "1044", "player.state.root" }, -- Hand of Freedom
@@ -512,9 +464,5 @@ local outCombat = {
 
 }
 
-ProbablyEngine.rotation.register_custom(
-	65,
-	mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Holy|r]", 
-	inCombat, 
-	outCombat, 
-	lib)
+ProbablyEngine.rotation.register_custom(65,mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Holy|r]", 
+	inCombat, outCombat, lib)

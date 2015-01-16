@@ -178,22 +178,6 @@ mts_configPalaHoly = {
     { type = 'header', text = "Tank/Focus settings:", align = "center"},
 
 	    { 
-	    	type = "dropdown",
-	    	text = "Beacon of light:", 
-	    	key = "Beacon", 
-	    	list = {
-		        {
-		          text = "Tank",
-		          key = "Tank"
-		        },{
-		          text = "Focus",
-		          key = "Focus"
-		    	}
-		    }, 
-	    	default = "Tank", 
-	    	desc = "Select who to use Beacon of light on..." 
-	    },
-	    { 
 	    	type = "spinner", 
 	    	text = "Hand of Sacrifice", 
 	    	key = "HandofSacrifice", 
