@@ -256,7 +256,7 @@ local outCombat = {
 			(function() return fetch("mtsconfDkUnholy", "Presence") == 'Unholy' end),
 		}, nil },
 		{ "57330", { -- Horn of Winter
-			"!player.buffs.attackpower"
+			"!player.buffs.attackpower",
 			(function() return fetch('mtsconfDkUnholy','HornOCC') end)
 		}}, 
 
