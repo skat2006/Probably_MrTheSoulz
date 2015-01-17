@@ -1,6 +1,6 @@
 mts = {
   
-  Version = "0.1.4.6",
+  Version = "0.1.4.7-GIT",
   Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t",
   peRecomemded = "6.0.3r13",
   CurrentCR = false,
