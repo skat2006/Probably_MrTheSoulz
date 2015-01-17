@@ -111,6 +111,13 @@ local mts_config = {
 				default = true, 
 				desc = "Automatic accept LFG proposal."
 			},
+			{  
+		                type = "checkbox",  
+		                text = "Auto Milling",  
+		                key = "AutoMilling",  
+		                default = false,  
+		                desc = "This checkbox enables or disables automatic Draenor herbs milling.\n|cffff2020Warning: |cffFFFFFFWill mill all Draenor herbs in your bags on check!" 
+		            },  
 
 	}
 }
