@@ -157,8 +157,8 @@ DESC: MoveTo & Face.
 Build By: MTS
  ---------------------------------------------------]]
 C_Timer.NewTicker(0.5, (function()
-  	if mts.CurrentCR then
-	    if _PeConfig.read('button_states', 'MasterToggle', false) and ProbablyEngine.module.player.combat then
+  	if _PeConfig.read('button_states', 'MasterToggle', false) and mts.CurrentCR then
+	    	if ProbablyEngine.module.player.combat then
 			mts_MoveTo()
 			mts_FaceTo()
 			mts_autoTarget()
