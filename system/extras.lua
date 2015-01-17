@@ -1,5 +1,9 @@
 local fetch = ProbablyEngine.interface.fetchKey
 local _PeConfig = ProbablyEngine.config
+local logo = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:15:15|t"
+local dummyStartedTime = 0
+local _, minute2 = GetGameTime()
+local LastPrint = 0
 
 --[[ UNTESTED
 local ranged = {
@@ -144,21 +148,66 @@ local function autoMilling()
 	end
 end
 
---[[-----------------------------------------------
-** Ticker **
-DESC: MoveTo & Face.
+--[[----------------------------------------------- 
+    ** Dummy Testing ** 
+    DESC: Automatic timer for dummy testing
+    ToDo: Test it! 
 
-Build By: MTS
- ---------------------------------------------------]]
+    Build By: MTS
+    ---------------------------------------------------]]
+function dummyTest(key)
+	local hours, minutes = GetGameTime()
+	local TimeRemaning = fetch('mtsconf', 'testDummy') - (minutes-minute2)
+	
+	-- If Disabled PE while runinga test, abort.
+	if dummyStartedTime ~= 0 and not ProbablyEngine.config.read('button_states', 'MasterToggle', false) then
+		dummyStartedTime = nil
+		message('|r[|cff9482C9MTS|r] You have Disabled PE while running a dummy test. [|cffC41F3BStoped dummy test timer|r].')
+	end
+	-- If not Calling for refresh, then start it.
+	if key ~= 'Refresh' then
+		dummyStartedTime = minutes
+		message('|r[|cff9482C9MTS|r] Dummy test started! [|cffC41F3BWill end in: '..fetch('mtsconf', 'testDummy').."m|r]")
+		-- If PE not enabled, then enable it.
+		if not ProbablyEngine.config.read('button_states', 'MasterToggle', false) then
+			ProbablyEngine.buttons.toggle('MasterToggle')
+		end
+	end
+	-- Check If time is up.
+	if dummyStartedTime ~= 0 and key == 'Refresh' then
+		-- Tell the user how many minutes left.
+		if LastPrint ~= TimeRemaning then
+			LastPrint = TimeRemaning
+			print('|r[|cff9482C9MTS|r] Dummy Test minutes remaning: '..TimeRemaning)
+		end
+		if minutes >= dummyStartedTime + fetch('mtsconf', 'testDummy') then
+			dummyStartedTime = 0
+			message('|r[|cff9482C9MTS|r] Dummy test ended!')
+			-- If PE enabled, then Disable it.
+			if ProbablyEngine.config.read('button_states', 'MasterToggle', false) then
+				ProbablyEngine.buttons.toggle('MasterToggle')
+			end
+		end
+	end
+end
+
 C_Timer.NewTicker(0.5, (function()
-  	if _PeConfig.read('button_states', 'MasterToggle', false) and mts.CurrentCR then
-	    	if ProbablyEngine.module.player.combat then
-			mts_MoveTo()
-			mts_FaceTo()
-			mts_autoTarget()
-    		end
-    		if not ProbablyEngine.module.player.combat then
-    			autoMilling() 
-    		end
-  	end
+	-- If using MTS profies
+	if mts.CurrentCR then
+		-- Refresh Dummy Testing
+		dummyTest('Refresh')
+		-- If PE is enabled
+	  	if _PeConfig.read('button_states', 'MasterToggle', false) then
+			-- If in Combat
+		    	if ProbablyEngine.module.player.combat then
+				mts_MoveTo()
+				mts_FaceTo()
+				mts_autoTarget()
+	    		end
+			-- If not in combat
+	    		if not ProbablyEngine.module.player.combat then
+	    			autoMilling() 
+	    		end
+	  	end
+	end
 end), nil)
