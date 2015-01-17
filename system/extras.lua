@@ -120,29 +120,24 @@ local function autoMilling()
 	        if GetItemCount(109124,false,false) >= 5 then 
 	          	Cast(51005) 
 	          	UseItem(109124) 
-	        end 
 	       -- Fireweed 
-	        if GetItemCount(109125,false,false) >= 5 then 
+	        elseif GetItemCount(109125,false,false) >= 5 then 
 	          	Cast(51005) 
-	          	UseItem(109125) 
-	        end 
+	          	UseItem(109125)
 	        -- Gorgrond Flytrap 
-	        if GetItemCount(109126,false,false) >= 5 then 
+	        elseif GetItemCount(109126,false,false) >= 5 then 
 	          	Cast(51005) 
 	          	UseItem(109126) 
-	        end 
 	        -- Starflower 
-	        if GetItemCount(109127,false,false) >= 5 then 
+	        elseif GetItemCount(109127,false,false) >= 5 then 
 	          	Cast(51005) 
 	          	UseItem(109127) 
-	        end 
 	        -- Nagrand Arrowbloom 
-	        if GetItemCount(109128,false,false) >= 5 then 
+	        elseif GetItemCount(109128,false,false) >= 5 then 
 	          	Cast(51005) 
 	          	UseItem(109128) 
-	        end 
 	        -- Talador Orchid 
-	        if GetItemCount(109129,false,false) >= 5 then 
+	        elseif GetItemCount(109129,false,false) >= 5 then 
 	          	Cast(51005) 
 	          	UseItem(109129) 
 		end 
