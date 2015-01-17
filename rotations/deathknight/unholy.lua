@@ -22,11 +22,7 @@ local inCombat = {
 			"player.seal != 3", 
 			(function() return fetch("mtsconfDkUnholy", "Presence") == 'Unholy' end),
 		}, nil },
-		{ "57330", { -- Horn of Winter
-			"!player.buff(57330).any",
-			"!player.buff(6673).any",
-			"!player.buff(19506).any"
-		}},
+		{ "57330", "!player.buffs.attackpower" }, -- Horn of Winter
 
 	-- Keybinds 
 		{ "42650", "modifier.alt" }, -- Army of the Dead
@@ -260,9 +256,7 @@ local outCombat = {
 			(function() return fetch("mtsconfDkUnholy", "Presence") == 'Unholy' end),
 		}, nil },
 		{ "57330", { -- Horn of Winter
-			"!player.buff(57330).any",
-			"!player.buff(6673).any",
-			"!player.buff(19506).any",
+			"!player.buffs.attackpower"
 			(function() return fetch('mtsconfDkUnholy','HornOCC') end)
 		}}, 
 
