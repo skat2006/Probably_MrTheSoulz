@@ -15,11 +15,11 @@ end
 local All = {
 
 		{ "6673", {----------------------------------------------- Battle Shout
-			"!player.buff(6673)",
+			"!player.buffs.attackpower",
 			(function() return fetch("mtsconfigWarrFury", "Shout") == 'Battle Shout' end),
 		}},------------------------------------------------------- Commanding Shout
 		{ "469", {
-			"!player.buff(469)",
+			"!player.buffs.stamina",
 			(function() return fetch("mtsconfigWarrFury", "Shout") == 'Commanding Shout' end),
 		}}, 
 		{ "6544", "modifier.shift", "target.ground" }, 			-- Heroic Leap // FH
