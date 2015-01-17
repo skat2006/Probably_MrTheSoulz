@@ -23,7 +23,7 @@ local inCombat = {
 	-- buffs
 		{ "48263", "player.seal != 1", nil }, -- Blood
 		{ "49222", "!player.buff(49222)" }, -- bone shield
-		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
+		{ "57330", "!player.buffs.attackpower" }, -- Horn of Winter
 
 	-- Keybinds
 		{ "42650", "modifier.alt" }, -- Army of the Dead
@@ -166,7 +166,7 @@ local outCombat = {
 			(function() return fetch('mtsconfDkBlood','RunFaster') end)
 			}},
 		{ "49222", "!player.buff(49222)" }, -- bone shield
-		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
+		{ "57330", "!player.buffs.attackpower" }, -- Horn of Winter
 
 }
 
