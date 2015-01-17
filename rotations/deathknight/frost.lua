@@ -55,7 +55,7 @@ local inCombat = {
 		{ "48266", "player.seal != 2" }, -- frost
 
 	-- Buffs
-		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
+		{ "57330", "!player.buffs.attackpower" }, -- Horn of Winter
 
 	--Racials
         -- Dwarves
@@ -234,7 +234,7 @@ local outCombat = {
 			"player.seal != 3", 
 			"toggle.run" 
 			}}, 
-		{ "57330", "!player.buff(57330)" }, -- Horn of Winter
+		{ "57330", "!player.buffs.attackpower" }, -- Horn of Winter
   
 }
 
