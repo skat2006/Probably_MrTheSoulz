@@ -118,33 +118,33 @@ local function autoMilling()
       if fetch('mtsconf', 'AutoMilling') and IsSpellKnown(51005) then 
         -- Frostweed 
         if GetItemCount(109124,false,false) >= 5 then 
-          CastSpellByID(51005) 
-          UseItemByName(109124) 
+          	Cast(51005) 
+          	UseItem(109124) 
         end 
        -- Fireweed 
         if GetItemCount(109125,false,false) >= 5 then 
-          CastSpellByID(51005) 
-          UseItemByName(109125) 
+          	Cast(51005) 
+          	UseItem(109125) 
         end 
         -- Gorgrond Flytrap 
         if GetItemCount(109126,false,false) >= 5 then 
-          CastSpellByID(51005) 
-          UseItemByName(109126) 
+          	Cast(51005) 
+          	UseItem(109126) 
         end 
         -- Starflower 
         if GetItemCount(109127,false,false) >= 5 then 
-          CastSpellByID(51005) 
-          UseItemByName(109127) 
+          	Cast(51005) 
+          	UseItem(109127) 
         end 
         -- Nagrand Arrowbloom 
         if GetItemCount(109128,false,false) >= 5 then 
-          CastSpellByID(51005) 
-          UseItemByName(109128) 
+          	Cast(51005) 
+          	UseItem(109128) 
         end 
         -- Talador Orchid 
         if GetItemCount(109129,false,false) >= 5 then 
-          CastSpellByID(51005) 
-          UseItemByName(109129) 
+          	Cast(51005) 
+          	UseItem(109129) 
         end 
       end 
       return true 
