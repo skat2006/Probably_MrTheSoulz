@@ -74,8 +74,7 @@ local inCombat = {
   	-- buffs
 		{ "21562", { -- Fortitude
 			(function() return fetch('mtsconfPriestHoly','Buff') end),
-			"!player.buff(21562).any",
-			"!player.buff(588)"
+			"!player.buffs.stamina"
 		}},
 
   	--[[ keybinds ]]
@@ -346,8 +345,7 @@ local solo = {
   	-- buffs
 		{ "21562", { -- Fortitude
 			(function() return fetch('mtsconfPriestHoly','Buff') end),
-			"!player.buff(21562).any",
-			"!player.buff(588)"
+			"!player.buffs.stamina"
 			}},
 	
 	{{-- LoOk aT It GOoZ!!!
@@ -529,8 +527,7 @@ local outCombat = {
 	-- buffs
 		{ "21562", { -- Fortitude
 			(function() return fetch('mtsconfPriestHoly','Buff') end),
-			"!player.buff(21562).any",
-			"!player.buff(588)"
+			"!player.buffs.stamina"
 		}},
 	
 	{{-- LoOk aT It GOoZ!!!
