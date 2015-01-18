@@ -58,6 +58,10 @@ local CatForm = {
 	  		"player.combopoints = 5",
 	  		"player.buff(Predatory Swiftness)"
 	  	}, "lowest" },
+	  	{ "5185", { -- Healing Touch EXPIRE
+	  		"player.buff(Predatory Swiftness)", 
+	  		"player.buff(Predatory Swiftness).duration <= 3"
+	  	}, "lowest" },
 
   	--Cooldowns
 	  	{ "106737", {  --Force of Nature
@@ -124,11 +128,7 @@ local CatForm = {
 	  			"target.debuff(155625).duration <= 4",
 	  			"talent(7, 1)"
 	  		}, "target" },
-
-	  		-- Shred // Combo Point Building Rotation
-		    	{ "5221", "player.buff(Clearcasting)", "target"  }, -- Shred
-		    	{ "5221", "player.buff(Berserk)", "target"  }, -- Shred 
-		    	{ "5221", "player.combopoints < 5", "target" }, -- Shred
+		    { "5221" }, -- Shred
   
 }
 

@@ -65,11 +65,11 @@ local mts_live = {
 		},
 		{ 
 			type = "button", 
-			text = "Unit Cache", 
+			text = "Dummy Testing", 
 			width = 180, 
 			height = 20,
 			callback = function()
-				mts.CacheGUI()
+				mts.dummyTest()
 			end
 		},
 

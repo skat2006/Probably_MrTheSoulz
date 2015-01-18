@@ -8,7 +8,6 @@
 system\core.lua
 system\tracker.lua
 system\extras.lua
-system\unitCache.lua
 system\lib.lua
 interface\minimap.lua
 interface\splash.lua

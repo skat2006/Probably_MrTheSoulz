@@ -17,12 +17,10 @@ ProbablyEngine.listener.register("PLAYER_ENTERING_WORLD", function(...)
     --(WORKAROUND) // Create Config Keys // Open
         mts.ConfigGUI()
         mts.ClassGUI()
-		mts.CacheGUI()
         
     --(WORKAROUND) // Create Class Keys // Close
         mts.ConfigGUI()
         mts.ClassGUI()
-		mts.CacheGUI()
     
     -- Status GUI
         mts.ShowStatus()
