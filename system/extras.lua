@@ -203,9 +203,9 @@ local function mts_MoveTo()
 	    267,        -- destruction warlock
 	    270,        -- mistweaver monk
 	  }]]
-	local name = GetUnitName('target', false)
   	if fetch('mtsconf', 'AutoMove') then
   		if UnitExists('target') and UnitIsVisible('target') then
+			local name = GetUnitName('target', false)
 			if FireHack then
 			   	local aX, aY, aZ = ObjectPosition('target')
 				    if mts.Distance("player", 'target') >= 6 + (UnitCombatReach('player') + UnitCombatReach('target')) then
@@ -224,9 +224,9 @@ DESC: Checks if unit can/should be faced.
 Build By: MTS
 ---------------------------------------------------]]
 local function mts_FaceTo()
-	local name = GetUnitName('target', false)
 	if fetch('mtsconf', 'AutoFace') then
 	  	if UnitExists('target') and UnitIsVisible('target') then
+			local name = GetUnitName('target', false)
 	    	if not mts.Infront('target') then
 	      		if FireHack then
 	      			mtsAlert:message('Facing: '..name) 

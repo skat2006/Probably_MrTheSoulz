@@ -1,7 +1,7 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
 local lib = function()
-mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
+mts.Splash("[|cff9482C9MTS|r]-[|cffABD473Hunter-Marksmanship|r]-|cff9482C9Loaded", 5.0)
 
 end
 
@@ -115,10 +115,7 @@ local inCombat = {
 
 
 local outCombat = {
----------------------------------------------------------------------------------------------------------------------------------------
--- OUT-OF-COMBAT -- -------------------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------------------------------------
-	
+
 	{ "136", {  -- Mend Pet
 		"pet.health <= 95", 
 		"pet.exists", 
@@ -130,16 +127,10 @@ local outCombat = {
 	-- Keybinds / Traps
 	{ "19386", "modifier.lalt", "mouseover" }, -- Wyvern Sting	
 	{ "60192", "modifier.lalt", "mouseover.ground" }, -- Freeze Trap
-	{ "77769", "!player.buff(77769)" }, -- Trap Launcher	
+	{ "77769", "!player.buff(77769)" }, -- Trap Launcher		
 		
-		
----------------------------------------------------------------------------------------------------------------------------------------
--- OUT-OF-COMBAT ENDS -- --------------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------------------------------------		
 }
 
 
-ProbablyEngine.rotation.register_custom(
-	254, 
-	mts.Icon.."|cffABD473Marksman|r", 
+ProbablyEngine.rotation.register_custom(254, mts.Icon.."|r[|cff9482C9MTS|r][|cffABD473Hunter-Marksmanship|r]", 
 	inCombat, outCombat, lib)
