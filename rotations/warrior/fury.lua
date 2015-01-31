@@ -17,8 +17,8 @@ local All = {
 		{ "6673", {----------------------------------------------- Battle Shout
 			"!player.buffs.attackpower",
 			(function() return fetch("mtsconfigWarrFury", "Shout") == 'Battle Shout' end),
-		}},------------------------------------------------------- Commanding Shout
-		{ "469", {
+		}},
+		{ "469", {------------------------------------------------ Commanding Shout
 			"!player.buffs.stamina",
 			(function() return fetch("mtsconfigWarrFury", "Shout") == 'Commanding Shout' end),
 		}}, 
