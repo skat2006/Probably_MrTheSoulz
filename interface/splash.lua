@@ -12,9 +12,10 @@ local function onUpdate(mtsStart,elapsed)
 	end
 end
 
-function mts.Splash(message)
+function mts.Splash(txt)
+	-- Displays a fancy splash.
 	if fetch('mtsconf', 'Splash') then
-		mtsStart.text:SetText("|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:17:17|t"..message)
+		mtsStart.text:SetText("|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:17:17|t"..txt)
 		mtsStart:SetAlpha(1)
 		mtsSplash:SetAlpha(1)
 		mtsStart.time = GetTime()
@@ -24,6 +25,7 @@ function mts.Splash(message)
 		--PlaySoundFile("Sound\\Interface\\Levelup.Wav")
 		PlaySound("UnwrapGift", "master");
 	end
+	-- This is used so we know we're using MTS CR's, this way we cant stop stuff from running while we're not running.
 	mts.CurrentCR = true
 end
 
