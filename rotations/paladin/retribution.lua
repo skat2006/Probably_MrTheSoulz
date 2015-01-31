@@ -710,7 +710,7 @@ local Seals = {
 
 local inCombat_Testing = {
 
-	{{-- Cooldowns
+	{{ -- Cooldowns
 		{ "Execution Sentence", "target.enemy", "target" },
 		{ "Light's Hammer", nil, "target.ground" },
 	}, "modifier.cooldowns" },
@@ -748,7 +748,7 @@ local inCombat_Testing = {
 		{ "Templar's Verdict", "player.health < 20" }
 	}, "talent(7, 1)" },
 	
-	{{-- AoE
+	{{ -- AoE
 		{ "Divine Storm", "player.holypower >= 3" },
 		{ "Hammer of the Righteous" },
 		{ "Judgment" },
