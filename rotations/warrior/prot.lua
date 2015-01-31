@@ -103,9 +103,7 @@ local Cooldowns = {
 
 }
 
-ProbablyEngine.rotation.register_custom(
-	73, 
-	mts.Icon.."|r[|cff9482C9MTS|r][|cffC79C6EWarrior-Prot|r]", 
+ProbablyEngine.rotation.register_custom(73, mts.Icon.."|r[|cff9482C9MTS|r][|cffC79C6EWarrior-Prot|r]", 
 	{-- In-Combat CR
 		{ "Battle Shout", {
 			"!player.buffs.attackpower",
@@ -142,11 +140,11 @@ ProbablyEngine.rotation.register_custom(
 	},
 	{-- Out-Combat CR
 		{ "Battle Shout", {
-			"!player.buff(Battle Shout)",
+			"!player.buffs.attackpower",
 			"player.buff(156291)" -- Gladiator
 		}},
 		{ "Commanding Shout", {
-			"!player.buff(Commanding Shout)",
+			"!player.buffs.stamina",
 			"!player.buff(156291)" -- Gladiator
 		}},
 		{ "6544", "modifier.shift", "ground" }, -- Heroic Leap
