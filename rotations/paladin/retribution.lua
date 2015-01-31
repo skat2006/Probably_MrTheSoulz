@@ -1,6 +1,7 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
+	
 	mts.Splash("|cff9482C9[MTS]|r-[|cffF58CBAPaladin-Retribution|r]-|cff9482C9Loaded", 5.0)
 	ProbablyEngine.toggle.create(
 		'smartae', 
@@ -13,6 +14,10 @@ local exeOnLoad = function()
 		'Single Target Burn', 
 		'Force single target rotation for burn phases.')
 end
+
+	---------------------------------------------------------------------------
+	-------------------------- Akeon's Imported (cool but messy) --------------
+	---------------------------------------------------------------------------
 
 local combat_rotation = {
 	-- Rotation Utilities
@@ -476,7 +481,8 @@ local combat_rotation = {
 		}},
 		{ "Final Verdict", "player.health < 20" } 
 	}, "talent(7, 3)" },
-		{{ --Execute Range / CDs active (Will cast at 3 HoPo) Seraphim.
+	
+	{{ --Execute Range / CDs active (Will cast at 3 HoPo) Seraphim.
 		{ "Templar's Verdict", "player.buff(Avenging Wrath)" },
 		{ "Templar's Verdict", "player.health < 20" },
 		{ "Final Verdict", "player.buff(Avenging Wrath)" },
@@ -485,6 +491,7 @@ local combat_rotation = {
 		"talent(7, 2)", 
 		"player.spell(Seraphim).cooldown >= 8"
 	}},
+	
 	{{ --Execute Range / CDs active (Will cast at 3 HoPo) Empowered Seals
 		{ "Templar's Verdict", "player.buff(Avenging Wrath)" },
 		{ "Templar's Verdict", "player.health < 20" }
@@ -539,6 +546,7 @@ local combat_rotation = {
 		"player.holypower = 3", 
 		"!talent(7, 2)" 
 	}},
+
 }
 
 local oocRotation = {
@@ -560,4 +568,217 @@ local oocRotation = {
 
 }
 
-ProbablyEngine.rotation.register_custom(70,  mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Retribution|r]", combat_rotation, oocRotation, exeOnLoad)
+ProbablyEngine.rotation.register_custom(70,  mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Retribution|r]", 
+	combat_rotation, oocRotation, exeOnLoad)
+
+	---------------------------------------------------------------------------
+	-------------------------- Testing Area -----------------------------------
+	---------------------------------------------------------------------------
+
+local Survival = {
+
+	{ "Eternal Flame", { 
+		"player.buff(Eternal Flame).duration < 3", 
+		(function() return fetch('mtsconfPalaRet', 'eternalglory') end) 
+	}, "player" },
+	{ "Sacred Shield", { 
+		"player.buff(Sacred Shield).duration < 7", 
+		"target.range > 3", 
+		(function() return fetch('mtsconfPalaRet', 'sacredshield') end) 
+	}, "player" },
+	{ "Hand of Freedom", { 
+		"!player.buff", 
+		"player.state.snare", 
+		(function() return fetch('mtsconfPalaRet', 'handoffreedom') end) 
+	}, "player" },
+	{ "Hand of Freedom", { 
+		"!player.buff", 
+		"player.state.root", 
+		(function() return fetch('mtsconfPalaRet', 'handoffreedom') end) 
+	}, "player" },
+	{ "Emancipate", { 
+		"!modifier.last(Emancipate)", 
+		"player.state.root", 
+		(function() return fetch('mtsconfPalaRet', 'emancipate') end) 
+	}, "player" },
+	{ "Cleanse", { 
+		"!modifier.last(Cleanse)", 
+		"player.dispellable(Cleanse)", 
+		(function() return fetch('mtsconfPalaRet', 'cleanse') end) 
+	}, "player" },
+	{ "Divine Shield", { 
+		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaRet', 'divineshield_spin')) end), 
+		(function() return fetch('mtsconfPalaRet', 'divineshield_check') end) 
+	}},
+
+}
+
+local SelfHeals = {
+
+	{ "Flash of Light", { 
+		"player.buff(Selfless Healer).count = 3", 
+		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaRet', 'flashoflight_spin')) end), 
+		(function() return fetch('mtsconfPalaRet', 'flashoflight_check') end) 
+	}},
+	{ "Word of Glory", { 
+		"player.holypower >= 3", 
+		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaRet', 'wordofglory_spin')) end), 
+		(function() return fetch('mtsconfPalaRet', 'wordofglory_check') end) 
+	}},
+	{ "Lay on Hands", { 
+		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaRet', 'layonhands_spin')) end), 
+		(function() return fetch('mtsconfPalaRet', 'layonhands_check') end) 
+	}},
+	{ "#5512", { -- Healthstone (5512)
+		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfPalaRet', 'healthstone_spin')) end), 
+		(function() return fetch('mtsconfPalaRet', 'healthstone_check') end) 
+	}},
+
+}
+
+-- Test these, they came from prot and might not be the same on ret...
+local Seals = {
+
+	{{ -- Empowered Seals
+		{ "31801", { -- Seal of Truth
+			"player.seal != 1", 					-- Seal of Truth
+			"!player.buff(156990).duration > 3", 	-- Maraad's Truth
+			"player.spell(20271).cooldown <= 1" 	-- Judment  CD less then 1
+		}},
+		{ "20154", { -- Seal of Righteousness
+			"player.seal != 2", 					-- Seal of Righteousness
+			"!player.buff(156989).duration > 3", 	-- Liadrin's Righteousness
+			"player.buff(156990)", 					-- Maraad's Truth
+			"player.spell(20271).cooldown <= 1" 	-- Judment  CD less then 1
+		}},
+		{ "20165", { -- Seal of Insigh
+			"player.seal != 3", 					-- Seal of Insigh
+			"!player.buff(156988).duration > 3", 	-- Uther's Insight
+			"player.buff(156990)", 					-- Maraad's Truth
+			"player.buff(156989)", 					-- Liadrin's Righteousness
+			"player.spell(20271).cooldown <= 1" 	-- Judment  CD less then 1
+		}},
+			
+		------------------------------------------------------------------------------ Judgment
+		{ "20271", {
+			"player.buff(156990).duration < 3", -- Maraad's Truth
+			"player.seal = 1"
+		}},
+		{ "20271", { 
+			"player.buff(156989).duration < 3", -- Liadrin's Righteousness
+			"player.seal = 2"
+		}},
+		{ "20271", {
+			"player.buff(156988).duration < 3", -- Uther's Insight
+			"player.seal = 3"
+		}},
+	}, "talent(7,1)" },
+
+	{{ -- Normal Seals
+		{{ -- AoE
+			{ "20165", { -- Seal of Insigh
+				"player.seal != 3",
+				(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Insight' end),
+			}},
+			{ "20154", { -- Seal of Righteousness
+				"player.seal != 2",
+				(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Righteousness' end),
+			}},
+			{ "31801", { -- Seal of truth
+				"player.seal != 1",
+				(function() return fetch("mtsconfPalaProt", "sealAoE") == 'Truth' end),
+			}},
+		}, "modifier.multitarget" },
+		{{ -- Single Target
+			{ "20165", { -- Seal of Insigh
+				"player.seal != 3",
+				(function() return fetch("mtsconfPalaProt", "seal") == 'Insight' end),
+			}},
+			{ "20154", { -- Seal of Righteousness
+				"player.seal != 2",
+				(function() return fetch("mtsconfPalaProt", "seal") == 'Righteousness' end),
+			}},
+			{ "31801", { -- Seal of truth
+				"player.seal != 1",
+				(function() return fetch("mtsconfPalaProt", "seal") == 'Truth' end),
+			}},
+		}, "!modifier.multitarget" },
+	}, "!talent(7,1)" },
+
+}
+
+local inCombat_Testing = {
+
+	-- Cooldowns
+	{ "Execution Sentence", "target.enemy", "target" },
+	{ "Light's Hammer", nil, "target.ground" },	
+	
+	{{ -- Talent / Final Verdict
+		{ "Divine Storm", { 
+			"player.buff(Final Verdict)", 
+			"player.buff(Divine Crusader)", 
+			"player.holypower >= 5" 
+		}},
+		{ "Final Verdict", { 
+			"player.buff(Divine Purpose).duration < 3", 
+			"player.buff(Divine Purpose)" 
+		}},
+		{ "Final Verdict", { 
+			"player.buff(Holy Avenger)", 
+			"player.holypower >= 3" 
+		}}, 
+		{ "Divine Storm", { 
+			"player.buff(Divine Crusader).duration < 3", 
+			"player.buff(Divine Crusader)" 
+		}},
+		{ "Final Verdict", "player.holypower >= 5" }
+	}, "talent(7, 3)" },
+	{{ -- Seraphim.
+		{ "Templar's Verdict", "player.buff(Avenging Wrath)" },
+		{ "Templar's Verdict", "player.health < 20" },
+		{ "Final Verdict", "player.buff(Avenging Wrath)" },
+		{ "Final Verdict", "player.health < 20" }
+	}, { "talent(7, 2)", "player.spell(Seraphim).cooldown >= 8" }},
+	{{ -- Empowered Seals
+		{ "Templar's Verdict", "player.buff(Avenging Wrath)" },
+		{ "Templar's Verdict", "player.health < 20" }
+	}, "talent(7, 1)" },
+	
+	-- AoE
+	{ "Divine Storm", "player.holypower >= 3" },
+	{ "Hammer of the Righteous" },
+	{ "Judgment" },
+	{ "Exorcism" },
+	
+	-- Solo Target
+	{ "Templar's Verdict", "player.holypower >= 5" },
+	{ "Hammer of Wrath", "target.health < 35%" },
+	{ "Hammer of Wrath", "player.buff(Avenging Wrath)" },
+	{ "Crusader Strike" },
+	{ "Judgment" },
+	{ "Exorcism" },
+	{ "Divine Storm", "player.buff(Empowered Divine Storm)" },
+	{ "Holy Prism", "talent(5, 1)" },
+
+}
+
+local outCombat_Testing = {
+
+	{ "Seal of Truth", { 
+		"!modifier.multitarget", 
+		"player.seal != 1" 
+	}},
+	{ "Seal of Righteousness", { 
+		"modifier.multitarget", 
+		"player.seal != 2" 
+	}},
+
+}
+
+ProbablyEngine.rotation.register_custom(70,  mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Retribution|r]-Testing!", 
+	{-- In-Combat
+		{ Survival },
+		{ SelfHeals },
+		{ Seals },
+		{ inCombat_Testing },
+	}, outCombat_Testing, exeOnLoad)
