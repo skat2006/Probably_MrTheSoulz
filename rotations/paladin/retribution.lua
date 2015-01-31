@@ -735,13 +735,15 @@ local inCombat_Testing = {
 		}},
 		{ "Final Verdict", "player.holypower >= 5" }
 	}, "talent(7, 3)" },
-	{{ -- Seraphim.
+	
+	{{ -- Talent / Seraphim
 		{ "Templar's Verdict", "player.buff(Avenging Wrath)" },
 		{ "Templar's Verdict", "player.health < 20" },
 		{ "Final Verdict", "player.buff(Avenging Wrath)" },
 		{ "Final Verdict", "player.health < 20" }
 	}, { "talent(7, 2)", "player.spell(Seraphim).cooldown >= 8" }},
-	{{ -- Empowered Seals
+	
+	{{ -- Talent / Empowered Seals
 		{ "Templar's Verdict", "player.buff(Avenging Wrath)" },
 		{ "Templar's Verdict", "player.health < 20" }
 	}, "talent(7, 1)" },
