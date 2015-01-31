@@ -16,7 +16,7 @@ local exeOnLoad = function()
 end
 
 	---------------------------------------------------------------------------
-	-------------------------- Akeon's Imported (cool but messy) --------------
+	-------------------------- Akeon's Imported -------------------------------
 	---------------------------------------------------------------------------
 
 local combat_rotation = {
@@ -574,6 +574,7 @@ ProbablyEngine.rotation.register_custom(70,  mts.Icon.."|r[|cff9482C9MTS|r][|cff
 	---------------------------------------------------------------------------
 	-------------------------- Testing Area -----------------------------------
 	---------------------------------------------------------------------------
+	--{{ ToDo: Convert to ID's, finish the CR, document and test everything }}
 
 local Survival = {
 
@@ -709,9 +710,10 @@ local Seals = {
 
 local inCombat_Testing = {
 
-	-- Cooldowns
-	{ "Execution Sentence", "target.enemy", "target" },
-	{ "Light's Hammer", nil, "target.ground" },	
+	{{-- Cooldowns
+		{ "Execution Sentence", "target.enemy", "target" },
+		{ "Light's Hammer", nil, "target.ground" },
+	} "modifier.cooldowns" },
 	
 	{{ -- Talent / Final Verdict
 		{ "Divine Storm", { 
@@ -744,11 +746,12 @@ local inCombat_Testing = {
 		{ "Templar's Verdict", "player.health < 20" }
 	}, "talent(7, 1)" },
 	
-	-- AoE
-	{ "Divine Storm", "player.holypower >= 3" },
-	{ "Hammer of the Righteous" },
-	{ "Judgment" },
-	{ "Exorcism" },
+	{{-- AoE
+		{ "Divine Storm", "player.holypower >= 3" },
+		{ "Hammer of the Righteous" },
+		{ "Judgment" },
+		{ "Exorcism" },
+	} "modifier.multitarget" },
 	
 	-- Solo Target
 	{ "Templar's Verdict", "player.holypower >= 5" },
