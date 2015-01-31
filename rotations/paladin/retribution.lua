@@ -713,7 +713,7 @@ local inCombat_Testing = {
 	{{-- Cooldowns
 		{ "Execution Sentence", "target.enemy", "target" },
 		{ "Light's Hammer", nil, "target.ground" },
-	} "modifier.cooldowns" },
+	}, "modifier.cooldowns" },
 	
 	{{ -- Talent / Final Verdict
 		{ "Divine Storm", { 
@@ -751,7 +751,7 @@ local inCombat_Testing = {
 		{ "Hammer of the Righteous" },
 		{ "Judgment" },
 		{ "Exorcism" },
-	} "modifier.multitarget" },
+	}, "modifier.multitarget" },
 	
 	-- Solo Target
 	{ "Templar's Verdict", "player.holypower >= 5" },
