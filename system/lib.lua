@@ -2,7 +2,6 @@ local fetch = ProbablyEngine.interface.fetchKey
 
 local _queueSpell = nil
 local _queueTime = 0
-local _dotCount = 0
 
 local _darkSimSpells = {
     -- Siege of Orgrimmar
@@ -247,26 +246,6 @@ ProbablyEngine.library.register('mtsLib', {
       end
         return total > 3
     end,
-
-    --[[test = function()
-    local current = nil
-      for i=1,#mts.unitFriendlyCache do
-        -- Whos our target?
-        if current == nil then
-          -- COndicions to define target
-          if mts.unitCache[i].health <= 20 then
-            -- this is the unit we want to cast on...
-            current = mts.unitCache[i].key)
-          end
-        end
-        if current ~= nil then
-          if mts.Distance(current, mts.unitFriendlyCache[i].key) <= 12 or 
-            current = nil
-            -- Do Something...
-          end
-        end
-      end
-    end,]]
 
     -- Clarity of Purpose
     ClarityOfPurpose = function()
