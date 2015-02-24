@@ -51,32 +51,26 @@ local mts_ImmuneAuras = {
 --[[------------------------------------------------------------------------------------------------------------]]
 --[[------------------------------------------------------------------------------------------------------------]]
 ProbablyEngine.command.register('mts', function(msg, box)
-local command, text = msg:match("^(%S*)%s*(.-)$")
-
-    -- Displays General GUI
-    if command == 'config' or command == 'c' then
-    	mts.ConfigGUI()
-    end
-
-   -- Displays LiveGUI
-    if command == 'live' or command == 'status' or command == 's' then
-    	mts.ShowStatus()
-    end
-
-    -- Displays Class GUI
-    if command == 'class' or command == 'cl' then
-    	mts.ClassGUI()
-    end
-
+	local command, text = msg:match("^(%S*)%s*(.-)$")
+	-- Displays General GUI
+	if command == 'config' or command == 'c' then
+		mts.ConfigGUI()
+	end
+   	-- Displays LiveGUI
+    	if command == 'live' or command == 'status' or command == 's' then
+    		mts.ShowStatus()
+    	end
+    	-- Displays Class GUI
+    	if command == 'class' or command == 'cl' then
+    		mts.ClassGUI()
+	 end
 	-- Displays Help GUI
 	if command == 'help' or command == 'info' or command == 'i' or command == '?' then
 		mts.InfoGUI()
 	end
-
-    if command == 'ch' or command == 'cache' then
-        mts.CacheGUI()
-    end
-
+    	if command == 'ch' or command == 'cache' then
+        	mts.CacheGUI()
+    	end
 end)
 
                                                  --[[ Global ]]
