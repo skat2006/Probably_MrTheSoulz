@@ -85,31 +85,28 @@ local CatForm = {
 	  			"player.buff(174544).duration <= 4", -- Savage Roar GLYPH
 	  			"player.combopoints <= 2" 
 	  		}, "target"},
-		  	{ "1079", { -- Rip // bellow 25% if target does not have debuff
-				"target.health < 25", 
-				"!target.debuff(1079)", -- stop if target as rip debuff
-				"player.combopoints = 5" 
-			}, "target"},
-			{ "1079", { -- Rip // more then 25% to refresh
-				"target.health > 25", 
-				"target.debuff(1079).duration <= 7", 
-				"player.combopoints = 5" 
-			}, "target"},
-			{ "22568", { -- Ferocious Bite to refresh Rip when target at <= 25% health.
-			    "target.health < 25", 
-			    "target.debuff(1079).duration < 5", -- RIP
-			    "player.combopoints = 5"
-			}, "target"},
-			{ "22568", { -- Ferocious Bite // Max Combo and Rip or Savage Roar do not need refreshed
-			   	"player.combopoints = 5", 
-			    "target.debuff(1079).duration > 7", -- RIP
-			    "player.buff(52610).duration > 4" -- Savage Roar
-			}, "target"},
-			{ "22568", { -- Ferocious Bite // Max Combo and Rip or Savage Roar GLYPH do not need refreshed
-			   	"player.combopoints = 5", 
-			    "target.debuff(1079).duration > 7", -- RIP
-			    "player.buff(174544).duration > 4" -- Savage Roar GLYPH
-			}, "target"},
+	  		{{ -- 5 CP
+			  	{ "1079", { -- Rip // bellow 25% if target does not have debuff
+					"target.health < 25", 
+					"!target.debuff(1079)" -- stop if target as rip debuff
+				}, "target"},
+				{ "1079", { -- Rip // more then 25% to refresh
+					"target.health > 25", 
+					"target.debuff(1079).duration <= 7"
+				}, "target"},
+				{ "22568", { -- Ferocious Bite to refresh Rip when target at <= 25% health.
+				    "target.health < 25", 
+				    "target.debuff(1079).duration < 5" -- RIP
+				}, "target"},
+				{ "22568", { -- Ferocious Bite // Max Combo and Rip or Savage Roar do not need refreshed
+				    "target.debuff(1079).duration > 7", -- RIP
+				    "player.buff(52610).duration > 4" -- Savage Roar
+				}, "target"},
+				{ "22568", { -- Ferocious Bite // Max Combo and Rip or Savage Roar GLYPH do not need refreshed
+				    "target.debuff(1079).duration > 7", -- RIP
+				    "player.buff(174544).duration > 4" -- Savage Roar GLYPH
+				}, "target"},
+			}, "player.combopoints = 5" },
 
 	  	-- AOE
 	  			{{-- AoE FALLBACK
