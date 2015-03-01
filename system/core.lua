@@ -1,8 +1,9 @@
 mts = {
   
-  Version = "0.1.4.8-GIT",
+  Version = "0.1.4.9-GIT",
+  WoW_Version = "6.1.0",
   Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t",
-  peRecomemded = "6.0.3r13",
+  peRecomemded = "6.1r15",
   CurrentCR = false,
 
 }
@@ -81,6 +82,10 @@ end)
 function mts.dynamicEval(condition, spell)
 	if not condition then return false end
 	return _parse(condition, spell or '')
+end
+
+function mts.Print(txt)
+  print("|r[|cff9482C9MTS|r]: "..txt )
 end
 
 function mts.immuneEvents(unit)

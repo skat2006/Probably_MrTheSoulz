@@ -1,4 +1,5 @@
 local fetch = ProbablyEngine.interface.fetchKey
+local WoWver, WoWbuild, WoWdate, WoWtoc = GetBuildInfo()
 
 local function onUpdate(mtsStart,elapsed) 
 	if mtsStart.time < GetTime() - 5.0 and mtsSplash.time < GetTime() - 5.0 then
@@ -27,6 +28,17 @@ function mts.Splash(txt)
 	end
 	-- This is used so we know we're using MTS CR's, this way we cant stop stuff from running while we're not running.
 	mts.CurrentCR = true
+	-- Tell the user erros
+	if WoWver ~= mts.WoW_Version or ProbablyEngine.version ~= mts.peRecomemded then
+		if WoWver ~= mts.WoW_Version then
+			mts.Print("Your WoW Version is not supported by MTSP\n Using: "..WoWver.." while supported version is: "..mts.WoW_Version.."\nSomethings might not work until updated.")
+		end
+		if ProbablyEngine.version ~= mts.peRecomemded then
+			mts.Print("Your PE Version is not supported by MTSP\n Using: "..ProbablyEngine.version.." while supported version is: "..mts.peRecomemded.."\nSomethings might not work until updated.")
+		end
+	else
+		mts.Print("Load successful.")
+	end
 end
 
 mtsSplash = CreateFrame("Frame", nil,UIParent)

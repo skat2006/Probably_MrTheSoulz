@@ -331,7 +331,7 @@ function mts.dummyTest(key)
 		-- Tell the user how many minutes left.
 		if lastDummyPrint ~= TimeRemaning then
 			lastDummyPrint = TimeRemaning
-			print('|r[|cff9482C9MTS|r] Dummy Test minutes remaning: '..TimeRemaning)
+			mts.Print('Dummy Test minutes remaning: '..TimeRemaning)
 		end
 		if minutes >= dummyStartedTime + fetch('mtsconf', 'testDummy') then
 			dummyStartedTime = 0

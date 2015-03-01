@@ -209,7 +209,7 @@ ProbablyEngine.library.register('mtsLib', {
                     end
                   end
                   if total >= 5 then
-                    print("Mass Dispelled: "..debuffName.." on: "..unit.." total units:"..total)
+                    mts.Print("Mass Dispelled: "..debuffName.." on: "..unit.." total units:"..total)
                     ProbablyEngine.dsl.parsedTarget = unit
                     return true
                     end
