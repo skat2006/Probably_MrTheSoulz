@@ -1,4 +1,3 @@
-## Interface: 50400
 ## Title: Probably |r[|cffC41F3BMrTheSoulz|r]
 ## Notes: A MrTheSoulz Profiles For PE.
 ## Dependencies: Probably
