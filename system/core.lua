@@ -5,6 +5,8 @@ mts = {
   Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t",
   peRecomemded = "6.1r15",
   CurrentCR = false,
+  printColor = "|cff0070DE",
+  addonColor = "|cff9482C9"
 
 }
 
@@ -85,7 +87,7 @@ function mts.dynamicEval(condition, spell)
 end
 
 function mts.Print(txt)
-  print("|r[|cff9482C9MTS|r]: "..txt )
+  print("|r["..mts.addonColor.."MTS|r]: "..mts.printColor..txt )
 end
 
 function mts.immuneEvents(unit)
