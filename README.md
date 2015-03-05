@@ -1,6 +1,6 @@
 <p align="center">
 	<img src="https://dl.dropboxusercontent.com/u/101560647/splash.png"/><br/>
-	### MrTheSoulz Pack For ProbablyEngine!
+	MrTheSoulz Pack For ProbablyEngine!
 </p>
 - - - -
 
@@ -21,7 +21,7 @@ This is a hobby, i'm not trying to make a profit out of it but i cant afford to 
 ---------------------------------------------------------------
 <h2>Instructions on how to install:</h2>
 * Close WoW before updating/installing.
-* Download PE (http://www.ownedcore.com/forums/worl...-warlords.html (ProbablyEngine Addon - Warlords)) if you dont have it and my Addon.
+* Download PE http://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-bots-programs/probably-engine/498559-probablyengine-addon-warlords.html if you dont have it and my Addon.
 * Extract both PE and my Addon.
 * Move both folders to: "wow\Interface\Addons folder".
 * Remove "-master" from the folder names.
@@ -58,3 +58,4 @@ This is a hobby, i'm not trying to make a profit out of it but i cant afford to 
 * Auto Facing. (Enable in /mts config)
 * Advanced Unit caching.
 * Advanced Auto Targets.
+* Auto Milling.
