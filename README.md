@@ -1,6 +1,6 @@
 <p align="center">
 	<img src="https://dl.dropboxusercontent.com/u/101560647/splash.png"/><br/>
-	<h1 align="center">MrTheSoulz Pack For ProbablyEngine!</h1>
+	### MrTheSoulz Pack For ProbablyEngine!
 </p>
 - - - -
 
