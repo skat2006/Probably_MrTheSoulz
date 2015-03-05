@@ -224,9 +224,9 @@ DESC: Checks if unit can/should be faced.
 Build By: MTS
 ---------------------------------------------------]]
 local function mts_FaceTo()
-    local unitSpeed, _ = GetUnitSpeed('player')
-	if fetch('mtsconf', 'AutoFace') and unitSpeed == 0 then
-	  	if UnitExists('target') and UnitIsVisible('target') then
+	if fetch('mtsconf', 'AutoFace') then
+        local unitSpeed, _ = GetUnitSpeed('player')
+	  	if UnitExists('target') and UnitIsVisible('target') and unitSpeed == 0 and mts.dynamicEval("!player.channeling") then
 			local name = GetUnitName('target', false)
 	    	if not mts.Infront('target') then
 	      		if FireHack then
