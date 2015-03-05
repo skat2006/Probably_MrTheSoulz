@@ -1,10 +1,10 @@
 <p align="center">
 	<img src="https://dl.dropboxusercontent.com/u/101560647/splash.png"/><br/>
-	MrTheSoulz Pack For ProbablyEngine!
+	<h1>MrTheSoulz Pack For ProbablyEngine!</h1>
 </p>
 - - - -
 
-<h1 align="center">About The Project:</h1>
+<h2 align="center">About The Project:</h2>
 <p align="center">
 MrTheSoulz Profiles For ProbablyEngine.
 MTSP was created for personal needs and shared to the public, ive created this project using PE's engine & some custom libs. <br/>
@@ -19,7 +19,7 @@ This is a hobby, i'm not trying to make a profit out of it but i cant afford to 
 </p>
 
 ---------------------------------------------------------------
-<h1>Instructions on how to install:</h1>
+<h2>Instructions on how to install:</h2>
 * Close WoW before updating/installing.
 * Download PE (http://www.ownedcore.com/forums/worl...-warlords.html (ProbablyEngine Addon - Warlords)) if you dont have it and my Addon.
 * Extract both PE and my Addon.
@@ -28,7 +28,7 @@ This is a hobby, i'm not trying to make a profit out of it but i cant afford to 
 * Start game and run your chosen lua unlocker.
 * Right click PE 1st button and then select the [MTS] rotation from the list.
 
-<h1>Scripts:</h1>
+<h2>Scripts:</h2>
 * Paladin - Holy
 * Paladin - Protection
 * DeathKnight - Blood
@@ -53,7 +53,7 @@ This is a hobby, i'm not trying to make a profit out of it but i cant afford to 
 * Shaman - Elemental
 * Shaman - Restoration
 
-<h1>Advanced Feautres:</h1>
+<h2>Advanced Feautres:</h2>
 * Auto Moving. (Enable in /mts config)
 * Auto Facing. (Enable in /mts config)
 * Advanced Unit caching.
