@@ -226,7 +226,7 @@ Build By: MTS
 local function mts_FaceTo()
 	if fetch('mtsconf', 'AutoFace') then
         local unitSpeed, _ = GetUnitSpeed('player')
-	  	if UnitExists('target') and UnitIsVisible('target') and unitSpeed == 0 and mts.dynamicEval("!player.channeling") then
+	  	if UnitExists('target') and UnitIsVisible('target') and unitSpeed == 0 and not UnitChannelInfo("player") then
 			local name = GetUnitName('target', false)
 	    	if not mts.Infront('target') then
 	      		if FireHack then
