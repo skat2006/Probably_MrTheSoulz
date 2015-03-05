@@ -77,14 +77,10 @@ local Attonement = {
 		"player.mana > 20",
 		"target.spell(14914).range",
 	}, "target" },
-	{ "47540", { --Penance
-		"target.spell(47540).range", 
-		"!player.moving",
-	}, "target" },
-	{ "585", {  --Smite
-		"!player.moving", 
-		"target.spell(585).range",
-	}, "target" }, 
+	{{-- not moving
+		{ "47540", "target.spell(47540).range", "target" } ,-- Penance
+		{ "585", "target.spell(585).range", "target" }, --Smite
+	}, "!player.moving" },
 
 }
 
@@ -432,8 +428,8 @@ ProbablyEngine.rotation.register_custom(
 					(function() return mts.Infront('target') end),
 					--"!player.buff(81661).count = 5",
 					"!player.mana < 20",
-					"target.range <= 30",
-					"target.infront"
+					--"target.range <= 30",
+					--"target.infront"
 			 	}}, ----------------------------------------------------------------------------------------------------------
 		 		{ AoE, "modifier.multitarget" },																			-- AoE Heals
 				{ Normal}																									-- Normal Heals
