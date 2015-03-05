@@ -16,12 +16,22 @@ MTSP goal is to be light but with advanced features, i have some experience with
 Will try to work on every class/spec the best and can & implement moust of the requested enhancements but im sharing this with the goal of more people pitchin in and contributing back ( the way open-source is meant to be used :P ).
 Before asking for help follow the Instructions, you'r fully updated (PE, Lua unlocker & MTSP) and have used your choosen lua unlocker & Try and disabling all other addons.
 
-Advanced Feautres:
-* Auto Moving. (Enable in /mts config)
-* Auto Facing. (Enable in /mts config)
-* Advanced Unit caching.
-* Advanced Auto Targets.
+Donate Link: http://goo.gl/yrctPO
+Why donate?
+This is a hobby, i'm not trying to make a profit out of it but i cant afford to pay myself for hobbys thefore will glady keep working on this on my free time IF the hobby pays itself.
 
+---------------------------------------------------------------
+Instructions on how to install:
+============================
+* Close WoW before updating/installing.
+* Download PE (http://www.ownedcore.com/forums/worl...-warlords.html (ProbablyEngine Addon - Warlords)) if you dont have it and my Addon.
+* Extract both PE and my Addon.
+* Move both folders to: "wow\Interface\Addons folder".
+* Remove "-master" from the folder names.
+* Start game and run your chosen lua unlocker.
+* Right click PE 1st button and then select the [MTS] rotation from the list.
+
+---------------------------------------------------------------
 Scripts:
 ============================
 * Paladin - Holy
@@ -47,19 +57,10 @@ Scripts:
 * Mage - Frost
 * Shaman - Elemental
 * Shaman - Restoration
-  
----------------------------------------------------------------
-Instructions on how to install:
-============================
-* Close WoW before updating/installing.
-* Download PE (http://www.ownedcore.com/forums/worl...-warlords.html (ProbablyEngine Addon - Warlords)) if you dont have it and my Addon.
-* Extract both PE and my Addon.
-* Move both folders to: "wow\Interface\Addons folder".
-* Remove "-master" from the folder names.
-* Start game and run your chosen lua unlocker.
-* Right click PE 1st button and then select the [MTS] rotation from the list.
-* 
 
-Donate Link: http://goo.gl/yrctPO
-Why donate?
-This is a hobby, i'm not trying to make a profit out of it but i cant afford to pay myself for hobbys thefore will glady keep working on this on my free time IF the hobby pays itself.
+Advanced Feautres:
+============================
+* Auto Moving. (Enable in /mts config)
+* Auto Facing. (Enable in /mts config)
+* Advanced Unit caching.
+* Advanced Auto Targets.
