@@ -16,8 +16,8 @@ MTSP goal is to be light but with advanced features, i have some experience with
 Will try to work on every class/spec the best and can & implement moust of the requested enhancements but im sharing this with the goal of more people pitchin in and contributing back ( the way open-source is meant to be used :P ). <br/>
 Before asking for help follow the Instructions, you'r fully updated (PE, Lua unlocker & MTSP) and have used your choosen lua unlocker & Try and disabling all other addons. <br/>
 
-<h1>Donate Link:</h1> http://goo.gl/yrctPO
-Why donate?
+<h1>Donate Link: http://goo.gl/yrctPO </h1><br/>
+Why donate? <br/>
 This is a hobby, i'm not trying to make a profit out of it but i cant afford to pay myself for hobbys thefore will glady keep working on this on my free time IF the hobby pays itself.
 ---------------------------------------------------------------
 
