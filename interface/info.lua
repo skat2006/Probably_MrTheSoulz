@@ -1,6 +1,5 @@
 local logo = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:15:15|t"
 local fetch = ProbablyEngine.interface.fetchKey
-
 local InfoWindow
 local mts_OpenInfoWindow = false
 local mts_ShowingInfoWindow = false
@@ -150,8 +149,6 @@ local mts_info = {
 					mts.InfoGUI()
 				end
 			},
-
-		
 	}
 }
 
@@ -177,20 +174,16 @@ function mts.InfoGUI()
 			mts_OpenInfoWindow = false
 			mts_ShowingInfoWindow = false
 		end)
-	
 	elseif mts_OpenInfoWindow == true and mts_ShowingInfoWindow == true then
 		mts_InfoUpdating = false
 		InfoWindow.parent:Hide()
 		mts_ShowingInfoWindow = false
-	
 	elseif mts_OpenInfoWindow == true and mts_ShowingInfoWindow == false then
 		mts_InfoUpdating = true
 		InfoWindow.parent:Show()
 		mts_ShowingInfoWindow = true
 	end
-
 	if mts_InfoUpdating then
 		C_Timer.NewTicker(1.00, mts_updateLiveInfo, nil)
 	end
-
 end
