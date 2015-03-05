@@ -265,38 +265,42 @@ end
 --[[----------------------------------------------- 
     ** Utility - Milling ** 
     DESC: Automatic Draenor herbs milling 
-    ToDo: Test it! 
+    ToDo: Test it & add some kind of button to start instease of using a
+    checkbox on the GUI.
+    Oh and possivly add more stuff...
 
     Build By: CML 
-    Modified by: Svs 
+    Modified by: Svs & MTS
     ---------------------------------------------------]] 
 local function autoMilling() 
-      	if fetch('mtsconf', 'AutoMilling') and IsSpellKnown(51005) then 
-		-- Frostweed 
-	        if GetItemCount(109124,false,false) >= 5 then 
-	          	Cast(51005) 
-	          	UseItem(109124) 
-	       -- Fireweed 
-	        elseif GetItemCount(109125,false,false) >= 5 then 
-	          	Cast(51005) 
-	          	UseItem(109125)
-	        -- Gorgrond Flytrap 
-	        elseif GetItemCount(109126,false,false) >= 5 then 
-	          	Cast(51005) 
-	          	UseItem(109126) 
-	        -- Starflower 
-	        elseif GetItemCount(109127,false,false) >= 5 then 
-	          	Cast(51005) 
-	          	UseItem(109127) 
-	        -- Nagrand Arrowbloom 
-	        elseif GetItemCount(109128,false,false) >= 5 then 
-	          	Cast(51005) 
-	          	UseItem(109128) 
-	        -- Talador Orchid 
-	        elseif GetItemCount(109129,false,false) >= 5 then 
-	          	Cast(51005) 
-	          	UseItem(109129) 
-		end 
+      	if fetch('mtsconf', 'AutoMilling') then 
+      		if IsSpellKnown(51005) and not UnitChannelInfo("player") then
+			-- Frostweed 
+		        if GetItemCount(109124,false,false) >= 5 then 
+		          	Cast(51005) 
+		          	UseItem(109124) 
+		       -- Fireweed 
+		        elseif GetItemCount(109125,false,false) >= 5 then 
+		          	Cast(51005) 
+		          	UseItem(109125)
+		        -- Gorgrond Flytrap 
+		        elseif GetItemCount(109126,false,false) >= 5 then 
+		          	Cast(51005) 
+		          	UseItem(109126) 
+		        -- Starflower 
+		        elseif GetItemCount(109127,false,false) >= 5 then 
+		          	Cast(51005) 
+		          	UseItem(109127) 
+		        -- Nagrand Arrowbloom 
+		        elseif GetItemCount(109128,false,false) >= 5 then 
+		          	Cast(51005) 
+		          	UseItem(109128) 
+		        -- Talador Orchid 
+		        elseif GetItemCount(109129,false,false) >= 5 then 
+		          	Cast(51005) 
+		          	UseItem(109129)
+			end
+		end
 	end
 end
 
