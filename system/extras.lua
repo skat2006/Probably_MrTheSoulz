@@ -224,7 +224,8 @@ DESC: Checks if unit can/should be faced.
 Build By: MTS
 ---------------------------------------------------]]
 local function mts_FaceTo()
-	if fetch('mtsconf', 'AutoFace') then
+    local unitSpeed, _ = GetUnitSpeed('player')
+	if fetch('mtsconf', 'AutoFace') and unitSpeed == 0 then
 	  	if UnitExists('target') and UnitIsVisible('target') then
 			local name = GetUnitName('target', false)
 	    	if not mts.Infront('target') then
