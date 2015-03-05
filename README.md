@@ -1,15 +1,13 @@
 <p align="center">~
-	<img src="https://dl.dropboxusercontent.com/u/101560647/splash.png"/>
+	<img src="https://dl.dropboxusercontent.com/u/101560647/splash.png"/><br/>
 	MrTheSoulz Pack For ProbablyEngine!
 </p>
 - - - -
 
-
-
 About The Project:  
 ============================
 <p align="center">
-MrTheSoulz Profiles For ProbablyEngine. <br/>
+MrTheSoulz Profiles For ProbablyEngine.
 MTSP was created for personal needs and shared to the public, ive created this project using PE's engine & some custom libs. <br/>
 MTSP goal is to be light but with advanced features, i have some experience with moust of the class/spec but im in no way a "pro player". <br/>
 Will try to work on every class/spec the best and can & implement moust of the requested enhancements but im sharing this with the goal of more people pitchin in and contributing back ( the way open-source is meant to be used :P ). <br/>
