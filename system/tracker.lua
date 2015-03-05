@@ -13,29 +13,23 @@ function mts_soothingMist(ht)
 end
 
 ProbablyEngine.listener.register("PLAYER_ENTERING_WORLD", function(...)
-
-    --(WORKAROUND) // Create Config Keys // Open
+	--(WORKAROUND) // Create Config Keys // Open
         mts.ConfigGUI()
         mts.ClassGUI()
-        
-    --(WORKAROUND) // Create Class Keys // Close
-        mts.ConfigGUI()
-        mts.ClassGUI()
-    
-    -- Status GUI
+	--(WORKAROUND) // Create Class Keys // Close
+	mts.ConfigGUI()
+	mts.ClassGUI()
+    	-- Status GUI
         mts.ShowStatus()
-
-    mts_inWorld = true
-
+        -- This is used to only do/load stuff once inside the world
+	mts_inWorld = true
 end)
 
 ProbablyEngine.listener.register("ACTIVE_TALENT_GROUP_CHANGED", function(...)
-
     -- Reload when player changes spec to avoid key nils.
     	if mts_inWorld then
-        	ReloadUI()
+		ReloadUI()
         end
-
 end)
 
 ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
@@ -52,7 +46,7 @@ ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
 end)
 
 ProbablyEngine.listener.register("LFG_PROPOSAL_SHOW", function()
-  if fetch('mtsconf', 'AutoLFG') then
-    AcceptProposal()
-  end
+	if fetch('mtsconf', 'AutoLFG') then
+		AcceptProposal()
+	end
 end)
