@@ -33,8 +33,7 @@ ProbablyEngine.listener.register("ACTIVE_TALENT_GROUP_CHANGED", function(...)
 end)
 
 ProbablyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
-  local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID = ...
-  
+  	local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellID = ...
   	if event == "SPELL_CAST_SUCCESS" then
 		if sourceGUID == UnitGUID("player") then
 			-- Monk MW // Soothing Mist
