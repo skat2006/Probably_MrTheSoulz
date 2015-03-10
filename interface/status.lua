@@ -86,7 +86,7 @@ local mts_live = {
 				-- If not milling then start
 				else
 					mts.Milling = true
-					mts.print('Started Milling...')
+					mts.Print('Started Milling...')
 				end
 			end
 		},
