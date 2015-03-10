@@ -273,33 +273,39 @@ end
     Build By: CML 
     Modified by: Svs & MTS
     ---------------------------------------------------]] 
-local function autoMilling() 
-      	if fetch('mtsconf', 'AutoMilling') then 
-      		if IsSpellKnown(51005) and not UnitChannelInfo("player") then
-			-- Frostweed 
-			if GetItemCount(109124,false,false) >= 5 then 
-				Cast(51005) 
-				UseItem(109124) 
-			-- Fireweed 
-			elseif GetItemCount(109125,false,false) >= 5 then 
-				Cast(51005) 
-				UseItem(109125)
-			-- Gorgrond Flytrap 
-			elseif GetItemCount(109126,false,false) >= 5 then 
-				Cast(51005) 
-				UseItem(109126) 
-			-- Starflower 
-			elseif GetItemCount(109127,false,false) >= 5 then 
-				Cast(51005) 
-				UseItem(109127) 
-			-- Nagrand Arrowbloom 
-			elseif GetItemCount(109128,false,false) >= 5 then 
-				Cast(51005) 
-				UseItem(109128) 
-			-- Talador Orchid 
-			elseif GetItemCount(109129,false,false) >= 5 then 
-				Cast(51005) 
-				UseItem(109129)
+local function autoMilling()
+	-- If enabled/started
+	if mts.Milling then
+	      	if fetch('mtsconf', 'AutoMilling') then 
+	      		if IsSpellKnown(51005) and not UnitChannelInfo("player") then
+				-- Frostweed 
+				if GetItemCount(109124,false,false) >= 5 then 
+					Cast(51005) 
+					UseItem(109124) 
+				-- Fireweed 
+				elseif GetItemCount(109125,false,false) >= 5 then 
+					Cast(51005) 
+					UseItem(109125)
+				-- Gorgrond Flytrap 
+				elseif GetItemCount(109126,false,false) >= 5 then 
+					Cast(51005) 
+					UseItem(109126) 
+				-- Starflower 
+				elseif GetItemCount(109127,false,false) >= 5 then 
+					Cast(51005) 
+					UseItem(109127) 
+				-- Nagrand Arrowbloom 
+				elseif GetItemCount(109128,false,false) >= 5 then 
+					Cast(51005) 
+					UseItem(109128) 
+				-- Talador Orchid 
+				elseif GetItemCount(109129,false,false) >= 5 then 
+					Cast(51005) 
+					UseItem(109129)
+				else
+					mts.Milling = false
+					mts.Print('Stoped Milling, you dont have any mats.')
+				end
 			end
 		end
 	end
