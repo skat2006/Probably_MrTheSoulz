@@ -66,7 +66,15 @@ ProbablyEngine.command.register('mts', function(msg, box)
 		mts.InfoGUI()
 	-- Auto mill
     	elseif command == 'mill' or command == 'ml' then
-		mts.CacheGUI()
+		-- If milling then stop
+		if mts.Milling then
+			mts.Milling = false
+			mts.Print('Stoped Milling...')
+		-- If not milling then start
+		else
+			mts.Milling = true
+			mts.Print('Started Milling...')
+		end
     	end
 end)
 
