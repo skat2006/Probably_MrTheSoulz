@@ -5,7 +5,7 @@ mts = {
 	peRecomemded = "6.1r15",
 	CurrentCR = false,
 	printColor = "|cff0070DE",
-	addonColor = "|cff9482C9"
+	addonColor = "|cff9482C9",
 	Milling = false
 }
 
