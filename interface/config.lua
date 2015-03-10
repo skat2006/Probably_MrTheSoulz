@@ -132,13 +132,6 @@ local mts_config = {
 					default = true, 
 					desc = "Automatic accept LFG proposal."
 				},
-				{  
-			        type = "checkbox",  
-			        text = "Auto Milling",  
-			        key = "AutoMilling",  
-			        default = false,  
-			        desc = "|cffff2020[Warning:]|r This will mill all Draenor herbs in your bags on check!" 
-			    },
 				{ 
 					type = "spinner", 
 					text = "Dummy Testing Time", 
