@@ -5,6 +5,7 @@ local LiveWindow
 local mts_OpenLive = false
 local mts_ShowingLiveWindow = false
 local mts_LiveUpdating = false
+local mts_milling = false
 
 local mts_live = {
 	key = "mtslive",
@@ -72,7 +73,23 @@ local mts_live = {
 				mts.dummyTest()
 			end
 		},
-
+		{ 
+			type = "button", 
+			text = "Auto Mill", 
+			width = 180, 
+			height = 20,
+			callback = function()
+				-- If milling then stop
+				if mts.Milling then
+					mts.Milling = false
+					mts.Print('Stoped Milling...')
+				-- If not milling then start
+				else
+					mts.Milling = true
+					mts.print('Started Milling...')
+				end
+			end
+		},
 	}
 }
 
