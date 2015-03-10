@@ -6,6 +6,7 @@ mts = {
 	CurrentCR = false,
 	printColor = "|cff0070DE",
 	addonColor = "|cff9482C9"
+	Milling = false
 }
 
 local fetch = ProbablyEngine.interface.fetchKey
@@ -54,20 +55,17 @@ ProbablyEngine.command.register('mts', function(msg, box)
 	-- Displays General GUI
 	if command == 'config' or command == 'c' then
 		mts.ConfigGUI()
-	end
    	-- Displays LiveGUI
-    	if command == 'live' or command == 'status' or command == 's' then
+    	elseif command == 'live' or command == 'status' or command == 's' then
 		mts.ShowStatus()
-    	end
     	-- Displays Class GUI
-	if command == 'class' or command == 'cl' then
+	elseif command == 'class' or command == 'cl' then
 		mts.ClassGUI()
-	 end
 	-- Displays Help GUI
-	if command == 'help' or command == 'info' or command == 'i' or command == '?' then
+	elseif command == 'help' or command == 'info' or command == 'i' or command == '?' then
 		mts.InfoGUI()
-	end
-    	if command == 'ch' or command == 'cache' then
+	-- Auto mill
+    	elseif command == 'mill' or command == 'ml' then
 		mts.CacheGUI()
     	end
 end)
