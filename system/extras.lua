@@ -270,49 +270,35 @@ end
     checkbox on the GUI.
     Oh and possivly add more stuff...
 
-    Build By: CML 
-    Modified by: Svs & MTS
+    Build By: MTS
     ---------------------------------------------------]] 
 local function autoMilling()
-	-- If enabled/started
+	local Milling_Herbs = {
+		-- Draenor
+		109124, -- Frostweed
+		109125, -- Fireweed
+		109126, -- Gorgrond Flytrap
+		109127, -- Starflower
+		109128, -- Nagrand Arrowbloom
+		109129 -- Talador Orchid
+	}
 	if mts.Milling then
-		-- If knows Milling
-	      	if IsSpellKnown(51005) then
-			-- If not channeling
+		if IsSpellKnown(51005) then
 			if not UnitChannelInfo("player") then
-				-- Frostweed 
-				if GetItemCount(109124,false,false) >= 5 then 
-					Cast(51005) 
-					UseItem(109124) 
-				-- Fireweed 
-				elseif GetItemCount(109125,false,false) >= 5 then 
-					Cast(51005) 
-					UseItem(109125)
-				-- Gorgrond Flytrap 
-				elseif GetItemCount(109126,false,false) >= 5 then 
-					Cast(51005) 
-					UseItem(109126) 
-				-- Starflower 
-				elseif GetItemCount(109127,false,false) >= 5 then 
-					Cast(51005) 
-					UseItem(109127) 
-				-- Nagrand Arrowbloom 
-				elseif GetItemCount(109128,false,false) >= 5 then 
-					Cast(51005) 
-					UseItem(109128) 
-				-- Talador Orchid 
-				elseif GetItemCount(109129,false,false) >= 5 then 
-					Cast(51005) 
-					UseItem(109129)
-				else
-					mts.Milling = false
-					mts.Print('Stoped Milling, you dont have any mats.')
+				for i=1,#Milling_Herbs do
+					if GetItemCount(Milling_Herbs[i],false,false) >= 5 then 
+						Cast(51005) 
+						UseItem(Milling_Herbs[i])
+						mts.Print('Milling '..Milling_Herbs[i])
+					else
+						mts.Milling = false
+						mts.Print('Stoped milling, you dont have enough mats.')
+					end
 				end
 			end
-		-- If dosent know milling
 		else
 			mts.Milling = false
-			mts.Print('Failed, You are not a miller.')
+			mts.Print('Failed, you are not a miller.')
 		end
 	end
 end
