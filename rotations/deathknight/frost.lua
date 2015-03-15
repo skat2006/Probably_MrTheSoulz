@@ -7,8 +7,7 @@ ProbablyEngine.condition.register('onehand', function(target)
 end)
 
 local exeOnLoad = function()
-mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
-
+	mts.Splash("|cff9482C9[MTS]-[|cffC41F3BDeathKnight-Frost|r]-|cff9482C9Loaded", 5.0)
 	ProbablyEngine.toggle.create(
 		'defcd', 
 		'Interface\\Icons\\Spell_deathknight_iceboundfortitude.png', 
@@ -19,7 +18,6 @@ mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpe
 		'Interface\\Icons\\Inv_boots_plate_dungeonplate_c_05.png', 
 		'Enable Unholy Presence Outside of Combat', 
 		'Enable/Disable Unholy Presence Outside of Combat \nMakes you run/fly faster when outside of combat.')
-
 end
 
 local inCombat = {
