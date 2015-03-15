@@ -13,43 +13,22 @@ local fetch = ProbablyEngine.interface.fetchKey
 local _parse = ProbablyEngine.dsl.parse
 local _PeConfig = ProbablyEngine.config
 
-local mts_ImmuneAuras = {
-	-- CROWD CONTROL
-	118,        -- Polymorph
-	1513,       -- Scare Beast
-	1776,       -- Gouge
-	2637,       -- Hibernate
-	3355,       -- Freezing Trap
-	6770,       -- Sap
-	9484,       -- Shackle Undead
-	19386,      -- Wyvern Sting
-	20066,      -- Repentance
-	28271,      -- Polymorph (turtle)
-	28272,      -- Polymorph (pig)
-	49203,      -- Hungering Cold
-	51514,      -- Hex
-	61025,      -- Polymorph (serpent) -- FIXME: gone ?
-	61305,      -- Polymorph (black cat)
-	61721,      -- Polymorph (rabbit)
-	61780,      -- Polymorph (turkey)
-	76780,      -- Bind Elemental
-	82676,      -- Ring of Frost
-	90337,      -- Bad Manner (Monkey) -- FIXME: to check
-	115078,     -- Paralysis
-	115268,     -- Mesmerize
-	-- MOP DUNGEONS/RAIDS
-	106062,     -- Water Bubble (Wise Mari)
-	110945,     -- Charging Soul (Gu Cloudstrike)
-	116994,     -- Unstable Energy (Elegon)
-	122540,     -- Amber Carapace (Amber Monstrosity - Heat of Fear)
-	123250,     -- Protect (Lei Shi)
-	143574,     -- Swelling Corruption (Immerseus)
-	143593,     -- Defensive Stance (General Nazgrim)
-}
+--[[-----------------------------------------------
+** Conditions **
+DESC: Add condicions to PE.
+---------------------------------------------------]]
+ProbablyEngine.condition.register('twohand', function(target)
+  return IsEquippedItemType("Two-Hand")
+end)
 
-                                                    --[[ Commands ]]
---[[------------------------------------------------------------------------------------------------------------]]
---[[------------------------------------------------------------------------------------------------------------]]
+ProbablyEngine.condition.register('onehand', function(target)
+  return IsEquippedItemType("One-Hand")
+end)
+
+--[[-----------------------------------------------
+** Commands **
+DESC: Slash commands in-game.
+---------------------------------------------------]]
 ProbablyEngine.command.register('mts', function(msg, box)
 	local command, text = msg:match("^(%S*)%s*(.-)$")
 	-- Displays General GUI
@@ -65,24 +44,21 @@ ProbablyEngine.command.register('mts', function(msg, box)
 	elseif command == 'help' or command == 'info' or command == 'i' or command == '?' then
 		mts.InfoGUI()
 	-- Auto mill
-    	elseif command == 'mill' or command == 'ml' then
-		-- If milling then stop
+    elseif command == 'mill' or command == 'ml' then
 		if mts.Milling then
 			mts.Milling = false
 			mts.Print('Stoped Milling...')
-		-- If not milling then start
 		else
 			mts.Milling = true
 			mts.Print('Started Milling...')
 		end
-    	end
+    end
 end)
 
-                                                 --[[ Global ]]
---[[------------------------------------------------------------------------------------------------------------]]
---[[------------------------------------------------------------------------------------------------------------]]
-
---[[ Used to compare stuff with GUI's values ]]
+--[[-----------------------------------------------
+** Gobal's **
+DESC: Global functions.
+---------------------------------------------------]]
 function mts.dynamicEval(condition, spell)
 	if not condition then return false end
 	return _parse(condition, spell or '')
@@ -93,6 +69,39 @@ function mts.Print(txt)
 end
 
 function mts.immuneEvents(unit)
+	local mts_ImmuneAuras = {
+		-- ***** CROWD CONTROL *****
+		118,        -- Polymorph
+		1513,       -- Scare Beast
+		1776,       -- Gouge
+		2637,       -- Hibernate
+		3355,       -- Freezing Trap
+		6770,       -- Sap
+		9484,       -- Shackle Undead
+		19386,      -- Wyvern Sting
+		20066,      -- Repentance
+		28271,      -- Polymorph (turtle)
+		28272,      -- Polymorph (pig)
+		49203,      -- Hungering Cold
+		51514,      -- Hex
+		61025,      -- Polymorph (serpent) -- FIXME: gone ?
+		61305,      -- Polymorph (black cat)
+		61721,      -- Polymorph (rabbit)
+		61780,      -- Polymorph (turkey)
+		76780,      -- Bind Elemental
+		82676,      -- Ring of Frost
+		90337,      -- Bad Manner (Monkey) -- FIXME: to check
+		115078,     -- Paralysis
+		115268,     -- Mesmerize
+		-- ***** MOP DUNGEONS/RAIDS *****
+		106062,     -- Water Bubble (Wise Mari)
+		110945,     -- Charging Soul (Gu Cloudstrike)
+		116994,     -- Unstable Energy (Elegon)
+		122540,     -- Amber Carapace (Amber Monstrosity - Heat of Fear)
+		123250,     -- Protect (Lei Shi)
+		143574,     -- Swelling Corruption (Immerseus)
+		143593,     -- Defensive Stance (General Nazgrim)
+	}
 	for i = 1, 40 do
 		local _,_,_,_,_,_,_,_,_,_,spellId = _G['UnitDebuff'](unit, i)
 		for k,v in pairs(mts_ImmuneAuras) do
