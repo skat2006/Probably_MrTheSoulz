@@ -141,6 +141,21 @@ function mts.Infront(unit)
 	end
 end
 
+--[[----------------------------------------------- 
+    ** Free Bag Space ** 
+    DESC: Check If Theres Enough Bag Space
+
+    Build By: SVS
+    ---------------------------------------------------]]
+function mts.BagSpace()
+	local freeslots = 0
+	for lbag = 0, NUM_BAG_SLOTS do
+		numFreeSlots, BagType = GetContainerNumFreeSlots(lbag)
+		freeslots = freeslots + numFreeSlots
+	end
+	return freeslots
+end
+
 --[[-----------------------------------------------
 ** mts.Distance **
 DESC: Sometimes PE's behaves badly,
