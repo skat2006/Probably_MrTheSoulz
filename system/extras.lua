@@ -318,9 +318,6 @@ local function OpenSalvage()
 		-- Big Crate of Salvage
 		elseif GetItemCount(114120, false, false) > 0 then
 			UseItem(114120)
-		else
-			mts.AutoSavage = false
-			mts.Print('Failed, you do not have enough mats.')
 		end
 	end
 end
