@@ -46,15 +46,33 @@ ProbablyEngine.command.register('mts', function(msg, box)
 	elseif command == 'help' or command == 'info' or command == 'i' or command == '?' then
 		mts.InfoGUI()
 	-- Auto mill
-    elseif command == 'mill' or command == 'ml' then
-		if mts.Milling then
-			mts.Milling = false
+	elseif command == 'mill' or command == 'ml' then
+		if mts.AutoMilling then
+			mts.AutoMilling = false
 			mts.Print('Stoped Milling...')
 		else
-			mts.Milling = true
+			mts.AutoMilling = true
 			mts.Print('Started Milling...')
 		end
-    end
+	-- Auto Savage
+	elseif command == 'savage' or command == 'svg' then
+		if mts.AutoSavage then
+			mts.AutoSavage = false
+			mts.Print('Stoped Savage...')
+		else
+			mts.AutoSavage = true
+			mts.Print('Started Savage...')
+		end
+	-- Auto Bait
+	elseif command == 'bait' then
+		if mts.AutoBait then
+			mts.AutoBait = false
+			mts.Print('Stoped Baiting...')
+		else
+			mts.AutoBait = true
+			mts.Print('Started Baiting...')
+		end
+	end
 end)
 
 --[[-----------------------------------------------
