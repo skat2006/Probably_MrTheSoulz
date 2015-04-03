@@ -6,7 +6,9 @@ mts = {
 	CurrentCR = false,
 	printColor = "|cff0070DE",
 	addonColor = "|cff9482C9",
-	Milling = false
+	AutoMilling = false,
+	AutoSavage = false,
+	AutoBait = false
 }
 
 local fetch = ProbablyEngine.interface.fetchKey
