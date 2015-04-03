@@ -282,23 +282,89 @@ local function autoMilling()
 		109128, -- Nagrand Arrowbloom
 		109129 -- Talador Orchid
 	}
-	if mts.Milling then
+	if mts.AutoMilling then
 		if IsSpellKnown(51005) then
-			if not UnitChannelInfo("player") then
-				for i=1,#Milling_Herbs do
-					if GetItemCount(Milling_Herbs[i],false,false) >= 5 then 
-						Cast(51005) 
-						UseItem(Milling_Herbs[i])
-						mts.Print('Milling '..Milling_Herbs[i])
-					else
-						mts.Milling = false
-						mts.Print('Stoped milling, you dont have enough mats.')
-					end
+			for i=1,#Milling_Herbs do
+				if GetItemCount(Milling_Herbs[i],false,false) >= 5 then 
+					Cast(51005) 
+					UseItem(Milling_Herbs[i])
+					mts.Print('Milling '..Milling_Herbs[i])
+				else	
+					mts.AutoMilling = false
+					mts.Print('Stoped milling, you dont have enough mats.')
 				end
 			end
 		else
-			mts.Milling = false
+			mts.AutoMilling = false
 			mts.Print('Failed, you are not a miller.')
+		end
+	end
+end
+
+--[[----------------------------------------------- 
+    ** Savage ** 
+    DESC: Savge Items
+
+    Build By: SVS
+    ---------------------------------------------------]]
+local function OpenSalvage()
+	if mts.AutoSavage then
+		-- Bag of Salvaged Goods
+		if GetItemCount(114116, false, false) > 0 then
+			UseItem(114116)
+		-- Crate of Salvage
+		elseif GetItemCount(114119, false, false) > 0 then
+			UseItem(114119)
+		-- Big Crate of Salvage
+		elseif GetItemCount(114120, false, false) > 0 then
+			UseItem(114120)
+		else
+			mts.AutoSavage = false
+			mts.Print('Failed, you do not have enough mats.')
+		end
+	end
+end
+
+local function AutoBait()
+	if mts.AutoBait then
+		-- Jawless Skulker Bait
+		if fetch('mtsconf', 'bait') == "jsb" and not UnitBuff("player", GetSpellInfo(158031)) and GetItemCount(110274, false, false) > 0 then
+			UseItem(110274)
+		-- Fat Sleeper Bait
+		elseif fetch('mtsconf', 'bait') == "fsb" and not UnitBuff("player", GetSpellInfo(158034)) and GetItemCount(110289, false, false) > 0 then
+			UseItem(110289)
+		-- Blind Lake Sturgeon Bait
+		elseif fetch('mtsconf', 'bait') == "blsb" and not UnitBuff("player", GetSpellInfo(158035)) and GetItemCount(110290, false, false) > 0 then
+			UseItem(110290)
+		-- Fire Ammonite Bait
+		elseif fetch('mtsconf', 'bait') == "fab" and not UnitBuff("player", GetSpellInfo(158036)) and GetItemCount(110291, false, false) > 0 then
+			UseItem(110291)
+		-- Sea Scorpion Bait
+		elseif fetch('mtsconf', 'bait') == "ssb" and not UnitBuff("player", GetSpellInfo(158037)) and GetItemCount(110292, false, false) > 0 then
+			UseItem(110292)
+		-- Abyssal Gulper Eel Bait
+		elseif fetch('mtsconf', 'bait') == "ageb" and not UnitBuff("player", GetSpellInfo(158038)) and GetItemCount(110293, false, false) > 0 then
+			UseItem(110293)
+		-- Blackwater Whiptail Bait
+		elseif fetch('mtsconf', 'bait') == "bwb" and not UnitBuff("player", GetSpellInfo(158039)) and GetItemCount(110294, false, false) > 0 then
+			UseItem(110294)
+		end
+	end
+end
+ 
+local function CarpDestruction()
+	if fetch('mtsconf', 'LunarfallCarp') and GetItemCount(116158, false, false) > 0 then
+		for bag = 0, NUM_BAG_SLOTS do
+			for slot = 1, GetContainerNumSlots(bag) do
+				currentItemID = GetContainerItemID(bag, slot)
+				if currentItemID == 116158 then
+					PickupContainerItem(bag, slot)
+						if CursorHasItem() then
+							DeleteCursorItem();
+						end
+					return true
+				end
+			end
 		end
 	end
 end
@@ -373,7 +439,16 @@ C_Timer.NewTicker(0.5, (function()
 			end
 			-- If not in combat
 			if not ProbablyEngine.module.player.combat then
-				autoMilling() 
+				-- If not Casting
+				if not UnitChannelInfo("player") then
+					CarpDestruction()
+					-- If There Bag Space
+					if mts.BagSpace() > 2 then
+						autoMilling()
+						OpenSalvage()
+						AutoBait()
+					end
+				end
 			end
 		end
 	end
