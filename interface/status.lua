@@ -80,13 +80,47 @@ local mts_live = {
 			height = 20,
 			callback = function()
 				-- If milling then stop
-				if mts.Milling then
-					mts.Milling = false
+				if mts.AutoMilling then
+					mts.AutoMilling = false
 					mts.Print('Stoped Milling...')
 				-- If not milling then start
 				else
-					mts.Milling = true
+					mts.AutoMilling = true
 					mts.Print('Started Milling...')
+				end
+			end
+		},
+		{ 
+			type = "button", 
+			text = "Auto Savage", 
+			width = 180, 
+			height = 20,
+			callback = function()
+				-- If milling then stop
+				if mts.AutoSavage then
+					mts.AutoSavage = false
+					mts.Print('Stoped Savage...')
+				-- If not milling then start
+				else
+					mts.AutoSavage = true
+					mts.Print('Started Savage...')
+				end
+			end
+		},
+		{ 
+			type = "button", 
+			text = "Auto Bait", 
+			width = 180, 
+			height = 20,
+			callback = function()
+				-- If milling then stop
+				if mts.AutoBait then
+					mts.AutoBait = false
+					mts.Print('Stoped Baiting...')
+				-- If not milling then start
+				else
+					mts.AutoBait = true
+					mts.Print('Started Baiting...')
 				end
 			end
 		},
