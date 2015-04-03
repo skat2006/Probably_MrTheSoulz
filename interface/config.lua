@@ -129,7 +129,7 @@ local mts_config = {
 					type = "checkbox", 
 					text = "Auto Accept LFG Queue", 
 					key = "AutoLFG", 
-					default = true, 
+					default = false, 
 					desc = "Automatic accept LFG proposal."
 				},
 				{ 
@@ -142,80 +142,155 @@ local mts_config = {
 					step = 1,
 					desc = "Set how long to run dumy testing for in mintes."
 				},
-		-- [[Cache]]
-		{ type = 'rule' },
-		{ 
-			type = 'header', 
-			text = "|cff9482C9Cache Options:", 
-			size = 15,
-			align = "Center",
-			offset = 0 
-		},
+				{  
+					type = "checkbox",  
+					text = "Auto Open Salvage",  
+					key = "OpenSalvage",  
+					default = false,  
+					desc = "Automatic salvage bags/crates opening." 
+				},
+			-- [[Fishing]] (new section)
+			{ type = 'rule' },
 			{ 
-				type = "checkbox", 
-				text = "Use Advanced Object Manager", 
-				key = "AC", 
-				default = true, 
+				type = 'header', 
+				text = "|cff9482C9Fishing:", 
+				size = 10,
+				align = "Center",
 			},
+				{
+					type = "checkbox", 
+					text = "Use Worm Supreme", 
+					key = "WormSupreme", 
+					default = true, 
+					desc = "Enable automatic usage of Worm Supreme."
+				},
+				{  
+				        type = "checkbox",  
+				        text = "Use Sharpened Fish Hook",  
+				        key = "SharpenedFishHook",  
+				        default = false,  
+				        desc = "Enable automatic usage of Sharpened Fish Hook." 
+				},
+				{  
+					type = "checkbox",  
+					text = "Destroy Lunarfall Carp",  
+					key = "LunarfallCarp",  
+					default = false,  
+					desc = "Enable automatic destruction of Lunarfall Carp." 
+				},			    
+				{ 
+					type = "dropdown",
+					text = "Bait:", 
+					key = "bait", 
+					list = {
+							{
+								text = "None",
+								key = "none"
+							},	
+							{
+								text = "Jawless Skulker",
+								key = "jsb"
+							},
+							{
+								text = "Fat Sleeper",
+								key = "fsb"
+							},
+							{
+								text = "Blind Lake Sturgeon",
+								key = "blsb"
+							},
+							{
+								text = "Fire Ammonite",
+								key = "fab"
+							},
+							{
+								text = "Sea Scorpion",
+								key = "ssb"
+							},
+							{
+								text = "Abyssal Gulper Eel",
+								key = "ageb"
+							},
+							{
+								text = "Blackwater Whiptail",
+								key = "bwb"
+							},
+						}, 
+					default = "none" 
+				},
+			-- [[Cache]]
+			{ type = 'rule' },
 			{ 
-				type = "checkbox", 
-				text = "Cache Friendly Units", 
-				key = "FU", 
-				default = true, 
+				type = 'header', 
+				text = "|cff9482C9Cache Options:", 
+				size = 15,
+				align = "Center",
+				offset = 0 
 			},
-            { 
-                type = "checkbox", 
-                text = "Cache Enemie Units", 
-                key = "EU", 
-                default = true, 
-            },
-			{ 
-				type = "dropdown",
-				text = "Friendly Units", 
-				key = "FU2", 
-				list = {
-					{
-						text = "All",
-						key = "All"
-					},
-					{
-						text = "Players",
-						key = "Players"
-					},
-                    {
-                        text = "Party/Raid",
-                        key = "PR"
-                    },
-				}, 
-				default = "PR" 
-			},
-            { 
-                type = "dropdown",
-                text = "Enemie Units", 
-                key = "EU2", 
-                list = {
-                    {
-                        text = "All",
-                        key = "All"
-                    },
-                    {
-                        text = "Combat",
-                        key = "Combat"
-                    },
-                }, 
-                default = "Combat" 
-            },
-			{
-				type = "spinner",
-				text = "Cache distance",
-				key = "CD",
-				width = 50,
-				min = 10,
-				max = 80,
-				default = 40,
-				step = 5
-			},
-
+				{ 
+					type = "checkbox", 
+					text = "Use Advanced Object Manager", 
+					key = "AC", 
+					default = true, 
+				},
+				{ 
+					type = "checkbox", 
+					text = "Cache Friendly Units", 
+					key = "FU", 
+					default = true, 
+				},
+				{ 
+					type = "checkbox", 
+					text = "Cache Enemie Units", 
+					key = "EU", 
+					default = true, 
+				},
+				{ 
+					type = "dropdown",
+					text = "Friendly Units", 
+					key = "FU2", 
+					list = {
+						{
+							text = "All",
+							key = "All"
+						},
+						{
+							text = "Players",
+							key = "Players"
+						},
+						{
+							text = "Party/Raid",
+							key = "PR"
+						},
+					}, 
+					default = "PR" 
+				},
+				{ 
+					type = "dropdown",
+					text = "Enemie Units", 
+					key = "EU2", 
+					list = {
+							{
+								text = "All",
+								key = "All"
+							},
+							{
+								text = "Combat",
+								key = "Combat"
+							},
+						}, 
+					default = "Combat" 
+				},
+				{
+					type = "spinner",
+					text = "Cache distance",
+					key = "CD",
+					width = 50,
+					min = 10,
+					max = 80,
+					default = 40,
+					step = 5
+				},
 	}
 }
 
