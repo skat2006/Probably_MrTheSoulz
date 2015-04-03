@@ -7,8 +7,6 @@ mts = {
 	printColor = "|cff0070DE",
 	addonColor = "|cff9482C9",
 	AutoMilling = false,
-	AutoSavage = false,
-	AutoBait = false
 }
 
 local fetch = ProbablyEngine.interface.fetchKey
@@ -53,24 +51,6 @@ ProbablyEngine.command.register('mts', function(msg, box)
 		else
 			mts.AutoMilling = true
 			mts.Print('Started Milling...')
-		end
-	-- Auto Savage
-	elseif command == 'savage' or command == 'svg' then
-		if mts.AutoSavage then
-			mts.AutoSavage = false
-			mts.Print('Stoped Savage...')
-		else
-			mts.AutoSavage = true
-			mts.Print('Started Savage...')
-		end
-	-- Auto Bait
-	elseif command == 'bait' then
-		if mts.AutoBait then
-			mts.AutoBait = false
-			mts.Print('Stoped Baiting...')
-		else
-			mts.AutoBait = true
-			mts.Print('Started Baiting...')
 		end
 	end
 end)
