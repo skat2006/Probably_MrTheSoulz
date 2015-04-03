@@ -308,7 +308,7 @@ end
     Build By: SVS
     ---------------------------------------------------]]
 local function OpenSalvage()
-	if mts.AutoSavage then
+	if fetch('mtsconf', 'OpenSalvage') then
 		-- Bag of Salvaged Goods
 		if GetItemCount(114116, false, false) > 0 then
 			UseItem(114116)
@@ -326,7 +326,7 @@ local function OpenSalvage()
 end
 
 local function AutoBait()
-	if mts.AutoBait then
+	if fetch('mtsconf', 'bait') ~= "none" then
 		-- Jawless Skulker Bait
 		if fetch('mtsconf', 'bait') == "jsb" and not UnitBuff("player", GetSpellInfo(158031)) and GetItemCount(110274, false, false) > 0 then
 			UseItem(110274)
