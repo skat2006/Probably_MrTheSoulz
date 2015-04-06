@@ -265,7 +265,7 @@ local function mts_MoveTo()
 				end
 			elseif WOWSX_ISLOADED then
 				local aX, aY, aZ = ObjectPosition('target')
-				if mts.Distance("player", 'target') >= 6 + (UnitCombatReach('player') + UnitCombatReach('target')) then
+				if mts.Distance("player", 'target') >= 6 then
 					mtsAlert:message('Moving to: '..name) 
 					MoveTo(aX, aY, aZ)
 				end
@@ -293,8 +293,9 @@ local function mts_FaceTo()
 					mtsAlert:message('Facing: '..name) 
 					FaceToUnit('target')
 				elseif WOWSX_ISLOADED then
+					local radian = ObjectFacing("target")
 					mtsAlert:message('Facing: '..name) 
-					Face('target')
+					Face(radian+PI)
 				end
 			end
 		end
