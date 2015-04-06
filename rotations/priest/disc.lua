@@ -37,8 +37,7 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 end
 
 local exeOnLoad = function()
-mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
-
+	mts.Splash("|cffFFFFFFPriest-Discipline")
 	ProbablyEngine.toggle.create(
 		'dotEverything', 
 		'Interface\\Icons\\Ability_creature_cursed_05.png', 
@@ -388,9 +387,7 @@ local All = {
 
 }
 	
-ProbablyEngine.rotation.register_custom(
-	256, 
-	mts.Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", 
+ProbablyEngine.rotation.register_custom(256, mts.Icon.."|r[|cff9482C9MTS|r][|cffFFFFFFPriest-Disc-Party|r]", 
 	{ ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ In-Combat
 		 	------------------------------------------------------------------------------------------------------------------------------------- All in combat
 		 		{ All },																									-- Shared across all

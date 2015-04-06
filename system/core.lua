@@ -65,7 +65,16 @@ function mts.dynamicEval(condition, spell)
 end
 
 function mts.Print(txt)
-	print("|r["..mts.addonColor.."MTS|r]: "..mts.printColor..txt )
+	print("|r["..mts.addonColor.."MTS|r]: "..mts.printColor..txt)
+end
+
+function mts.Alert(txt)
+	if fetch('mtsconf', 'Alerts') then
+		if fetch('mtsconf', 'Sounds') then
+			PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3")
+		end
+		mtsAlert:message("|r["..mts.addonColor.."MTS|r]: "..mts.printColor..txt)
+	end
 end
 
 function mts.immuneEvents(unit)

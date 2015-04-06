@@ -19,7 +19,7 @@ local function mts_unitCacheFun()
 	-- Wipe Chace before refresh otherwise it just adds to the cache...
 	wipe(mts.unitCache)
 	wipe(mts.unitFriendlyCache)
-	-- These are globals beacuse we use it on GUI and might be usefull for other stuff asswell.
+	-- Wipe Counters
 	unitCacheTotal = 0
 	unitCacheFriendlyTotal = 0
   

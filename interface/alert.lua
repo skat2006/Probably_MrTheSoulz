@@ -29,16 +29,8 @@ mtsAlert.texture:SetAllPoints()
 mtsAlert.texture:SetTexture(0,0,0,0.7)
 
 function mtsAlert:message(message) 
-	local fetch = ProbablyEngine.interface.fetchKey
-	
-	if fetch('mtsconf', 'Alerts') then
-		self.text:SetText(message)
-		self:SetAlpha(1)
-		self.time = GetTime() 
-		self:Show()
-	end
-
-	if fetch('mtsconf', 'Sounds') then
-		PlaySoundFile("Interface\\AddOns\\Probably_MrTheSoulz\\media\\beep.mp3")
-	end
+	self.text:SetText(message)
+	self:SetAlpha(1)
+	self.time = GetTime() 
+	self:Show()
 end
