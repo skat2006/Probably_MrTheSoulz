@@ -1,5 +1,5 @@
 local exeOnLoad = function()
-	mts.Splash("|cff9482C9[MTS]-[|cffC41F3BDeathKnight-Frost|r]-|cff9482C9Loaded", 5.0)
+	mts.Splash()
 	ProbablyEngine.toggle.create(
 		'defcd', 
 		'Interface\\Icons\\Spell_deathknight_iceboundfortitude.png', 

@@ -34,10 +34,12 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 end 
 
 local lib = function()
-mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
-
-  	ProbablyEngine.toggle.create('dispel', 'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 'Dispel Everything', 'Dispels everything it finds \nThis does not effect SoO dispels.')
-  	
+	mts.Splash()
+  	ProbablyEngine.toggle.create(
+  		'dispel', 
+  		'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 
+  		'Dispel Everything', 
+  		'Dispels everything it finds \nThis does not effect SoO dispels.')
 end
 
 local inCombat = {

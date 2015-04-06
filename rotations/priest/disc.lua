@@ -37,7 +37,7 @@ local prefix = (IsInRaid() and 'raid') or 'party'
 end
 
 local exeOnLoad = function()
-	mts.Splash("|cffFFFFFFPriest-Discipline")
+	mts.Splash()
 	ProbablyEngine.toggle.create(
 		'dotEverything', 
 		'Interface\\Icons\\Ability_creature_cursed_05.png', 

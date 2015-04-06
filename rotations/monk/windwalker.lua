@@ -10,7 +10,7 @@ local n,r = GetSpellInfo(137639)
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
-	mts.Splash("|cff9482C9[MTS]|r-[|cff00FF96Monk-WindWalker|r]-|cff9482C9Loaded", 5.0)
+	mts.Splash()
 end
 
 local inCombat = {

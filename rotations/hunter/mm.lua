@@ -1,8 +1,7 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
 local lib = function()
-mts.Splash("[|cff9482C9MTS|r]-[|cffABD473Hunter-Marksmanship|r]-|cff9482C9Loaded", 5.0)
-
+	mts.Splash()
 end
 
 local inCombat = {

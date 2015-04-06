@@ -6,10 +6,7 @@ Fury Warrior DPS is based on maintaining a high uptime on Enrage to generally bu
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
-mts.Splash("|cff9482C9[MTS]|r-[|cffF58CBAWarrior-Fury|r]-|cff9482C9Loaded", 5.0)
-
-	
-	
+	mts.Splash()
 end
 
 local All = {

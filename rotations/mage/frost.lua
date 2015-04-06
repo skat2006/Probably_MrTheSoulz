@@ -1,10 +1,12 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
 local lib = function()
-mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
-
-  	ProbablyEngine.toggle.create('cleave', 'Interface\\Icons\\spell_frost_frostbolt', 'Disable Cleaves', 'Disable casting of Cone of Cold and Ice Nova for Procs.')
-  	
+	mts.Splash()
+  	ProbablyEngine.toggle.create(
+  		'cleave', 
+  		'Interface\\Icons\\spell_frost_frostbolt', 
+  		'Disable Cleaves', 
+  		'Disable casting of Cone of Cold and Ice Nova for Procs.')
 end
 
 

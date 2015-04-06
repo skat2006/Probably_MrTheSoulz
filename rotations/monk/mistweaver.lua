@@ -52,7 +52,7 @@ local function Trans()
 end
 
 local exeOnLoad = function()
-mts.Splash("|cff9482C9[MTS]|r-[|cff00FF96Monk-Mistweaver|r]-|cff9482C9Loaded", 5.0)
+	mts.Splash()
 	ProbablyEngine.toggle.create(
 		'dispel', 
 		'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 

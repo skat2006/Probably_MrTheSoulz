@@ -9,7 +9,7 @@ MTS
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
-mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
+	mts.Splash()
 
 	ProbablyEngine.toggle.create("DRW", 
 		"Interface\\Icons\\INV_Sword_07", 

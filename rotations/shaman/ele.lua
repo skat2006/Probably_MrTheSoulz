@@ -1,7 +1,7 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
-	mts.Splash("|cff9482C9[MTS]-|r[|cff0070DEShaman-Elemental|r]-|cff9482C9Loaded", 5.0)
+	mts.Splash()
 	ProbablyEngine.toggle.create(
 		'cleavemode', 
 		'Interface\\Icons\\spell_nature_chainlightning', 'Enable Cleaves', 
@@ -22,6 +22,7 @@ local exeOnLoad = function()
 		'Single Target Burn', 
 		'Force single target rotation for burn phases.')
 end
+
 local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
 
 								--[[   !!!Dispell function!!!   ]]

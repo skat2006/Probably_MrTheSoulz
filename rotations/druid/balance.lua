@@ -1,14 +1,13 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
-mts.Splash("|cff9482C9[MTS]-|cffFFFFFF"..(select(2, GetSpecializationInfo(GetSpecialization())) or "Error").."-|cff9482C9Loaded", 5.0)
+	mts.Splash()
 
-  ProbablyEngine.toggle.create(
-	'dotEverything', 
-	'Interface\\Icons\\Ability_creature_cursed_05.png', 
-	'Dot All The Things!', 
-	'Click here to dot all the things!\nSome Spells require Multitarget enabled also.\nOnly Works if using FireHack.')
-	
+  	ProbablyEngine.toggle.create(
+		'dotEverything', 
+		'Interface\\Icons\\Ability_creature_cursed_05.png', 
+		'Dot All The Things!', 
+		'Click here to dot all the things!\nSome Spells require Multitarget enabled also.\nOnly Works if using FireHack.')
 end
 
 local BoomkinForm = {

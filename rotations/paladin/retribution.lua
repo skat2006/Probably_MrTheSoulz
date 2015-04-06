@@ -1,7 +1,7 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
-	mts.Splash("|cff9482C9[MTS]|r-[|cffF58CBAPaladin-Retribution|r]-|cff9482C9Loaded", 5.0)
+	mts.Splash()
 end
 
 	---------------------------------------------------------------------------

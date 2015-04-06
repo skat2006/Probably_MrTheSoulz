@@ -1,14 +1,12 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
 local lib = function()
-mts.Splash("|cff9482C9[MTS]|r-[|cff9482C9MTS|r]-|cff9482C9Loaded", 5.0)
-  
-  ProbablyEngine.toggle.create(
-	'dotEverything', 
-	'Interface\\Icons\\Ability_creature_cursed_05.png', 
-	'Dot All The Things! (SOLO)', 
-	'Click here to dot all the things while in Solo mode!\nSome Spells require Multitarget enabled also.\nOnly Works if using FireHack.')
-
+	mts.Splash()
+  	ProbablyEngine.toggle.create(
+		'dotEverything', 
+		'Interface\\Icons\\Ability_creature_cursed_05.png', 
+		'Dot All The Things! (SOLO)', 
+		'Click here to dot all the things while in Solo mode!\nSome Spells require Multitarget enabled also.\nOnly Works if using FireHack.')
 end
 
 local inCombat = {
