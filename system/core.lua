@@ -2,7 +2,7 @@ mts = {
 	Version = "6.1.2.0-GIT",
 	WoW_Version = "6.1.2",
 	Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t",
-	peRecomemded = "6.1r15",
+	peRecomemded = "6.1r16",
 	CurrentCR = false,
 	printColor = "|cff0070DE",
 	addonColor = "|cff9482C9",
@@ -141,6 +141,13 @@ function mts.Infront(unit)
 			local aX, aY, aZ = UnitPosition(unit)
 			local bX, bY, bZ = UnitPosition('player')
 			local playerFacing = GetPlayerFacing()
+			local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
+			return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
+		-- WoWSX
+		elseif WOWSX_ISLOADED then
+			local aX, aY, aZ = ObjectPosition(unit)
+			local bX, bY, bZ = ObjectPosition('player')
+			local playerFacing = ObjectFacing('player')
 			local facing = math.atan2(bY - aY, bX - aX) % 6.2831853071796
 			return math.abs(math.deg(math.abs(playerFacing - (facing)))-180) < 90
 		-- Fallback to PE's

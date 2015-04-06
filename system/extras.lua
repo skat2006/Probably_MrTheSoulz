@@ -84,9 +84,9 @@ local function mts_unitCacheFun()
 				end
 			end
 		end
-        -- OffSpring
-        elseif oexecute and fetch("mtsconf", "AC") then
-		local count = ObjectsCount('player', (fetch("mtsconf", "CD") or 40))
+	-- OffSpring
+	elseif oexecute and fetch("mtsconf", "AC") then
+	local count = ObjectsCount('player', (fetch("mtsconf", "CD") or 40))
 		for i=1, count do
 			local object, id, name = ObjectByIndex(i)
 			if object then
@@ -96,7 +96,7 @@ local function mts_unitCacheFun()
 					local maxHealth = UnitHealthMax(object)
 					local actualHealth = UnitHealth(object)
 					local name = GetUnitName(object, false)
-                            		-- Friendly Cache
+					-- Friendly Cache
 					if UnitIsFriend("player", object) then
 						-- Enabled on GUI
 						if fetch("mtsconf", "FU") then
@@ -107,7 +107,7 @@ local function mts_unitCacheFun()
 									table.insert(mts.unitFriendlyCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, name=name})
 									table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
 								end
-                                        		-- Cache Only Party/Raid
+							-- Cache Only Party/Raid
 							elseif fetch("mtsconf", "FU2") == 'PR' then
 								if UnitIsPlayer(object) and (UnitInParty(object) or UnitInRaid(object)) then
 									unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
@@ -143,6 +143,78 @@ local function mts_unitCacheFun()
 				end
 			end
 		end
+	-- WoWSX
+	elseif WOWSX_ISLOADED and fetch("mtsconf", "AC") then
+		local totalObjects = GetNumObjects()
+		_G['objectTypes'] = {
+			Object = 1,
+			Item = 2,
+			Container = 3,
+			Unit = 4,
+			Player = 5,
+			GameObject = 6,
+			DynamicObject = 7,
+			Corpse = 8,
+			AreaTrigger = 9,
+			SceneObject = 10
+        }
+		for i=1, totalObjects do
+			local object = GetObjectGuid(i)
+			local oType = ObjectType(object)
+			if oType == objectTypes.Unit  and ProbablyEngine.condition["alive"](object) then
+					local distance = mts.Distance('player', object)
+					if distance <= (fetch("mtsconf", "CD") or 40) then
+						local health = math.floor((UnitHealth(object) / UnitHealthMax(object)) * 100)
+						local maxHealth = UnitHealthMax(object)
+						local actualHealth = UnitHealth(object)
+						local name = GetUnitName(object, false)
+						-- Friendly Cache
+						if UnitIsFriend("player", object) then
+							-- Enabled on GUI
+							if fetch("mtsconf", "FU") then
+								-- Cache only Players
+								if fetch("mtsconf", "FU2") == 'Players' then
+									if UnitIsPlayer(object) then
+										unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
+										table.insert(mts.unitFriendlyCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, name=name})
+										table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
+									end
+								-- Cache Only Party/Raid
+								elseif fetch("mtsconf", "FU2") == 'PR' then
+									if UnitIsPlayer(object) and (UnitInParty(object) or UnitInRaid(object)) then
+										unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
+										table.insert(mts.unitFriendlyCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, name=name})
+										table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
+									end
+								-- Cache All
+								else
+									unitCacheFriendlyTotal = unitCacheFriendlyTotal + 1
+									table.insert(mts.unitFriendlyCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, name=name})
+									table.sort(mts.unitFriendlyCache, function(a,b) return a.distance < b.distance end)
+								end
+							end
+						-- All Other units cache
+						else
+							-- Enabled on GUI and unit affecting combat
+							if fetch("mtsconf", "EU") then
+								if not mts.immuneEvents(object) then
+									if fetch("mtsconf", "EU2") == 'Combat' then 
+										if UnitAffectingCombat(object) then
+											unitCacheTotal = unitCacheTotal + 1
+											table.insert(mts.unitCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, name=name})
+											table.sort(mts.unitCache, function(a,b) return a.distance < b.distance end)
+										end
+									else
+										unitCacheTotal = unitCacheTotal + 1
+										table.insert(mts.unitCache, {key=object, distance=distance, health=health, maxHealth=maxHealth, actualHealth=actualHealth, name=name})
+										table.sort(mts.unitCache, function(a,b) return a.distance < b.distance end)
+									end
+								end
+							end
+						end
+					 end
+				end
+			end
 	-- Cache Raid/Party Targets
 	else
 		local prefix = (IsInRaid() and 'raid') or 'party'
@@ -182,32 +254,16 @@ DESC: Moves to a unit.
 Build By: MTS
 ---------------------------------------------------]]
 local function mts_MoveTo()
-	--[[ UNTESTED, this is to be used with MoveTo.
-	local ranged = {
-	    62,         -- arcane mage
-	    63,         -- fire mage
-	    64,         -- frost mage
-	    65,         -- holy paladin
-	    102,        -- balance druid
-	    105,        -- restoration druid
-	    253,        -- beast mastery hunter
-	    254,        -- marksmanship hunter
-	    255,        -- survival hunter
-	    256,        -- discipline priest
-	    257,        -- holy priest
-	    258,        -- shadow priest
-	    262,        -- elemental shaman
-	    263,        -- enhancement shaman
-	    264,        -- restoration shaman
-	    265,        -- affliction warlock
-	    266,        -- demonology warlock
-	    267,        -- destruction warlock
-	    270,        -- mistweaver monk
-	  }]]
   	if fetch('mtsconf', 'AutoMove') then
   		if UnitExists('target') and UnitIsVisible('target') then
 			local name = GetUnitName('target', false)
 			if FireHack then
+				local aX, aY, aZ = ObjectPosition('target')
+				if mts.Distance("player", 'target') >= 6 + (UnitCombatReach('player') + UnitCombatReach('target')) then
+					mtsAlert:message('Moving to: '..name) 
+					MoveTo(aX, aY, aZ)
+				end
+			elseif WOWSX_ISLOADED then
 				local aX, aY, aZ = ObjectPosition('target')
 				if mts.Distance("player", 'target') >= 6 + (UnitCombatReach('player') + UnitCombatReach('target')) then
 					mtsAlert:message('Moving to: '..name) 
@@ -236,6 +292,9 @@ local function mts_FaceTo()
 				elseif oexecute then
 					mtsAlert:message('Facing: '..name) 
 					FaceToUnit('target')
+				elseif WOWSX_ISLOADED then
+					mtsAlert:message('Facing: '..name) 
+					Face('target')
 				end
 			end
 		end
@@ -256,7 +315,7 @@ local function mts_autoTarget(unit, name)
 			for i=1,#mts.unitCache do
 				if mts.unitCache[i].name ~= UnitName("player") then
 					mtsAlert:message('Targeting: '..mts.unitCache[i].name) 
-					return Macro("/target "..mts.unitCache[i].key)
+					Macro("/target "..mts.unitCache[i].key)
 				end
 			end
 		end

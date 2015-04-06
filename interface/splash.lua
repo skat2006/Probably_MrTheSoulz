@@ -16,7 +16,7 @@ end
 function mts.Splash()
 	-- Displays a fancy splash.
 	if fetch('mtsconf', 'Splash') then
-		mtsStart.text:SetText("|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:17:17|t"..mts.addonColor.."[MTS]|r-["..(select(2, GetSpecializationInfo(GetSpecialization()))).."|r]-"..mts.addonColor.."[Loaded]", 5.0)
+		mtsStart.text:SetText("|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:17:17|t"..mts.addonColor.."[MTS]|r-[".."|T"..(select(4, GetSpecializationInfo(GetSpecialization())))..":13:13|t"..(select(2, GetSpecializationInfo(GetSpecialization()))).."|r]-"..mts.addonColor.."[Loaded]", 5.0)
 		mtsStart:SetAlpha(1)
 		mtsSplash:SetAlpha(1)
 		mtsStart.time = GetTime()

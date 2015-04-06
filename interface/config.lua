@@ -117,6 +117,79 @@ local mts_config = {
 					default = true, 
 					desc = "This checkbox enables or disables the use of automatic targets."
 				},
+			-- [[Cache]]
+			{ type = 'rule' },
+			{ 
+				type = 'header', 
+				text = "|cff9482C9Cache Options:", 
+				size = 15,
+				align = "Center",
+				offset = 0 
+			},
+				{ 
+					type = "checkbox", 
+					text = "Use Advanced Object Manager", 
+					key = "AC", 
+					default = true, 
+				},
+				{ 
+					type = "checkbox", 
+					text = "Cache Friendly Units", 
+					key = "FU", 
+					default = true, 
+				},
+				{ 
+					type = "checkbox", 
+					text = "Cache Enemie Units", 
+					key = "EU", 
+					default = true, 
+				},
+				{ 
+					type = "dropdown",
+					text = "Friendly Units", 
+					key = "FU2", 
+					list = {
+						{
+							text = "All",
+							key = "All"
+						},
+						{
+							text = "Players",
+							key = "Players"
+						},
+						{
+							text = "Party/Raid",
+							key = "PR"
+						},
+					}, 
+					default = "PR" 
+				},
+				{ 
+					type = "dropdown",
+					text = "Enemie Units", 
+					key = "EU2", 
+					list = {
+							{
+								text = "All",
+								key = "All"
+							},
+							{
+								text = "Combat",
+								key = "Combat"
+							},
+						}, 
+					default = "Combat" 
+				},
+				{
+					type = "spinner",
+					text = "Cache distance",
+					key = "CD",
+					width = 50,
+					min = 10,
+					max = 80,
+					default = 40,
+					step = 5
+				},
 			-- [[Extras]]
 			{ type = 'rule' },
 			{ 
@@ -217,79 +290,6 @@ local mts_config = {
 							},
 						}, 
 					default = "none" 
-				},
-			-- [[Cache]]
-			{ type = 'rule' },
-			{ 
-				type = 'header', 
-				text = "|cff9482C9Cache Options:", 
-				size = 15,
-				align = "Center",
-				offset = 0 
-			},
-				{ 
-					type = "checkbox", 
-					text = "Use Advanced Object Manager", 
-					key = "AC", 
-					default = true, 
-				},
-				{ 
-					type = "checkbox", 
-					text = "Cache Friendly Units", 
-					key = "FU", 
-					default = true, 
-				},
-				{ 
-					type = "checkbox", 
-					text = "Cache Enemie Units", 
-					key = "EU", 
-					default = true, 
-				},
-				{ 
-					type = "dropdown",
-					text = "Friendly Units", 
-					key = "FU2", 
-					list = {
-						{
-							text = "All",
-							key = "All"
-						},
-						{
-							text = "Players",
-							key = "Players"
-						},
-						{
-							text = "Party/Raid",
-							key = "PR"
-						},
-					}, 
-					default = "PR" 
-				},
-				{ 
-					type = "dropdown",
-					text = "Enemie Units", 
-					key = "EU2", 
-					list = {
-							{
-								text = "All",
-								key = "All"
-							},
-							{
-								text = "Combat",
-								key = "Combat"
-							},
-						}, 
-					default = "Combat" 
-				},
-				{
-					type = "spinner",
-					text = "Cache distance",
-					key = "CD",
-					width = 50,
-					min = 10,
-					max = 80,
-					default = 40,
-					step = 5
 				},
 	}
 }
