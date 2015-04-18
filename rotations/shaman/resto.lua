@@ -1,9 +1,22 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
+local _unitDebuff = function(unit)
+	for z = 1, 40 do
+		local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(unit, z)
+		if dispelType and dispelType == 'Magic' or dispelType == 'Curse' then
+			return unit
+		end
+		if not debuffName then
+			break
+		end				
+	end
+	return nil
+end
+
 local function Dispell()
 	local x = GetNumGroupMembers()
 	if x == 0 then
-		local rez = unit('player')
+		local rez = _unitDebuff('player')
 		if rez then 
 			ProbablyEngine.dsl.parsedTarget = rez
 			return true 
@@ -19,19 +32,6 @@ local function Dispell()
 		end
 	end
 	return false
-end
-
-unit = function(chk)
-	for z = 1, 40 do
-		local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(chk, z)
-		if dispelType and dispelType == 'Magic' or dispelType == 'Curse' then
-			return chk
-		end
-		if not debuffName then
-			break
-		end				
-	end
-	return nil
 end
 
 local exeOnLoad = function()
