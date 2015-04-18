@@ -1,156 +1,181 @@
+local fetch = ProbablyEngine.interface.fetchKey
 
-local ignoreDebuffs = {'Mark of Arrogance','Displaced Energy'}
-
-								--[[   !!!Dispell function!!!   ]]
-						--[[   Checks is member as debuff and can be dispeled.   ]]
---[[  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ]]
 local function Dispell()
-local prefix = (IsInRaid() and 'raid') or 'party'
-	for i = -1, GetNumGroupMembers() - 1 do
-	local unit = (i == -1 and 'target') or (i == 0 and 'player') or prefix .. i
-		if IsSpellInRange('Purify Spirit', unit) then
-			for j = 1, 40 do
-			local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(unit, j)
-				if dispelType and dispelType == 'Magic' or dispelType == 'curse' then
-				local ignore = false
-				for k = 1, #ignoreDebuffs do
-					if debuffName == ignoreDebuffs[k] then
-						ignore = true
-						break
-					end
-				end
-					if not ignore then
-						ProbablyEngine.dsl.parsedTarget = unit
-						return true
-					end
-				end
-				if not debuffName then
-					break
-				end
+	local x = GetNumGroupMembers()
+	if x == 0 then
+		local rez = unit('player')
+		if rez then 
+			ProbablyEngine.dsl.parsedTarget = rez
+			return true 
+		end				
+	elseif x > 0 then
+		for i = 0, x do
+			local grp = (IsInRaid() and 'raid') or 'party'	
+			local rez = unit((i == 0 and 'player') or (grp .. i))
+			if rez then 
+				ProbablyEngine.dsl.parsedTarget = rez
+				return true 
 			end
 		end
 	end
-		return false
-end 
-
-local lib = function()
-	mts.Splash()
-  	ProbablyEngine.toggle.create(
-  		'dispel', 
-  		'Interface\\Icons\\Ability_paladin_sacredcleansing.png', 
-  		'Dispel Everything', 
-  		'Dispels everything it finds \nThis does not effect SoO dispels.')
+	return false
 end
 
+unit = function(chk)
+	for z = 1, 40 do
+		local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(chk, z)
+		if dispelType and dispelType == 'Magic' or dispelType == 'Curse' then
+			return chk
+		end
+		if not debuffName then
+			break
+		end				
+	end
+	return nil
+end
+
+local exeOnLoad = function()
+	mts.Splash()
+  	ProbablyEngine.toggle.create(
+  		'dps', 
+  		'Interface\\Icons\\Spell_shaman_stormearthfire.png‎', 
+  		'Some DPS', 
+  		'Do some dmg while healing.')
+end	
+
+
+
 local inCombat = {
-  
+
   	-- Keybinds
-  		{ "Healing Rain", { "modifier.shift", "!player.buff(Ascendance)"}, "ground"},
+  		{ "73920", {"modifier.shift", "!player.buff(114052)"}, "ground"}, -- Healing Rain + Ascendance
+  		{ "/focus [target=mouseover]", "modifier.ralt" }, -- Mouseover Focus
 
+	-- Dispel
+		{{
+			{ "77130", (function() return Dispell() end) }, -- Dispel Everything
+		}, (function() return fetch('mtsconfShamanResto','Dispels') end) }, 	
+  	  	  	
   	-- Interrupt
-  		{ "Wind Shear", "modifier.interrupt" },
+  		{ "57994", "modifier.interrupt" }, -- Wind Shear
 
-  	-- Survival
-  		{ "Windwalk Totem", { "toggle.survival", "!player.buff", "player.state.root" }, "player" }, 
-  		{ "Windwalk Totem", { "toggle.survival", "!player.buff", "player.state.snare" }, "player" }, 
+	-- Survival
+		{ "108271", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfShamanResto', 'AstralShift')) end), nil }, -- Astral Shift
+  		{ "108273", "player.state.root", "player" }, -- Windwalk Totem
+  		{ "108273", "player.state.snare", "player" }, -- Windwalk Totem 		
 
+	-- Items
+		{ "#5512", (function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfShamanResto', 'Healthstone')) end), nil }, -- Healthstone
+		{ "#trinket1", (function() return mts.dynamicEval("player.mana <= " .. fetch('mtsconfShamanResto', 'Trinket1')) end), nil }, -- Trinket 1
+		{ "#trinket2", (function() return mts.dynamicEval("player.mana <= " .. fetch('mtsconfShamanResto', 'Trinket2')) end), nil }, -- Trinket 2		
+  		  		  		
   	-- Buffs
-    	{ "Water Shield", "!player.buff(Water Shield)" },
+    	{ "52127", "!player.buff(52127)", "!player.buff(974)" }, -- Water Shield
 
-  	-- Dispel's
-	    { "77130", {"player.debuff(146595)","@coreHealing.needsDispelled('Mark of Arrogance')"}, nil },
-	    { "77130", "@coreHealing.needsDispelled('Corrosive Blood')", nil },
-	 	{ "77130", "@coreHealing.needsDispelled('Harden Flesh')", nil },
-	 	{ "77130", "@coreHealing.needsDispelled('Torment')", nil },
-	 	{ "77130", "@coreHealing.needsDispelled('Breath of Fire')", nil },
-		{{ -- Dispell all?
-			{ "77130", (function() return Dispell() end) },-- Dispel Everything
-		}, "toggle.dispel" },
-
-  	-- Heal Fast Bitch
-   		{ "Ascendance", { 
+  	-- Heal Fast (Cooldowns)
+   		{ "114052", { 
 			"@coreHealing.needsHealing(45,10)", 
-			"!player.buff(Ascendance)", 
+			"!player.buff(114052)", --Ascendance
 			"modifier.cooldowns"
-			}},
-    	{ "Spirit Link Totem", {  
-			"player.buff(Ascendance)", 
+			}}, -- Ascendance
+    	{ "98008", {  
+			"player.buff(114052)", --Ascendance
 			"modifier.cooldowns"
-			}},
-   
-    -- Focus
-    	{ "Earth Shield", { 
-			"!focus.buff(Earth Shield)", 
-			"focus.range <= 40" 
-			}, "focus" },
-	    { "Riptide", { 
-			"focus.buff(Riptide).duration <= 3", 
-			"focus.range <= 40" 
-			}, "focus" },
+			}}, -- Spirit Link Totem
 
 	-- Tank
-		{ "Earth Shield", { 
-			"!tank.buff(Earth Shield)", 
+		{ "974", {
+			(function() return fetch("mtsconfShamanResto", "ESo") == '1' end),
+			"!tank.buff(974)", 
 			"tank.range <= 40" 
-			}, "tank" },
-	    { "Riptide", { 
-			"tank.buff(Riptide).duration <= 3", 
-			"tank.range <= 40" 
-			}, "tank" },
+		}, "tank" }, -- Earth Shield
+			
+	    { "61295", {
+	    	(function() return fetch("mtsconfShamanResto", "ESo") == '1' end),
+	    	"tank.buff(61295).duration <= 3", 
+	    	"tank.range <= 40" 
+	    }, "tank" }, -- Riptide						
+      
+    -- Focus
+    	{ "974", {
+    		(function() return fetch("mtsconfShamanResto", "ESo") == '2' end), 
+    		"!focus.buff(974)", 
+    		"focus.range <= 40" 
+    	}, "focus" }, --Earth Shield
+  	    
+	    { { "61295", (function() return LoSchk("focus") end)}, {
+	    	(function() return fetch("mtsconfShamanResto", "ESo") == '2' end), 
+	    	"focus.exists",
+	    	"focus.buff(61295).duration <= 3",
+	    	"focus.range <= 40" 
+	    }, "focus" }, -- Riptide
 
   	-- AoE
-  		{ "Chain Heal", { 
-			"!player.buff(Tidal Waves)", 
+  		{ "1064", { 
+			"!player.buff(53390)", --Tidal Waves
 			"@coreHealing.needsHealing(60, 3)" 
-			}, "lowest" },
-	    { "Chain Heal", "@coreHealing.needsHealing(40, 3)", "lowest" },
+			}, "lowest" }, --Chain Heal
+	    { "1064", "@coreHealing.needsHealing(40, 3)", "lowest" }, --Chain Heal
 
   	-- regular healing
-	    { "Healing Stream Totem", "@coreHealing.needsHealing(99, 1)" },
-	    { "Riptide", {
-			"!player.buff(Tidal Waves)",
-			"lowest.buff(Riptide).duration <= 3",
+	    { "5394", "@coreHealing.needsHealing(99, 1)" }, --Healing Stream Totem
+	    { "61295", { --Riptide
+			"!player.buff(53390)", --Tidal Waves
+			"lowest.buff(61295).duration <= 3",
 			"lowest.range <= 40"
 			}, "lowest" },
-	    { "Unleash Life", "!player.buff(Unleash Life)" },
-	    { "Ancestral Swiftness", { 
+	    { "73685", "!player.buff(73685)" }, --Unleash Life
+	    { "16188", { -- Ancestral Swiftness
 			"lowest.health <= 20", 
 			"lowest.range <= 40" 
 			}, "player" },
-	    { "Healing Wave", {
-			"player.buff(Ancestral Swiftness)",
+	    { "77472", { --Healing Wave
+			"player.buff(16188)",
 			"lowest.range <= 40"
 			}, "lowest" },   
-	    { "Healing Surge", { 
+	    { "8004", { --Healing Surge
 			"lowest.health <= 20", 
 			"lowest.range <= 40"
 			}, "lowest" },
-	    { "Healing Wave", { 
+	    { "77472", { --Healing Wave
 			"lowest.health <= 85",
 			"lowest.range <= 40"
 			}, "lowest" },
+
+	-- Some DPS			
+	{{
+		{ "2894", { "!talent(6, 2)", "modifier.cooldowns" }}, --Fire Elemental Totem
+		{ "3599", { "!player.totem(3599)", "!player.totem(2894)" }}, --Searing Totem // Fire Elemental Totem
+		{ "117014", "talent(6, 3)" },
+		{ "8050", "!target.debuff(8050)" },
+		{ "51505" },
+		{ "421", { "modifier.multitarget", "target.area(10).enemies > 2" } },
+		{ "403" }, --Lightning Bolt
+	}, "toggle.dps" },			
   
 }
 
 local outCombat = {
 
    	-- Keybinds
-   		{ "Healing Rain", { "modifier.shift", "!player.buff(Ascendance)"}, "ground"},
+   		{ "73920", { "modifier.shift", "!player.buff(114052)"}, "ground"}, -- Healing Rain + Ascendance
   
   	-- Buffs
-    	{ "Water Shield", "!player.buff(Water Shield)" },
+    	{ "52127", "!player.buff(52127)" }, -- Water Shield
 
   	-- Healing
   		--  Focus
-  			{ "Earth Shield", { "focus.health <= 100", "!focus.buff(Earth Shield)", "focus.range <= 40" }, "focus" },
+  			{ "974", { 
+  				(function() return fetch("mtsconfShamanResto", "ESo") == '2' end),
+  				"!focus.buff(974)", 
+  				"focus.range <= 40" 
+  			}, "focus" }, -- Earth Shield
     	
     	-- Noobs
-    		{ "Chain Heal", { "@coreHealing.needsHealing(75, 4)", "lowest.range <= 40" }, "lowest" },
-	    	{ "Healing Surge", { "lowest.health <= 50", "lowest.range <= 40" }, "lowest" },
-	    	{ "Riptide", { "lowest.health <= 85", "!lowest.buff(Riptide)", "lowest.range <= 40" }, "lowest" },
-    		{ "Healing Wave", { "lowest.health <= 70", "lowest.range <= 40" }, "lowest" }
-
+    		{ "1064", { "@coreHealing.needsHealing(75, 4)", "lowest.range <= 40" }, "lowest" }, -- Chain Heal
+	    	{ "8004", { "lowest.health <= 50", "lowest.range <= 40" }, "lowest" }, -- Healing Surge
+	    	{ "61295", { "lowest.health <= 85", "!lowest.buff(61295)", "lowest.range <= 40" }, "lowest" }, -- Riptide
+    		{ "77472", { "lowest.health <= 70", "lowest.range <= 40" }, "lowest" } -- Healing Wave
 }
 
-
-ProbablyEngine.rotation.register_custom(264, mts.Icon.."|r[|cff9482C9MTS|r][|cff0070DETesting Shaman-Resto|r]", inCombat, outCombat, lib)
+ProbablyEngine.rotation.register_custom(264, mts.Icon.."|r[|cff9482C9MTS|r][|cff0070DEShaman-Resto|r]", inCombat, outCombat, exeOnLoad)

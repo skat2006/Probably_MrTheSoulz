@@ -9,7 +9,7 @@ local _ShowingClassWindow = false
 function mts.ClassGUI()
 local _SpecID =  GetSpecializationInfo(GetSpecialization())
 
-	-- Check wich spec the player is to return the currect window.	
+	-- Check wich spec the player is to return the correct window.	
 	if _SpecID == 250 and not _OpenClassWindow then -- DK Blood
 		_CurrentSpec = mts_BuildGUI(mts_configDkBlood)
 	elseif _SpecID == 252 and not _OpenClassWindow  then -- DK Unholy
@@ -44,6 +44,8 @@ local _SpecID =  GetSpecializationInfo(GetSpecialization())
 		_CurrentSpec = mts_BuildGUI(mts_configMonkWw)
 	elseif _SpecID == 262 and not _OpenClassWindow  then -- Shamman Elemental
 		_CurrentSpec = mts_BuildGUI(mts_configShamanEle)
+	elseif _SpecID == 264 and not _OpenClassWindow  then -- Shamman Resto
+		_CurrentSpec = mts_BuildGUI(mts_configShamanResto)		
 	end
 
 	-- If no window been created, create one...
