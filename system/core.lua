@@ -1,5 +1,5 @@
 mts = {
-	Version = "6.1.2.1-GIT",
+	Version = "6.1.2.2",
 	WoW_Version = "6.1.2",
 	Icon = "|TInterface\\AddOns\\Probably_MrTheSoulz\\media\\logo.blp:16:16|t",
 	peRecomemded = "6.1r16",
