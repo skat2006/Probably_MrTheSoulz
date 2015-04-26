@@ -2,6 +2,11 @@ local fetch = ProbablyEngine.interface.fetchKey
 
 local function exeOnLoad()
 	mts.Splash()
+	ProbablyEngine.toggle.create(
+		'mts_SAoE', 
+		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp', 
+		'Smart AoE', 
+		'Smart AoE\nTo Force AoE enable multitarget toggle.')
 end
 
 local inCombat = {
@@ -182,72 +187,68 @@ local inCombat = {
 		{ "152280", "target.range < 7", "target.ground" }, -- Defile
 		{{ -- Only at range
 			{ "50842", "player.runes(death).count >= 1" }, -- Blood Boil // death
-			{ "50842", { -- Blood Boil // blood
-				"!talent(7, 1)",
-				"player.runes(blood).count >= 1",
-				"target.debuff(55095).duration < 3", 
-				"target.debuff(55078).duration <3",
-			}},
-			{ "50842", {  -- Blood Boil // death
-				"!talent(7, 1)",
-				"player.runes(death).count >= 1",
-				"target.debuff(55095).duration < 3", 
-				"target.debuff(55078).duration <3",
-			}},
-			{ "50842", { -- Blood Boil // blood // NP
+			{{ -- Not NP
+				{ "50842", { -- Blood Boil // blood
+					"player.runes(blood).count >= 1",
+					"target.debuff(55095).duration < 3", 
+					"target.debuff(55078).duration <3",
+				}},
+				{ "50842", {  -- Blood Boil // death
+					"player.runes(death).count >= 1",
+					"target.debuff(55095).duration < 3", 
+					"target.debuff(55078).duration <3",
+				}},
+			}, "!talent(7, 1)" },
+			{{ -- NP
+				{ "50842", "player.runes(blood).count >= 1" }, -- Blood Boil // blood // NP
+				{ "50842", "player.runes(death).count >= 1" }, -- Blood Boil // death // NP
+			}, {
 				"talent(7, 1)",
-				"player.runes(blood).count >= 1",
-				"target.debuff(155159).duration < 3", 
-			}},
-			{ "50842", {  -- Blood Boil // death // NP
-				"talent(7, 1)",
-				"player.runes(death).count >= 1",
-				"target.debuff(155159).duration < 3", 
+				"target.debuff(155159).duration < 3",
 			}},
 		}, "target.range <= 10" },
-		{ "85948", { "player.runes(blood) = 2", "player.runes(frost) = 2" }, "target"  }, --Testing // Festering Strike
+		{ "85948", { --Testing // Festering Strike
+			"player.runes(blood) = 2", 
+			"player.runes(frost) = 2" 
+		}, "target"  }, 
 		{ "85948" }, -- Festering Strike
-		{ "47541", "player.runicpower >= 40", "target"  }, -- Death Coil
+		{ "47541", "player.runicpower >= 40", "target" }, -- Death Coil
 	},{ 
-		(function() return fetch('mtsconf','SAoE') end), 
+		"toggle.mts_SAoE", 
 		"player.area(10).enemies >= 4" 
 	}},
 
-	{{-- AoE
+	{{-- AoE // Normal/Forced
 		{ "43265", "target.range < 7", "target.ground" }, -- Death and Decay
 		{ "152280", "target.range < 7", "target.ground" }, -- Defile
-		{ "50842", { -- Blood Boil // death
-			"player.runes(death).count >= 1",
-			"target.range <= 10"
-		}, nil },
-		{ "50842", { -- Blood Boil // blood
-			"!talent(7, 1)",
-			"player.runes(blood).count >= 1",
-			"target.debuff(55095).duration < 3", 
-			"target.debuff(55078).duration <3",
-			"target.range <= 10" 
-		}},
-		{ "50842", {  -- Blood Boil // death
-			"!talent(7, 1)",
-			"player.runes(death).count >= 1",
-			"target.debuff(55095).duration < 3", 
-			"target.debuff(55078).duration <3",
-			"target.range <= 10" 
-		}},
-		{ "50842", { -- Blood Boil // blood // NP
-			"talent(7, 1)",
-			"player.runes(blood).count >= 1",
-			"target.debuff(155159).duration < 3", 
-			"target.range <= 10" 
-		}},
-		{ "50842", {  -- Blood Boil // death // NP
-			"talent(7, 1)",
-			"player.runes(death).count >= 1",
-			"target.debuff(155159).duration < 3", 
-			"target.range <= 10" 
-		}},
-		{ "85948", { "player.runes(blood) = 2", "player.runes(frost) = 2" }, "target"  }, --Testing // Festering Strike
+			{{ -- Only at range
+			{ "50842", "player.runes(death).count >= 1" }, -- Blood Boil // death
+			{{ -- Not NP
+				{ "50842", { -- Blood Boil // blood
+					"player.runes(blood).count >= 1",
+					"target.debuff(55095).duration < 3", 
+					"target.debuff(55078).duration <3",
+				}},
+				{ "50842", {  -- Blood Boil // death
+					"player.runes(death).count >= 1",
+					"target.debuff(55095).duration < 3", 
+					"target.debuff(55078).duration <3",
+				}},
+			}, "!talent(7, 1)" },
+			{{ -- NP
+				{ "50842", "player.runes(blood).count >= 1" }, -- Blood Boil // blood // NP
+				{ "50842", "player.runes(death).count >= 1" }, -- Blood Boil // death // NP
+			}, {
+				"talent(7, 1)",
+				"target.debuff(155159).duration < 3",
+			}},
+		}, "target.range <= 10" },
+		{ "85948", { --Testing // Festering Strike
+			"player.runes(blood) = 2", 
+			"player.runes(frost) = 2" 
+		}, "target"  }, 
 		{ "85948" }, -- Festering Strike
+		{ "47541", "player.runicpower >= 40", "target" }, -- Death Coil
 	}, "modifier.multitarget" },
 
 	-- Rotation
@@ -283,23 +284,24 @@ local outCombat = {
 
 	-- Buffs
 	{ "48263", { -- Blood
-	"player.seal != 1", 
-	(function() return fetch("mtsconfDkUnholy", "Presence") == 'Blood' end),
+		"player.seal != 1", 
+		(function() return fetch("mtsconfDkUnholy", "Presence") == 'Blood' end),
 	}, nil }, 
 	{ "48266", { -- Frost
-	"player.seal != 2", 
-	(function() return fetch("mtsconfDkUnholy", "Presence") == 'Frost' end),
+		"player.seal != 2", 
+		(function() return fetch("mtsconfDkUnholy", "Presence") == 'Frost' end),
 	}, nil },
 	{ "48265", { -- Unholy
-	"player.seal != 3", 
-	(function() return fetch("mtsconfDkUnholy", "Presence") == 'Unholy' end),
+		"player.seal != 3", 
+		(function() return fetch("mtsconfDkUnholy", "Presence") == 'Unholy' end),
 	}, nil },
 	{ "57330", { -- Horn of Winter
-	"!player.buffs.attackpower",
-	(function() return fetch('mtsconfDkUnholy','HornOCC') end)
+		"!player.buffs.attackpower",
+		(function() return fetch('mtsconfDkUnholy','HornOCC') end)
 	}}, 
 }
 
 ProbablyEngine.rotation.register_custom(
-252, mts.Icon.."|r[|cff9482C9MTS|r][\124cffC41F3BDeathKnight-Unholy|r]", 
-inCombat, outCombat, exeOnLoad)
+	252, 
+	mts.Icon.."|r[|cff9482C9MTS|r][\124cffC41F3BDeathKnight-Unholy|r]", 
+	inCombat, outCombat, exeOnLoad)

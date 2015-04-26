@@ -1,6 +1,6 @@
 local fetch = ProbablyEngine.interface.fetchKey
 
-_unitDebuff = function(unit)
+local _unitDebuff = function(unit)
 	for z = 1, 40 do
 		local debuffName, _, _, _, dispelType, duration, expires, _, _, _, spellID, _, isBossDebuff, _, _, _ = UnitDebuff(unit, z)
 		if dispelType and dispelType == 'Magic' or dispelType == 'Curse' then
@@ -70,18 +70,18 @@ local inCombat = {
 		{ "#trinket2", (function() return mts.dynamicEval("player.mana <= " .. fetch('mtsconfShamanResto', 'Trinket2')) end), nil }, -- Trinket 2		
   		  		  		
   	-- Buffs
-    	{ "52127", "!player.buff(52127)", "!player.buff(974)" }, -- Water Shield
+    	{ "52127", {"!player.buff(52127)", "!player.buff(974)"}}, -- Water Shield
 
   	-- Heal Fast (Cooldowns)
    		{ "114052", { 
 			"@coreHealing.needsHealing(45,10)", 
 			"!player.buff(114052)", --Ascendance
 			"modifier.cooldowns"
-			}}, -- Ascendance
+		}}, -- Ascendance
     	{ "98008", {  
 			"player.buff(114052)", --Ascendance
 			"modifier.cooldowns"
-			}}, -- Spirit Link Totem
+		}}, -- Spirit Link Totem
 
 	-- Tank
 		{ "974", {
@@ -103,7 +103,7 @@ local inCombat = {
     		"focus.range <= 40" 
     	}, "focus" }, --Earth Shield
   	    
-	    { { "61295", (function() return LoSchk("focus") end)}, {
+	    { "61295", {
 	    	(function() return fetch("mtsconfShamanResto", "ESo") == '2' end), 
 	    	"focus.exists",
 	    	"focus.buff(61295).duration <= 3",
@@ -114,7 +114,7 @@ local inCombat = {
   		{ "1064", { 
 			"!player.buff(53390)", --Tidal Waves
 			"@coreHealing.needsHealing(60, 3)" 
-			}, "lowest" }, --Chain Heal
+		}, "lowest" }, --Chain Heal
 	    { "1064", "@coreHealing.needsHealing(40, 3)", "lowest" }, --Chain Heal
 
   	-- regular healing
@@ -123,24 +123,24 @@ local inCombat = {
 			"!player.buff(53390)", --Tidal Waves
 			"lowest.buff(61295).duration <= 3",
 			"lowest.range <= 40"
-			}, "lowest" },
+		}, "lowest" },
 	    { "73685", "!player.buff(73685)" }, --Unleash Life
 	    { "16188", { -- Ancestral Swiftness
 			"lowest.health <= 20", 
 			"lowest.range <= 40" 
-			}, "player" },
+		}, "player" },
 	    { "77472", { --Healing Wave
 			"player.buff(16188)",
 			"lowest.range <= 40"
-			}, "lowest" },   
+		}, "lowest" },   
 	    { "8004", { --Healing Surge
 			"lowest.health <= 20", 
 			"lowest.range <= 40"
-			}, "lowest" },
+		}, "lowest" },
 	    { "77472", { --Healing Wave
 			"lowest.health <= 85",
 			"lowest.range <= 40"
-			}, "lowest" },
+		}, "lowest" },
 
 	-- Some DPS			
 	{{
@@ -178,4 +178,7 @@ local outCombat = {
     		{ "77472", { "lowest.health <= 70", "lowest.range <= 40" }, "lowest" } -- Healing Wave
 }
 
-ProbablyEngine.rotation.register_custom(264, mts.Icon.."|r[|cff9482C9MTS|r][|cff0070DEShaman-Resto|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(
+	264, 
+	mts.Icon.."|r[|cff9482C9MTS|r][|cff0070DEShaman-Resto|r]", 
+	inCombat, outCombat, exeOnLoad)

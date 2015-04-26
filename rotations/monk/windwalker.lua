@@ -11,6 +11,11 @@ local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
 	mts.Splash()
+	ProbablyEngine.toggle.create(
+		'mts_SAoE', 
+		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp', 
+		'Smart AoE', 
+		'Smart AoE\nTo Force AoE enable multitarget toggle.')
 end
 
 local inCombat = {
@@ -21,55 +26,36 @@ local inCombat = {
 		{ "122470", "modifier.alt" }, -- Touch of Karma
 
 	{{-- SEF
-  		{ "137639", "@mtsLib.SEF" },
-  		{ "/cancelaura "..n, "target.debuff(137639)", "target"}, -- Storm, Earth, and Fire
-  	}, (function() return fetch('mtsconfigMonkWw', 'SEF') end) },
+		{ "137639", "@mtsLib.SEF" },
+		{ "/cancelaura "..n, "target.debuff(137639)", "target"}, -- Storm, Earth, and Fire
+	}, (function() return fetch('mtsconfigMonkWw', 'SEF') end) },
 
 	-- Survival
 		{ "115072", { "player.health <= 80", "player.chi < 4" }}, -- Expel Harm
 		{ "115098", "player.health <= 75" }, -- Chi Wave
 		{ "115203", { -- Forifying Brew at < 30% health and when DM & DH buff is not up
-		  "player.health < 30",
-		  "!player.buff(122783)", -- Diffuse Magic
-		  "!player.buff(122278)"}}, -- Dampen Harm
+			"player.health < 30",
+			"!player.buff(122783)", -- Diffuse Magic
+			"!player.buff(122278)"}}, -- Dampen Harm
 		{ "#5512", "player.health < 40" }, -- Healthstone
 
-	-- Interrupts
-	  	{ "115078", { -- Paralysis when SHS, and Quaking Palm are all on CD
-	     	"!target.debuff(116705)", -- Spear Hand Strike
-	     	"player.spell(116705).cooldown > 0", -- Spear Hand Strike
-	     	"player.spell(107079).cooldown > 0", -- Quaking Palm
-	     	"!modifier.last(116705)", -- Spear Hand Strike
-	     	"target.interruptsAt(50)", 
-	     	"modifier.interrupts"}},
-	  	{ "116844", { -- Ring of Peace when SHS is on CD
-	     	"!target.debuff(116705)", -- Spear Hand Strike
-	     	"player.spell(116705).cooldown > 0", -- Spear Hand Strike
-	     	"!modifier.last(116705)", -- Spear Hand Strike
-	     	"target.interruptsAt(50)", 
-	     	"modifier.interrupts"}},
-	  	{ "119381", { -- Leg Sweep when SHS is on CD
-	     	"player.spell(116705).cooldown > 0",
-	     	"target.range <= 5",
-	     	"!modifier.last(116705)",
-	     	"target.interruptsAt(50)", 
-	     	"modifier.interrupts"}},
-	  	{ "119392", { -- Charging Ox Wave when SHS is on CD
-	     	"player.spell(116705).cooldown > 0",
-	     	"target.range <= 30",
-	     	"!modifier.last(116705)",
-	     	"target.interruptsAt(50)", 
-	     	"modifier.interrupts"}},
-	  	{ "107079", { -- Quaking Palm when SHS is on CD
-	     	"!target.debuff(116705)", -- Spear Hand Strike
-	     	"player.spell(116705).cooldown > 0", -- Spear Hand Strike
-	     	"!modifier.last(116705)", -- Spear Hand Strike
-	     	"target.interruptsAt(50)",
-	     	"modifier.interrupts"}},
-	  	{ "116705", {"target.interruptsAt(50)", "modifier.interrupts"} }, -- Spear Hand Strike
+	{{-- Interrupts at 50%
+		{ "116705" }, -- Spear Hand Strike
+		{ "115078", { -- Paralysis when SHS, and Quaking Palm are all on CD
+		    "!target.debuff(116705)", -- Spear Hand Strike
+		    "player.spell(107079).cooldown > 0", -- Quaking Palm
+		}},
+		{ "116844", "!target.debuff(116705)" }, -- Ring of Peace when SHS is on CD
+		{ "119381", "target.range <= 5" }, -- Leg Sweep when SHS is on CD
+		{ "119392", "target.range <= 30" }, -- Charging Ox Wave when SHS is on CD
+		{ "107079", "!target.debuff(116705)" }, -- Quaking Palm when SHS is on CD
+	}, "target.interruptsAt(50)" },
 
 	-- Cooldowns
-		{ "115288", {"player.energy <= 30","modifier.cooldowns"} }, -- Energizing Brew
+		{ "115288", { -- Energizing Brew
+			"player.energy <= 30",
+			"modifier.cooldowns"
+		}},
 		{ "123904", "modifier.cooldowns" }, -- Invoke Xuen, the White Tiger
 
 	-- FREEDOOM!
@@ -85,16 +71,32 @@ local inCombat = {
 		{ "116841", "player.state.snare" },
 
 	-- Ranged
-		{ "116841", { "target.range >= 15", "player.moving" }},-- Tiger's Lust if the target is at least 15 yards away and we are moving
-		{ "124081", {"!target.debuff(124081)","target.range >= 15"} }, -- Zen Sphere. 40 yard range!
+		{ "116841", { -- Tiger's Lust if the target is at least 15 yards away and we are moving
+			"target.range >= 15", 
+			"player.moving"
+		}},
+		{ "124081", { -- Zen Sphere. 40 yard range!
+			"!target.debuff(124081)",
+			"target.range >= 15"
+		}},
 		{ "115098", "target.range >= 15" }, -- Chi Wave (40yrd range!)
 		{ "123986", "target.range >= 15" }, -- Chi Burst (40yrd range!)
-		{ "117952", { "target.range > 5", "target.range <= 40", "!player.moving" }}, -- Crackling Jade Lightning
-		{ "115072", {"player.chi < 4", "target.range >= 15"} }, -- Expel Harm
+		{ "117952", {  -- Crackling Jade Lightning
+			"target.range > 5", 
+			"target.range <= 40", 
+			"!player.moving" 
+		}},
+		{ "115072", { -- Expel Harm
+			"player.chi < 4", 
+			"target.range >= 15"
+		}},
 
-	-- buffs
+	-- Buffs
 		{ "115080", "player.buff(121125)" }, -- Touch of Death, Death Note
-		{ "116740", {"player.buff(125195).count >= 10", "!player.buff(116740)"} }, -- Tigereye Brew
+		{ "116740", { -- Tigereye Brew
+			"player.buff(125195).count >= 10", 
+			"!player.buff(116740)"
+		}},
 
 	-- Procs
 		{ "100784", "player.buff(116768)"},-- Blackout Kick w/tCombo Breaker: Blackout Kick
@@ -102,15 +104,13 @@ local inCombat = {
 
 	-- Rotation
 		{ "107428", "target.debuff(130320).duration < 3" }, -- Rising Sun Kick
-		{ "113656", "!player.moving" },-- Fists of Fury
-			
-	-- AoE
-		{ "101546", "modifier.multitarget" }, -- Spinning Crane Kick
-		{ "101546", { -- Spinning Crane Kick // Smart
-			"player.area(8).enemies >= 3", 
-			(function() return fetch('mtsconf', 'SAoE') end)
-		}}, 
-
+		{ "113656", "!player.moving" },-- Fists of Fury	
+		-- AoE
+			{ "101546", "modifier.multitarget" }, -- Spinning Crane Kick
+			{ "101546", { -- Spinning Crane Kick // Smart
+				"player.area(8).enemies >= 3", 
+				"toggle.mts_SAoE"
+			}}, 
 		{ "100784", "player.chi >= 3" }, -- Blackout Kick
 		{ "100787", "!player.buff(125359)"}, -- Tiger Palm if not w/t Tiger Power
 		{ "115698", "player.chi <= 3" }, -- Jab
@@ -120,21 +120,23 @@ local inCombat = {
 local outCombat = {
 
  	{ "116781", { -- Legacy of the White Tiger
-	  	"!player.buff(116781).any", -- Legacy of the White Tiger
-	  	"!player.buff(17007).any", -- Leader of the Pack
-	  	"!player.buff(1459).any", -- Arcane Brilliance
-	  	"!player.buff(61316).any", -- Dalaran Brilliance
-	  	"!player.buff(97229).any", -- Bellowing Roar
-	  	"!player.buff(24604).any", -- Furious Howl
-	  	"!player.buff(90309).any", -- Terrifying Roar
-	  	"!player.buff(126373).any", -- Fearless Roar
-	  	"!player.buff(126309).any"}}, -- Still Water
-  	{ "115921", { -- Legacy of the Emperor
-  		"!player.buff(115921).any", -- Legacy of the Emperor
-  		"!player.buff(1126).any", -- Mark of the Wild
-  		"!player.buff(20217).any", -- Blessing of Kings
-  		"!player.buff(90363).any", -- Embrace of the Shale Spider
-  		"!player.buff(Blessing of the Forgotten Kings).any"}}
+		"!player.buff(116781).any", -- Legacy of the White Tiger
+		"!player.buff(17007).any", -- Leader of the Pack
+		"!player.buff(1459).any", -- Arcane Brilliance
+		"!player.buff(61316).any", -- Dalaran Brilliance
+		"!player.buff(97229).any", -- Bellowing Roar
+		"!player.buff(24604).any", -- Furious Howl
+		"!player.buff(90309).any", -- Terrifying Roar
+		"!player.buff(126373).any", -- Fearless Roar
+		"!player.buff(126309).any" -- Still Water
+	}},
+	{ "115921", { -- Legacy of the Emperor
+		"!player.buff(115921).any", -- Legacy of the Emperor
+		"!player.buff(1126).any", -- Mark of the Wild
+		"!player.buff(20217).any", -- Blessing of Kings
+		"!player.buff(90363).any", -- Embrace of the Shale Spider
+		"!player.buff(Blessing of the Forgotten Kings).any"
+	}}
   
 }
 

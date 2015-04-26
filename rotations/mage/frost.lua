@@ -7,6 +7,11 @@ local lib = function()
   		'Interface\\Icons\\spell_frost_frostbolt', 
   		'Disable Cleaves', 
   		'Disable casting of Cone of Cold and Ice Nova for Procs.')
+  	ProbablyEngine.toggle.create(
+		'mts_SAoE', 
+		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp', 
+		'Smart AoE', 
+		'Smart AoE\nTo Force AoE enable multitarget toggle.')
 end
 
 
@@ -49,7 +54,7 @@ local inCombat = {
 			{ "120", "target.area(10).enemies >= 5" },--Cone of Cold
 			{ "10", "target.area(10).enemies >= 5", "target.ground" },--Blizzard
 
-	}, (function() return fetch('mtsconf','SAoE') end) },
+	}, "toggle.mts_SAoE" },
 
 	
 	-- AoE // FallBack

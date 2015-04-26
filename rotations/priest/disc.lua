@@ -311,13 +311,13 @@ local Clarity_of_Will = {
 		(function() return mts.dynamicEval("tank.health < " .. fetch('mtsconfPriestDisc', 'CoWTank_spin')) end),
 		(function() return fetch('mtsconfPriestDisc', 'CoWTank_check') end) 
 		"!player.moving",
-		"!tank.buff(152118)" -- Should we go any higher? 		
+		"!tank.buff(152118).any" -- Should we go any higher? 		
 	}, "tank" },
-	{ "152118", { -- tank
+	{ "152118", { -- raid
 		(function() return mts.dynamicEval("lowest.health < " .. fetch('mtsconfPriestDisc', 'CoW_spin')) end),
 		(function() return fetch('mtsconfPriestDisc', 'CoW_check') end) 
 		"!player.moving",
-		"!lowest.buff(152118)" -- Should we go any higher? 		
+		"!lowest.buff(152118).any" -- Should we go any higher? 		
 	}, "lowest" },
 
 }

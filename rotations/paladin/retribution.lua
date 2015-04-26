@@ -218,7 +218,9 @@ local outCombat = {
 	}},
 }
 
-ProbablyEngine.rotation.register_custom(70,  mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Retribution|r]", 
+ProbablyEngine.rotation.register_custom(
+	70,  
+	mts.Icon.."|r[|cff9482C9MTS|r][|cffF58CBAPaladin-Retribution|r]", 
 	{-- In-Combat
 		{ "Rebuke", "modifier.interrupts" },
 		{ "Cleanse", {

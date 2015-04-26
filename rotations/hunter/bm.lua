@@ -8,6 +8,11 @@ local lib = function()
 		'Interface\\Icons\\Inv_misc_head_tiger_01.png', 
 		'Auto Ress Pet', 
 		'Automatically ress your pet when it dies.')
+	ProbablyEngine.toggle.create(
+		'mts_SAoE', 
+		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp', 
+		'Smart AoE', 
+		'Smart AoE\nTo Force AoE enable multitarget toggle.')
 	
 end
 
@@ -95,7 +100,7 @@ local inCombat = {
 				{"2643","player.area(35).enemies > 4", "target"}, -- Multi-Shot
 				{"13813", nil, "target.ground"}, --Explosive Trap
 
-		}, (function() return fetch('mtsconf','SAoE') end)},
+		}, "toggle.mts_SAoE" },
 
 		-- Rotation
 			{ "53351" },--Kill Shot

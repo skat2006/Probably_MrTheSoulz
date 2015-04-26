@@ -2,6 +2,11 @@ local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
 	mts.Splash()
+	ProbablyEngine.toggle.create(
+		'mts_SAoE', 
+		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp', 
+		'Smart AoE', 
+		'Smart AoE\nTo Force AoE enable multitarget toggle.')
 end
 
 local CatForm = {
@@ -107,17 +112,19 @@ local CatForm = {
 			}, "player.combopoints = 5" },
 
 	  	-- AOE
-	  			{{-- AoE FALLBACK
-					{ "106830", "target.debuff(106830).duration < 5", "target" }, -- Tharsh
-					{ "106785" }, -- Swipe
-				}, "modifier.multitarget" },
+		  	{{-- Forced
+				{ "106830", "target.debuff(106830).duration < 5", "target" }, -- Tharsh
+				{ "106785" }, -- Swipe
+			}, "modifier.multitarget" },
+			{{ -- Smart
 				{ "106830", { -- Tharsh
 					"player.area(8).enemies >= 3", 
 					"target.debuff(106830).duration < 5"
 				}, "target" },
 				{ "106785", "player.area(8).enemies >= 3" },-- Swipe
+			}, "toggle.mts_SAoE" },
 
-	  	-- Single Rotation
+	 	-- Single Rotation
 	  		{ "1822", "target.debuff(155722).duration <= 4", "target" }, -- rake
 	  		{ "155625", { -- MoonFire // Lunar Inspiration (TALENT)
 	  			"target.debuff(155625).duration <= 4",

@@ -15,6 +15,11 @@ local exeOnLoad = function()
 		"Interface\\Icons\\INV_Sword_07", 
 		"Stop using Dancing Rune Weapon",
 		"Toggle Off if you dont want to use DRW on CD")
+	ProbablyEngine.toggle.create(
+		'mts_SAoE', 
+		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp', 
+		'Smart AoE', 
+		'Smart AoE\nTo Force AoE enable multitarget toggle.')
 
 end
 
@@ -113,7 +118,7 @@ local inCombat = {
 			"target.range < 7",
 			"player.area(10).enemies > 4"
 		}, "target.ground" }, -- Defile
-	}, (function() return fetch('mtsconf','SAoE') end) },
+	}, "toggle.mts_SAoE" },
 
 	{{-- AoE
 		{ "50842",	"target.range <= 10" },-- Blood Boil

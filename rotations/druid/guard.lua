@@ -11,6 +11,11 @@ local fetch = ProbablyEngine.interface.fetchKey
 
 local exeOnLoad = function()
 	mts.Splash()
+	ProbablyEngine.toggle.create(
+		'mts_SAoE', 
+		'Interface\\AddOns\\Probably_MrTheSoulz\\media\\toggle.blp', 
+		'Smart AoE', 
+		'Smart AoE\nTo Force AoE enable multitarget toggle.')
 end
 
 local inCombat = {
@@ -112,7 +117,7 @@ local inCombat = {
 			-- AoE smart
 				{ "77758", "player.area(8).enemies >= 3", "target" }, -- Thrash  // FH SMARTH AoE
 
-		}, (function() return fetch('mtsconf','SAoE') end) },
+		}, "toggle.mts_SAoE" },
 
 			
 		{ "77758", "target.debuff(77758).duration <= 4" }, -- Thrash
