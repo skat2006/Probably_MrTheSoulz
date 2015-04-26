@@ -91,13 +91,6 @@ local mts_config = {
 			},
 				{ 
 					type = "checkbox", 
-					text = "Smart AoE", 
-					key = "SA", 
-					default = true, 
-					desc ="This checkbox enables or disables MrTheSoulz Pack using Firehacks features like smart aoe and other fancy stuff."
-				},
-				{ 
-					type = "checkbox", 
 					text = "Auto Moving", 
 					key = "AutoMove", 
 					default = false, 
