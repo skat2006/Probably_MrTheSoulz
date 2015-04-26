@@ -33,8 +33,8 @@ local inCombat = {
 
 	{{-- Interrupts 
 		{ "47528" }, -- Mind freeze
-		{ "47476", "!player.modifier.last(47528)", "target" }, -- Strangulate
-		{ "108194", "!modifier.last(47528)", "target" }, -- Asphyxiate
+		{ "47476", "!lastcast(47528)", "target" }, -- Strangulate
+		{ "108194", "!lastcast(47528)", "target" }, -- Asphyxiate
 		{ "47482" }, -- Leap
 	}, "target.interruptsAt(50)" },
 
@@ -59,12 +59,12 @@ local inCombat = {
 		"player.spell.exists(49039)" 
 	}},
 	{ "49998", { -- Death Strike With Dark Succor
-		"player.buff(10156", 
+		"player.buff(10156)", 
 		(function() return mts.dynamicEval("player.health <= " .. fetch('mtsconfDkUnholy', 'DeathStrikeDS')) end)
 	}}, 
 
 	{{-- Cooldowns
-		{ "Empower Rune Weapon", {
+		{ "47568", { -- Empower Rune Weapon
 			"player.runicpower <= 70", 
 			"player.runes(blood).count = 0", 
 			"player.runes(unholy).count = 0", 
@@ -73,7 +73,7 @@ local inCombat = {
 			(function() return fetch("mtsconfDkUnholy", "ERP") == 'Allways' end)
 		}},
 		{ "96268" }, -- Death's Advance
-		{ "Summon Gargoyle", (function() return fetch("mtsconfDkUnholy", "SG") == 'Allways' end) }, -- Summon Gargoyle
+		{ "49206", (function() return fetch("mtsconfDkUnholy", "SG") == 'Allways' end) }, -- Summon Gargoyle
 		{{ -- Unholy Blight
 			{ "115989", { -- Unholy Blight
 				"target.debuff(55095)",
@@ -90,7 +90,7 @@ local inCombat = {
 		}, "!talent(7, 1)" }, 
 		{ "20572", (function() return fetch("mtsconfDkUnholy", "BF") == 'Allways' end) }, -- Blood Fury
 		{{-- Boss
-		{ "Empower Rune Weapon", {
+		{ "47568", { -- Empower Rune Weapon
 			"player.runicpower <= 70", 
 			"player.runes(blood).count = 0", 
 			"player.runes(unholy).count = 0", 
@@ -100,7 +100,7 @@ local inCombat = {
 		}}, -- Empower Rune Weapon
 		{ "96268" }, -- Death's Advance
 		{ "#118882" }, -- Scabbrad of Kyanos
-		{ "Summon Gargoyle", (function() return fetch("mtsconfDkUnholy", "SG") == 'Boss' end) },
+		{ "49206", (function() return fetch("mtsconfDkUnholy", "SG") == 'Boss' end) }, -- Summon Gargoyle
 			{{-- Unholy Blight
 				{ "115989", { -- Unholy Blight
 					"target.debuff(55095)",
@@ -131,7 +131,7 @@ local inCombat = {
 		"player.runes(unholy).count = 0",-- With 0 Unholy Runes
 		"player.runes(frost).count = 0",-- With 0 Frost Runes
 		"player.runes(death).count = 0",-- With 0 Death Runes
-		"!modifier.last"
+		"!lastcast"
 	}},
 	{ "123693", {
 		"talent(7, 1)",
@@ -139,14 +139,14 @@ local inCombat = {
 		"player.runes(unholy).count = 0",-- With 0 Unholy Runes
 		"player.runes(frost).count = 0",-- With 0 Frost Runes
 		"player.runes(death).count = 0",-- With 0 Death Runes
-		"!modifier.last"
+		"!lastcast"
 	}},  
 
 	-- Proc
 	{ "47541", "player.buff(Sudden Doom)", "target"  }, -- Death Coil w/t Sudden Doom
 
 	-- Soul Reaper
-	{ "Soul Reaper", { "!target.debuff", "target.health < 45" }, "target" },
+	{ "130736", { "!target.debuff", "target.health < 45" }, "target" }, -- Soul Reaper
 
 	-- Excess RP
 	{ "47541", "player.runicpower >= 75", "target"  }, -- Death Coil
@@ -205,7 +205,7 @@ local inCombat = {
 				"target.debuff(155159).duration < 3", 
 			}},
 		}, "target.range <= 10" },
-		{ "Festering Strike", { "player.runes(blood) = 2", "player.runes(frost) = 2" }, "target"  }, --Testing
+		{ "85948", { "player.runes(blood) = 2", "player.runes(frost) = 2" }, "target"  }, --Testing // Festering Strike
 		{ "85948" }, -- Festering Strike
 		{ "47541", "player.runicpower >= 40", "target"  }, -- Death Coil
 	},{ 
@@ -246,7 +246,7 @@ local inCombat = {
 			"target.debuff(155159).duration < 3", 
 			"target.range <= 10" 
 		}},
-		{ "Festering Strike", { "player.runes(blood) = 2", "player.runes(frost) = 2" }, "target"  }, --Testing
+		{ "85948", { "player.runes(blood) = 2", "player.runes(frost) = 2" }, "target"  }, --Testing // Festering Strike
 		{ "85948" }, -- Festering Strike
 	}, "modifier.multitarget" },
 
@@ -260,9 +260,9 @@ local inCombat = {
 		"target.range < 7",
 		(function() return fetch("mtsconfDkUnholy", "Defile") == 'Allways' end)
 	}, "target.ground" }, -- Defile
-	{ "Fastering Strike", { "player.runes(unholy) = 2", "player.runes(blood) = 2" }, "target"  },
+	{ "85948", { "player.runes(unholy) = 2", "player.runes(blood) = 2" }, "target"  }, --Festering Strike
 	{ "55090" },-- Scourge Strike
-	{ "Festering Strike" },
+	{ "85948" }, -- Festering Strike
 	{ "47541" }, -- Death Coil
 
 	-- Blood Tap
