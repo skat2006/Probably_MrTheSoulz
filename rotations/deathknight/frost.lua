@@ -86,8 +86,8 @@ local inCombat = {
 
 	{{-- Interrupts
 		{ "47528" }, -- Mind freeze
-		{ "47476", "!player.modifier.last(47528)", "target" }, -- Strangulate
-		{ "108194", "!modifier.last(47528)", "target" }, -- Asphyxiate
+		{ "47476", "!lastcast(47528)", "target" }, -- Strangulate
+		{ "108194", "!lastcast(47528)", "target" }, -- Asphyxiate
 	}, "target.interruptsAt(50)" },
 
 	-- Spell Steal
@@ -101,7 +101,7 @@ local inCombat = {
 		"player.runes(unholy).count = 0",-- With 0 Unholy Runes
 		"player.runes(frost).count = 0",-- With 0 Frost Runes
 		"player.runes(death).count = 0",-- With 0 Death Runes
-		"!modifier.last"
+		"!lastcast(123693)"
 	}}, 
 
 	-- Diseases
@@ -164,7 +164,7 @@ local inCombat = {
 	},{ 
 		"player.buff(Blood Charge).count >= 5", 
 		"player.runes(death).count = 0", 
-		"!modifier.last"
+		"!lastcast(45529)"
 	}},
   
 }

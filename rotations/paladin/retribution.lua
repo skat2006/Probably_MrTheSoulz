@@ -25,7 +25,7 @@ local Survival = {
 		(function() return fetch('mtsconfPalaRet', 'handoffreedom') end) 
 	}, "player" },
 	{ "Emancipate", { 
-		"!modifier.last(Emancipate)", 
+		"!lastcast(Emancipate)", 
 		"player.state.root", 
 		(function() return fetch('mtsconfPalaRet', 'emancipate') end) 
 	}, "player" },

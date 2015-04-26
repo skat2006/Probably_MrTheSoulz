@@ -89,7 +89,7 @@ local inCombat = {
 			"player.runes(unholy).count = 0",-- With 0 Unholy Runes
 			"player.runes(frost).count = 0",-- With 0 Frost Runes
 			"player.runes(death).count = 0",-- With 0 Death Runes
-			"!modifier.last"
+			"!lastcast(123693)"
 		} --[[NO TARGET]] }, 
 
 	-- Diseases
@@ -153,7 +153,7 @@ local inCombat = {
 	  } , {
 	    "player.buff(Blood Charge).count >= 5",
 	    "player.runes(death).count = 0",
-	    "!modifier.last"
+	    "!lastcast(45529)"
 	  } --[[NO TARGET]] },
 
 }
@@ -161,7 +161,10 @@ local inCombat = {
 local outCombat = {
 
 	-- Keybinds
-		{ "42650", {"modifier.alt", "target.exits"} }, -- Army of the Dead
+		{ "42650", { -- Army of the Dead
+			"modifier.alt", 
+			"target.exits"
+		}},
 		{ "49576", "modifier.control" }, -- Death Grip
 		{ "43265", "modifier.shift", "target.ground" }, -- Death and Decay
 
@@ -169,13 +172,16 @@ local outCombat = {
 		{ "48265", { -- unholy // moves faster out of combat...
 			"player.seal != 3",
 			(function() return fetch('mtsconfDkBlood','RunFaster') end)
-			}},
+		}},
 		{ "49222", "!player.buff(49222)" }, -- bone shield
 		{ "57330", "!player.buffs.attackpower" }, -- Horn of Winter
 
 }
 
-ProbablyEngine.rotation.register_custom(250, mts.Icon.."|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-Blood|r]", inCombat, outCombat, exeOnLoad)
+ProbablyEngine.rotation.register_custom(
+	250, 
+	mts.Icon.."|r[|cff9482C9MTS|r][|cffC41F3BDeathKnight-Blood|r]", 
+	inCombat, outCombat, exeOnLoad)
 
 -- 55095 = Frost Fever
 -- 55078 = Blood plague

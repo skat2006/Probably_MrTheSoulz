@@ -69,7 +69,7 @@ local CatForm = {
   	--Cooldowns
 	  	{ "106737", {  --Force of Nature
 	  		"player.spell(106737).charges > 2", 
-	  		"!modifier.last(106737)", 
+	  		"!lastcast(106737)", 
 	  		"player.spell(106737).exists" 
 	  	}},
 	  	{ "106951", "modifier.cooldowns" }, -- Beserk

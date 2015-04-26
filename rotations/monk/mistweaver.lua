@@ -100,22 +100,22 @@ local inCombatSerpente = {
 	     	"!target.debuff(116705)", -- Spear Hand Strike
 	     	"player.spell(116705).cooldown > 0", -- Spear Hand Strike
 	     	"player.spell(107079).cooldown > 0", -- Quaking Palm
-	     	"!modifier.last(116705)", -- Spear Hand Strike
+	     	"!lastcast(116705)", -- Spear Hand Strike
 	    }},
 	  	{ "116844", { -- Ring of Peace when SHS is on CD
 	     	"!target.debuff(116705)", -- Spear Hand Strike
 	     	"player.spell(116705).cooldown > 0", -- Spear Hand Strike
-	     	"!modifier.last(116705)", -- Spear Hand Strike
+	     	"!lastcast(116705)", -- Spear Hand Strike
 	    }},
 	  	{ "119381", { -- Leg Sweep when SHS is on CD
 	     	"player.spell(116705).cooldown > 0",
 	     	"target.range <= 5",
-	     	"!modifier.last(116705)",
+	     	"!lastcast(116705)",
 	    }},
 	  	{ "119392", { -- Charging Ox Wave when SHS is on CD
 	     	"player.spell(116705).cooldown > 0",
 	     	"target.range <= 30",
-	     	"!modifier.last(116705)",
+	     	"!lastcast(116705)",
 	    }},
 	  	{ "116705" }, -- Spear Hand Strike
 	}, "target.interruptsAt(50)" },
@@ -266,22 +266,22 @@ local inCombatCrane = {
 	     	"!target.debuff(116705)", -- Spear Hand Strike
 	     	"player.spell(116705).cooldown > 0", -- Spear Hand Strike
 	     	"player.spell(107079).cooldown > 0", -- Quaking Palm
-	     	"!modifier.last(116705)", -- Spear Hand Strike
+	     	"!lastcast(116705)", -- Spear Hand Strike
 	    }},
 	  	{ "116844", { -- Ring of Peace when SHS is on CD
 	     	"!target.debuff(116705)", -- Spear Hand Strike
 	     	"player.spell(116705).cooldown > 0", -- Spear Hand Strike
-	     	"!modifier.last(116705)", -- Spear Hand Strike
+	     	"!lastcast(116705)", -- Spear Hand Strike
 	    }},
 	  	{ "119381", { -- Leg Sweep when SHS is on CD
 	     	"player.spell(116705).cooldown > 0",
 	     	"target.range <= 5",
-	     	"!modifier.last(116705)",
+	     	"!lastcast(116705)",
 	    }},
 	  	{ "119392", { -- Charging Ox Wave when SHS is on CD
 	     	"player.spell(116705).cooldown > 0",
 	     	"target.range <= 30",
-	     	"!modifier.last(116705)",
+	     	"!lastcast(116705)",
 	    }},
 	  	{ "116705" }, -- Spear Hand Strike
 	}, "target.interruptsAt(50)" },

@@ -175,20 +175,20 @@ local inCombat = {
 	-- Holy Radiance 
 		{ "82327", { -- Holy Radiance - Party
 			"@coreHealing.needsHealing(80, 3)", 
-			"!modifier.last",
+			"!lastcast",
 			"!player.moving", 
 			"modifier.party" 
 		}, "lowest" }, 
 		{ "82327", { -- Holy Radiance - Raid 10
 			"@coreHealing.needsHealing(90, 5)", 
-			"!modifier.last", 
+			"!lastcast", 
 			"!player.moving", 
 			"modifier.raid", 
 			"!modifier.members > 10" 
 		}, "lowest" }, 
 		{ "82327", { -- Holy Radiance 10+
 			"@coreHealing.needsHealing(90, 8)", 
-			"!modifier.last", 
+			"!lastcast", 
 			"!player.moving", 
 			"modifier.members > 10" 
 		}, "lowest" }, 
@@ -434,20 +434,20 @@ local outCombat = {
 	-- Holy Radiance 
 		{ "82327", { -- Holy Radiance - Party
 			"@coreHealing.needsHealing(80, 3)", 
-			"!modifier.last",
+			"!lastcast",
 			"!player.moving", 
 			"modifier.party" 
 		}, "lowest" }, 
 		{ "82327", { -- Holy Radiance - Raid 10
 			"@coreHealing.needsHealing(90, 5)", 
-			"!modifier.last", 
+			"!lastcast", 
 			"!player.moving", 
 			"modifier.raid", 
 			"!modifier.members > 10" 
 		}, "lowest" }, 
 		{ "82327", { -- Holy Radiance 10+
 			"@coreHealing.needsHealing(90, 8)", 
-			"!modifier.last", 
+			"!lastcast", 
 			"!player.moving", 
 			"modifier.members > 10" 
 		}, "lowest" }, 

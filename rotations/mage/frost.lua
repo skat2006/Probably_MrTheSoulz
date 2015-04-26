@@ -27,9 +27,9 @@ local inCombat = {
  	--Survival Abilities
  		{ "1953", "player.state.root" }, -- Blink
 		{ "475", { -- Remove Curse
-			"!modifier.last(475)", 
+			"!lastcast(475)", 
 			"player.dispellable(475)" 
-			}, "player" }, 
+		}, "player" }, 
 	
 	-- Cooldowns
 		{ "Rune of Power", { "!player.buff(Rune of Power)", "!player.moving" }, "player.ground" }, 
@@ -44,7 +44,10 @@ local inCombat = {
 		{ "30455", "player.buff(Fingers of Frost)", "target" },-- Ice Lance
 
 	-- Frost Bomb
-		{ "Frost Bomb", {  "target.debuff(Frost Bomb).duration <= 3", "talent(5, 1)" } },
+		{ "Frost Bomb", { 
+			"target.debuff(Frost Bomb).duration <= 3", 
+			"talent(5, 1)" 
+		}},
 
 	{{-- can use FH
 
@@ -59,7 +62,10 @@ local inCombat = {
 	
 	-- AoE // FallBack
 		{ "84714", "modifier.multitarget" },--Frozen Orb
-		{ "Ice Nova", { "modifier.multitarget", "talent(5, 3)" } },
+		{ "Ice Nova", { 
+			"modifier.multitarget", 
+			"talent(5, 3)" 
+		}},
 		{ "120", "modifier.multitarget" },--Cone of Cold
 		{ "10", "modifier.multitarget", "target.ground" },--Blizzard
 

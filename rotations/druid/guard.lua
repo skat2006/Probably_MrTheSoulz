@@ -37,7 +37,7 @@ local inCombat = {
 			}, "target" }, 
 			{ "!/cast Bear Form", {  -- bear form
 				"!player.casting", "!player.form = 1", 
-				"modifier.last(20484)", 
+				"lastcast(20484)", 
 				"modifier.lshift" 
 			}, --[[NO TARGET]] },
 		
@@ -143,7 +143,7 @@ local outCombat = {
 			}, "target" }, 
 			{ "!/cast Bear Form", {  -- bear form
 				"!player.casting", "!player.form = 1", 
-				"modifier.last(20484)", 
+				"lastcast(20484)", 
 				"modifier.lshift" 
 			}, --[[NO TARGET]] },
 		

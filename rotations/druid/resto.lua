@@ -158,37 +158,37 @@ local inCombat = {
 
 	{{-- Force of Nature
 		{ "102693", {
-			"!modifier.last",
+			"!lastcast(102693)",
 			"player.spell(102693).charges >= 1", 
 			"tank.range <= 40",
 			"@coreHealing.needsHealing(70, 5)"
 		}, "tank" },
 		{ "102693", {
-			"!modifier.last",
+			"!lastcast",
 			"player.spell(102693).charges >= 1", 
 			"lowest.range <= 40",
 			"@coreHealing.needsHealing(70, 5)"
 		}, "lowest" }, 
 		{ "102693", {
-			"!modifier.last",
+			"!lastcast",
 			"player.spell(102693).charges >= 2", 
 			"tank.range <= 40", 
 			"tank.health <= 70"
 		}, "tank" },  
 		{ "102693", {
-			"!modifier.last",
+			"!lastcast",
 			"player.spell(102693).charges >= 2", 
 			"lowest.range <= 40", 
 			"lowest.health <= 70"
 		}, "lowest" },
 		{ "102693", {
-			"!modifier.last",
+			"!lastcast",
 			"player.spell(102693).charges = 3", 
 			"tank.range <= 40", 
 			"tank.health <= 92"
 		}, "tank" }, 
 		{ "102693", {
-			"!modifier.last",
+			"!lastcast",
 			"player.spell(102693).charges = 3", 
 			"lowest.range <= 40", 
 			"lowest.health <= 92"

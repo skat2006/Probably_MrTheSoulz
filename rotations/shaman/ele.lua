@@ -71,7 +71,7 @@ local combat_rotation = {
 	{ "Earthquake", "modifier.lcontrol", "mouseover.ground" },
 	{ "Cleanse Spirit", { 
 		"modifier.lshift", 
-		"!modifier.last(Cleanse Spirit)", 
+		"!lastcast(Cleanse Spirit)", 
 		"mouseover.exists", 
 		"mouseover.alive", 
 		"mouseover.friend", 
