@@ -124,11 +124,16 @@ local inCombat = {
 			"lowest.buff(61295).duration <= 3",
 			"lowest.range <= 40"
 		}, "lowest" },
-	    { "73685", "!player.buff(73685)" }, --Unleash Life
+	    { "73685", { "!player.buff(73685)", "player.spell(73685).exists" }}, --Unleash Life
 	    { "16188", { -- Ancestral Swiftness
 			"lowest.health <= 20", 
 			"lowest.range <= 40" 
 		}, "player" },
+	    { "8004", { --Healing Surge for low level characters
+		"!player.spell(77472).exists",
+		"lowest.health <= 85",
+		"lowest.range <= 40"
+	    }, "lowest" },		
 	    { "77472", { --Healing Wave
 			"player.buff(16188)",
 			"lowest.range <= 40"
@@ -173,6 +178,11 @@ local outCombat = {
     	
     	-- Noobs
     		{ "1064", { "@coreHealing.needsHealing(75, 4)", "lowest.range <= 40" }, "lowest" }, -- Chain Heal
+    		{ "8004", { -- Healing Surge for low level characters
+    			"!player.spell(77472).exists", 
+    			"lowest.health <= 70", 
+    			"lowest.range <= 40" 
+    		}, "lowest" }, 
 	    	{ "8004", { "lowest.health <= 50", "lowest.range <= 40" }, "lowest" }, -- Healing Surge
 	    	{ "61295", { "lowest.health <= 85", "!lowest.buff(61295)", "lowest.range <= 40" }, "lowest" }, -- Riptide
     		{ "77472", { "lowest.health <= 70", "lowest.range <= 40" }, "lowest" } -- Healing Wave
